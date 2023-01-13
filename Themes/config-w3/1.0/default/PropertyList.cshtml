@@ -1,0 +1,58 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using Simplisity;
+@using RocketDirectoryAPI.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
+
+@{
+    var propertyDataList = (PropertyLimpetList)Model.List.First();
+    var propertyList = propertyDataList.GetPropertyList();
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
+    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
+    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
+}
+
+@RenderLanguageSelector("propertyadmin_editlist", "", appThemeCatalog, Model)
+
+
+<div class='w3-animate-opacity'>
+
+    @RenderTemplate("PropertySearch.cshtml", appThemeCatalog, Model, true)
+
+    <div id="datalistsection" class="w3-padding">
+
+        <table class="w3-table w3-bordered w3-hoverable">
+            <thead>
+                <tr>
+                    <th>@ResourceKey("RE.name")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (PropertyLimpet propertyData in propertyList)
+            {
+                <tr class=" simplisity_click" s-cmd="propertyadmin_edit" s-fields='{"propertyid":"@propertyData.PropertyId","track":"true"}' style="cursor:pointer;">
+                    <td><div class="w3-tiny">@propertyData.Ref</div><b>@propertyData.Name</b></td>
+                    <td>
+                        @foreach (var g in propertyData.PropertyGroups())
+                        {
+                        <span>@(g)&nbsp;</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+
+        @RenderTemplate("PropertyPaging.cshtml", appThemeCatalog, Model, true)
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        selectMenu('propertyadmin');
+    });
+</script>

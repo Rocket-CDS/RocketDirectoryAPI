@@ -1,0 +1,88 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using Simplisity;
+@using RocketPortal.Components;
+@using RocketDirectoryAPI.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
+
+@{
+    var sessionParams = (SessionParams)Model.SessionParamsData;
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
+    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
+    var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
+    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
+}
+
+<div class="w3-bar searchdata">
+
+    <div class="w3-bar-item " style=''>
+        <div class="w3-bar">
+            <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
+            @TextBox(new SimplisityInfo(), "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
+            <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
+        </div>
+    </div>
+
+    @if (articleDataList != null)
+    {
+        var orderbyDictionary = new Dictionary<string, string>();
+        orderbyDictionary.Add("", "");
+        foreach (var orderbyInfo in portalCatalog.GetProductOrderByList())
+        {
+            orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
+        }
+        <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
+            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
+        </div>
+        <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
+            <span>
+                @DropDownList(new SimplisityInfo(), "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
+            </span>
+        </div>
+    }
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        if ($('.actionentrykey').val() !== '') {
+            $('.actionentrykey').focus();
+            $('.clearsearch').show();
+            var tmpStr = $('.actionentrykey').val();
+            $('.actionentrykey').val('');
+            $('.actionentrykey').val(tmpStr);
+            $('#searchtext').addClass('w3-theme-light');
+        }
+        else {
+            $('#searchtext').removeClass('w3-theme-light');
+        }
+
+        $('.actionentrykey').unbind('keypress');
+        $('.actionentrykey').on('keypress', function (e) {
+            if (e.keyCode == 13) {
+                doSearchReload();
+                return false; // prevent the button click from happening
+            }
+        });
+
+    });
+
+    function clearSearch() {
+        $('#searchtext').val('');
+        doSearchReload();
+    }
+
+    function doSearchReload() {
+        simplisity_setSessionField('searchtext', $('#searchtext').val());
+        simplisity_setSessionField('pagesize', $('#pagesize').val());
+        simplisity_setSessionField('orderbyref', $('#orderbyref').val());
+        $('.simplisity_loader').show();
+        window.location.href = '@(remoteModule.PageUrlList(sessionParams.CultureCode))';
+    }
+
+</script>

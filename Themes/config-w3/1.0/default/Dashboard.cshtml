@@ -1,0 +1,34 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/SystemData/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
+
+
+@{
+    var portalDashboard = (DashboardLimpet)Model.GetDataObject("dashboard");
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
+    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
+    var portalCatalog = (PortalCatalogLimpet)Model.List.First();
+    var sessionParams = Model.SessionParamsData;
+    var info = portalDashboard.Info;
+}
+
+@RenderLanguageSelector("dashboard_get", "", appThemeSystem, Model)
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        selectMenu('dashboard');
+    });
+
+</script>
+
