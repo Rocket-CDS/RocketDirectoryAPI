@@ -124,7 +124,7 @@
     <value>Image Limit</value>
   </data>
   <data name="catalogname.Text" xml:space="preserve">
-    <value>Catalog Name</value>
+    <value>Directory Name</value>
   </data>
   <data name="config.Text" xml:space="preserve">
     <value>Configuration</value>

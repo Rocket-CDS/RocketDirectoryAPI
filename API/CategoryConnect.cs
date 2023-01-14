@@ -12,13 +12,13 @@ namespace RocketDirectoryAPI.API
     {
         private CategoryLimpet GetActiveCategory(int categoryid)
         {
-            return new CategoryLimpet(_portalCatalog.PortalId, categoryid, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+            return new CategoryLimpet(_dataObject.PortalContent.PortalId, categoryid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
         }
         public String GetCategory(int categoryId)
         {
             var razorTempl = GetSystemTemplate("categorydetail.cshtml");
             var categoryData = GetActiveCategory(categoryId);
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -28,14 +28,14 @@ namespace RocketDirectoryAPI.API
             var sourceid = _paramInfo.GetXmlPropertyInt("genxml/hidden/sourceid");
             if (sourceid > 0)
             {
-                var sourceData = new CategoryLimpet(_portalCatalog.PortalId, sourceid, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+                var sourceData = new CategoryLimpet(_dataObject.PortalContent.PortalId, sourceid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
                 if (sourceData.Exists)
                 {
                     parentid = sourceData.ParentItemId;
                     var destparentid = _paramInfo.GetXmlPropertyInt("genxml/hidden/destid");
                     if (destparentid > 0)
                     {
-                        var destData = new CategoryLimpet(_portalCatalog.PortalId, destparentid, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+                        var destData = new CategoryLimpet(_dataObject.PortalContent.PortalId, destparentid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
                         sourceData.SortOrder = destData.SortOrder + 1;
                     }
                     else
@@ -50,7 +50,7 @@ namespace RocketDirectoryAPI.API
         }
         private void SortCategoryList(int parentid)
         {
-            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _systemData.SystemKey, false);
+            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, false);
             categoryDataList.Reload();
             var l = categoryDataList.GetCategoryList(parentid);
             var lp = 1;
@@ -64,10 +64,10 @@ namespace RocketDirectoryAPI.API
         }
         public string GetCategoryList(int categoryid)
         {
-            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _systemData.SystemKey, true);
+            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, true);
             categoryDataList.SelectedParentId = categoryid;
             var razorTempl = GetSystemTemplate("CategoryList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryDataList, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryDataList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -77,7 +77,7 @@ namespace RocketDirectoryAPI.API
         }
         public String AddCategory()
         {
-            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _systemData.SystemKey, true);
+            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, true);
             var parentid = _paramInfo.GetXmlPropertyInt("genxml/hidden/parentid");
             var razorTempl = GetSystemTemplate("CategoryDetail.cshtml");
             var categoryData = GetActiveCategory(-1);
@@ -89,7 +89,7 @@ namespace RocketDirectoryAPI.API
 
             categoryDataList.Validate();  // clear cache
 
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -97,11 +97,11 @@ namespace RocketDirectoryAPI.API
         public int SaveCategory()
         {
             var categoryId = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
-            _passSettings.Add("saved", "true");
+            _dataObject.Settings.Add("saved", "true");
             var categoryData = GetActiveCategory(categoryId);
 
             // clear the category List cache when category saved.
-            var cl = new CategoryLimpetList(categoryData.PortalId, categoryData.CultureCode, _systemData.SystemKey, false);
+            var cl = new CategoryLimpetList(categoryData.PortalId, categoryData.CultureCode, _dataObject.SystemKey, false);
             cl.ClearCache();
 
             return categoryData.Save(_postInfo);
@@ -123,11 +123,11 @@ namespace RocketDirectoryAPI.API
             {
                 var categoryData = GetActiveCategory(categoryid);
                 categoryData.Save(_postInfo);
-                var imgList = ImgUtils.MoveImageToFolder(_postInfo, _portalCatalog.ImageFolderMapPath);
+                var imgList = ImgUtils.MoveImageToFolder(_postInfo, _dataObject.PortalContent.ImageFolderMapPath);
                 categoryData.RemoveImageList();
                 foreach (var nam in imgList)
                 {
-                    categoryData.AddImage(_portalCatalog.ImageFolderRel, nam);
+                    categoryData.AddImage(_dataObject.PortalContent.ImageFolderRel, nam);
                 }
                 return GetCategory(categoryData.CategoryId);
             }
@@ -139,7 +139,7 @@ namespace RocketDirectoryAPI.API
             var categoryid = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
             if (categoryid > 0 && parentid != categoryid) // check we don't move to itself
             {
-                var sourceData = new CategoryLimpet(_portalCatalog.PortalId, categoryid, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+                var sourceData = new CategoryLimpet(_dataObject.PortalContent.PortalId, categoryid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
                 if (sourceData.Exists)                
                 {
                     if (!sourceData.HasChild(parentid))  // check we don't move to a child category
@@ -156,8 +156,8 @@ namespace RocketDirectoryAPI.API
         public string AssignDefaultCategory()
         {
             var categoryid = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
-            _catalogSettings.DefaultCategoryId = categoryid;
-            _catalogSettings.Update();
+            _dataObject.CatalogSettings.DefaultCategoryId = categoryid;
+            _dataObject.CatalogSettings.Update();
             return GetCatalogSettings();
         }        
         public string RemoveCategoryArticle()

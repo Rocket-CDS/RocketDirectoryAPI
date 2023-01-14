@@ -10,7 +10,7 @@
 @{
     var portalCatalog = (PortalCatalogLimpet)Model.List.First();
     var info = portalCatalog.Info;
-    var defaultsData = (SecurityLimpet)Model.GetDataObject("securitydata");
+    var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
     var disableSqlEdit = " disabled ";
     if (UserUtils.IsSuperUser())
     {

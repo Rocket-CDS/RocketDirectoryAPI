@@ -1,6 +1,6 @@
   <genxml>
     <systemkey>rocketdirectoryapi</systemkey>
-    <systemname>Rocket Catalog</systemname>
+    <systemname>Rocket Directory</systemname>
     <databasetable>RocketDirectoryAPI</databasetable>
     <logtracking>False</logtracking>
     <active>True</active>

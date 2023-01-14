@@ -17,18 +17,17 @@ namespace RocketDirectoryAPI.Components
         public const string _tableName = "RocketDirectoryAPI";
         private List<PropertyLimpet> _propertyList;
         private DNNrocketController _objCtrl;
-        private SessionParams _sessionParams;
+        private string _searchText;
         private string _systemKey;
 
-        public PropertyLimpetList(int portalId, SessionParams sessionParams, string langRequired, string systemKey, RemoteModule remoteModule = null)
+        public PropertyLimpetList(int portalId, string langRequired, string systemKey, string searchText = "")
         {
+            _searchText = searchText;
             _systemKey = systemKey;
             PortalId = portalId;
             CultureCode = langRequired;
             EntityTypeCode = systemKey + "PROP";
             TableName = _tableName;
-            RemoteModule = remoteModule;
-            _sessionParams = sessionParams;
 
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
@@ -38,7 +37,7 @@ namespace RocketDirectoryAPI.Components
         public void Populate()
         {
             var filter = "";
-            if (_sessionParams.Info.GetXmlProperty("r/propertysearchtext") != "") filter = " and [XMLData].value('(genxml/lang/genxml/textbox/name)[1]','nvarchar(max)') like '%" + _sessionParams.Info.GetXmlProperty("r/propertysearchtext") + "%' ";
+            if (_searchText != "") filter = " and [XMLData].value('(genxml/lang/genxml/textbox/name)[1]','nvarchar(max)') like '%" + _searchText + "%' ";
             DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
             PopulatePropertyList();
         }
@@ -49,7 +48,6 @@ namespace RocketDirectoryAPI.Components
                 _objCtrl.Delete(r.ItemID);
             }
         }
-        public RemoteModule RemoteModule { get; set; }
         public List<SimplisityInfo> DataList { get; private set; }
         public int PortalId { get; set; }
         public string TableName { get; set; }
@@ -74,7 +72,6 @@ namespace RocketDirectoryAPI.Components
             foreach (var o in DataList)
             {
                 var propertyData = new PropertyLimpet(PortalId, o.ItemID, CultureCode, _systemKey);
-                propertyData.RemoteModule = RemoteModule;
                 _propertyList.Add(propertyData);
             }
             return _propertyList;

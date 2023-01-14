@@ -15,14 +15,14 @@ namespace RocketDirectoryAPI.API
     {
         private ArticleLimpet GetActiveArticle(int articleid)
         {
-            return new ArticleLimpet(_portalCatalog.PortalId, articleid, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+            return new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
         }
 
         public int SaveArticle()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
-            _passSettings.Add("saved", "true");
-            var articleData = new ArticleLimpet(_portalCatalog.PortalId, articleId, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+            _dataObject.Settings.Add("saved", "true");
+            var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             var rtn = articleData.Save(_postInfo);
             CacheUtils.ClearAllCache("article"); // hbs cache
             return rtn;
@@ -41,15 +41,15 @@ namespace RocketDirectoryAPI.API
             var l = DNNrocketUtils.GetCultureCodeList();
             foreach (var c in l)
             {
-                articleData = new ArticleLimpet(_portalCatalog.PortalId, articleId, c, _systemData.SystemKey);
-                var newarticleData = new ArticleLimpet(_portalCatalog.PortalId, newarticleId, c, _systemData.SystemKey);
+                articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, c, _dataObject.SystemKey);
+                var newarticleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, newarticleId, c, _dataObject.SystemKey);
                 newarticleData.Info.XMLData = articleData.Info.XMLData;
                 newarticleData.Name += " - " + LocalUtils.ResourceKey("RC.copy", "Text", c);
                 newarticleData.Update();
             }
             // add categories
             articleData = GetActiveArticle(articleId);
-            var newarticleData2 = new ArticleLimpet(_portalCatalog.PortalId, newarticleId, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+            var newarticleData2 = new ArticleLimpet(_dataObject.PortalContent.PortalId, newarticleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             foreach (var c in articleData.GetCategories())
             {
                 newarticleData2.AddCategory(c.CategoryId);
@@ -77,15 +77,15 @@ namespace RocketDirectoryAPI.API
                 var filebase64List = fileuploadbase64.Split('*');
                 var baseFileMapPath = PortalUtils.TempDirectoryMapPath() + "\\" + GeneralUtils.GetGuidKey();
                 var imgsize = _postInfo.GetXmlPropertyInt("genxml/hidden/imageresize");
-                if (imgsize == 0) imgsize = _portalCatalog.ImageResize;
-                var imgList = ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, _portalCatalog.ImageFolderMapPath, imgsize);
+                if (imgsize == 0) imgsize = _dataObject.PortalContent.ImageResize;
+                var imgList = ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, _dataObject.PortalContent.ImageFolderMapPath, imgsize);
                 foreach (var imgFileMapPath in imgList)
                 {
                     articleData.AddImage(Path.GetFileName(imgFileMapPath));
                 }
             }
             var razorTempl = GetSystemTemplate("Articleimages.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -138,7 +138,7 @@ namespace RocketDirectoryAPI.API
             {
                 var filenameList = fileuploadlist.Split('*');
                 var filebase64List = fileuploadbase64.Split('*');
-                var fileList = DocUtils.UploadBase64file(filenameList, filebase64List, _portalCatalog.DocFolderMapPath);
+                var fileList = DocUtils.UploadBase64file(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
                 foreach (var imgFileMapPath in fileList)
                 {
                     articleData.AddDoc(Path.GetFileName(imgFileMapPath));
@@ -146,7 +146,7 @@ namespace RocketDirectoryAPI.API
             }
 
             var razorTempl = GetSystemTemplate("ArticleDocuments.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -192,7 +192,7 @@ namespace RocketDirectoryAPI.API
                 articleData.Save(_postInfo);
                 articleData.AddLink();
                 var razorTempl = GetSystemTemplate("ArticleLinks.cshtml");
-                var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
                 if (pr.ErrorMsg != "") return pr.ErrorMsg;
                 return pr.RenderedText;
             }
@@ -201,7 +201,7 @@ namespace RocketDirectoryAPI.API
 
         public String AddArticle()
         {
-            if (_portalCatalog.ArticleCount < _portalCatalog.MaxArticles)
+            if (_dataObject.PortalContent.ArticleCount < _dataObject.PortalContent.MaxArticles)
             {
                 return GetArticle(-1);
             }
@@ -221,29 +221,29 @@ namespace RocketDirectoryAPI.API
                 articleData = GetActiveArticle(articleId);
             }
 
-            var razorTempl = _appThemeAdmin.GetTemplate("admindetail.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+            var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("admindetail.cshtml");
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
         public String GetArticleCategoryList(ArticleLimpet articleData)
         {
             var razorTempl = GetSystemTemplate("ArticleCategoryList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             return pr.RenderedText;
         }
         public String GetArticlePropertyList(ArticleLimpet articleData)
         {
             var razorTempl = GetSystemTemplate("ArticlePropertyList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             return pr.RenderedText;
         }
         public String GetArticleList()
         {
-            if (_appThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
-            var articleDataList = new ArticleLimpetList(_paramInfo, _portalCatalog, _sessionParams.CultureCodeEdit, true, true, 0);
-            var razorTempl = _appThemeAdmin.GetTemplate("adminlist.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleDataList, _dataObjects, _passSettings, _sessionParams, true);
+            if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
+            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
+            var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleDataList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -251,11 +251,11 @@ namespace RocketDirectoryAPI.API
         {
             var articleid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             var docList = new List<object>();
-            foreach (var i in DNNrocketUtils.GetFiles(DNNrocketUtils.MapPath(_portalCatalog.DocFolderRel)))
+            foreach (var i in DNNrocketUtils.GetFiles(DNNrocketUtils.MapPath(_dataObject.PortalContent.DocFolderRel)))
             {
                 var sInfo = new SimplisityInfo();
                 sInfo.SetXmlProperty("genxml/name", i.Name);
-                sInfo.SetXmlProperty("genxml/relname", _portalCatalog.DocFolderRel + "/" + i.Name);
+                sInfo.SetXmlProperty("genxml/relname", _dataObject.PortalContent.DocFolderRel + "/" + i.Name);
                 sInfo.SetXmlProperty("genxml/fullname", i.FullName);
                 sInfo.SetXmlProperty("genxml/extension", i.Extension);
                 sInfo.SetXmlProperty("genxml/directoryname", i.DirectoryName);
@@ -263,18 +263,18 @@ namespace RocketDirectoryAPI.API
                 docList.Add(sInfo);
             }
 
-            _passSettings.Add("uploadcmd", "articleadmin_docupload");
-            _passSettings.Add("deletecmd", "articleadmin_docdelete");
-            _passSettings.Add("articleid", articleid.ToString());
+            _dataObject.Settings.Add("uploadcmd", "articleadmin_docupload");
+            _dataObject.Settings.Add("deletecmd", "articleadmin_docdelete");
+            _dataObject.Settings.Add("articleid", articleid.ToString());
 
             var razorTempl = GetSystemTemplate("DocumentSelect.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, docList, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, docList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             return pr.RenderedText;
         }
         public void ArticleDocumentUploadToFolder()
         {
             var userid = UserUtils.GetCurrentUserId(); // prefix to filename on upload.
-            if (!Directory.Exists(_portalCatalog.DocFolderMapPath)) Directory.CreateDirectory(_portalCatalog.DocFolderMapPath);
+            if (!Directory.Exists(_dataObject.PortalContent.DocFolderMapPath)) Directory.CreateDirectory(_dataObject.PortalContent.DocFolderMapPath);
             var fileuploadlist = _paramInfo.GetXmlProperty("genxml/hidden/fileuploadlist");
             if (fileuploadlist != "")
             {
@@ -284,7 +284,7 @@ namespace RocketDirectoryAPI.API
                     {
                         var friendlyname = GeneralUtils.DeCode(f);
                         var userfilename = userid + "_" + friendlyname;
-                        File.Copy(PortalUtils.TempDirectoryMapPath() + "\\" + userfilename, _portalCatalog.DocFolderMapPath + "\\" + friendlyname, true);
+                        File.Copy(PortalUtils.TempDirectoryMapPath() + "\\" + userfilename, _dataObject.PortalContent.DocFolderMapPath + "\\" + friendlyname, true);
                         File.Delete(PortalUtils.TempDirectoryMapPath() + "\\" + userfilename);
                     }
                 }
@@ -358,46 +358,32 @@ namespace RocketDirectoryAPI.API
         }
         private string GetPublicView(string template)
         {
-            var razorTempl = _appThemeView.GetTemplate(template);
+            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
             if (razorTempl == "") return "";
             var articleid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (articleid == 0) articleid = _paramInfo.GetXmlPropertyInt("genxml/urlparams/articleid");
             if (articleid == 0) articleid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
             if (articleid > 0)
             {
-                var articleData = new ArticleLimpet(_portalCatalog.PortalId, articleid, _sessionParams.CultureCode, _systemData.SystemKey);
-                _dataObjects.Remove("articledata");
-                _dataObjects.Add("articledata", articleData);  
+                var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
+                _dataObject.DataObjects.Remove("articledata");
+                _dataObject.DataObjects.Add("articledata", articleData);  
             }
-            if (!_dataObjects.ContainsKey("paraminfo")) _dataObjects.Add("paraminfo", _paramInfo); // we need this so we can check if a detail key has been passed.  if so, we need to do the SEO for the detail.            
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _portalCatalog, _dataObjects, _passSettings, _sessionParams, _portalCatalog.DebugMode);
+            if (!_dataObject.DataObjects.ContainsKey("paraminfo")) _dataObject.DataObjects.Add("paraminfo", _paramInfo); // we need this so we can check if a detail key has been passed.  if so, we need to do the SEO for the detail.            
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.PortalContent, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
             return pr.RenderedText;
         }
         public string GetPublicArticleHeader()
         {
-            var template = AssignRemoteTemplateName();
-            if (template == "") 
-                template = "ViewHeader.cshtml";
-            else
-            {
-                template = Path.GetFileNameWithoutExtension(template) + "Header" + Path.GetExtension(template);
-                if (AssignRemoteTemplate(template) == "") template = "ViewHeader.cshtml";
-            }
-
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "ViewHeader.cshtml";
             return GetPublicView(template);
         }
 
         public string GetPublicArticleBeforeHeader()
         {
-            var template = AssignRemoteTemplateName();
-            if (template == "")
-                template = "ViewBeforeHeader.cshtml";
-            else
-            {
-                template = Path.GetFileNameWithoutExtension(template) + "BeforeHeader" + Path.GetExtension(template);
-                if (AssignRemoteTemplate(template) == "") template = "ViewBeforeHeader.cshtml";
-            }
-
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "ViewBeforeHeader.cshtml";
             return GetPublicView(template);
         }
 
@@ -412,7 +398,7 @@ namespace RocketDirectoryAPI.API
             if (articleid > 0)
             {
                 // do detail
-                var articleData = new ArticleLimpet(_portalCatalog.PortalId, articleid, _sessionParams.CultureCode, _systemData.SystemKey);
+                var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
                 var seotitle = articleData.SeoTitle;
                 if (seotitle == "") seotitle = articleData.Name;
                 var seodesc = articleData.SeoDescription;
@@ -427,159 +413,79 @@ namespace RocketDirectoryAPI.API
         public String GetPublicBase()
         {
             // Do product list
-            var razorTempl = AssignRemoteTemplate();
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _appThemeView.AppThemeFolder;
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObjects, _passSettings, _sessionParams, _portalCatalog.DebugMode);
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "View.cshtml";
+            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
+            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
         }
 
         public String GetPublicArticleList()
         {
-            if (_portalCatalog.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
             // assume we want a product page, if we have a productid
             var productid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (productid == 0) productid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
-            if (productid > 0 && !_remoteModule.Record.GetXmlPropertyBool("genxml/remote/staticlist"))
+            if (productid > 0 && !_paramInfo.GetXmlPropertyBool("genxml/hidden/staticlist"))
             {
                 return GetPublicProductDetail();
             }
 
             // Do product list
-            var razorTempl = AssignRemoteTemplate();
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _appThemeView.AppThemeFolder;
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "View.cshtml";
+            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
+            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
 
             // add the default static catid to the url data.
-            if (_remoteModule.Record.GetXmlPropertyBool("genxml/remote/staticlist"))
+            if (_paramInfo.GetXmlPropertyBool("genxml/hidden/staticlist"))
             {
-                _paramInfo.SetXmlProperty("genxml/remote/urlparams/catid", _remoteModule.Record.GetXmlPropertyInt("genxml/remote/categoryid").ToString());
+                _paramInfo.SetXmlProperty("genxml/urlparams/catid", _paramInfo.GetXmlPropertyInt("genxml/remote/categoryid").ToString());
             }
 
-            var articleDataList = new ArticleLimpetList(_paramInfo, _portalCatalog, _sessionParams.CultureCode, true, false, _defaultCategoryId);
-            _dataObjects.Add("articlelist", articleDataList);
-            var categoryData = new CategoryLimpet(_portalCatalog.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _systemData.SystemKey);
-            _dataObjects.Add("categorydata", categoryData);
+            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
+            _dataObject.SetDataObject("articlelist", articleDataList);
+            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _dataObject.SystemKey);
+            _dataObject.SetDataObject("categorydata", categoryData);
 
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObjects, _passSettings, articleDataList.SessionParamData, _portalCatalog.DebugMode);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, articleDataList.SessionParamData, _dataObject.PortalContent.DebugMode);
 
-            if (_portalCatalog.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
         }
         public String GetPublicProductDetail()
         {
-            if (_portalCatalog.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
             var productid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (productid == 0) productid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
-            var articleData = new ArticleLimpet(_portalCatalog.PortalId, productid, _sessionParams.CultureCode, _systemData.SystemKey);
+            var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, productid, _sessionParams.CultureCode, _dataObject.SystemKey);
 
             if (!articleData.Exists) return "404";
 
-            var razorTempl = AssignRemoteTemplate();
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _appThemeView.AppThemeFolder;
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "View.cshtml";
+            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
+            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
 
-            var articleDataList = new ArticleLimpetList(_paramInfo, _portalCatalog, _sessionParams.CultureCode, true, false, _defaultCategoryId);
-            var categoryData = new CategoryLimpet(_portalCatalog.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _systemData.SystemKey);
+            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
+            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _dataObject.SystemKey);
 
-            _dataObjects.Add("articledata", articleData);
-            _dataObjects.Add("articlelist", articleDataList);
-            _dataObjects.Add("categorydata", categoryData);
+            _dataObject.SetDataObject("articledata", articleData);
+            _dataObject.SetDataObject("articlelist", articleDataList);
+            _dataObject.SetDataObject("categorydata", categoryData);
 
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObjects, _passSettings, _sessionParams, _portalCatalog.DebugMode);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
 
-            if (_portalCatalog.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
-        }
-
-        private string RemoteSettings()
-        {
-            try
-            {
-                var appThemeDataList = new AppThemeDataList(_org, _systemData.SystemKey);
-                var razorTempl = GetSystemTemplate("RemoteSettings.cshtml");
-                var pr = RenderRazorUtils.RazorProcessData(razorTempl, appThemeDataList, _dataObjects, _passSettings, _sessionParams, true);
-                if (pr.StatusCode != "00") return pr.ErrorMsg;
-                return pr.RenderedText;
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-        }
-        private string SaveSettings()
-        {
-            try
-            {
-                if (_moduleRef != "")
-                {
-                    var remoteModule = new RemoteModule(_portalCatalog.PortalId, _moduleRef);
-                    remoteModule.Save(_postInfo);
-
-                    // update sitekey after Save(), it replaces all XML.
-                    remoteModule.SiteKey = _sessionParams.SiteKey;
-                    remoteModule.Update();
-
-                    //reload data for render
-                    _dataObjects.Remove("remotemodule");
-                    _dataObjects.Add("remotemodule", remoteModule);
-                    _org = remoteModule.ProjectName;
-                }
-                return RemoteSettings();
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-        }
-        private string ClearSettings()
-        {
-            if (_moduleRef != "")
-            {
-                var remoteModule = new RemoteModule(_portalCatalog.PortalId, _moduleRef);
-                remoteModule.Record.XMLData = "<genxml></genxml>";
-                remoteModule.Update();
-                //reload data for render
-                _dataObjects.Remove("remotemodule");
-                _dataObjects.Add("remotemodule", remoteModule);
-            }
-            return RemoteSettings();
-        }
-        private string AppThemeVersions()
-        {
-            try
-            {
-                var appTheme = _postInfo.GetXmlProperty("genxml/remote/appthemeview");
-                var appThemeData = new AppThemeLimpet(_portalData.PortalId, appTheme, "", _org);
-                if (!appThemeData.Exists) return "Invalid AppTheme: " + appTheme;
-                var razorTempl = GetSystemTemplate("RemoteAppThemeVersions.cshtml");
-                var pr = RenderRazorUtils.RazorProcessData(razorTempl, appThemeData, _dataObjects, _passSettings, _sessionParams, true);
-                return pr.RenderedText;
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-        }
-        private string AppThemeAdminVersions()
-        {
-            try
-            {
-                var appTheme = _postInfo.GetXmlProperty("genxml/select/appthemeadmin");
-                var appThemeData = new AppThemeLimpet(_portalData.PortalId, appTheme, "", _portalCatalog.ProjectName);
-                if (!appThemeData.Exists) return "Invalid AppTheme: " + appTheme;
-                var razorTempl = GetSystemTemplate("RemoteAppThemeVersions.cshtml");
-                var pr = RenderRazorUtils.RazorProcessData(razorTempl, appThemeData, _dataObjects, _passSettings, _sessionParams, true);
-                return pr.RenderedText;
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
         }
         private string AddArticleListItem()
         {

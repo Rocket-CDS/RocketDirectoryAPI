@@ -169,13 +169,13 @@
     <value>Home</value>
   </data>
   <data name="rocketdirectoryapi.Text" xml:space="preserve">
-    <value>Rocket Catalog</value>
+    <value>Rocket Directory</value>
   </data>
   <data name="articleadmin.Text" xml:space="preserve">
     <value>Articles</value>
   </data>
   <data name="catalogname.Text" xml:space="preserve">
-    <value>Catalog Name</value>
+    <value>Directory Name</value>
   </data>
   <data name="manageremail.Text" xml:space="preserve">
     <value>Manager Email</value>
@@ -259,7 +259,7 @@
     <value>Copy</value>
   </data>
   <data name="catalog.Text" xml:space="preserve">
-    <value>Catalog</value>
+    <value>Directory</value>
   </data>
   <data name="invalidcatalog.Text" xml:space="preserve">
     <value>Catalog Setup has not been completed.  </value>

@@ -15,20 +15,20 @@ namespace RocketDirectoryAPI.API
 
         public string SaveCatalogSettings()
         {
-            _catalogSettings.Save(_postInfo);
+            _dataObject.CatalogSettings.Save(_postInfo);
             return GetCatalogSettings();
         }
 
         public string GetCatalogSettings()
         {
             var razorTempl = GetSystemTemplate("CatalogSettings.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _catalogSettings, _dataObjects, _passSettings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.CatalogSettings, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
         public string DeleteCatalogSettings()
         {
-            _catalogSettings.Delete();
+            _dataObject.CatalogSettings.Delete();
             return GetCatalogSettings();
         }
 

@@ -14,7 +14,7 @@ namespace RocketDirectoryAPI.API
         {
             var defaultFileMapPath = DNNrocketUtils.MapPath(_rocketInterface.TemplateRelPath).TrimEnd('\\') + "\\default_portalcatalog.xml";
             var defaultxml = FileUtils.ReadFile(defaultFileMapPath);
-            var portalCatalog = new PortalCatalogLimpet(portalId, _sessionParams.CultureCodeEdit, _systemData.SystemKey);
+            var portalCatalog = new PortalCatalogLimpet(portalId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
 
             var sitekey = portalCatalog.SiteKey;
 
@@ -53,9 +53,9 @@ namespace RocketDirectoryAPI.API
             var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid"); 
             if (portalId >= 0)
             {
-                _portalCatalog.Save(_postInfo);
-                _portalData.Record.SetXmlProperty("genxml/systems/" + _systemData.SystemKey + "setup", "True");
-                _portalData.Update();
+                _dataObject.PortalContent.Save(_postInfo);
+                _dataObject.PortalData.Record.SetXmlProperty("genxml/systems/" + _dataObject.SystemKey + "setup", "True");
+                _dataObject.PortalData.Update();
                 return "OK";
             }
             return "Invalid Portal SiteKey";
@@ -67,15 +67,15 @@ namespace RocketDirectoryAPI.API
             {
                 PortalUtils.DeletePortal(portalId); // Delete base portal will crash install.
                 DNNrocketUtils.RecycleApplicationPool();
-                _portalCatalog.Delete();
-                _userParams.TrackClear(_systemData.SystemKey);
+                _dataObject.PortalContent.Delete();
+                _userParams.TrackClear(_dataObject.SystemKey);
             }
         }
         public string ValidateCatalog()
         {
-            foreach (var l in DNNrocketUtils.GetCultureCodeList(_portalCatalog.PortalId))
+            foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {
-                var articleDataList = new ArticleLimpetList(_paramInfo, _portalCatalog, l, false);
+                var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, l, false);
                 articleDataList.Validate(); // Will also reindex.
             }
             return "OK";
