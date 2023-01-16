@@ -89,35 +89,6 @@
 
       <genxml>
         <textbox>
-          <interfacekey>dashboard</interfacekey>
-          <namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
-          <assembly>RocketDirectoryAPI</assembly>
-          <interfaceicon>dashboard</interfaceicon>
-          <defaultcommand>dashboard_get</defaultcommand>
-          <relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
-        </textbox>
-        <providertype></providertype>
-        <dropdownlist>
-          <group></group>
-        </dropdownlist>
-        <checkbox>
-          <onmenu>true</onmenu>
-          <active>true</active>
-        </checkbox>
-        <radio>
-          <securityrolesadministrators>1</securityrolesadministrators>
-          <securityrolesmanager>1</securityrolesmanager>
-          <securityroleseditor>1</securityroleseditor>
-          <securityrolesclienteditor>0</securityrolesclienteditor>
-          <securityrolesregisteredusers>0</securityrolesregisteredusers>
-          <securityrolessubscribers>0</securityrolessubscribers>
-          <securityrolesall>0</securityrolesall>
-        </radio>
-      </genxml>
-
-
-      <genxml>
-        <textbox>
           <interfacekey>portalcatalog</interfacekey>
           <namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
           <assembly>RocketDirectoryAPI</assembly>
