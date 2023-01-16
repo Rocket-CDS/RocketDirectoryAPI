@@ -25,35 +25,32 @@ namespace RocketDirectoryAPI.Components
         {
             Populate(portalid, moduleRef,  cultureCode, moduleId, tabId, systemKey);
         }
-        public void Populate(int portalid, string moduleRef, string cultureCode, int moduleId, int tabId, string systemKey)
+        public void Populate(int portalid, string moduleRef, string cultureCode, int moduleId, int tabId, string systemKey, bool refresh = false)
         {
             _systemKey = systemKey;
             _passSettings = new Dictionary<string, string>();
             _dataObjects = new Dictionary<string, object>();
-            var systemData = new SystemLimpet(SystemKey);
             var portalContent = new PortalCatalogLimpet(portalid, cultureCode, SystemKey);
+            var systemData = new SystemLimpet(systemKey);
 
-            //[TODO: Check all objects for cache, load time witll be slow without cache.]
-
-            SetDataObject("appthemesystem", new AppThemeSystemLimpet(portalid, SystemKey));
-            SetDataObject("appthemedirectory", new AppThemeSystemLimpet(portalid, "rocketdirectoryapi"));   
-            SetDataObject("portalcontent", portalContent);
+            SetDataObject("appthemesystem", AppThemeUtils.AppThemeSystem(portalid, SystemKey));
+            SetDataObject("appthemedirectory", AppThemeUtils.AppThemeSystem(portalid, "rocketdirectoryapi"));
             SetDataObject("portaldata", new PortalLimpet(portalid));
             SetDataObject("systemdata", systemData);
-            SetDataObject("appthemeprojects", new AppThemeProjectLimpet());
-            SetDataObject("modulesettings", new ModuleContentLimpet(portalid, moduleRef));
+            SetDataObject("portalcontent", portalContent);
+            SetDataObject("appthemeprojects", AppThemeUtils.AppThemeProjects());
             SetDataObject("defaultdata", new DefaultsLimpet());
+            SetDataObject("modulesettings", new ModuleContentLimpet(portalid, moduleRef)); 
             SetDataObject("globalsettings", new SystemGlobalData());
-            SetDataObject("appthemedefault", new AppThemeLimpet(portalid, systemData, "Default", "1.0"));
-            SetDataObject("appthemeview", new AppThemeLimpet(portalid, portalContent.AppThemeViewFolder, portalContent.AppThemeViewVersion, portalContent.ProjectNameView));
-            SetDataObject("appthemeadmin", new AppThemeLimpet(portalid, portalContent.AppThemeAdminFolder, portalContent.AppThemeAdminVersion, portalContent.ProjectNameView));
-            SetDataObject("appthemedatalistview", new AppThemeDataList(portalContent.ProjectNameView, SystemKey));
-            SetDataObject("appthemedatalistadmin", new AppThemeDataList(portalContent.ProjectNameAdmin, SystemKey));
+            SetDataObject("appthemedefault", AppThemeUtils.AppThemeDefault(portalid, systemData, "Default", "1.0"));
+            SetDataObject("appthemeview", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeViewFolder, portalContent.AppThemeViewVersion, portalContent.ProjectNameView));
+            SetDataObject("appthemeadmin", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeAdminFolder, portalContent.AppThemeAdminVersion, portalContent.ProjectNameView));
+            SetDataObject("appthemedatalistview", AppThemeUtils.AppThemeDataList(portalContent.ProjectNameView, SystemKey));
+            SetDataObject("appthemedatalistadmin", AppThemeUtils.AppThemeDataList(portalContent.ProjectNameAdmin, SystemKey));
             SetDataObject("catalogsettings", new CatalogSettingsLimpet(portalid, cultureCode, SystemKey));
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
-            SetDataObject("propertylist", new PropertyLimpetList(portalid, null, cultureCode, SystemKey));
+            SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
             SetDataObject("dashboard", new DashboardLimpet(portalid, cultureCode));
-
         }
         public void SetDataObject(String key, object value)
         {
@@ -94,6 +91,7 @@ namespace RocketDirectoryAPI.Components
         public AppThemeProjectLimpet AppThemeProjects { get { return (AppThemeProjectLimpet)GetDataObject("appthemeprojects"); } }
         public Dictionary<string, string> Settings { get { return _passSettings; } }
         public CatalogSettingsLimpet CatalogSettings { get { return (CatalogSettingsLimpet)GetDataObject("catalogsettings"); } }
+        public CategoryLimpetList CategoryList { get { return (CategoryLimpetList)GetDataObject("categorylist"); } }
 
     }
 }

@@ -8,7 +8,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var articleData = (ArticleLimpet)Model.List.First();
+    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var docLP = 1;
 
     var datalist = articleData.GetDocList();
@@ -19,8 +19,8 @@
 <div class="w3-row documentlistdatasection">
 
     <div class="w3-bar-block">
-        <div class="w3-button w3-bar-item w3-padding-small w3-theme-action" onclick="$('#articledocumentselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.docs")</div>
-        <div class="w3-button w3-bar-item w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="documentlistbin" s-return="#documentlistdata" s-removelist=".documentlist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
+        <div class="w3-button w3-padding-small w3-theme-action" onclick="$('#articledocumentselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.docs")</div>
+        <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="documentlistbin" s-return="#documentlistdata" s-removelist=".documentlist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
 
     <ul id="documentlistdata" class="w3-ul">

@@ -7,31 +7,41 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
+    var sessionParams = Model.SessionParamsData;
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
+    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
+
+    AddProcessDataResx(appThemeAdmin, true);
+    AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
+
+    var parentName = "";
+    var returncatid = 0;
     var info = new SimplisityInfo();
-    var categoryData = (CategoryLimpet)Model.List.First();
     if (categoryData.Info != null)
     {
         info = categoryData.Info;
-    }
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+        var parentCategoryData = new CategoryLimpet(categoryData.PortalId, categoryData.ParentItemId, categoryData.CultureCode, systemData.SystemKey);
+        if (!parentCategoryData.Exists)
+        {
+            parentCategoryData.Info.SetXmlProperty("genxml/lang/genxml/textbox/name", ResourceKey("RE.home").ToString());
+            parentName = parentCategoryData.Name;
+        }
+        returncatid = parentCategoryData.CategoryId;
+        if (returncatid < 0)
+        {
+            returncatid = 0;
+        }
 
-    var parentCategoryData = new CategoryLimpet(categoryData.PortalId, categoryData.ParentItemId, categoryData.CultureCode, systemData.SystemKey);
-    if (!parentCategoryData.Exists)
-    {
-        parentCategoryData.Info.SetXmlProperty("genxml/lang/genxml/textbox/name", ResourceKey("RE.home").ToString());
     }
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
-    var sessionParams = Model.SessionParamsData;
-    var returncatid = parentCategoryData.CategoryId;
-    if (returncatid < 0)
-    {
-        returncatid = 0;        
-    }
+
+
 }
 
-@RenderLanguageSelector("categoryadmin_edit", "{\"categoryid\":\"" + categoryData.CategoryId + "\"}", appThemeCatalog, Model)
+@RenderLanguageSelector("categoryadmin_edit", "{\"categoryid\":\"" + info.ItemID + "\"}", appThemeDirectory, Model)
 
 <div class='w3-animate-opacity'>
 
@@ -91,7 +101,7 @@
                         <div class='w3-col m5 w3-padding'>
                             <label>@ResourceKey("RC.parentcategory")&nbsp;</label>
                             <div class="w3-row">
-                                <span class="w3-col m9 w3-border w3-light-grey w3-padding" style="height:40px;">@parentCategoryData.Name</span>
+                                <span class="w3-col m9 w3-border w3-light-grey w3-padding" style="height:40px;">@parentName</span>
                                 <span class="w3-col m3 w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
                             </div>
                         </div>
@@ -121,11 +131,11 @@
             </div>
 
             <div id="imgs" class='w3-row sectionname' style="display:none">
-                @RenderTemplate("CategoryImages.cshtml", appThemeCatalog, Model, true)
+                @RenderTemplate("CategoryImages.cshtml", appThemeDirectory, Model, true)
             </div>
 
             <div class="w3-row">
-                @RenderTemplate("categoryImageSelect.cshtml", appThemeCatalog, Model, true)
+                @RenderTemplate("categoryImageSelect.cshtml", appThemeDirectory, Model, true)
             </div>
 
             @if (UserUtils.IsInRole("Administrator"))
@@ -196,7 +206,7 @@
 </div>
 
 
-@RenderTemplate("CategorySelect.cshtml", appThemeCatalog, Model, true)
+@RenderTemplate("CategorySelect.cshtml", appThemeDirectory, Model, true)
 
 <script>
     $(document).ready(function () {

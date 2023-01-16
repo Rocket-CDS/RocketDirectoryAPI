@@ -4,6 +4,7 @@ using Simplisity;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace RocketDirectoryAPI.API
@@ -18,7 +19,8 @@ namespace RocketDirectoryAPI.API
         {
             var razorTempl = GetSystemTemplate("categorydetail.cshtml");
             var categoryData = GetActiveCategory(categoryId);
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            _dataObject.SetDataObject("categorydata", categoryData);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -64,10 +66,9 @@ namespace RocketDirectoryAPI.API
         }
         public string GetCategoryList(int categoryid)
         {
-            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, true);
-            categoryDataList.SelectedParentId = categoryid;
+            _dataObject.CategoryList.SelectedParentId = categoryid;
             var razorTempl = GetSystemTemplate("CategoryList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryDataList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -77,17 +78,18 @@ namespace RocketDirectoryAPI.API
         }
         public String AddCategory()
         {
-            var categoryDataList = new CategoryLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, true);
             var parentid = _paramInfo.GetXmlPropertyInt("genxml/hidden/parentid");
             var razorTempl = GetSystemTemplate("CategoryDetail.cshtml");
-            var categoryData = GetActiveCategory(-1);
-            var catcount = categoryDataList.GetCategoryList(parentid).Count;
+            var categoryData = GetActiveCategory(-1);            
+            var catcount = _dataObject.CategoryList.GetCategoryList(parentid).Count;
 
             categoryData.ParentItemId = parentid;
             categoryData.SortOrder = (5 * catcount);
             categoryData.ValidateAndUpdate();
 
-            categoryDataList.Validate();  // clear cache
+            _dataObject.SetDataObject("categorydata", categoryData);
+
+            _dataObject.CategoryList.Validate();  // clear cache
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, categoryData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
@@ -101,8 +103,7 @@ namespace RocketDirectoryAPI.API
             var categoryData = GetActiveCategory(categoryId);
 
             // clear the category List cache when category saved.
-            var cl = new CategoryLimpetList(categoryData.PortalId, categoryData.CultureCode, _dataObject.SystemKey, false);
-            cl.ClearCache();
+            _dataObject.CategoryList.Reload();
 
             return categoryData.Save(_postInfo);
         }
@@ -113,6 +114,7 @@ namespace RocketDirectoryAPI.API
             {
                 var categoryData = GetActiveCategory(categoryid);
                 categoryData.Delete();
+                _dataObject.CategoryList.Reload();
             }
             return GetCategoryList(0);
         }
@@ -129,6 +131,7 @@ namespace RocketDirectoryAPI.API
                 {
                     categoryData.AddImage(_dataObject.PortalContent.ImageFolderRel, nam);
                 }
+                _dataObject.CategoryList.Reload();
                 return GetCategory(categoryData.CategoryId);
             }
             return "ERROR: Invalid ItemId";

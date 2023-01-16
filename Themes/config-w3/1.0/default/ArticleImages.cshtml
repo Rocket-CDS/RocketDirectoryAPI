@@ -9,9 +9,8 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var articleData = (ArticleLimpet)Model.List.First();
+    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var imgLP = 0;
-
     var datalist = articleData.GetImageList();
     var globalSettings = new SystemGlobalData();
     var sessionParams = Model.SessionParamsData;
@@ -21,8 +20,8 @@
 <div class="w3-row imagelistdatasection">
 
     <div class="w3-bar-block">
-        <div class="w3-button w3-bar-item w3-padding-small w3-theme-action" onclick="$('#articleimageselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.images")</div>
-        <div class="w3-button w3-bar-item w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="imagelistbin" s-return="#imagelistdata" s-removelist=".imagelist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
+        <div class="w3-button w3-padding-small w3-theme-action" onclick="$('#articleimageselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.images")</div>
+        <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="imagelistbin" s-return="#imagelistdata" s-removelist=".imagelist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
 
     <ul id="imagelistdata" class="w3-ul">

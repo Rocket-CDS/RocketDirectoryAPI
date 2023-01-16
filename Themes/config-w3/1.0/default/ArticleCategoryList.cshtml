@@ -16,7 +16,7 @@
 }
 
 <div class="w3-bar-block">
-    <div class="w3-button w3-bar-item w3-padding-small w3-theme-action " onclick="$('#categoryselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("RC.categories")</div>
+    <div class="w3-button w3-padding-small w3-theme-action " onclick="$('#categoryselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("RC.categories")</div>
 </div>
 
 <div id="datasection" class="">
@@ -30,7 +30,7 @@
         <table id="categorylistdata" class="w3-table ">
             <thead>
                 <tr>
-                    <th>@ResourceKey("RE.name")</th>
+                    <th>@ResourceKey("RC.name")</th>
                 </tr>
             </thead>
             @foreach (var categoryData in catList)

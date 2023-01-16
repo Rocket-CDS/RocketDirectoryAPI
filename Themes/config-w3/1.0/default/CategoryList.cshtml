@@ -6,9 +6,8 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
-
 @{
-    var categoryDataList = (CategoryLimpetList)Model.List.First();
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorylist");
     var lp1 = 0;
     var previousid = 0;
     var breadcrumbList = categoryDataList.GetBreadCrumbList();
@@ -18,10 +17,15 @@
     }
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+
+    AddProcessDataResx(appThemeAdmin, true);
+    AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
+
 }
 
-@RenderLanguageSelector("categoryadmin_editlist", "{\"categoryid\":\"" + categoryDataList.SelectedParentId + "\"}", appThemeCatalog, Model)
+@RenderLanguageSelector("categoryadmin_editlist", "{\"categoryid\":\"" + categoryDataList.SelectedParentId + "\"}", appThemeDirectory, Model)
 
 <style>
     .w3-ul-alt {
@@ -123,7 +127,7 @@
 
     </div>
 
-    @RenderTemplate("CategoryTree.cshtml", appThemeCatalog, Model, false)
+    @RenderTemplate("CategoryTree.cshtml", appThemeDirectory, Model, false)
 
 </div>
 

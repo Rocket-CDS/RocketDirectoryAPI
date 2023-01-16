@@ -4,6 +4,7 @@ using Simplisity;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace RocketDirectoryAPI.API
@@ -24,9 +25,10 @@ namespace RocketDirectoryAPI.API
         }
         public string GetPropertyList()
         {
-            var propertyDataList = new PropertyLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, _sessionParams.SearchText);
+            var propertyDataList = new PropertyLimpetList(PortalUtils.GetCurrentPortalId(), _sessionParams.CultureCodeEdit, _dataObject.SystemKey, _paramInfo.GetXmlProperty("genxml/hidden/propertysearchtext"));
+            _dataObject.SetDataObject("propertylist", propertyDataList);
             var razorTempl = GetSystemTemplate("PropertyList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, propertyDataList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }

@@ -8,7 +8,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var categoryData = (CategoryLimpet)Model.List.First();
+    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
     var imgLP = 0;
 
     var datalist = categoryData.GetImageList();

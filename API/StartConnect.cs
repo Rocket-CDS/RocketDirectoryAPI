@@ -319,6 +319,12 @@ namespace RocketDirectoryAPI.API
             _tabId = _paramInfo.GetXmlPropertyInt("genxml/hidden/tabid");
             _moduleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/moduleid");
 
+            var requesturl = _paramInfo.GetXmlProperty("genxml/hidden/requesturl");
+            if (_paramInfo.GetXmlPropertyInt("genxml/hidden/articleid") == 0 && (requesturl != "" && requesturl.ToLower().Contains("articleid")))
+            {
+                _paramInfo.SetXmlProperty("genxml/hidden/articleid", DNNrocketUtils.ParseQueryString("articleid", requesturl));
+            }
+
             // Assign Langauge
             DNNrocketUtils.SetCurrentCulture();
             if (_sessionParams.CultureCode == "") _sessionParams.CultureCode = DNNrocketUtils.GetCurrentCulture();

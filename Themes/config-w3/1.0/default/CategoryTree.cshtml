@@ -4,10 +4,10 @@
 @using DNNrocketAPI.Components;
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketEcommerce/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var categoryDataList = (CategoryLimpetList)Model.List.First();
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorylist");
     var treelist = categoryDataList.GetCategoryTree();
 }
 

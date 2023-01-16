@@ -83,7 +83,9 @@ namespace RocketDirectoryAPI.API
                 {
                     articleData.AddImage(Path.GetFileName(imgFileMapPath));
                 }
+                _dataObject.SetDataObject("articledata", articleData);
             }
+
             var razorTempl = GetSystemTemplate("Articleimages.cshtml");
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
@@ -120,7 +122,7 @@ namespace RocketDirectoryAPI.API
                     {
                         articleData.AddImage(nam);
                     }
-                    return GetArticle(articleData.ArticleId);
+                    return GetArticle(articleData);
                 }
             }
             return "ERROR: Invalid ItemId or base64 string";
@@ -143,6 +145,7 @@ namespace RocketDirectoryAPI.API
                 {
                     articleData.AddDoc(Path.GetFileName(imgFileMapPath));
                 }
+                _dataObject.SetDataObject("articledata", articleData);
             }
 
             var razorTempl = GetSystemTemplate("ArticleDocuments.cshtml");
@@ -221,6 +224,8 @@ namespace RocketDirectoryAPI.API
                 articleData = GetActiveArticle(articleId);
             }
 
+            _dataObject.SetDataObject("articledata", articleData);
+
             var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("admindetail.cshtml");
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
@@ -242,8 +247,9 @@ namespace RocketDirectoryAPI.API
         {
             if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
             var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
+            _dataObject.SetDataObject("articlelist", articleDataList);
             var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleDataList, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
@@ -473,11 +479,11 @@ namespace RocketDirectoryAPI.API
             var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
             if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
 
-            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
-            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _dataObject.SystemKey);
+            //var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
+            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleData.DefaultCategory(), _sessionParams.CultureCode, _dataObject.SystemKey);
 
             _dataObject.SetDataObject("articledata", articleData);
-            _dataObject.SetDataObject("articlelist", articleDataList);
+            //_dataObject.SetDataObject("articlelist", articleDataList);
             _dataObject.SetDataObject("categorydata", categoryData);
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);

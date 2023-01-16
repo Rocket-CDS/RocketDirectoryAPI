@@ -7,11 +7,11 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var propertyDataList = (PropertyLimpetList)Model.List.First();
+    var propertyDataList = (PropertyLimpetList)Model.GetDataObject("propertylist");
     var propertyList = propertyDataList.GetPropertyList();
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
+    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
 }
 
@@ -44,8 +44,6 @@
                 </tr>
             }
         </table>
-
-        @RenderTemplate("PropertyPaging.cshtml", appThemeCatalog, Model, true)
 
     </div>
 

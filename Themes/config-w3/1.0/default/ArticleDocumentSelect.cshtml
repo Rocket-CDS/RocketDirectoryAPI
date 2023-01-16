@@ -10,12 +10,12 @@
 @{
     var info = new SimplisityInfo();
     var globalSettings = new SystemGlobalData();
-    var articleData = (ArticleLimpet)Model.List.First();
+    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     if (articleData.Info != null)
     {
         info = articleData.Info;
     }
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
+    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
 
 }
 
@@ -28,7 +28,7 @@
         <div class="" style="">
             <div class="w3-container">
 
-                @if (articleData.GetDocList().Count < portalCatalog.ArticleDocumentLimit)
+                @if (articleData.GetDocList().Count < portalContent.ArticleDocumentLimit)
                 {
 
                     <h2>@ResourceKey("DNNrocket.documentupload")</h2>

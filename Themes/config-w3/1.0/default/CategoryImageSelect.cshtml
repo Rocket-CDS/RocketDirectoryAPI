@@ -9,7 +9,7 @@
 @{
     var info = new SimplisityInfo();
     var globalSettings = new SystemGlobalData();
-    var categoryData = (CategoryLimpet)Model.List.First();
+    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
     if (categoryData.Info != null)
     {
         info = categoryData.Info;

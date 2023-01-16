@@ -13,8 +13,8 @@
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
+    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var defaultCategory = new CategoryLimpet(portalCatalog.PortalId, settingsData.DefaultCategoryId, DNNrocketUtils.GetCurrentCulture(), systemData.SystemKey);
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");    
 

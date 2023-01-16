@@ -36,7 +36,7 @@
             <div class="w3-row">
                 <div class="w3-col m5 w3-padding">
                     <div class="">AppTheme Project (View)</div>
-                @DropDownList(info, "genxml/select/selectedprojectview", projectData.ActiveList(), " name='selectedprojectview' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeview' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnview'", selectedProject)
+                @DropDownList(info, "genxml/select/selectedprojectnameview", projectData.ActiveList(), " name='selectedprojectnameview' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeview' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnview'", selectedProject)
                 </div>
                 <div class="w3-col m5 w3-padding">
                     <div class="">AppTheme (View)</div>
@@ -50,7 +50,7 @@
             <div class="w3-row">
                 <div class="w3-col m5 w3-padding">
                     <div class="">AppTheme Project (Admin)</div>
-                @DropDownList(info, "genxml/select/selectedprojectadmin", projectData.ActiveList(), " name='selectedprojectadmin' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeadmin' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnadmin'", selectedProject)
+                @DropDownList(info, "genxml/select/selectedprojectnameadmin", projectData.ActiveList(), " name='selectedprojectnameadmin' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeadmin' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnadmin'", selectedProject)
                 </div>
                 <div class="w3-col m5 w3-padding">
                     <div class="">AppTheme (Admin)</div>
@@ -68,7 +68,7 @@
             <div class="w3-quarter">
                 <div class="w3-row w3-padding">
                     <label class="">@ResourceKey("RCP.maxarticles")</label>
-                    @TextBox(info, "genxml/maxarticles", "class='w3-input w3-border' style='width:120px;' ", "100", false)
+                    @TextBox(info, "genxml/maxarticles", "class='w3-input w3-border' style='width:120px;' ", "1000", false)
                 </div>
                 <div class="w3-row w3-padding">
                     <label class="">@ResourceKey("RCP.articlesimagelimit")</label>
