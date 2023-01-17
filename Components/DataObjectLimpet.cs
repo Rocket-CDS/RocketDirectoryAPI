@@ -1,5 +1,4 @@
 ﻿using DNNrocketAPI.Components;
-using Newtonsoft.Json.Linq;
 using Rocket.AppThemes.Components;
 using RocketPortal.Components;
 using Simplisity;
