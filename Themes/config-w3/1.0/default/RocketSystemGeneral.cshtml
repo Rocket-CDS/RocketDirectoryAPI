@@ -3,6 +3,7 @@
 @using Simplisity;
 @using DNNrocketAPI.Components;
 @using Rocket.AppThemes.Components;
+@using RocketPortal.Components;
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/AppThemes/App_LocalResources/")
@@ -11,6 +12,7 @@
 @{
     var portalCatalog = (PortalCatalogLimpet)Model.List.First();
     var info = portalCatalog.Info;
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
     var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
@@ -27,83 +29,120 @@
 
 <div id="sidemenugeneraldata" class="w3-container a-panelsidemenu">
 
-        <div class="w3-row">
-            <div class="w3-row w3-padding">
-                <label class="">@ResourceKey("RCP.securitykey")</label><br />
-                @TextBox(info, "genxml/securitykey", "class='w3-input w3-border' ", GeneralUtils.GetGuidKey(), false)
-            </div>
+    <div class="w3-row w3-padding">
+        <label class="">@ResourceKey("RCP.securitykey")</label><br />
+        @TextBox(info, "genxml/securitykey", "class='w3-input w3-border' ", GeneralUtils.GetGuidKey(), false)
+    </div>
 
-            <div class="w3-row">
-                <div class="w3-col m5 w3-padding">
-                    <div class="">AppTheme Project (View)</div>
-                @DropDownList(info, "genxml/select/selectedprojectnameview", projectData.ActiveList(), " name='selectedprojectnameview' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeview' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnview'", selectedProject)
-                </div>
-                <div class="w3-col m5 w3-padding">
-                    <div class="">AppTheme (View)</div>
-                @DropDownList(info, "genxml/select/appthemeview", appThemeList.NameListDict(), " name='selectedappthemeview' class='w3-input w3-border  simplisity_change' s-dropdownlist='#appthemeviewversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
-                </div>
-                <div class="w3-col m2 w3-padding">
-                    <div class="">@ResourceKey("DNNrocket.version")</div>
-                @DropDownList(info, "genxml/select/appthemeviewversion", "1.0","1.0", " name='selectedversionview' class='w3-input w3-border'", "1.0")
-                </div>
-            </div>
-            <div class="w3-row">
-                <div class="w3-col m5 w3-padding">
-                    <div class="">AppTheme Project (Admin)</div>
-                @DropDownList(info, "genxml/select/selectedprojectnameadmin", projectData.ActiveList(), " name='selectedprojectnameadmin' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeadmin' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnadmin'", selectedProject)
-                </div>
-                <div class="w3-col m5 w3-padding">
-                    <div class="">AppTheme (Admin)</div>
-                @DropDownList(info, "genxml/select/appthemeadmin", appThemeList.NameListDict(), " name='selectedappthemeadmin' class='w3-input w3-border  simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
-                </div>
-                <div class="w3-col m2 w3-padding">
-                    <div class="">@ResourceKey("DNNrocket.version")</div>
-                @DropDownList(info, "genxml/select/appthemeadminversion", "1.0","1.0", " name='selectedversionadmin' class='w3-input w3-border'", "1.0")
-                </div>
-            </div>
-
-
+    <div class="w3-row">
+        <div class="w3-col m5 w3-padding">
+            <div class="">AppTheme Project (View)</div>
+        @DropDownList(info, "genxml/select/selectedprojectnameview", projectData.ActiveList(), " name='selectedprojectnameview' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeview' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnview'", selectedProject)
         </div>
-        <div class="w3-row">
-            <div class="w3-quarter">
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("RCP.maxarticles")</label>
-                    @TextBox(info, "genxml/maxarticles", "class='w3-input w3-border' style='width:120px;' ", "1000", false)
-                </div>
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("RCP.articlesimagelimit")</label>
-                    @TextBox(info, "genxml/articlesimagelimit", "class='w3-input w3-border' style='width:120px;' ", "12", false)
-                </div>
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("RCP.articlesdocumentlimit")</label>
-                    @TextBox(info, "genxml/articlesdocumentlimit", "class='w3-input w3-border' style='width:120px;' ", "12", false)
-                </div>
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("RCP.imageresize")</label>
-                    @TextBox(info, "genxml/imageresize", "class='w3-input w3-border' style='width:120px;' ", "640", false)
-                </div>
-            </div>
-            <div class="w3-quarter">
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("DNNrocket.active")</label>
-                    @CheckBox(info, "genxml/active", "", "class='w3-input w3-border w3-check'", true)
-                </div>
-                <div class="w3-row w3-padding">
-                    <label class="">@ResourceKey("DNNrocket.emailon")</label>
-                    @CheckBox(info, "genxml/emailon", "", "class='w3-input w3-border w3-check'", true)
-                </div>
-                <div class="w3-row w3-padding">
-                    <label class="">Debug Mode</label>
-                    @CheckBox(info, "genxml/debugmode", "", "class='w3-input w3-border w3-check'", false)
-                </div>
-            </div>
+        <div class="w3-col m5 w3-padding">
+            <div class="">AppTheme (View)</div>
+        @DropDownList(info, "genxml/select/appthemeview", appThemeList.NameListDict(), " name='selectedappthemeview' class='w3-input w3-border  simplisity_change' s-dropdownlist='#appthemeviewversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
+        </div>
+        <div class="w3-col m2 w3-padding">
+            <div class="">@ResourceKey("DNNrocket.version")</div>
+        @DropDownList(info, "genxml/select/appthemeviewversion", "1.0","1.0", " name='selectedversionview' class='w3-input w3-border'", "1.0")
         </div>
     </div>
+    <div class="w3-row">
+        <div class="w3-col m5 w3-padding">
+        <div class="">AppTheme Project (Admin)</div>
+        @DropDownList(info, "genxml/select/selectedprojectnameadmin", projectData.ActiveList(), " name='selectedprojectnameadmin' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeadmin' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnadmin'", selectedProject)
+        </div>
+        <div class="w3-col m5 w3-padding">
+        <div class="">AppTheme (Admin)</div>
+        @DropDownList(info, "genxml/select/appthemeadmin", appThemeList.NameListDict(), " name='selectedappthemeadmin' class='w3-input w3-border  simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
+        </div>
+        <div class="w3-col m2 w3-padding">
+            <div class="">@ResourceKey("DNNrocket.version")</div>
+        @DropDownList(info, "genxml/select/appthemeadminversion", "1.0","1.0", " name='selectedversionadmin' class='w3-input w3-border'", "1.0")
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("RCP.maxarticles")</label>
+            @TextBox(info, "genxml/maxarticles", "class='w3-input w3-border' style='width:120px;' ", "1000", false)
+        </div>
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("RCP.articlesimagelimit")</label>
+            @TextBox(info, "genxml/articlesimagelimit", "class='w3-input w3-border' style='width:120px;' ", "12", false)
+        </div>
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("RCP.articlesdocumentlimit")</label>
+            @TextBox(info, "genxml/articlesdocumentlimit", "class='w3-input w3-border' style='width:120px;' ", "12", false)
+        </div>
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("RCP.imageresize")</label>
+            @TextBox(info, "genxml/imageresize", "class='w3-input w3-border' style='width:120px;' ", "640", false)
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("DNNrocket.active")</label>
+            @CheckBox(info, "genxml/active", "", "class='w3-input w3-border w3-check'", true)
+        </div>
+        <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("DNNrocket.emailon")</label>
+            @CheckBox(info, "genxml/emailon", "", "class='w3-input w3-border w3-check'", true)
+        </div>
+        <div class="w3-quarter w3-padding">
+            <label class="">Debug Mode</label>
+            @CheckBox(info, "genxml/debugmode", "", "class='w3-input w3-border w3-check'", false)
+        </div>
+    </div>
+
+
+</div>
+
+<div class="w3-row w3-padding">
+    <label>Standard HTML code</label>
+    <div class="w3-row w3-code w3-margin-bottom">
+        &lt;link rel="stylesheet" href="@(portalData.EngineUrlWithProtocol)/DesktopModules/DNNrocket/Simplisity/css/simplisity.css" charset="utf-8"&gt;<br />
+        &lt;script type="text/javascript" src="@(portalData.EngineUrlWithProtocol)/DesktopModules/DNNrocket/Simplisity/js/simplisity.js"&gt;&lt;/script&gt;<br />
+        <br />
+        &lt;div id="simplisity_startpanel" class="w3-row simplisity_panel" s-cmd="remote_publicview"&gt;<br />
+        &nbsp;&lt;div class="simplisity_loader"&gt;<br />
+        &nbsp;&nbsp;&lt;span class=" simplisity_loader_inner"&gt;&lt;/span&gt;<br />
+        &nbsp;&lt;/div&gt;<br />
+        &lt;/div&gt;<br />
+        &lt;script&gt;<br />
+        $(document).ready(function () {<br />
+        &nbsp;$(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(systemData.SystemKey)', debug: false });<br />
+        });<br />
+        &lt;/script&gt;<br />
+    </div>
+    <label>Minimum HTML code <i>(If simplisity.js is already included on the page.)</i></label>
+    <div class="w3-row w3-code">
+        &lt;div id="simplisity_startpanel" class="w3-row simplisity_panel" s-cmd="remote_publicview" &gt;&lt;/div&gt;<br />
+        &lt;script&gt;<br />
+        $(document).ready(function () {<br />
+        &nbsp;$(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(systemData.SystemKey)', debug: false });<br />
+        });<br />
+        &lt;/script&gt;<br />
+    </div>
+</div>
 
 
 <script type="text/javascript">
 
     $(document).ready(function () {
+        
+        @if (portalCatalog.AppThemeViewFolder == "")
+        {
+            <text>
+                    $('#selectedprojectnameview').trigger('change');
+            </text>        
+        }
+        @if (portalCatalog.AppThemeAdminFolder == "")
+        {
+            <text>
+                    $('#selectedprojectnameadmin').trigger('change');
+            </text>
+        }
 
     });
 
