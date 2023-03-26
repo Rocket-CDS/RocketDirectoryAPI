@@ -98,35 +98,6 @@
 
 </div>
 
-<div class="w3-row w3-padding">
-    <label>Standard HTML code</label>
-    <div class="w3-row w3-code w3-margin-bottom">
-        &lt;link rel="stylesheet" href="@(portalData.EngineUrlWithProtocol)/DesktopModules/DNNrocket/Simplisity/css/simplisity.css" charset="utf-8"&gt;<br />
-        &lt;script type="text/javascript" src="@(portalData.EngineUrlWithProtocol)/DesktopModules/DNNrocket/Simplisity/js/simplisity.js"&gt;&lt;/script&gt;<br />
-        <br />
-        &lt;div id="simplisity_startpanel" class="w3-row simplisity_panel" s-cmd="remote_publicview"&gt;<br />
-        &nbsp;&lt;div class="simplisity_loader"&gt;<br />
-        &nbsp;&nbsp;&lt;span class=" simplisity_loader_inner"&gt;&lt;/span&gt;<br />
-        &nbsp;&lt;/div&gt;<br />
-        &lt;/div&gt;<br />
-        &lt;script&gt;<br />
-        $(document).ready(function () {<br />
-        &nbsp;$(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(systemData.SystemKey)', debug: false });<br />
-        });<br />
-        &lt;/script&gt;<br />
-    </div>
-    <label>Minimum HTML code <i>(If simplisity.js is already included on the page.)</i></label>
-    <div class="w3-row w3-code">
-        &lt;div id="simplisity_startpanel" class="w3-row simplisity_panel" s-cmd="remote_publicview" &gt;&lt;/div&gt;<br />
-        &lt;script&gt;<br />
-        $(document).ready(function () {<br />
-        &nbsp;$(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(systemData.SystemKey)', debug: false });<br />
-        });<br />
-        &lt;/script&gt;<br />
-    </div>
-</div>
-
-
 <script type="text/javascript">
 
     $(document).ready(function () {

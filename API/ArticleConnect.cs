@@ -246,7 +246,7 @@ namespace RocketDirectoryAPI.API
         public String GetArticleList()
         {
             if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
-            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
+            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
             _dataObject.SetDataObject("articlelist", articleDataList);
             var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
@@ -452,7 +452,7 @@ namespace RocketDirectoryAPI.API
                 _paramInfo.SetXmlProperty("genxml/urlparams/catid", _paramInfo.GetXmlPropertyInt("genxml/remote/categoryid").ToString());
             }
 
-            var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
+            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
             _dataObject.SetDataObject("articlelist", articleDataList);
             var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _dataObject.SystemKey);
             _dataObject.SetDataObject("categorydata", categoryData);

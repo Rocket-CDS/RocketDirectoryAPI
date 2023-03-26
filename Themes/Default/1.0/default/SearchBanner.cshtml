@@ -50,7 +50,6 @@
     @if (articleDataList != null)
     {
         var orderbyDictionary = new Dictionary<string, string>();
-        orderbyDictionary.Add("", "");
         foreach (var orderbyInfo in portalContent.GetProductOrderByList())
         {
             orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
@@ -102,7 +101,11 @@
         simplisity_setSessionField('pagesize', $('#pagesize').val());
         simplisity_setSessionField('orderbyref', $('#orderbyref').val());
         $('.simplisity_loader').show();
-        window.location.href = '@(articleDataList.PagingUrl(1))';
+        @{
+        var urlparams = new Dictionary<string, string>();
+        urlparams.Add("page", "1");
+        }
+        window.location.href = '@(DNNrocketUtils.NavigateURL(sessionParams.TabId, urlparams))';
     }
 
 </script>

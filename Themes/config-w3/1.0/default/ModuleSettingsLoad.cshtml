@@ -1,0 +1,25 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using RazorEngine.Text;
+@using RocketPortal.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
+
+@{
+    var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+}
+
+<!-- create element to load settings. -->
+<span id="loadsettings" class="" s-cmd="rocketdirectoryapi_settings" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
+
+<script>
+    $(document).ready(function () {
+        simplisity_callserver($('#loadsettings'), '/Desktopmodules/dnnrocket/api/rocket/action','',false);
+    });
+</script>
+
+

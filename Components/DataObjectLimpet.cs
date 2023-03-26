@@ -39,7 +39,7 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("portalcontent", portalContent);
             SetDataObject("appthemeprojects", AppThemeUtils.AppThemeProjects());
             SetDataObject("defaultdata", new DefaultsLimpet());
-            SetDataObject("modulesettings", new ModuleContentLimpet(portalid, moduleRef)); 
+            SetDataObject("modulesettings", new ModuleContentLimpet(portalid, moduleRef, systemKey, moduleId, tabId)); 
             SetDataObject("globalsettings", new SystemGlobalData());
             SetDataObject("appthemedefault", AppThemeUtils.AppThemeDefault(portalid, systemData, "Default", "1.0"));
             SetDataObject("appthemeview", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeViewFolder, portalContent.AppThemeViewVersion, portalContent.ProjectNameView));
@@ -78,6 +78,7 @@ namespace RocketDirectoryAPI.Components
         public string SystemKey { get { return _systemKey; } }
         public int PortalId { get { return PortalData.PortalId; } }
         public Dictionary<string, object> DataObjects { get { return _dataObjects; } }
+        public ModuleContentLimpet ModuleSettings { get { return (ModuleContentLimpet)GetDataObject("modulesettings"); } }
         public AppThemeSystemLimpet AppThemeSystem { get { return (AppThemeSystemLimpet)GetDataObject("appthemesystem"); } }
         public AppThemeSystemLimpet AppThemeDirectory { get { return (AppThemeSystemLimpet)GetDataObject("appthemedirectory"); } }
         public AppThemeLimpet AppThemeDefault { get { return (AppThemeLimpet)GetDataObject("appthemedefault"); } }

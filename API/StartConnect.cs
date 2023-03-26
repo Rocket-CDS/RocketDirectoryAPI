@@ -239,6 +239,15 @@ namespace RocketDirectoryAPI.API
                     strOut = GetPublicBase();
                     break;
 
+
+                case "rocketdirectoryapi_settings":
+                    strOut = DisplaySettings();
+                    break;
+                case "rocketdirectoryapi_savesettings":
+                    strOut = SaveSettings();
+                    break;
+
+
                 case "invalidcommand":
                     strOut = "INVALID COMMAND: " + _storeParamCmd;
                     break;
@@ -414,6 +423,13 @@ namespace RocketDirectoryAPI.API
             {
                 return ex.ToString();
             }
+        }
+        private string RenderSystemTemplate(string templateName)
+        {
+            var razorTempl = _dataObject.AppThemeSystem.GetTemplate(templateName);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            if (pr.StatusCode != "00") return pr.ErrorMsg;
+            return pr.RenderedText;
         }
 
     }

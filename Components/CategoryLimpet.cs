@@ -136,6 +136,12 @@ namespace RocketDirectoryAPI.Components
 
             return ValidateAndUpdate();
         }
+        public List<CategoryLimpet> GetDirectChildren()
+        {
+            var categoryDataList = new CategoryLimpetList(PortalId, CultureCode, SystemKey);
+            List<CategoryLimpet> rtnList = categoryDataList.GetCategoryList().Where(m => m.ParentItemId == CategoryId).ToList();
+            return rtnList;
+        }
         public List<CategoryLimpet> GetChildren()
         {
             var categoryDataList = new CategoryLimpetList(PortalId, CultureCode, SystemKey);

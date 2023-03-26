@@ -10,23 +10,23 @@
 	</article>    
   </sqlfilter>
   <sqlorderby>
-    <article>
+	  <product>
 	    <random>
-		    order by newid()
+order by newid()
 	    </random>		
 	    <name>
-		    order by articlename.GUIDKey
+order by articlename.GUIDKey
 	    </name>
         <name-desc>
-		    order by articlename.GUIDKey desc
+order by articlename.GUIDKey desc
 	    </name-desc>
         <ref>
-        order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)')
+order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)')
         </ref>
         <ref-desc>
-        order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)') desc
+order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)') desc
         </ref-desc>
-    </article>
+    </product>
   </sqlorderby>
 
   <commands>
@@ -325,6 +325,16 @@
       <cmd>remote_publicmenu</cmd>
       <action>false</action>
     </command>
+
+	  <command>
+		  <cmd>rocketdirectoryapi_settings</cmd>
+		  <action>false</action>
+	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_savesettings</cmd>
+		  <action>false</action>
+	  </command>
+	  
 
 
   </commands>

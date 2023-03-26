@@ -1,0 +1,81 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using RazorEngine.Text;
+@using RocketPortal.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
+
+@{
+    var sessionParams = Model.SessionParamsData;
+    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
+    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+    var info = new SimplisityInfo(moduleData.Record);
+
+    var templateList = RocketDirectoryAPIUtils.ModuleTemples(appThemeView, moduleData.ModuleRef);
+}
+
+<div id="a-datasection" class="w3-container w3-margin w3-padding">
+
+    <div class="w3-row w3-padding">
+        <div class="w3-quarter">
+            @CheckBox(info,"genxml/settings/disablecache", ResourceKey("DNNrocket.disablecache").ToString(),"class='w3-check'")
+        </div>
+        <div class="w3-quarter">
+            @CheckBox(info,"genxml/settings/injectjquery", ResourceKey("DNNrocket.injectjquery").ToString(),"class='w3-check'")
+        </div>
+        <div class="w3-quarter">
+            @CheckBox(info,"genxml/settings/disableheader", ResourceKey("DNNrocket.disableheader").ToString(),"class='w3-check'")
+        </div>
+    </div>
+    <div class="w3-row ">
+        <div class="w3-half w3-padding">
+            <label>@ResourceKey("DNNrocket.name")</label>
+            @TextBox(info, "genxml/settings/name"," class='w3-input w3-border' ", "RocketContent: " + moduleData.ModuleRef)
+        </div>
+    </div>
+    <div class="w3-row ">
+        <div class="w3-half w3-padding">
+            <label>template</label>
+            @DropDownList(info,"genxml/settings/displaytemplate", templateList, " class='w3-input w3-border' ","")
+        </div>
+        <div class="w3-half w3-padding">
+            <label>cmd</label>
+            @DropDownList(info,"genxml/settings/displaycmd","list,catmenu","List, Category Menu"," class='w3-input w3-border' ","list")
+        </div>
+    </div>
+
+    <hr/>
+    <div class="w3-row">
+        @RenderTemplate("ThemeSettings.cshtml", appThemeAdmin, Model, true)
+    </div>
+
+</div>
+
+<div class="w3-row w3-padding w3-tiny">
+    <span>ModuleRef: @moduleData.ModuleRef</span>
+</div>
+
+<!-- create element to update settings via API when the DNN update is clicked. -->
+<span id="postsettings" class="w3-hide" s-cmd="rocketdirectoryapi_savesettings" s-post="#a-datasection" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
+
+
+
+<script>
+    $(document).ready(function () {
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketdirectoryapi', debug: false });
+        $('.simplisity_loader').hide();
+
+        $('a[id*="_cmdUpdate"]').off("click");
+        $('a[id*="_cmdUpdate"]').click(function () {
+            simplisity_callserver($('#postsettings'));
+        });
+
+    });
+</script>
+
+

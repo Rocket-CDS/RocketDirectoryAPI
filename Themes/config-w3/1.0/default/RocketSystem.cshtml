@@ -36,7 +36,6 @@
         <ul class="w3-ul">
             <li onclick="selectsidemenu('sidemenugeneraldata');" class="a-sidemenugeneraldata w3-hover-theme w3-theme-l3 a-sidemenu">@ResourceKey("RCP.general")</li>
             <li onclick="selectsidemenu('sidemenuconfigdata');" class="a-sidemenuconfigdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.config")</li>
-            <li onclick="selectsidemenu('sidemenupageandlinksdata');" class="a-sidemenupageandlinksdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.pageandlinks")</li>
             <li onclick="selectsidemenu('sidemenutoolsdata');" class="a-sidemenutoolsdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.tools")</li>
         </ul>
 
@@ -45,7 +44,6 @@
     <div id="servicesettings" class="w3-col m10 w3-padding">
         @RenderTemplate("RocketSystemGeneral.cshtml", appThemeCatalog, Model, true)
         @RenderTemplate("RocketSystemConfig.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemPageLinks.cshtml", appThemeCatalog, Model, true)
         @RenderTemplate("RocketSystemTools.cshtml", appThemeCatalog, Model, true)
     </div>
 

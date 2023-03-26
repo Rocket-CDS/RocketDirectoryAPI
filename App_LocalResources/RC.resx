@@ -132,22 +132,22 @@
   <data name="sqlfilterproduct.Text" xml:space="preserve">
     <value>Product SQL Filter </value>
   </data>
-  <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
+  <data name="sqlorderby-product-name-desc.Text" xml:space="preserve">
     <value>Name &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-name.Text" xml:space="preserve">
+  <data name="sqlorderby-product-name.Text" xml:space="preserve">
     <value>Name &amp;darr;</value>
   </data>
-  <data name="sqlorderby-article-price-desc.Text" xml:space="preserve">
+  <data name="sqlorderby-product-price-desc.Text" xml:space="preserve">
     <value>Price &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-price.Text" xml:space="preserve">
+  <data name="sqlorderby-product-price.Text" xml:space="preserve">
     <value>Price &amp;darr;</value>
   </data>
-  <data name="sqlorderby-article-ref-desc.Text" xml:space="preserve">
+  <data name="sqlorderby-product-ref-desc.Text" xml:space="preserve">
     <value>Ref. &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-ref.Text" xml:space="preserve">
+  <data name="sqlorderby-product-ref.Text" xml:space="preserve">
     <value>Ref. &amp;darr;</value>
   </data>
   <data name="sqlorderby.Help" xml:space="preserve">

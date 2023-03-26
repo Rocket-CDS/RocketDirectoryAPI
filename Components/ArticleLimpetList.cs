@@ -42,8 +42,13 @@ namespace RocketDirectoryAPI.Components
 
             if (populate) Populate();
         }
-        public ArticleLimpetList(SimplisityInfo paramInfo, PortalCatalogLimpet portalCatalog, string langRequired, bool populate, bool showHidden = true, int defaultCategoryId = 0)
+        public ArticleLimpetList(SessionParams sessionParams, PortalCatalogLimpet portalCatalog, string langRequired, bool populate, bool showHidden = true, int defaultCategoryId = 0)
         {
+            InitArticleList(sessionParams, portalCatalog, langRequired, populate, showHidden, defaultCategoryId);
+        }
+        private void InitArticleList(SessionParams sessionParams, PortalCatalogLimpet portalCatalog, string langRequired, bool populate, bool showHidden = true, int defaultCategoryId = 0)
+        {
+            SessionParamData = sessionParams;
             PortalCatalog = portalCatalog;
             _systemKey = PortalCatalog.SystemKey;
             _entityTypeCode = _systemKey + "ART";
@@ -51,22 +56,14 @@ namespace RocketDirectoryAPI.Components
             if (_langRequired == "") _langRequired = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
 
-            SessionParamData = new SessionParams(paramInfo);
-            if (paramInfo.GetXmlPropertyInt("genxml/hidden/pagesize") != 0) SessionParamData.Page = paramInfo.GetXmlPropertyInt("genxml/hidden/pagesize");
-            if (paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/pagesize") != 0) SessionParamData.PageSize = paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/pagesize");
-            if (paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/ps") != 0) SessionParamData.PageSize = paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/ps");
-            if (SessionParamData.PageSize == 0) SessionParamData.PageSize = 24;
+            if (sessionParams.PageSize == 0) sessionParams.PageSize = 24;
+            if (sessionParams.Page <= 0) sessionParams.Page =1;
 
-            SessionParamData.Page = 1;
-            if (paramInfo.GetXmlPropertyInt("genxml/hidden/page") != 0) SessionParamData.Page = paramInfo.GetXmlPropertyInt("genxml/hidden/page");
-            if (paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/page") != 0) SessionParamData.Page = paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/page");
-            if (paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/p") != 0) SessionParamData.Page = paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/p");
-
-            _catid = paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/catid");
+            _catid = sessionParams.GetInt("catid");
             _catidurl = _catid;
             if (_catid == 0) _catid = defaultCategoryId;
 
-            if (SessionParamData.OrderByRef == "" && _catid == 0) SessionParamData.OrderByRef = "sqlorderby-article-name";
+            if (sessionParams.OrderByRef == "" && _catid == 0) sessionParams.OrderByRef = "sqlorderby-article-name";
 
             if (populate) Populate(showHidden);
         }
@@ -228,17 +225,7 @@ namespace RocketDirectoryAPI.Components
                 articleData.ValidateAndUpdate();
             }
         }
-        public string PagingUrl(int page)
-        {
-            var categoryData = new CategoryLimpet(PortalCatalog.PortalId, CategoryId, _langRequired, _systemKey);
-            var url = SessionParamData.PageUrl.TrimEnd('/') + PortalCatalog.ArticlePagingUrl;
-            url = url.Replace("{page}", page.ToString());
-            url = url.Replace("{pagesize}", SessionParamData.PageSize.ToString());
-            url = url.Replace("{catid}", categoryData.CategoryId.ToString());
-            url = url.Replace("{categoryname}", categoryData.Name);
-            url = LocalUtils.TokenReplacementCultureCode(url, _langRequired.ToLower());
-            return url;
-        }
+
         public string ListUrl()
         {
             return SessionParamData.PageUrl;
