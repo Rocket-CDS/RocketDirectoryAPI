@@ -137,6 +137,10 @@ namespace RocketDirectoryAPI.Components
             Info = _objCtrl.SaveData(Info, TableName);
             _cacheKey = "PropertyLimpet*" + Info.PortalId + "*" + Info.ItemID + "*" + Info.Lang + "*" + _tableName;
             CacheUtilsDNN.SetCache(_cacheKey, Info);
+
+            // clear portal cache, so list so change.
+            CacheUtils.ClearAllCache("portal" + PortalId);
+
             return Info.ItemID;
         }
         public int ValidateAndUpdate()

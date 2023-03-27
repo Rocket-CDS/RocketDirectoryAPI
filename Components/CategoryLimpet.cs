@@ -193,6 +193,10 @@ namespace RocketDirectoryAPI.Components
             // Rebuild cacheKey, a new category we will have -1 for id in the old key.
             _cacheKey = "CategoryLimpet*" + PortalId + "*" + Info.ItemID + "*" + Info.Lang + "*" + _systemKey;
             CacheUtilsDNN.SetCache(_cacheKey, Info);
+
+            // clear portal cache, so list so change.
+            CacheUtils.ClearAllCache("portal" + PortalId);
+
             return Info.ItemID;
         }
         public int ValidateAndUpdate()

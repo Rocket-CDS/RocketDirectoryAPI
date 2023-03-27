@@ -217,6 +217,9 @@ namespace RocketDirectoryAPI.Components
 
             if (cacheData) CacheUtils.SetCache(_cacheKey, Info);
 
+            // clear portal cache, so list so change.
+            CacheUtils.ClearAllCache("portal" + PortalId);
+
             return Info.ItemID;
         }
         public int ValidateAndUpdate()
