@@ -13,28 +13,10 @@
 @{
 
     var sessionParams = (SessionParams)Model.SessionParamsData;
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var appThemeProjects = (AppThemeProjectLimpet)Model.GetDataObject("appthemeprojects");
-    var defaultData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
-    var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
 
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
-
 }
 
 <div class="w3-bar searchdata">
@@ -55,7 +37,7 @@
             orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
         }
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
-            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
+            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "12,24,48,96", "12,24,48,96", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
             <span>

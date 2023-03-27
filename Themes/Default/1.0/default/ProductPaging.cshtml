@@ -12,27 +12,7 @@
 @{
 
     var sessionParams = (SessionParams)Model.SessionParamsData;
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var appThemeProjects = (AppThemeProjectLimpet)Model.GetDataObject("appthemeprojects");
-    var defaultData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
-    var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
-
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
 
 
     var rowcount = articleDataList.SessionParamData.RowCount;
@@ -61,14 +41,20 @@
 
 @functions {
 
-    public string PagingUrl(int tabId, int PageNumber)
+    private string PagingUrl(int tabid, int pagenumber, int catid)
     {
-        var urlparams = new Dictionary<string, string>();
-        urlparams.Add("page", PageNumber.ToString());
-        return DNNrocketUtils.NavigateURL(tabId, urlparams);
+        if (catid > 0)
+        {
+            return DNNrocketUtils.NavigateURL(tabid, new Dictionary<string, string>() { { "catid", catid.ToString() },{ "page", pagenumber.ToString() } });
+        }
+        else
+        {
+            return DNNrocketUtils.NavigateURL(tabid, new Dictionary<string, string>() { { "page", pagenumber.ToString() } });
+        }
     }
 
 }
+
 @if (pagesize > 0)
 {
 
@@ -76,10 +62,10 @@
         <div class="w3-bar">
             @if (BeginPage != 1)
             {
-                <a href="@PagingUrl(sessionParams.TabId, 1)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">|❮</a>
+                <a href="@PagingUrl(sessionParams.TabId, 1, catid)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">|❮</a>
                 if (page >= 6)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId,BeginPage - 1)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
+                    <a href="@PagingUrl(sessionParams.TabId, (BeginPage - 1), catid)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
                 }
             }
 
@@ -92,17 +78,18 @@
                 }
                 if (i <= lastpage)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId,i)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">@(i)</a>
+                    <a href="@PagingUrl(sessionParams.TabId, i, catid)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">@(i)</a>
                 }
             }
 
             @if (page < lastpage)
             {
+
                 if (EndPage != lastpage)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId,EndPage + 1)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
+                    <a href="@PagingUrl(sessionParams.TabId, (EndPage + 1), catid)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
                 }
-                <a href="@PagingUrl(sessionParams.TabId,lastpage)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">❯|</a>
+                <a href="@PagingUrl(sessionParams.TabId, lastpage, catid)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">❯|</a>
             }
 
         </div>

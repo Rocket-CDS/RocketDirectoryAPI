@@ -57,7 +57,7 @@ namespace RocketDirectoryAPI.Components
             _objCtrl = new DNNrocketController();
 
             if (sessionParams.PageSize == 0) sessionParams.PageSize = 24;
-            if (sessionParams.Page <= 0) sessionParams.Page =1;
+            if (sessionParams.Page <= 0) sessionParams.Page = 1;
 
             _catid = sessionParams.GetInt("catid");
             _catidurl = _catid;

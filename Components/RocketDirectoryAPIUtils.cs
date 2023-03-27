@@ -2,6 +2,7 @@
 using DNNrocketAPI.Components;
 using RocketPortal.Components;
 using Simplisity;
+using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,9 +60,39 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public static string ViewHeader(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template)
+        {
+            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
+            if (moduleSettings.DisableHeader) return "";
+
+            var articleId = sessionParam.GetInt("articleid");
+            var cacheKey = moduleRef + "*" + articleId + "*" + template;
+            var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + portalId);
+            if (rtn != null && !moduleSettings.DisableCache) return rtn;
+
+            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
+            if (articleId > 0)
+            {
+                var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, articleId, sessionParam.CultureCode, systemKey);
+                dataObject.SetDataObject("articledata", articleData);
+            }
+            var razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
+            if (pr.StatusCode != "00") return pr.ErrorMsg;
+            CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
+            return pr.RenderedText;
+        }
         public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
         {
             var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
+            if (sessionParam.PageSize == 0) sessionParam.PageSize = moduleSettings.GetSettingInt("pagesize");
+
+            var cacheKey = moduleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
+            if (sessionParam.SearchText == "")
+            {
+                var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + portalId);
+                if (rtn != null && !moduleSettings.DisableCache) return rtn;
+            }
 
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             var aticleId = sessionParam.GetInt("articleid");
@@ -92,11 +123,10 @@ namespace RocketDirectoryAPI.Components
 
             }
 
-
             var razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
-
             if (pr.StatusCode != "00") return pr.ErrorMsg;
+            if (sessionParam.SearchText == "") CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
             return pr.RenderedText;
         }
         public static string DisplaySystemView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template, bool editMode = true)
