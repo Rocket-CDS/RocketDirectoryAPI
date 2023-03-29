@@ -151,7 +151,7 @@
           <namespaceclass>DNNrocket.Images.StartConnect</namespaceclass>
           <assembly>DNNrocketImages</assembly>
           <interfaceicon>extension</interfaceicon>
-          <defaultcommand>articleadmin_editlist</defaultcommand>
+          <defaultcommand></defaultcommand>
           <relpath>/DesktopModules/DNNrocket/Images</relpath>
         </textbox>
         <providertype></providertype>

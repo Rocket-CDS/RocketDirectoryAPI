@@ -12,9 +12,12 @@
     var sessionParams = Model.SessionParamsData;
     var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
     var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var info = new SimplisityInfo(moduleData.Record);
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var categoryData = new CategoryLimpet(portalData.PortalId, moduleData.DefaultCategoryId, sessionParams.CultureCode, systemData.SystemKey);
 
     var templateList = RocketDirectoryAPIUtils.ModuleTemples(appThemeView, moduleData.ModuleRef);
 }
@@ -36,6 +39,15 @@
         <div class="w3-half w3-padding">
             <label>@ResourceKey("DNNrocket.name")</label>
             @TextBox(info, "genxml/settings/name"," class='w3-input w3-border' ", "RocketContent: " + moduleData.ModuleRef)
+        </div>
+        <div class="w3-half w3-padding">
+            <label>@ResourceKey("RC.defaultcategory")&nbsp;</label>
+            <div class="w3-row">
+                <span id="defaultcategorydisplay" class="w3-col m9 w3-border w3-light-grey w3-padding" style="height:40px;">@categoryData.Name</span>
+                <span class="w3-col m3 w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
+            </div>
+            @HiddenField(info,"genxml/settings/defaultcategory")
+            @RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
         </div>
     </div>
     <div class="w3-row ">
@@ -61,13 +73,13 @@
 </div>
 
 <!-- create element to update settings via API when the DNN update is clicked. -->
-<span id="postsettings" class="w3-hide" s-cmd="rocketdirectoryapi_savesettings" s-post="#a-datasection" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
+<span id="postsettings" class="w3-hide" s-cmd="@(systemData.SystemKey)_savesettings" s-post="#a-datasection" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
 
 
 
 <script>
     $(document).ready(function () {
-        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketdirectoryapi', debug: false });
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(systemData.SystemKey)', debug: false });
         $('.simplisity_loader').hide();
 
         $('a[id*="_cmdUpdate"]').off("click");

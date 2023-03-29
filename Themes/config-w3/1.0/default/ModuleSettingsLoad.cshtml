@@ -11,10 +11,11 @@
 @{
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
 }
 
 <!-- create element to load settings. -->
-<span id="loadsettings" class="" s-cmd="rocketdirectoryapi_settings" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
+<span id="loadsettings" class="" s-cmd="@(systemData.SystemKey)_settings" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
 
 <script>
     $(document).ready(function () {

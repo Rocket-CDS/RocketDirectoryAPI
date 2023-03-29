@@ -1,4 +1,5 @@
 ﻿using DNNrocketAPI.Components;
+using RazorEngine.Templating;
 using Rocket.AppThemes.Components;
 using RocketDirectoryAPI.Components;
 using RocketPortal.Components;
@@ -426,7 +427,7 @@ namespace RocketDirectoryAPI.API
         }
         private string RenderSystemTemplate(string templateName)
         {
-            var razorTempl = _dataObject.AppThemeSystem.GetTemplate(templateName);
+            var razorTempl = GetSystemTemplate(templateName);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;

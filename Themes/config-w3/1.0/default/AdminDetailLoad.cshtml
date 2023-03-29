@@ -1,0 +1,27 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using RazorEngine.Text;
+@using RocketPortal.Components;
+@using Rocket.AppThemes.Components;
+@using System.Web;
+
+@{
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
+    var articleId = Model.SessionParamsData.GetInt("articleid");
+}
+<!-- NOTE: Load AdminDetail.cshtml with simplsity from browser, so we have the sessionParams -->
+
+<!-- create element to load settings. -->
+<span id="loadarticledetail" class="w3-hide" s-cmd="articleadmin_editarticle" s-fields='{"systemkey":"@(systemData.SystemKey)","tabid":"@(Model.SessionParamsData.TabId)","articleid":"@articleId","moduleedit":"True"}'></span>
+
+<script>
+    $(document).ready(function () {
+        simplisity_callserver($('#loadarticledetail'), '/Desktopmodules/dnnrocket/api/rocket/action', '', false);
+    });
+</script>
+
+

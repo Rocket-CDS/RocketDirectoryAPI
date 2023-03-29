@@ -24,16 +24,30 @@
 
 <div id="a-editbuttons-@(moduleData.ModuleId)" class=" " style="display: none; position: absolute; top: 0px; left:0px; z-index: 999;">
     <div class="w3-container">
-        <a href="/SysAdmin/rocketdirectoryapi" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
-            <span class="material-icons ">
-                edit
-            </span>
-        </a>
+        
+        @if (sessionParams.GetInt("articleid") > 0)
+        {
+            <a href="@sessionParams.Get("editurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+                <span class="material-icons ">
+                    edit
+                </span>
+            </a>            
+        }
+        else
+        {
+            <a href="/SysAdmin/rocketdirectoryapi" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+                <span class="material-icons ">
+                    edit
+                </span>
+            </a>            
+        }
+
         <a href="?action=clearcache" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("RCT.clearcache")">
             <span class="material-icons ">
                 sync
             </span>
         </a>
+
         @if (UserUtils.IsAdministrator())
         {
             <a href="@sessionParams.Get("settingsurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.settings")">
@@ -42,7 +56,7 @@
                 </span>
             </a>
 
-            @if (UserUtils.IsSuperUser())
+            if (UserUtils.IsSuperUser())
             {
                 <a href="/SysAdmin/rocketapptheme?moduleref=@(moduleData.ModuleRef)&appthemefolder=@(appThemeAdmin.AppThemeFolder)&appversionfolder=@(appThemeAdmin.AppVersionFolder)&project=@(appThemeAdmin.ProjectName)&rtn=@sessionParams.Get("returnurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("RCT.editapptheme")">
                     <span class="material-icons ">

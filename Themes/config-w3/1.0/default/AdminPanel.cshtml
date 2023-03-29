@@ -9,11 +9,13 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
 
 @{
-    var appThemeSystem = new AppThemeSystemLimpet("rocketdirectoryapi");
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
+    var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
     var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
 }
 
-@RenderTemplate("AdminPanelHeader.cshtml", appThemeSystem, Model)
+@RenderTemplate("AdminPanelHeader.cshtml", appThemeDirectory, Model)
 
 <!-- Sidebar/Menu -->
 <div id="sidebarplaceholder"></div>
@@ -26,7 +28,7 @@
     <!-- Main -->
     <div style="padding-top:0px;">
         <!-- Content -->
-        <div id="simplisity_startpanel" class="w3-row simplisity_panel" s-cmd="articleadmin_editlist" s-fields=''>
+        <div id="simplisity_startpanel" class="w3-row simplisity_panel" s-fields='{"systemkey":"@(systemData.SystemKey)","debug":"false"}' s-cmd="articleadmin_editlist" s-fields=''>
             <div class="simplisity_loader">
                 <span class=" simplisity_loader_inner">
                 </span>
@@ -38,9 +40,9 @@
 <script>
 
     $(document).ready(function () {
-
-        $('#sidebarplaceholder').getSimplisity('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', 'getsidemenu', '{"systemkey":"rocketdirectoryapi"}', '')
-        $(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketdirectoryapi', debug: false });
+        
+        $('#sidebarplaceholder').getSimplisity('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', 'getsidemenu', '{"systemkey":"@(systemData.SystemKey)"}', '')
+        $(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","debug":"false"});
 
         $('#sidebarplaceholder').activateSimplisityPanel();
 

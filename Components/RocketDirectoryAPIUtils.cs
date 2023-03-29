@@ -62,7 +62,7 @@ namespace RocketDirectoryAPI.Components
         }
         public static string ViewHeader(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template)
         {
-            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
+            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, sessionParam.ModuleId, sessionParam.TabId);
             if (moduleSettings.DisableHeader) return "";
 
             var articleId = sessionParam.GetInt("articleid");
@@ -84,7 +84,7 @@ namespace RocketDirectoryAPI.Components
         }
         public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
         {
-            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
+            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, sessionParam.ModuleId, sessionParam.TabId);
             if (sessionParam.PageSize == 0) sessionParam.PageSize = moduleSettings.GetSettingInt("pagesize");
 
             var cacheKey = moduleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
@@ -135,6 +135,7 @@ namespace RocketDirectoryAPI.Components
             if (dataObject.AppThemeSystem == null) return "No System View";
 
             var razorTempl = dataObject.AppThemeSystem.GetTemplate(template, moduleRef);
+            if (razorTempl == "") razorTempl = dataObject.AppThemeDirectory.GetTemplate(template, moduleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;

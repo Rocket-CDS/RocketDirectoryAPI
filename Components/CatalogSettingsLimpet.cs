@@ -98,7 +98,7 @@ namespace RocketDirectoryAPI.Components
             var s = PropertyGroups.Split(',');
             foreach (var g in s)
             {
-                rtn.Add(g, g);
+                if (g != "") rtn.Add(g, g);
             }
             return rtn;
         }
