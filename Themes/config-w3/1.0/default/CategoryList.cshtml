@@ -25,7 +25,11 @@
 
 }
 
-@RenderLanguageSelector("categoryadmin_editlist", "{\"categoryid\":\"" + categoryDataList.SelectedParentId + "\"}", appThemeDirectory, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+    sFieldDict.Add("categoryid", categoryDataList.SelectedParentId.ToString());
+}
+@RenderLanguageSelector("categoryadmin_editlist", sFieldDict, appThemeDirectory, Model)
 
 <style>
     .w3-ul-alt {

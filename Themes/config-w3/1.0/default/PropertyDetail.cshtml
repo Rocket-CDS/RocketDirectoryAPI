@@ -16,12 +16,16 @@
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var sessionParams = Model.SessionParamsData;
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
 }
 
-@RenderLanguageSelector("propertyadmin_edit", "{\"propertyid\":\"" + propertyData.PropertyId + "\"}", appThemeCatalog, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+    sFieldDict.Add("propertyid", propertyData.PropertyId.ToString());
+}
+@RenderLanguageSelector("propertyadmin_edit", sFieldDict, appThemeDirectory, Model)
 
 <div class='w3-animate-opacity'>
 
@@ -104,11 +108,11 @@
             </div>
 
             <div id="imgs" class='w3-row sectionname' style="display:none">
-                @RenderTemplate("PropertyImages.cshtml", appThemeCatalog, Model, true)
+                @RenderTemplate("PropertyImages.cshtml", appThemeDirectory, Model, true)
             </div>
 
             <div class="w3-row">
-                @RenderTemplate("propertyImageSelect.cshtml", appThemeCatalog, Model, true)
+                @RenderTemplate("propertyImageSelect.cshtml", appThemeDirectory, Model, true)
             </div>
 
             @if (UserUtils.IsInRole("Administrator"))
@@ -166,7 +170,7 @@
 
 
 
-@RenderTemplate("PropertySelect.cshtml", appThemeCatalog, Model, true)
+@RenderTemplate("PropertySelect.cshtml", appThemeDirectory, Model, true)
 
 <script>
     $(document).ready(function () {

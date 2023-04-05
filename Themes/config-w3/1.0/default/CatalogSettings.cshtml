@@ -13,14 +13,17 @@
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var defaultCategory = new CategoryLimpet(portalCatalog.PortalId, settingsData.DefaultCategoryId, DNNrocketUtils.GetCurrentCulture(), systemData.SystemKey);
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");    
 
 }
 
-@RenderLanguageSelector("settingsadmin_edit", "", appThemeCatalog, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+}
+@RenderLanguageSelector("settingsadmin_edit", sFieldDict, appThemeDirectory, Model)
 
 <div id="" class="w3-display-container w3-animate-opacity">
 
@@ -46,7 +49,7 @@
                     <span class="w3-col m9 w3-border w3-light-grey w3-padding" style="height:40px;">@defaultCategory.Name</span>
                     <span class="w3-col m3 w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
                 </div>
-                @RenderTemplate("CategoryDefaultSelect.cshtml", appThemeCatalog, Model, true)
+                @RenderTemplate("CategoryDefaultSelect.cshtml", appThemeDirectory, Model, true)
             </div>
         </div>
 

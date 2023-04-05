@@ -11,16 +11,19 @@
     var propertyList = propertyDataList.GetPropertyList();
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
 }
 
-@RenderLanguageSelector("propertyadmin_editlist", "", appThemeCatalog, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+}
+@RenderLanguageSelector("propertyadmin_editlist", sFieldDict, appThemeDirectory, Model)
 
 
 <div class='w3-animate-opacity'>
 
-    @RenderTemplate("PropertySearch.cshtml", appThemeCatalog, Model, true)
+    @RenderTemplate("PropertySearch.cshtml", appThemeDirectory, Model, true)
 
     <div id="datalistsection" class="w3-padding">
 

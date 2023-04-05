@@ -19,7 +19,10 @@
     var info = portalDashboard.Info;
 }
 
-@RenderLanguageSelector("dashboard_get", "", appThemeSystem, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+}
+@RenderLanguageSelector("dashboard_get", sFieldDict, appThemeSystem, Model)
 
 
 

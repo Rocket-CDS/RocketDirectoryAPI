@@ -41,7 +41,12 @@
 
 }
 
-@RenderLanguageSelector("categoryadmin_edit", "{\"categoryid\":\"" + info.ItemID + "\"}", appThemeDirectory, Model)
+@{
+    var sFieldDict = new Dictionary<string, string>();
+    sFieldDict.Add("categoryid", info.ItemID.ToString());
+}
+@RenderLanguageSelector("categoryadmin_edit", sFieldDict, appThemeDirectory, Model)
+
 
 <div class='w3-animate-opacity'>
 
