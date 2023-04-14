@@ -35,7 +35,7 @@
         }
         else
         {
-            <a href="/SysAdmin/rocketdirectoryapi" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+            <a href="/SysAdmin/@appThemeView.SystemKey" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
                 <span class="material-icons ">
                     edit
                 </span>
@@ -79,6 +79,14 @@
                 }
             }
         }
+
+
+        <span onclick="$('#a-editbuttons-@(moduleData.ModuleId)').hide();" class="w3-button w3-text-black w3-tiny">
+            <span class="material-icons w3-tiny">
+                close
+            </span>
+        </span>
+
     </div>
 </div>
 

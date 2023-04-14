@@ -124,12 +124,9 @@
             <div class="w3-row w3-padding">
                 @foreach (var l in enabledlanguages)
                 {
-                    var selectedcolor = "w3-theme-l5";
-                    if (sessionParams.CultureCode == l)
-                    {
-                        selectedcolor = "w3-theme-l3";
-                    }
-                    <div class="w3-button w3-round @(selectedcolor) changelanguage" s-cmd="dashboard_get" s-reload="true" language='@(l)'><img src="/DesktopModules/DNNrocket/API/images/flags/16/@(l).png" class="w3-round" /></div>
+                    <div class="w3-button w3-padding-small w3-round w3-small uilanguage simplisity_click" s-cmd="changeculture" s-reload="true" s-return="#languagereturn" s-fields='{"selectedculturecode":"@l"}' style="cursor:pointer;" uilang='@l'>
+                        <img class='' src='/DesktopModules/DNNrocket/API/images/flags/32/@(l).png' style="width:16px;" alt='@(l)' />
+                    </div>
                 }
             </div>
 

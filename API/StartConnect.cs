@@ -336,7 +336,6 @@ namespace RocketDirectoryAPI.API
             }
 
             // Assign Langauge
-            DNNrocketUtils.SetCurrentCulture();
             if (_sessionParams.CultureCode == "") _sessionParams.CultureCode = DNNrocketUtils.GetCurrentCulture();
             if (_sessionParams.CultureCodeEdit == "") _sessionParams.CultureCodeEdit = DNNrocketUtils.GetEditCulture();
             DNNrocketUtils.SetCurrentCulture(_sessionParams.CultureCode);

@@ -112,7 +112,10 @@ namespace RocketDirectoryAPI.Components
                 }
                 else
                 {
-                    var articleDataList = new ArticleLimpetList(sessionParam, dataObject.PortalContent, sessionParam.CultureCode, true, false, dataObject.CatalogSettings.DefaultCategoryId);
+                    var defaultCat = sessionParam.GetInt("catid");
+                    if (defaultCat == 0) defaultCat = moduleSettings.DefaultCategoryId;
+                    if (defaultCat == 0) defaultCat = dataObject.CatalogSettings.DefaultCategoryId;
+                    var articleDataList = new ArticleLimpetList(sessionParam, dataObject.PortalContent, sessionParam.CultureCode, true, false, defaultCat);
                     dataObject.SetDataObject("articlelist", articleDataList);
                     var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleDataList.CategoryId, sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("categorydata", categoryData);

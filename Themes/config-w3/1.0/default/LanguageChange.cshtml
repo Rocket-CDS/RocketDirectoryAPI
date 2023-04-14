@@ -40,7 +40,7 @@
 
 <div class="w3-row w3-padding w3-theme " style="z-index:2;width: 100%;">
     <div class="w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><span class="material-icons" style="max-height:16px;">menu</span></div>
-
+  
     @foreach (var l in enabledlanguages)
     {
         var selectedcolor = "";
@@ -48,11 +48,8 @@
         {
             selectedcolor = "w3-theme-l3";
         }
-        <div class="w3-button w3-padding-small w3-round @(selectedcolor) simplisity_click" s-cmd="@(Model.GetSetting("scmd"))" s-fields='@(Model.GetSetting("sfields").Replace("[LANGUAGE]", l))' language="@(l)">
-            <img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" class="w3-round" />
-        </div>
+        <div class="w3-button w3-padding-small w3-round @(selectedcolor) simplisity_click" s-cmd="@(Model.GetSetting("scmd"))" s-fields='@(Model.GetSetting("sfields").Replace("[LANGUAGE]", l))' language="@(l)"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" class="w3-round" /></div>
     }
-
 
     <div class="w3-right">
         <div class="" onclick="topbaractiontools()" style="cursor:pointer;"><span class="material-icons" style="max-height:16px;">more_vert</span></div>
