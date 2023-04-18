@@ -29,18 +29,15 @@
         {
             <a href="@sessionParams.Get("editurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
                 <span class="material-icons ">
-                    edit
+                    edit_document
                 </span>
             </a>            
         }
-        else
-        {
-            <a href="/SysAdmin/@appThemeView.SystemKey" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
-                <span class="material-icons ">
-                    edit
-                </span>
-            </a>            
-        }
+        <a href="/SysAdmin/@appThemeView.SystemKey" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+            <span class="material-icons ">
+                edit
+            </span>
+        </a>            
 
         <a href="?action=clearcache" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("RCT.clearcache")">
             <span class="material-icons ">
@@ -60,7 +57,7 @@
             {
                 <a href="/SysAdmin/rocketapptheme?moduleref=@(moduleData.ModuleRef)&appthemefolder=@(appThemeAdmin.AppThemeFolder)&appversionfolder=@(appThemeAdmin.AppVersionFolder)&project=@(appThemeAdmin.ProjectName)&rtn=@sessionParams.Get("returnurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("RCT.editapptheme")">
                     <span class="material-icons ">
-                        movie_edit
+                        web_asset
                     </span>
                 </a>
 
@@ -71,18 +68,17 @@
                 }
                 if (editappthemeview)
                 {
-                    <a href="/SysAdmin/rocketapptheme?moduleref=@(moduleData.ModuleRef)&appthemefolder=@(appThemeView.AppThemeFolder)&appversionfolder=@(appThemeView.AppVersionFolder)&project=@(appThemeView.ProjectName)&rtn=@sessionParams.Get("returnurl")" class="w3-button w3-round w3-white w3-border w3-text-blue" title="@ResourceKey("RCT.editappthemeview")">
+                    <a href="/SysAdmin/rocketapptheme?moduleref=@(moduleData.ModuleRef)&appthemefolder=@(appThemeView.AppThemeFolder)&appversionfolder=@(appThemeView.AppVersionFolder)&project=@(appThemeView.ProjectName)&rtn=@sessionParams.Get("returnurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("RCT.editappthemeview")">
                         <span class="material-icons ">
-                            movie
+                            preview
                         </span>
                     </a>
                 }
             }
         }
 
-
-        <span onclick="$('#a-editbuttons-@(moduleData.ModuleId)').hide();" class="w3-button w3-text-black w3-tiny">
-            <span class="material-icons w3-tiny">
+        <span onclick="$('#a-editbuttons-@(moduleData.ModuleId)').hide();" class="w3-button w3-round w3-border w3-text-black">
+            <span class="material-icons">
                 close
             </span>
         </span>
