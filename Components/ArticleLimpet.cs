@@ -242,21 +242,6 @@ namespace RocketDirectoryAPI.Components
             Info.AddListItem(listname);         
             Update();
         }
-        public string ArticleDetailUrl(SessionParams sessionParams, RemoteModule remoteModule)
-        {
-            var pagedetailUrl = remoteModule.PageUrlDetail(sessionParams.CultureCode).TrimEnd('/');
-            if (pagedetailUrl == "") pagedetailUrl = sessionParams.PageDetailUrl.TrimEnd('/');
-            // Legacy: {catid} {page} {pagesize} should not be used because they create duplicate content
-            var url = pagedetailUrl + PortalCatalog.ArticleDetailPageUrl;
-            url = url.Replace("{page}", sessionParams.Page.ToString());
-            url = url.Replace("{pagesize}", sessionParams.PageSize.ToString());
-            url = url.Replace("{articleid}", ArticleId.ToString());
-            url = url.Replace("{articlename}", GeneralUtils.UrlFriendly(Name));
-            url = url.Replace("{catid}", sessionParams.GetInt("catid").ToString());
-            url = LocalUtils.TokenReplacementCultureCode(url, CultureCode.ToLower());
-            return url;
-        }
-
         public void Validate()
         {
         }

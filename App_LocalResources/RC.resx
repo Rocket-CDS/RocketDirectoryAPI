@@ -333,4 +333,10 @@
   <data name="searchpageurl.Text" xml:space="preserve">
     <value>Search Page URL</value>
   </data>
+  <data name="detailpage.Text" xml:space="preserve">
+    <value>Detail Page</value>
+  </data>
+  <data name="listpage.Text" xml:space="preserve">
+    <value>List Page</value>
+  </data>
 </root>

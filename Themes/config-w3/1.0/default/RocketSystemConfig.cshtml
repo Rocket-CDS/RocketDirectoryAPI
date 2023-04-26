@@ -27,6 +27,15 @@
         </div>
     }
 
+    <div class="w3-row  w3-padding">
+        <label class="">@ResourceKey("RC.listpage")</label>
+        @TabSelectListOnTabId(info, "genxml/listpage"," class=' w3-input w3-border ' ", false)
+    </div>
+    <div class="w3-row  w3-padding w3-border-bottom">
+        <label class="">@ResourceKey("RC.detailpage")</label>
+        @TabSelectListOnTabId(info, "genxml/detailpage"," class=' w3-input w3-border ' ", false)
+    </div>
+
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle")</label>
         @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, defaultsData.Get("root/sqlfilter/article"), false)

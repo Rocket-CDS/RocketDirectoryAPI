@@ -482,16 +482,7 @@ namespace RocketDirectoryAPI.Components
                         case "detailurl":
                             var url = (string)o.SelectToken("genxml.remotemodule.genxml.remote.detailpageurl" + cultureCode);
                             if (String.IsNullOrEmpty(url)) url = (string)o.SelectToken("genxml.sessionparams.r.pagedetailurl");                            
-                            url = url.TrimEnd('/') + articleData.PortalCatalog.ArticleDetailPageUrl;
-                            url = url.Replace("{articleid}", articleData.ArticleId.ToString());
-                            url = url.Replace("{articlename}", articleData.NameUrl);
-
-                            // Remove these to stop duplicate content.
-                            //url = url.Replace("{page}", (string)o.SelectToken("genxml.sessionparams.r.page"));
-                            //url = url.Replace("{pagesize}", (string)o.SelectToken("genxml.sessionparams.r.pagesize"));
-                            //url = url.Replace("{catid}", (string)o.SelectToken("genxml.sessionparams.r.catid")); // use int so we always get a value (i.e. "0")
-
-                            url = LocalUtils.TokenReplacementCultureCode(url, cultureCode);
+                            url = PagesUtils.GetPageURL(articleData.PortalCatalog.DetailPageTabId);
                             dataValue = url;
                             break;
                         case "defaultcategory":

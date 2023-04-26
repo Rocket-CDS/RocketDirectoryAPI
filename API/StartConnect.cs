@@ -1,4 +1,5 @@
 ﻿using DNNrocketAPI.Components;
+using DNNrocketAPI.Interfaces;
 using RazorEngine.Templating;
 using Rocket.AppThemes.Components;
 using RocketDirectoryAPI.Components;
@@ -11,7 +12,7 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace RocketDirectoryAPI.API
 {
-    public partial class StartConnect : DNNrocketAPI.APInterface
+    public partial class StartConnect : IProcessCommand
     {
         private SimplisityInfo _postInfo;
         private SimplisityInfo _paramInfo;
@@ -25,7 +26,7 @@ namespace RocketDirectoryAPI.API
         private const string _baseSystemKey = "rocketdirectoryapi";
         private string _storeParamCmd;
 
-        public override Dictionary<string, object> ProcessCommand(string paramCmd, SimplisityInfo systemInfo, SimplisityInfo interfaceInfo, SimplisityInfo postInfo, SimplisityInfo paramInfo, string langRequired = "")
+        public Dictionary<string, object> ProcessCommand(string paramCmd, SimplisityInfo systemInfo, SimplisityInfo interfaceInfo, SimplisityInfo postInfo, SimplisityInfo paramInfo, string langRequired = "")
         {
             var strOut = ""; // return nothing if not matching commands.
             _storeParamCmd = paramCmd;

@@ -222,13 +222,6 @@ namespace RocketDirectoryAPI.Components
             url = LocalUtils.TokenReplacementCultureCode(url, CultureCode.ToLower());
             return url;
         }
-        public string CategoryUrl(SessionParams sessionParamData, RemoteModule remoteModule)
-        {
-            if (remoteModule.PageUrlList(sessionParamData.CultureCode) == "")
-                return UrlTokens(sessionParamData.PageListUrl + PortalCatalog.ArticleListPageUrl, sessionParamData.Page, sessionParamData.PageSize);
-            else
-                return UrlTokens(remoteModule.PageUrlList(sessionParamData.CultureCode) + PortalCatalog.ArticleListPageUrl, sessionParamData.Page, sessionParamData.PageSize);
-        }
 
         #region "images"
         public List<SimplisityInfo> GetImageList()

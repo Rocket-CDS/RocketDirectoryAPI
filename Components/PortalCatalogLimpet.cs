@@ -154,22 +154,6 @@ namespace RocketDirectoryAPI.Components
         {
             return GetFilterSQL(SqlFilterProduct, paramInfo);
         }
-        public string GetFilterPaymentSQL(SimplisityInfo paramInfo)
-        {
-            return GetFilterSQL(SqlFilterPayment, paramInfo);
-        }
-        public string GetFilterOrderSQL(SimplisityInfo paramInfo)
-        {
-            return GetFilterSQL(SqlFilterOrder, paramInfo);
-        }
-
-        public bool IsValidRemote(string securityKey)
-        {
-            if (Record.GetXmlProperty("genxml/securitykey") == securityKey) return true;
-            return false;
-        }
-        private string SqlFilterOrder { get { return Record.GetXmlProperty("genxml/sqlfilterorder"); } }
-        private string SqlFilterPayment { get { return Record.GetXmlProperty("genxml/sqlfilterpayment"); } }
         public string EntityTypeCode { get { return _entityTypeCode; } }
 
         #region "orderby"
@@ -310,7 +294,6 @@ namespace RocketDirectoryAPI.Components
         public SimplisityRecord Record { get; set; }
         public double MaxArticles { get { return Record.GetXmlPropertyDouble("genxml/maxarticles"); } set { Record.SetXmlProperty("genxml/maxarticles", value.ToString()); } }
         public double ArticleLimit { get { return MaxArticles; } }
-        public string WebsiteUrl { get { return Record.GetXmlProperty("genxml/merchant/websiteurl"); } set { Record.SetXmlProperty("genxml/merchant/websiteurl", value.ToString()); } }
         public int PortalId { get { return Record.PortalId; } }
         public bool Exists { get { if (Record.ItemID > 0) return true; else return false; } }
         public string CultureCode { get { return Record.Lang; } }
@@ -351,9 +334,8 @@ namespace RocketDirectoryAPI.Components
         public bool DebugMode { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/debugmode"); } }
         public int ArticleImageLimit { get { return Record.GetXmlPropertyInt("genxml/articlesimagelimit"); } }
         public int ArticleDocumentLimit { get { return Record.GetXmlPropertyInt("genxml/articlesdocumentlimit"); } }
-        public string ArticleListPageUrl { get { return Record.GetXmlProperty("genxml/textbox/articlelisturl"); } }
-        public string ArticlePagingUrl { get { return Record.GetXmlProperty("genxml/textbox/articlepagingurl"); } }
-        public string ArticleDetailPageUrl { get { return Record.GetXmlProperty("genxml/textbox/articledetailurl"); } }
+        public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } }
+        public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } }
         public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 640; } }
         public string ProjectNameView { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameview"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameview", value); } }
         public string ProjectNameAdmin { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
