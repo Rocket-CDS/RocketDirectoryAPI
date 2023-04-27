@@ -15,6 +15,7 @@ namespace RocketDirectoryAPI.Components
         public List<PageRecordData> GetMenuItems(int portalId, string cultureCode, string rootRef = "")
         {
             var rtn = new List<PageRecordData>();
+            var portalContent = new PortalCatalogLimpet(portalId, cultureCode, _systemkey);
             var categoryDataList = new CategoryLimpetList(portalId, cultureCode, _systemkey);
             var treelist = categoryDataList.GetCategoryTree();
             foreach (var catData in treelist)
@@ -24,7 +25,12 @@ namespace RocketDirectoryAPI.Components
                 p.KeyWords = catData.Keywords;
                 p.Description = catData.Summary;
                 p.Title = catData.Name;
-                p.ParentPageId = catData.ParentItemId;
+                if (catData.ParentItemId == 0)
+                    p.ParentPageId = 0;
+                else
+                    p.ParentPageId = catData.ParentItemId * -1;
+                p.PageId = catData.CategoryId * -1;
+                p.Url = PagesUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
                 rtn.Add(p);
             }
             return rtn;
