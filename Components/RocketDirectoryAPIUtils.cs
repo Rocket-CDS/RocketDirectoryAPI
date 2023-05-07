@@ -5,6 +5,7 @@ using Simplisity;
 using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -23,12 +24,28 @@ namespace RocketDirectoryAPI.Components
             var rtn = new Dictionary<string,string>();
             if (appThemeView != null)
             {
-                foreach (var depfile in appThemeView.GetTemplatesDep())
+                foreach (var tfile in appThemeView.GetModuleTemples())
                 {
-                    var dep = appThemeView.GetDep(depfile.Key, moduleRef);
-                    foreach (var r in dep.GetRecordList("moduletemplates"))
+                    var t = appThemeView.GetModT(tfile.Key, moduleRef);
+                    foreach (var r in t.GetRecordList("moduletemplates"))
                     {
-                        rtn.Add(r.GetXmlProperty("genxml/file"),r.GetXmlProperty("genxml/name"));
+                        if (!rtn.ContainsKey(r.GetXmlProperty("genxml/file"))) rtn.Add(r.GetXmlProperty("genxml/file"), r.GetXmlProperty("genxml/name"));
+                    }
+                }
+            }
+            return rtn;
+        }
+        public static SimplisityRecord GetSelectedModuleTemple(AppThemeLimpet appThemeView, string moduleRef, string templateFileName)
+        {
+            var rtn = new SimplisityRecord();
+            if (appThemeView != null)
+            {
+                foreach (var tfile in appThemeView.GetModuleTemples())
+                {
+                    var t = appThemeView.GetModT(tfile.Key, moduleRef);
+                    foreach (var r in t.GetRecordList("moduletemplates"))
+                    {
+                        if (r.GetXmlProperty("genxml/file") == templateFileName) return r;
                     }
                 }
             }
@@ -97,11 +114,11 @@ namespace RocketDirectoryAPI.Components
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             var aticleId = sessionParam.GetInt("articleid");
             var template = moduleSettings.GetSetting("displaytemplate");
-            var paramCmd = moduleSettings.GetSetting("displaycmd");
             if (template == "") template = "view.cshtml";
-            if (paramCmd == "") paramCmd = "list";
-
-            if (paramCmd == "" || paramCmd == "list")
+            var paramCmd = "list";
+            var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppThemeView, moduleRef, template);
+            if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") paramCmd = modt.GetXmlProperty("genxml/cmd");
+            if (paramCmd == "list")
             {
                 if (aticleId > 0)
                 {
