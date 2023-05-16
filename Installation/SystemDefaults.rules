@@ -328,14 +328,16 @@ order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)'
 
 	  <command>
 		  <cmd>rocketdirectoryapi_settings</cmd>
-		  <action>false</action>
+		  <action>true</action>
 	  </command>
 	  <command>
 		  <cmd>rocketdirectoryapi_savesettings</cmd>
-		  <action>false</action>
+		  <action>true</action>
 	  </command>
-	  
-
+	  <command>
+		  <cmd>rocketdirectoryapi_activate</cmd>
+		  <action>true</action>
+	  </command>	  
 
   </commands>
   

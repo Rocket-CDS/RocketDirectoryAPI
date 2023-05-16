@@ -46,10 +46,11 @@ namespace RocketDirectoryAPI.API
                 case "rocketsystem_delete":
                     strOut = RocketSystemDelete();
                     break;
-                 
 
 
-
+                case "rocketdirectoryapi_activate":
+                    strOut = RocketSystemSave();
+                    break;
 
 
                 case "rocketdirectoryapi_adminpanel":
@@ -289,6 +290,7 @@ namespace RocketDirectoryAPI.API
                 {
                     var portalCatalog = new PortalCatalogLimpet(newportalId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
                     portalCatalog.Validate();
+                    portalCatalog.Active = true;
                     portalCatalog.Update();
                     _dataObject.SetDataObject("portalcontent", portalCatalog);
                 }
@@ -345,8 +347,9 @@ namespace RocketDirectoryAPI.API
             var systemkey = systemInfo.GetXmlProperty("genxml/systemkey");
             _dataObject = new DataObjectLimpet(portalid, _sessionParams.ModuleRef, _sessionParams, systemkey);
 
+            if (paramCmd == "rocketdirectoryapi_activate") SavePortalCatalog();
             if (paramCmd.StartsWith("rocketsystem_") && UserUtils.IsSuperUser()) return paramCmd;
-            if (_dataObject.PortalContent.PortalId != 0 && !_dataObject.PortalContent.Active) return "";
+            if (!_dataObject.PortalContent.Active) return "";
             if (paramCmd.StartsWith("remote_public")) return paramCmd;
 
             var securityData = new SecurityLimpet(portalid, _baseSystemKey, _rocketInterface, -1, -1, _dataObject.SystemKey);
@@ -431,6 +434,19 @@ namespace RocketDirectoryAPI.API
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
+        }
+        private string RocketSystemSave()
+        {
+            var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid"); // we may have passed selection
+            if (portalId >= 0)
+            {
+                _dataObject.PortalContent.Save(_postInfo);
+                _dataObject.PortalData.Record.SetXmlProperty("genxml/systems/" + _dataObject.SystemKey + "setup", "True");
+                _dataObject.PortalData.Record.SetXmlProperty("genxml/systems/" + _dataObject.SystemKey, "True");
+                _dataObject.PortalData.Update();
+                return RocketSystem();
+            }
+            return "Invalid PortalId";
         }
 
     }

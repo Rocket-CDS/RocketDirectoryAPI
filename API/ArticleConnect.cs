@@ -78,7 +78,9 @@ namespace RocketDirectoryAPI.API
                 var baseFileMapPath = PortalUtils.TempDirectoryMapPath() + "\\" + GeneralUtils.GetGuidKey();
                 var imgsize = _postInfo.GetXmlPropertyInt("genxml/hidden/imageresize");
                 if (imgsize == 0) imgsize = _dataObject.PortalContent.ImageResize;
-                var imgList = ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, _dataObject.PortalContent.ImageFolderMapPath, imgsize);
+                var destDir = _dataObject.PortalContent.ImageFolderMapPath + "\\" + articleData.ArticleId;
+                if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
+                var imgList = ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, destDir, imgsize);
                 foreach (var imgFileMapPath in imgList)
                 {
                     articleData.AddImage(Path.GetFileName(imgFileMapPath));
