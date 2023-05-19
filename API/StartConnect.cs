@@ -290,7 +290,6 @@ namespace RocketDirectoryAPI.API
                 {
                     var portalCatalog = new PortalCatalogLimpet(newportalId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
                     portalCatalog.Validate();
-                    portalCatalog.Active = true;
                     portalCatalog.Update();
                     _dataObject.SetDataObject("portalcontent", portalCatalog);
                 }
@@ -349,7 +348,7 @@ namespace RocketDirectoryAPI.API
 
             if (paramCmd == "rocketdirectoryapi_activate") SavePortalCatalog();
             if (paramCmd.StartsWith("rocketsystem_") && UserUtils.IsSuperUser()) return paramCmd;
-            if (!_dataObject.PortalContent.Active) return "";
+            if (!_dataObject.PortalContent.Active && paramCmd != "portalcatalog_save") return "rocketdirectoryapi_notactive";
             if (paramCmd.StartsWith("remote_public")) return paramCmd;
 
             var securityData = new SecurityLimpet(portalid, _baseSystemKey, _rocketInterface, -1, -1, _dataObject.SystemKey);

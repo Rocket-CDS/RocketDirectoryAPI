@@ -8,9 +8,31 @@ namespace RocketDirectoryAPI.Components
 {
     public class ModuleContentLimpet : ModuleBase
     {
-        public ModuleContentLimpet(int portalId, string moduleRef, int moduleid = -1, int tabid = -1) : base(portalId, moduleRef, moduleid, tabid)
-        {             
+        public ModuleContentLimpet(int portalId, string moduleRef, string systemKey, int moduleid = -1, int tabid = -1) : base(portalId, moduleRef, moduleid, tabid)
+        {
+            base.SystemKey = systemKey;
         }
         public int DefaultCategoryId { get { return GetSettingInt("defaultcategory"); } }
+        public int ListPageTabId()
+        {
+            var rtn = GetSettingInt("listpage");
+            if (rtn == 0)
+            {
+                var p = new PortalCatalogLimpet(PortalId, DNNrocketUtils.GetCurrentCulture(), SystemKey);
+                rtn = p.ListPageTabId;
+            }
+            return rtn;
+        }
+        public int DetailPageTabId()
+        {
+            var rtn = GetSettingInt("detailpage");
+            if (rtn == 0)
+            {
+                var p = new PortalCatalogLimpet(PortalId, DNNrocketUtils.GetCurrentCulture(), SystemKey);
+                rtn = p.DetailPageTabId;
+            }
+            return rtn;
+        }
+
     }
 }

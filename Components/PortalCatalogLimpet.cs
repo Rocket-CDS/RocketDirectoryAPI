@@ -329,7 +329,7 @@ namespace RocketDirectoryAPI.Components
         public string SystemKey { get { return _systemKey; } }
         public string SecurityKey { get { return Record.GetXmlProperty("genxml/securitykey"); } }
         public bool ArticleOrderBy { get { return Record.GetXmlPropertyBool("genxml/articleorderby"); } }
-        public bool Active { get { return Record.GetXmlPropertyBool("genxml/active"); } set { Record.SetXmlProperty("genxml/active", value.ToString()); } }
+        public bool Active { get { return true; } }
         public bool EmailActive { get { return Record.GetXmlPropertyBool("genxml/emailon"); } }
         public bool DebugMode { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/debugmode"); } }
         public int ArticleImageLimit { get { return Record.GetXmlPropertyInt("genxml/articlesimagelimit"); } }
