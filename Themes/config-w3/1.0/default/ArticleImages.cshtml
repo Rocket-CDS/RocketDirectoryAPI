@@ -37,7 +37,7 @@
 
                 <div class="w3-display-container w3-card">
                     <div class="w3-row">
-                        <div class="w3-col m3 l2 w3-padding-small" style="">
+                        <div class="w3-col m3 l2 w3-padding-small" style="width:100px;">
                             @if (articleImage.RelPath != "")
                             {
                                 <img src="@ThumbnailImageUrl(portalData.EngineUrlWithProtocol, articleImage.RelPath, 80, 80)" style="height:80px;width:80px;" class="w3-round" />
@@ -47,7 +47,7 @@
                                 <img src="@ThumbnailImageUrl(portalData.EngineUrlWithProtocol, "/DesktopModules/DNNrocket/api/images/noimage2.png", 80, 80)" style="height:80px;width:80px;" class="w3-round" />
                             }
                         </div>
-                        <div class="w3-col m7 l8 w3-padding-small w3-right">
+                        <div class="w3-col m7 l8 w3-padding-small ">
                             @TextBox(imgInfo, "genxml/lang/genxml/textbox/imagealt", "class='w3-input w3-border w3-margin-top' MaxLength='200'  autocomplete='off'", "", true, imgLP)
                             @HiddenField(imgInfo, "genxml/hidden/imagepatharticleimage", "", "", false, imgLP)
                             <div class="w3-display-topright simplisity_removelistitem" s-removelist=".imagelist" s-recylebin="imagelistbin" style="cursor: pointer;width:32px;">

@@ -49,11 +49,11 @@ namespace RocketDirectoryAPI.Components
             if (PortalUtils.PortalExists(portalId)) 
             {
                 // Need to populate, not in cache.
-                DocFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/rocketdirectoryapi/docs";
+                DocFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/" + systemKey + "/docs";
                 DocFolderMapPath = DNNrocketUtils.MapPath(DocFolderRel);
-                ImageFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/rocketdirectoryapi/images";
+                ImageFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/" + systemKey + "/images";
                 ImageFolderMapPath = DNNrocketUtils.MapPath(ImageFolderRel);
-                CatalogFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/rocketdirectoryapi";
+                CatalogFolderRel = PortalUtils.HomeDNNrocketDirectoryRel(PortalId).TrimEnd('/') + "/" + systemKey;
                 CatalogFolderMapPath = DNNrocketUtils.MapPath(CatalogFolderRel);
                 if (!Directory.Exists(CatalogFolderMapPath)) Directory.CreateDirectory(CatalogFolderMapPath);
                 if (!Directory.Exists(ImageFolderMapPath)) Directory.CreateDirectory(ImageFolderMapPath);

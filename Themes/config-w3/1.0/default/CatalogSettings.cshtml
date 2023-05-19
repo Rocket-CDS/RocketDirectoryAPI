@@ -25,9 +25,8 @@
 }
 @RenderLanguageSelector("settingsadmin_edit", sFieldDict, appThemeDirectory, Model)
 
-<div id="" class="w3-display-container w3-animate-opacity">
+<div id="" class="w3-animate-opacity">
 
-    <div class="w3-col m2 w3-tiny w3-right w3-right-align w3-padding">PortalId:&nbsp;@settingsData.PortalId</div>
     <div class="w3-bar w3-margin">
         <div class="w3-bar-item w3-button w3-theme-action simplisity_click" s-list="" s-cmd="settingsadmin_save" s-post="#settingscontent">@ButtonText(ButtonTypes.save)</div>
     </div>
@@ -81,6 +80,9 @@
         </div>
 
     </div>
+
+    <div class="w3-col m2 w3-tiny w3-right w3-right-align w3-padding">PortalId:&nbsp;@settingsData.PortalId</div>
+
 </div>
 
 <script>

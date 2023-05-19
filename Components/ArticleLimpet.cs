@@ -268,7 +268,7 @@ namespace RocketDirectoryAPI.Components
             if (GetImageList().Count < PortalCatalog.ArticleImageLimit)
             {
                 if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
-                articleImage.RelPath = PortalCatalog.ImageFolderRel.TrimEnd('/') + "/" + uniqueName;
+                articleImage.RelPath = PortalCatalog.ImageFolderRel.TrimEnd('/') + "/" + ArticleId + "/" + Path.GetFileName(uniqueName);
                 Info.AddListItem(ImageListName, articleImage.Info);
                 Update();
             }
@@ -315,7 +315,7 @@ namespace RocketDirectoryAPI.Components
             if (GetDocList().Count < PortalCatalog.ArticleDocumentLimit)
             {
                 if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
-                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + uniqueName;
+                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + ArticleId + "/" + uniqueName;
                 articleDoc.Name = uniqueName;
                 Info.AddListItem(DocumentListName, articleDoc.Info);
                 Update();

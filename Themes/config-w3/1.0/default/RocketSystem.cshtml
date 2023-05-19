@@ -20,44 +20,48 @@
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
 }
 
-<div id="a-setupbuttons" class="w3-bar" style="display:none;">
-    <span class="w3-button simplisity_click" s-cmd="portal_detail" s-fields='{"portalid":"@portalData.PortalId"}' >@ButtonIcon(ButtonTypes.back)</span>
-    <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-return="#setupdata" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist" s-post="#servicesettings" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.save)</button>
-    @if (portalData.Protocol != "")
-    {
-        <a href="@(portalData.EngineUrlWithProtocol)/SysAdmin/@(portalCatalog.SystemKey)" target="_blank" class="w3-button" style="color: black; text-decoration: none; ">@ButtonText(ButtonTypes.admin)</a>
-    }
-</div>
+@{
+    var sFieldDict = new Dictionary<string, string>();
+    //sFieldDict.Add("categoryid", info.ItemID.ToString());
+}
+@RenderLanguageSelector("rocketsystem_edit", sFieldDict, appThemeCatalog, Model)
 
-<div class="w3-row">
+<div class='w3-animate-opacity'>
 
-    <div class="w3-col m2 w3-padding">
-
-        <ul class="w3-ul">
-            <li onclick="selectsidemenu('sidemenugeneraldata');" class="a-sidemenugeneraldata w3-hover-theme w3-theme-l3 a-sidemenu">@ResourceKey("RCP.general")</li>
-            <li onclick="selectsidemenu('sidemenuconfigdata');" class="a-sidemenuconfigdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.config")</li>
-            <li onclick="selectsidemenu('sidemenutoolsdata');" class="a-sidemenutoolsdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.tools")</li>
-        </ul>
-
+    <div id="a-setupbuttons" class="w3-bar  w3-padding" style="display:none;">
+        <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-return="#setupdata" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist" s-post="#servicesettings" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.save)</button>
     </div>
 
-    <div id="servicesettings" class="w3-col m10 w3-padding">
-        @RenderTemplate("RocketSystemGeneral.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemConfig.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemTools.cshtml", appThemeCatalog, Model, true)
-    </div>
+    <div class="w3-row">
 
-</div>
+        <div class="w3-col m2 w3-padding">
 
-<div>
-    @if (UserUtils.IsInRole("Administrator"))
-    {
-        <div class="w3-container">
-            <div class="w3-right">
-                @RenderXml(portalCatalog.Info)
-            </div>
+            <ul class="w3-ul">
+                <li onclick="selectsidemenu('sidemenugeneraldata');" class="a-sidemenugeneraldata w3-hover-theme w3-theme-l3 a-sidemenu">@ResourceKey("RCP.general")</li>
+                <li onclick="selectsidemenu('sidemenuconfigdata');" class="a-sidemenuconfigdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.config")</li>
+                <li onclick="selectsidemenu('sidemenutoolsdata');" class="a-sidemenutoolsdata w3-hover-theme a-sidemenu">@ResourceKey("RCP.tools")</li>
+            </ul>
+
         </div>
-    }
+
+        <div id="servicesettings" class="w3-col m10 w3-padding">
+            @RenderTemplate("RocketSystemGeneral.cshtml", appThemeCatalog, Model, true)
+            @RenderTemplate("RocketSystemConfig.cshtml", appThemeCatalog, Model, true)
+            @RenderTemplate("RocketSystemTools.cshtml", appThemeCatalog, Model, true)
+        </div>
+
+    </div>
+
+    <div>
+        @if (UserUtils.IsInRole("Administrator"))
+        {
+            <div class="w3-container">
+                <div class="w3-right">
+                    @RenderXml(portalCatalog.Info)
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -66,6 +70,10 @@
         $('#a-showsetupbuttons').append($('#a-setupbuttons'));
         $('#a-portalbuttons').hide();
         $('#a-setupbuttons').show();
+
+        if (typeof (theFunction) === "function" || typeof (theFunction) === "object") {
+            selectMenu('rocketnewsadmin');
+        }
     });
 
     function selectsidemenu(selector) {
