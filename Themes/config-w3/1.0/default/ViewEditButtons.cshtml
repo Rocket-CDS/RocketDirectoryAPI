@@ -8,7 +8,6 @@
 @using System.Web;
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContentAPI/App_LocalResources/")
 
 @{
     var sessionParams = Model.SessionParamsData;
@@ -24,18 +23,27 @@
 
 <div id="a-editbuttons-@(moduleData.ModuleId)" class=" " style="display: none; position: absolute; top: 0px; left:0px; z-index: 999;">
     <div class="w3-container">
-        
+
         @if (sessionParams.GetInt("articleid") > 0)
         {
             <a href="@sessionParams.Get("editurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
                 <span class="material-icons ">
                     edit_document
                 </span>
-            </a>            
+            </a>
+        }
+        else
+        {
+            <a href="@sessionParams.Get("editurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+                <span class="material-icons ">
+                    library_add
+                </span>
+            </a>
+            
         }
         <a href="/SysAdmin/@appThemeView.SystemKey" target="_blank" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
             <span class="material-icons ">
-                edit
+                dataset
             </span>
         </a>            
 
