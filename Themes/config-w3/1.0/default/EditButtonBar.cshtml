@@ -39,7 +39,7 @@
             </span>
         </a>
     }
-    <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
+    <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
     @if (articleData.Exists && !moduleedit)
     {
         <div class="w3-button simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.copy")&nbsp;?" s-cmd="articleadmin_copy" s-fields='{"articleid":"@info.ItemID"}'>@ButtonText(ButtonTypes.copy)</div>

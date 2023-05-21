@@ -77,6 +77,10 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public static string AdminHeader(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template)
+        {
+            return ViewHeader(portalId, systemKey, moduleRef, sessionParam, template);
+        }
         public static string ViewHeader(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template)
         {
             var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
@@ -93,7 +97,12 @@ namespace RocketDirectoryAPI.Components
                 var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, articleId, sessionParam.CultureCode, systemKey);
                 dataObject.SetDataObject("articledata", articleData);
             }
-            var razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
+            var razorTempl = "";
+            if (template.ToLower().StartsWith("view"))
+                razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
+            else
+                razorTempl = dataObject.AppThemeAdmin.GetTemplate(template, moduleRef);
+
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
