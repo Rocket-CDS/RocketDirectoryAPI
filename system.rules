@@ -259,8 +259,36 @@
         </radio>
       </genxml>
 
+		<genxml>
+			<textbox>
+				<interfacekey>rocketdirectoryadmin</interfacekey>
+				<namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
+				<assembly>RocketDirectoryAPI</assembly>
+				<interfaceicon>phonelink_setup</interfaceicon>
+				<defaultcommand>rocketsystem_edit</defaultcommand>
+				<relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
+			</textbox>
+			<providertype></providertype>
+			<dropdownlist>
+				<group></group>
+			</dropdownlist>
+			<checkbox>
+				<onmenu>true</onmenu>
+				<active>true</active>
+			</checkbox>
+			<radio>
+				<securityrolesadministrators>1</securityrolesadministrators>
+				<securityrolesmanager>0</securityrolesmanager>
+				<securityroleseditor>0</securityroleseditor>
+				<securityrolesclienteditor>0</securityrolesclienteditor>
+				<securityrolesregisteredusers>0</securityrolesregisteredusers>
+				<securityrolessubscribers>0</securityrolessubscribers>
+				<securityrolesall>0</securityrolesall>
+			</radio>
+		</genxml>
 
-      <genxml>
+
+		<genxml>
         <textbox>
           <interfacekey>notification</interfacekey>
           <namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>

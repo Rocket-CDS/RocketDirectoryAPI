@@ -135,4 +135,7 @@
   <data name="settingsadmin.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="rocketdirectoryadmin.Text" xml:space="preserve">
+    <value>Admin</value>
+  </data>
 </root>
