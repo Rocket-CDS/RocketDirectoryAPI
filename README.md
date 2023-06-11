@@ -1,6 +1,9 @@
 # RocketDirectoryAPI
 
-## Standard Razor View Data Objects
+## Razor View Data Objects
+The razor templates can use a defined set of data objects.  Some are auomatically add on every cll, some are only injected if required.  
+
+### Standard Razor View Data Objects
 
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
@@ -22,9 +25,26 @@
     var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
     var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
 
-## Injected Razor View Data Objects
+### Injected Razor View Data Objects
 
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
+
+## Menu Manipulator
+The DDRMenu in DNN can have the the page element changed to add the catalog structure to the menu.  
+
+1. Create a Page called "[CATDIR]"  (with the square brackets)
+2. Add the Node Manipulatore assembly and namespace to the RocketTools Page Localization settings.  
+
+**Assembly**
+```
+RocketDirectoryAPI
+```
+**Namespace.Class**
+```
+RocketDirectoryAPI.Components.MenuDirectory
+```
+3. Ensure the RocketTools Page Localization Node Manipulator is speciied on the Skin DNNMenu control.  *(See Page Localization installation instructions)*  
+
 

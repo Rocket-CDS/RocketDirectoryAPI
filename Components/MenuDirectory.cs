@@ -12,8 +12,10 @@ namespace RocketDirectoryAPI.Components
     public class MenuDirectory : IMenuInterface
     {
         private string _systemkey = "rocketdirectoryapi";
-        public List<PageRecordData> GetMenuItems(int portalId, string cultureCode, string rootRef = "")
+        public List<PageRecordData> GetMenuItems(int portalId, string cultureCode, string systemkey, string rootRef = "")
         {
+            if (!String.IsNullOrEmpty(systemkey)) _systemkey = systemkey;
+
             var rtn = new List<PageRecordData>();
             var portalContent = new PortalCatalogLimpet(portalId, cultureCode, _systemkey);
             var categoryDataList = new CategoryLimpetList(portalId, cultureCode, _systemkey);
