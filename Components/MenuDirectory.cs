@@ -11,6 +11,7 @@ namespace RocketDirectoryAPI.Components
 {
     public class MenuDirectory : IMenuInterface
     {
+        private CategoryLimpetList _categoryDataList;
         private string _systemkey = "rocketdirectoryapi";
         public List<PageRecordData> GetMenuItems(int portalId, string cultureCode, string systemkey, string rootRef = "")
         {
@@ -18,8 +19,9 @@ namespace RocketDirectoryAPI.Components
 
             var rtn = new List<PageRecordData>();
             var portalContent = new PortalCatalogLimpet(portalId, cultureCode, _systemkey);
-            var categoryDataList = new CategoryLimpetList(portalId, cultureCode, _systemkey);
-            var treelist = categoryDataList.GetCategoryTree();
+            _categoryDataList = new CategoryLimpetList(portalId, cultureCode, _systemkey);
+            var rootId = ParentId(rootRef);
+            var treelist = _categoryDataList.GetCategoryTree(rootId);
             foreach (var catData in treelist)
             {
                 var p = new PageRecordData();
@@ -30,8 +32,8 @@ namespace RocketDirectoryAPI.Components
                 if (catData.ParentItemId == 0)
                     p.ParentPageId = 0;
                 else
-                    p.ParentPageId = catData.ParentItemId * -1;
-                p.PageId = catData.CategoryId * -1;
+                    p.ParentPageId = catData.ParentItemId;
+                p.PageId = catData.CategoryId;
                 p.Url = PagesUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
                 rtn.Add(p);
             }
@@ -47,6 +49,14 @@ namespace RocketDirectoryAPI.Components
         {
             var portalContent = new PortalCatalogLimpet(portalId, cultureCode, _systemkey);
             return portalContent.ListPageTabId;
+        }
+        public int ParentId(string rootRef)
+        {
+            var rootId = 0;
+            if (rootRef == "") return rootId;
+            var rootCatList = _categoryDataList.GetCategoryByRef(rootRef);
+            if (rootCatList.Count > 0) rootId = rootCatList.First().CategoryId;
+            return rootId;
         }
     }
 

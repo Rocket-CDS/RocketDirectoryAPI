@@ -32,10 +32,10 @@ The razor templates can use a defined set of data objects.  Some are auomaticall
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
 
 ## Menu Manipulator
-The DDRMenu in DNN can have the the page element changed to add the catalog structure to the menu.  
 
-1. Create a Page called "[CATDIR]"  (with the square brackets)
-2. Add the Node Manipulatore assembly and namespace to the RocketTools Page Localization settings.  
+*(See RocketTools Page Localization installation instructions)*
+
+Add the Node Manipulatore assembly and namespace to the RocketTools Page Localization settings.  
 
 **Assembly**
 ```
@@ -45,6 +45,10 @@ RocketDirectoryAPI
 ```
 RocketDirectoryAPI.Components.MenuDirectory
 ```
-3. Ensure the RocketTools Page Localization Node Manipulator is speciied on the Skin DNNMenu control.  *(See Page Localization installation instructions)*  
+**SystemKey**
+```
+SystemKey of the required system
+```
+
 
 

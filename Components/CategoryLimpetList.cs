@@ -101,6 +101,11 @@ namespace RocketDirectoryAPI.Components
             List<CategoryLimpet> newList = _categoryList.Where(m => m.ParentItemId == parentid).ToList();
             return newList;
         }
+        public List<CategoryLimpet> GetCategoryByRef(string catRef)
+        {
+            List<CategoryLimpet> newList = _categoryList.Where(m => m.Ref == catRef).ToList();
+            return newList;
+        }
         private List<CategoryLimpet> PopulateCategoryList()
         {
             _categoryList = (List<CategoryLimpet>)CacheUtils.GetCache(_cacheKey + "PopulateCategoryList", _cacheGroup);
