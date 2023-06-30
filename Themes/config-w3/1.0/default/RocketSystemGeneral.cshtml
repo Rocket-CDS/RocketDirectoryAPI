@@ -16,7 +16,7 @@
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
     var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
-    var appThemeList = new AppThemeDataList(portalCatalog.ProjectNameView, systemData.SystemKey);
+    var appThemeList = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
 
     var projectData = new AppThemeProjectLimpet();
     var selectedProject = portalCatalog.ProjectNameView;

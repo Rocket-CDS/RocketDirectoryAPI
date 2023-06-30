@@ -45,8 +45,8 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("appthemedefault", AppThemeUtils.AppThemeDefault(portalid, systemData, "Default", "1.0"));
             SetDataObject("appthemeview", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeViewFolder, portalContent.AppThemeViewVersion, portalContent.ProjectNameView));
             SetDataObject("appthemeadmin", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeAdminFolder, portalContent.AppThemeAdminVersion, portalContent.ProjectNameView));
-            SetDataObject("appthemedatalistview", AppThemeUtils.AppThemeDataList(portalContent.ProjectNameView, SystemKey));
-            SetDataObject("appthemedatalistadmin", AppThemeUtils.AppThemeDataList(portalContent.ProjectNameAdmin, SystemKey));
+            SetDataObject("appthemedatalistview", AppThemeUtils.AppThemeDataList(portalContent.PortalId, portalContent.ProjectNameView, SystemKey));
+            SetDataObject("appthemedatalistadmin", AppThemeUtils.AppThemeDataList(portalContent.PortalId, portalContent.ProjectNameAdmin, SystemKey));
             SetDataObject("catalogsettings", new CatalogSettingsLimpet(portalid, cultureCode, SystemKey));
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
