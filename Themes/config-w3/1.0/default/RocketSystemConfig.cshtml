@@ -56,10 +56,22 @@
         <div class="w3-row w3-margin">
             @if (UserUtils.IsSuperUser())
             {
-                <div class="w3-col m6">
+                <div class="w3-col m6 w3-padding">
                     <div row="sqlorderbyproduct" class="sqlorderbyproductaddvaluekey w3-button w3-teal w3-padding">@ButtonText(ButtonTypes.add)</div>
                 </div>
             }
+            @{
+            var orderbyDictionary = new Dictionary<string, string>();
+            foreach (var orderbyInfo in portalCatalog.GetProductOrderByList())
+            {
+                orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key")).ToString());
+            }
+            }
+            <div class="w3-col m6 w3-padding">
+            <label>Admin Order By<label>
+            @DropDownList(info, "genxml/hidden/adminorderbyref", orderbyDictionary, "class='w3-input w3-border w3-light-grey' title='Admin orderby'", "")
+            </div>
+
         </div>
 
         <div class="w3-row w3-margin">
@@ -119,6 +131,8 @@
             </ul>
 
         </div>
-    </div>
+
+      </div>
+   </div>
 
 </div>

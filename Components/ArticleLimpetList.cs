@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -96,13 +97,24 @@ namespace RocketDirectoryAPI.Components
             if (_catid > 0) _searchFilter += " and [CATXREF].[XrefItemId] = " + _catid + " ";
 
             // Filter hidden
-            if (!showHidden) _searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
+            if (!showHidden)
+            {
+                SessionParamData.OrderByRef = "sqlorderby-product-name";
+                _searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
+            }
 
             var orderby = "";
             if (_catid > 0 && CatalogSettings.ManualCategoryOrderby)
                 orderby = " order by [CATXREF].[SortOrder] "; // use manual sort for articles by category;
             else
                 orderby = PortalCatalog.OrderByProductSQL(SessionParamData.OrderByRef);
+
+            if (showHidden)
+            {
+                // Assume admin if show hidden.
+                orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
+            }
+
             if (orderby == "") orderby = " order by articlename.GUIDKey ";
 
             SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);

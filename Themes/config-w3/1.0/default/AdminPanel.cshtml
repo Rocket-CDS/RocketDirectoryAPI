@@ -13,12 +13,14 @@
     var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
     var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
     var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
+    var sessionParams = Model.SessionParamsData;    
+    var articleid = Model.SessionParamsData.GetInt("articleid");
 }
 
-@RenderTemplate("AdminPanelHeader.cshtml", appThemeDirectory, Model)
-
 <!-- Sidebar/Menu -->
-<div id="sidebarplaceholder"></div>
+<div id="sidebarplaceholder">
+    @RenderTemplate("SideMenu.cshtml", appThemeSystem, Model, true)
+</div>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
@@ -39,16 +41,13 @@
 
 <script>
 
-    $(document).ready(function () {
-        
-        $('#sidebarplaceholder').getSimplisity('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', 'getsidemenu', '{"systemkey":"@(systemData.SystemKey)"}', '')
-        $(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","debug":"false"});
-
-        $('#sidebarplaceholder').activateSimplisityPanel();
+    $(document).ready(function () {       
+        $(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","debug":"false"});
 
         simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
+        simplisity_setParamField("articleid", '@(articleid)'); // Pass articleid to server for direct edit without using list.
         simplisity_sessionremove(); // clear the sessions vars on load.  These needs to be reset for the admin panel to work and not use any front office selections.
-
+        $('.simplisity_loader').show();
     });
 
 </script>

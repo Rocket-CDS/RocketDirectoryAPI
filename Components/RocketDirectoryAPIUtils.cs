@@ -162,6 +162,13 @@ namespace RocketDirectoryAPI.Components
         {
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             if (dataObject.AppThemeSystem == null) return "No System View";
+            var portalDirectoryData = new PortalCatalogLimpet(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
+            dataObject.SetDataObject("portaldirectory", portalDirectoryData);
+            dataObject.ModuleSettings.AppThemeViewFolder = portalDirectoryData.AppThemeViewFolder;
+            dataObject.ModuleSettings.AppThemeViewVersion = portalDirectoryData.AppThemeViewVersion;
+            dataObject.ModuleSettings.AppThemeAdminFolder = portalDirectoryData.AppThemeAdminFolder;
+            dataObject.ModuleSettings.AppThemeAdminVersion = portalDirectoryData.AppThemeAdminVersion;
+            dataObject.ModuleSettings.ProjectName = portalDirectoryData.ProjectNameView;
 
             var razorTempl = dataObject.AppThemeSystem.GetTemplate(template, moduleRef);
             if (razorTempl == "") razorTempl = dataObject.AppThemeDirectory.GetTemplate(template, moduleRef);

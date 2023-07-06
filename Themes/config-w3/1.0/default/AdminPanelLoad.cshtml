@@ -12,16 +12,22 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var articleId = Model.SessionParamsData.GetInt("articleid");
+    var sessionParams = Model.SessionParamsData;    
 }
-<!-- NOTE: Load AdminDetail.cshtml with simplsity from browser, so we have the sessionParams -->
 
-<!-- create element to load settings. -->
-<span id="loadarticledetail" class="w3-hide" s-cmd="articleadmin_editarticle" s-fields='{"systemkey":"@(systemData.SystemKey)","tabid":"@(Model.SessionParamsData.TabId)","articleid":"@articleId"}'></span>
+    <div id="adminpanel">
+        <div class="simplisity_loader">
+            <span class=" simplisity_loader_inner">
+            </span>
+        </div>
+    </div>
+    
+	
+    <script>
 
-<script>
-    $(document).ready(function () {
-        simplisity_callserver($('#loadarticledetail'), '/Desktopmodules/dnnrocket/api/rocket/action', '', false);
-    });
-</script>
+        $(document).ready(function () {
+            $('#adminpanel').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', '@(systemData.SystemKey)_adminpanel', '{"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","articleid":"@(articleId)"}', '')
+        });
 
-
+    </script>
+   

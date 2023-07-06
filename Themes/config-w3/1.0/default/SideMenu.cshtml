@@ -15,8 +15,9 @@
     var portalCat = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
     var sessionParams = Model.SessionParamsData;
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
+    var groupList = systemData.GetGroups(true);
+    var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId,  new string[0]);
 }
-
 
 @functions
 {
@@ -58,10 +59,6 @@
     </div>
 
     <div class="w3-bar-block">
-        @{
-            var groupList = systemData.GetGroups(true);
-        }
-
         @foreach (var g in groupList)
         {
             var groupref = g.Key;
@@ -102,6 +99,8 @@
     </div>
 
     <hr>
+    <a class="w3-bar-item w3-button w3-padding"" href="@rtnUrl" ><strong><span class='material-icons'>arrow_back</span>&nbsp;@ResourceKey("DNNrocket.back")</strong></a>
+
 
     <!-- Admin Menu -->
     <div class="w3-bottom  w3-theme-l5" style="width:280px;">

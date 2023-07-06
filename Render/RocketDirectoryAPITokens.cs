@@ -33,22 +33,6 @@ namespace RocketDirectoryAPI.Components
             var strOut = "<input value='" + CurrencyUtils.CurrencyEdit(value, cultureCode) + "' id='" + id + "' s-datatype='int' s-xpath='" + xpath + "' " + attributes + " " + upd + " " + typeattr + " />";
             return new RawString(strOut);
         }
-        public IEncodedString RenderHandleBarsRC(Dictionary<string, SimplisityInfo> dataObjects, AppThemeLimpet appTheme, string templateName, string moduleref = "", string cacheKey = "")
-        {
-            var strOut = "";
-            if (cacheKey != "") strOut = (string)CacheUtils.GetCache(moduleref + cacheKey, "hbs");
-            if (String.IsNullOrEmpty(strOut))
-            {
-                string jsonString = SimplisityUtils.ConvertToJson(dataObjects);
-                var template = appTheme.GetTemplate(templateName, moduleref);
-                JObject model = JObject.Parse(jsonString);
-                HandlebarsEngineRC hbEngine = new HandlebarsEngineRC();
-                strOut = hbEngine.ExecuteRC(template, model);
-                if (cacheKey != "") CacheUtils.SetCache(moduleref + cacheKey, strOut, "hbs");
-            }
-            return new RawString(strOut);
-        }
-
 
     }
 }

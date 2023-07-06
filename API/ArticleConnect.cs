@@ -247,13 +247,20 @@ namespace RocketDirectoryAPI.API
         }
         public String GetArticleList()
         {
-            if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
-            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
-            _dataObject.SetDataObject("articlelist", articleDataList);
-            var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
-            if (pr.ErrorMsg != "") return pr.ErrorMsg;
-            return pr.RenderedText;
+            if (_sessionParams.GetInt("articleid") > 0)
+            {
+                return GetArticle(_sessionParams.GetInt("articleid"));
+            }
+            else
+            {
+                if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
+                var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
+                _dataObject.SetDataObject("articlelist", articleDataList);
+                var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+                if (pr.ErrorMsg != "") return pr.ErrorMsg;
+                return pr.RenderedText;
+            }
         }
         public string ArticleDocumentList()
         {

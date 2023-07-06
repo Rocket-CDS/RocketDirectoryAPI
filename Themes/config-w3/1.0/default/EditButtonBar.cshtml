@@ -20,40 +20,17 @@
     {
         info = articleData.Info;
     }
-
-    var moduleedit = sessionParams.Info.GetXmlPropertyBool("r/moduleedit");
-
 }
 
 <div class="w3-bar  w3-padding">
-    @if (!moduleedit)
-    {
-        <div class="w3-padding w3-button w3-black simplisity_click" s-cmd="articleadmin_editlist" s-fields=''>@ButtonText(ButtonTypes.back)</div>
-    }
-    else
-    {
-        var rtnUrl = DNNrocketUtils.NavigateURL(@moduleSettings.ListPageTabId(), DNNrocketUtils.GetEditCulture(), new string[2] { "articleid", articleData.ArticleId.ToString() });
-        <a href="@rtnUrl" class="w3-padding w3-button w3-black " style="text-decoration:none;" onclick="$('.simplisity_loader').show();">
-            <span class="">
-                @ButtonText(ButtonTypes.back)
-            </span>
-        </a>
-    }
+    <div class="w3-padding w3-button w3-black simplisity_click" s-cmd="articleadmin_editlist" s-fields='{"track":"true","systemkey":"rocketdirectoryapi"}'>
+        @ButtonText(ButtonTypes.back)
+    </div>
     <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
-    @if (articleData.Exists && !moduleedit)
+    @if (articleData.Exists)
     {
         <div class="w3-button simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.copy")&nbsp;?" s-cmd="articleadmin_copy" s-fields='{"articleid":"@info.ItemID"}'>@ButtonText(ButtonTypes.copy)</div>
         <div class="w3-button w3-right w3-margin-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="articleadmin_delete" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.delete)</div>
     }
 </div>
 
-@if (moduleedit && sessionParams.Get("articleid") == "-1" && articleData.ArticleId > 0)
-{
-    //The article is created with "-1" in the url.  Reload page with real articleId in url, so we do not created new products on refresh.
-    var rtnUrl = DNNrocketUtils.NavigateURL(@moduleSettings.ListPageTabId(), DNNrocketUtils.GetEditCulture(), new string[2] { "articleid", articleData.ArticleId.ToString() });
-
-    <script>
-        var url = window.location.href.replace('-1', '@articleData.ArticleId');
-        window.location = url;
-    </script>
-}
