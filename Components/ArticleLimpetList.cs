@@ -99,7 +99,6 @@ namespace RocketDirectoryAPI.Components
             // Filter hidden
             if (!showHidden)
             {
-                SessionParamData.OrderByRef = "sqlorderby-product-name";
                 _searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
             }
 
