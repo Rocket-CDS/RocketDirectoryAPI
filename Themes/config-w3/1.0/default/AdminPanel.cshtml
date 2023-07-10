@@ -40,9 +40,8 @@
 </div>
 
 <script>
-
     $(document).ready(function () {       
-        $(document).simplisityStartUp('@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","debug":"false"});
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","debug":"false"});
 
         simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
         simplisity_setParamField("articleid", '@(articleid)'); // Pass articleid to server for direct edit without using list.
