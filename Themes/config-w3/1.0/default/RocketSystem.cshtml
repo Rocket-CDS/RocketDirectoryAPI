@@ -18,19 +18,13 @@
     var defaultsData = (SecurityLimpet)Model.GetDataObject("securitydata");
     DNNrocketUtils.SetCurrentCulture(DNNrocketUtils.GetEditCulture());
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
-
-    var returnelement = "";
-    if (Model.SessionParamsData.GetBool("sysadmin"))
-    {
-        returnelement = ".systempopup";
-    }
 }
 
 
 <div class='w3-animate-opacity'>
 
     <div class="w3-bar  w3-padding">
-        <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-cmd="portalcatalog_save" s-return="@(returnelement)" s-list=".sqlorderbyproduct,.settingsdata,.linklist" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.save)</button>
+        <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-cmd="portalcatalog_save" s-return="#toolsmodalcontainer" s-list=".sqlorderbyproduct,.settingsdata,.linklist" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.save)</button>
     </div>
 
     <div id="systemadminsection" class="w3-row">
