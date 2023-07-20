@@ -10,6 +10,8 @@
 @{
     var articleData = (ArticleLimpet)Model.List.First();
     var propertyDataList = (PropertyLimpetList)Model.GetDataObject("propertylist");
+    var categorySettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
+    
 }
 
 <style>
@@ -34,7 +36,24 @@
         </header>
 
         <div class="w3-row w3-padding">
-            <input class="w3-col m12 w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextproperty" onkeyup="searchFunctionProperty()">
+            <div class="w3-col m9 w3-padding ">
+                <input class="w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextproperty" onkeyup="searchFunctionProperty()">
+            </div>
+            <div class="w3-col m3 w3-padding ">
+                @{
+                    var propertyGroups = new Dictionary<string, string>();
+                    propertyGroups.Add("", "");
+                    foreach (var pg in categorySettings.GetPropertyGroups())
+                    {
+                        propertyGroups.Add(pg.Key, pg.Value);
+                    }
+                }
+                @DropDownList(new SimplisityInfo(),"genxml/propertygroupselect", propertyGroups," class='w3-input w3-border  w3-padding' ")
+            </div>
+
+
+        </div>
+        <div class="w3-row w3-padding">
         </div>
 
         <div class="w3-margin-top" style="">
@@ -53,6 +72,12 @@
                             <div class="w3-row" style="">
                                 <div class="w3-col m12 ">
                                     <b>@propData.Name</b>&nbsp;<span class="w3-tiny">@(ResourceKey("RC.ref").ToString()):&nbsp;@propData.Ref</span>
+                                    <span >
+                                        @foreach (var p in propData.PropertyGroups())
+                                        {
+                                            <span>group@(p)</span>
+                                        }
+                                    </span>
                                 </div>
                             </div>
                         </li>
@@ -67,9 +92,39 @@
 
 <script>
     $(document).ready(function () {
-        $(':checkbox').attr('class', 'w3-check');
         $("#propertylistdata").disableSelection();
+      
+        $("#propertygroupselect").on('change', function () {
+            groupFunctionProperty($(this).val());
+        } );
+
     });
+
+    function groupFunctionProperty(groupref) {
+        var filter, ul, li, a, i;
+        if (groupref == '')
+        {
+            ul = document.getElementById("datalistproperty");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                li[i].style.display = "";
+            }
+        }
+        else
+        {
+            filter = "group" + groupref;
+            ul = document.getElementById("datalistproperty");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                txtValue = li[i].textContent || li[i].innerText;
+                if (txtValue.indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    }
 
     function searchFunctionProperty() {
         var input, filter, ul, li, a, i;
