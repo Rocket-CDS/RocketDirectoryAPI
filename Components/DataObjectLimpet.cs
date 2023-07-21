@@ -30,7 +30,7 @@ namespace RocketDirectoryAPI.Components
             _passSettings = new Dictionary<string, string>();
             _dataObjects = new Dictionary<string, object>();
             var portalContent = new PortalCatalogLimpet(portalid, cultureCode, systemKey);
-            var systemData = new SystemLimpet(systemKey);
+            var systemData = SystemSingleton.Instance(_systemKey);
 
             SetDataObject("appthemesystem", AppThemeUtils.AppThemeSystem(portalid, systemKey));
             SetDataObject("appthemedirectory", AppThemeUtils.AppThemeSystem(portalid, "rocketdirectoryapi"));
