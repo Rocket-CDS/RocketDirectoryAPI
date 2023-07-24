@@ -339,7 +339,7 @@
           <securityrolesmanager>1</securityrolesmanager>
           <securityroleseditor>0</securityroleseditor>
           <securityrolesclienteditor>0</securityrolesclienteditor>
-          <securityrolesregisteredusers>1</securityrolesregisteredusers>
+          <securityrolesregisteredusers>0</securityrolesregisteredusers>
           <securityrolessubscribers>0</securityrolessubscribers>
           <securityrolesall>0</securityrolesall>
         </radio>

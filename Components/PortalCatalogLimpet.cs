@@ -288,6 +288,68 @@ namespace RocketDirectoryAPI.Components
             }
         }
 
+        public bool IsPluginActive(string interfaceKey)
+        {
+            //if (interfaceKey == "dashboard") return true;
+            var i = Info.GetListItem("plugins", "genxml/hidden/pluginkey", interfaceKey);
+            if (i == null) return false;
+            return i.GetXmlPropertyBool("genxml/checkbox/active");
+        }
+        public List<SimplisityInfo> PluginActveList(bool useCache = true)
+        {
+            var cacheKey = PortalId + "*" + SystemKey + "*PluginActveList";
+            var rtn = (List<SimplisityInfo>)CacheUtils.GetCache(cacheKey);
+            if (rtn == null || !useCache)
+            {
+                var pList = Info.GetList("plugins").OrderBy(o => o.GetXmlPropertyInt("genxml/config/sortorder")).ToList();
+                rtn = new List<SimplisityInfo>();
+                foreach (var sInfo in pList)
+                {
+                    if (sInfo.GetXmlPropertyBool("genxml/checkbox/active")) rtn.Add(sInfo);
+                }
+                CacheUtils.SetCache(cacheKey, rtn);
+            }
+            return rtn;
+        }
+        public List<RocketInterface> PluginActveInterface(SystemLimpet systemData, bool useCache = true)
+        {
+            var cacheKey = PortalId + "*" + SystemKey + "*PluginActveInterface";
+            var rtn = (List<RocketInterface>)CacheUtils.GetCache(cacheKey);
+            if (rtn == null || !useCache)
+            {
+                rtn = new List<RocketInterface>();
+                // add default interfaces (not plugin)
+                var iList = systemData.GetInterfaceList();
+                foreach (var i in iList)
+                {
+                    rtn.Add(i);
+                }
+
+                // ------------------------------------------
+                // this is now injected by the basesystem in the SystemSingleton class.
+                // ------------------------------------------
+                // Add plugins
+                //var pList = PluginActveList();
+                //foreach (var sInfo in pList)
+                //{
+                //    var i = systemData.GetInterface(sInfo.GetXmlProperty("genxml/hidden/pluginkey"));
+                //    if (i == null)
+                //    {
+                //        // plugins only exist in rocketdirectoryapi
+                //        var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
+                //        i = systemDirectoryData.GetInterface(sInfo.GetXmlProperty("genxml/hidden/pluginkey"));
+                //    }
+                //    if (rtn != null && i != null && !rtn.Contains(i)) rtn.Add(i);
+                //}
+                CacheUtils.SetCache(cacheKey, rtn);
+            }
+            return rtn;
+        }
+        public string DefaultCmd()
+        {
+            return "articleadmin_editlist";
+        }
+
 
         #region "Info - PortalCatalog Data"
         public SimplisityInfo Info { get { return new SimplisityInfo(Record); } }

@@ -1,0 +1,90 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using DNNrocketAPI.Components;
+@using RocketPortal.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/AppThemes/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/SystemData/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketEcommerce/App_LocalResources/")
+
+@{
+    var portalContent = (PortalCatalogLimpet)Model.List.First();
+    var info = portalContent.Info;
+    var systemData = SystemSingleton.Instance(portalContent.SystemKey);
+    var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
+
+    var pluginDict = new Dictionary<string, string>();
+
+}
+@foreach (var p in systemData.InterfaceList)
+{
+    var interfaceProvider = new RocketInterface(systemData.SystemInfo, p.Key);
+    AddProcessData("resourcepath", interfaceProvider.TemplateRelPath + "/App_LocalResources/");
+}
+@foreach (SimplisityInfo p in portalContent.PluginActveList(false))
+{
+    var key = p.GetXmlProperty("genxml/hidden/pluginkey");
+    pluginDict.Add(key, ResourceKey("SideMenu." + key).ToString());
+    var interfaceProvider = new RocketInterface(systemDirectoryData.SystemInfo, key);
+    AddProcessData("resourcepath", interfaceProvider.TemplateRelPath + "/App_LocalResources/");
+}
+
+<div id="sidemenuprovidersdata" class="w3-container a-panelsidemenu" >
+
+    <div class="w3-container">
+        <h2>Plugins</h2>
+        <div class="w3-row w3-margin">
+
+            <div class="w3-row  w3-theme-l4 w3-padding">
+                <div class="w3-col m1">&nbsp;@ResourceKey("DNNrocket.active")</div>
+                <div class="w3-col m3">&nbsp;@ResourceKey("DNNrocket.name")</div>
+                <div class="w3-col m5">&nbsp;</div>
+                <div class="w3-col m2 w3-right-align">@ResourceKey("DNNrocket.sortorder")</div>
+            </div>
+
+            <ul id="pluginslist" class="w3-ul">
+                @{
+                    var lp4 = 0;
+                }
+
+                @foreach (var interfaceProvider in systemDirectoryData.PluginList)
+                {
+                    lp4 += 1;
+                    <li class="w3-row w3-padding-small plugins">
+                        <div class="w3-col m1 w3-padding-small">
+                            @{
+                                var i = portalContent.Info.GetListItem("plugins", "genxml/hidden/pluginkey", interfaceProvider.InterfaceKey);
+                            }
+                            @CheckBox(i, "genxml/checkbox/active", "", "class='w3-input w3-border w3-check '", false, false, lp4)                                
+                        </div>
+                        <div class="w3-col m3 w3-padding-small">
+                            @{
+                                var providername = ResourceKey("SideMenu." + interfaceProvider.InterfaceKey).ToString();
+                                if (providername == "")
+                                {
+                                    providername = interfaceProvider.InterfaceKey;
+                                    if (providername == "")
+                                    {
+                                        providername = interfaceProvider.Assembly;
+                                    }
+                                }
+                            }
+                            <b>@providername</b>
+                            <input value="@interfaceProvider.InterfaceKey" id="pluginkey_@lp4" s-xpath="genxml/hidden/pluginkey" s-update="save" type="hidden">
+                        </div>
+                        <div class="w3-col m6 w3-padding-small">
+                            <p>@interfaceProvider.InterfaceKey</p>
+                        </div>
+                        <div class="w3-col m1 w3-padding-small">
+                            @TextBox(i,"genxml/config/sortorder", " class='w3-input w3-border' step='1' min='0' max='999'","1",false,lp4,"","number")
+                        </div>
+                    </li>
+            }
+            </ul>
+
+        </div>
+    </div>
+
+</div>

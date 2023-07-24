@@ -9,44 +9,87 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
 
 @{
+    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
-    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
+    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var sessionParams = Model.SessionParamsData;    
+    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
+
     var articleid = Model.SessionParamsData.GetInt("articleid");
+    var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
+    var sessionParams = Model.SessionParamsData;
+    var interfacelist = portalContent.PluginActveInterface(systemData);
+    var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId, new string[0]);
+    Model.SetSetting("adminpanel", "true");
 }
+<div class="w3-main w3-animate-opacity adminpaneldisplay" style="display:none;">
+ 
+ 
+    <div id="simplisity_startpanel" class="w3-row w3-padding simplisity_panel">
+        <div class="w3-row">
+            @RenderLanguageSelector("rocketdirectoryapi_adminpanel", new Dictionary<string, string>(), appThemeDirectory, Model)
+        </div>
 
-<!-- Sidebar/Menu -->
-<div id="sidebarplaceholder">
-    @RenderTemplate("SideMenu.cshtml", appThemeSystem, Model, true)
-</div>
+        <h1>@catalogSettings.CatalogName</h1>
 
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+        @foreach (var r in interfacelist)
+        {
+            if (r.IsOnMenu)
+            {
+                var articlesfield = "";
+                var articleclass = "";
+                if (r.DefaultCommand == "articleadmin_editlist" && articleid > 0)
+                {
+                    articlesfield = ",\"articleid\":\"" + articleid + "\",\"moduleedit\":\"true\"";
+                    articleclass = "articlebutton";
+                }
+                <div class="w3-col s6 m4 l2 w3-padding ">
+                    <div class="w3-hover-shadow w3-border w3-margin @articleclass simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"@articlesfield}' style="cursor:pointer;">
+                        <div class=" w3-theme w3-jumbo w3-center">
+                            <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
+                        </div>
+                        <div class="w3-center">
+                            <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                        </div>
+                    </div>
+                </div>
+            }
 
-<div class="w3-main" style="margin-left:280px;">
+        }
 
-    <!-- Main -->
-    <div style="padding-top:0px;">
-        <!-- Content -->
-        <div id="simplisity_startpanel" class="w3-row simplisity_panel" s-fields='{"systemkey":"@(systemData.SystemKey)","debug":"false"}' s-cmd="articleadmin_editlist" s-fields=''>
-            <div class="simplisity_loader">
-                <span class=" simplisity_loader_inner">
-                </span>
+        <div class="w3-col s6 m4 l2 w3-padding ">
+            <div onclick="$('.simplisity_loader').show();window.location.replace('@(rtnUrl)');" class="w3-hover-shadow w3-border w3-margin" style="cursor:pointer;">
+                <div class=" w3-yellow w3-jumbo w3-center">
+                    <span class='material-icons w3-jumbo' style=''>exit_to_app</span>
+                </div>
+                <div class="w3-center">
+                    <strong>@ResourceKey("DNNrocket.back")</strong>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {       
-        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', {"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","debug":"false"});
+    $(document).ready(function () {
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { "systemkey": "@(systemData.SystemKey)", "tabid": "@(sessionParams.TabId)", "debug": "false" });
+        simplisity_setParamField("basesystemkey", "rocketdirectoryapi");
 
-        simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
-        simplisity_setParamField("articleid", '@(articleid)'); // Pass articleid to server for direct edit without using list.
-        simplisity_sessionremove(); // clear the sessions vars on load.  These needs to be reset for the admin panel to work and not use any front office selections.
-        $('.simplisity_loader').show();
+        @if (articleid == 0)
+        {
+            <text>
+            $('.adminpaneldisplay').show();
+            </text>
+        }
+        else
+        {
+            <text>
+            $('.articlebutton').trigger('click');
+            $('.adminpaneldisplay').show();
+            </text>
+        }
+
     });
-
 </script>
+

@@ -31,55 +31,61 @@
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
     var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
     var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
-  
+    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");  
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
+    var moduleedit = sessionParams.GetBool("moduleedit");
+    var adminpanelurl = DNNrocketUtils.GetCookieValue("adminpanelurl");
 
 }
 
-<div class="w3-row w3-padding w3-theme " style="z-index:2;width: 100%;">
-    <div class="w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><span class="material-icons" style="max-height:16px;">menu</span></div>
-  
+<!-- Top Bar -->
+<div id="topbar" class="w3-bar w3-margin-bottom w3-border-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
+    <div class="w3-bar-item">
+
     @foreach (var l in enabledlanguages)
     {
-        var selectedcolor = "";
+        var selectedcolor = "w3-theme-l5";
         if (sessionParams.CultureCodeEdit == l)
         {
             selectedcolor = "w3-theme-l3";
         }
         <div class="w3-button w3-padding-small w3-round @(selectedcolor) simplisity_click" s-cmd="@(Model.GetSetting("scmd"))" s-fields='@(Model.GetSetting("sfields").Replace("[LANGUAGE]", l))' language="@(l)"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" class="w3-round" /></div>
     }
+    </div>
+    @if (!Model.GetSettingBool("adminpanel") && !moduleedit)
+    {
+        <a href="@adminpanelurl" type="button" class="w3-bar-item w3-yellow w3-button w3-margin-right ">
+            <span class="material-icons">
+                widgets
+            </span>&nbsp;Admin Panel&nbsp;
+        </a>
+    }
 
     <div class="w3-right">
-        <div class="" onclick="topbaractiontools()" style="cursor:pointer;"><span class="material-icons" style="max-height:16px;">more_vert</span></div>
+        <button type="button" class="w3-button " onclick="topbaractiontools()"><span class="material-icons">more_vert</span></button>
         <div id="actiontools" class="w3-dropdown-content w3-left w3-bar-block w3-card" style="z-index: 5;right: 0">
 
             @if (UserUtils.IsAdministrator())
             {
-                <a class="w3-bar-item w3-button simplisity_click" s-cmd="rocketapi_clearallcache" s-reload="true" s-fields='{"theme":"config-w3","template":"Admin_Systems.cshtml"}' s-return="#simplisity_startpanel">@ResourceKey("DNNrocket.clearallcache")</a>
+                <button type="button" class="w3-bar-item w3-button simplisity_click" s-cmd="rocketapi_clearallcache" s-reload="true" s-fields='' s-return="#simplisity_startpanel">@ResourceKey("DNNrocket.clearallcache")</button>
+                <a class="w3-bar-item w3-button" href="/cms" style="text-decoration: none;color: black;">@ResourceKey("DNNrocket.cmsadmin")</a>
             }
             @if (UserUtils.IsSuperUser())
             {
-                <a class="w3-bar-item w3-button simplisity_confirmclick" s-reload="true" s-confirm="@ResourceKey("DNNrocket.cleartempdb","","Confirm")" s-cmd="rocketapi_cleartempdb">@ResourceKey("DNNrocket.cleartempdb")</a>
-                <a class="w3-bar-item w3-button simplisity_click" s-reload="true" s-cmd="rocketapi_recycleapppool">@ResourceKey("DNNrocket.recycleapppool")</a>
+                <button type="button" class="w3-bar-item w3-button simplisity_confirmclick" s-reload="true" s-confirm="@ResourceKey("DNNrocket.cleartempdb") &nbsp;?" s-cmd="rocketapi_cleartempdb">@ResourceKey("DNNrocket.cleartempdb")</button>
+                <button type="button" class="w3-bar-item w3-button simplisity_click" s-reload="true" s-cmd="rocketapi_recycleapppool">@ResourceKey("DNNrocket.recycleapppool")</button>
             }
 
-            <a class="w3-bar-item w3-button simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</a>
+            <button type="button" class="w3-bar-item w3-button simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</button>
 
         </div>
     </div>
-    <div class="w3-right w3-margin-right w3-small">@UserUtils.GetCurrentUserEmail()</div>
-
+    <div class="w3-right w3-padding">@UserUtils.GetCurrentUserName()</div>
 </div>
 
 <script>
     $(document).ready(function () {
-        $(".changeeditlanguage").click(function () {
-            var l = $(this).attr('language');
-            simplisity_setSessionField('culturecodeedit', l);
-            simplisity_callserver(this);
-        });
     });
 
     // Tools dropdown menu
@@ -91,6 +97,8 @@
             x.className = x.className.replace(" w3-show", "");
         }
     }
+    function seteditlanguage()
+    {
 
+    }
 </script>
-

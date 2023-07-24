@@ -30,13 +30,15 @@ namespace RocketDirectoryAPI.Components
             _passSettings = new Dictionary<string, string>();
             _dataObjects = new Dictionary<string, object>();
             var portalContent = new PortalCatalogLimpet(portalid, cultureCode, systemKey);
-            var systemData = SystemSingleton.Instance(_systemKey);
+            var systemData = SystemSingleton.Instance(_systemKey, "rocketdirectoryapi");
 
             SetDataObject("appthemesystem", AppThemeUtils.AppThemeSystem(portalid, systemKey));
             SetDataObject("appthemedirectory", AppThemeUtils.AppThemeSystem(portalid, "rocketdirectoryapi"));
             SetDataObject("appthemedirectorydefault", AppThemeUtils.AppThemeDefault(portalid, new SystemLimpet("rocketdirectoryapi"), "Default", "1.0"));
             SetDataObject("portaldata", new PortalLimpet(portalid));
             SetDataObject("systemdata", systemData);
+            var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
+            SetDataObject("systemdirectorydata", systemDirectoryData);
             SetDataObject("portalcontent", portalContent);
             SetDataObject("appthemeprojects", AppThemeUtils.AppThemeProjects());
             SetDataObject("defaultdata", new DefaultsLimpet());

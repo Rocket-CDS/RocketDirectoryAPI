@@ -33,6 +33,20 @@ namespace RocketDirectoryAPI.Components
             var strOut = "<input value='" + CurrencyUtils.CurrencyEdit(value, cultureCode) + "' id='" + id + "' s-datatype='int' s-xpath='" + xpath + "' " + attributes + " " + upd + " " + typeattr + " />";
             return new RawString(strOut);
         }
+        public IEncodedString InterfaceNameResourceKey(RocketInterface rocketInterface, SystemLimpet systemData, String lang = "", string resxFileName = "SideMenu")
+        {
+            if (lang == "") lang = DNNrocketUtils.GetCurrentCulture();
+            var interfaceName = DNNrocketUtils.GetResourceString(systemData.SystemRelPath + "/App_LocalResources", resxFileName + "." + rocketInterface.InterfaceKey, "Text", lang);
+            if (interfaceName == "")
+            {
+                interfaceName = DNNrocketUtils.GetResourceString(rocketInterface.TemplateRelPath + "/App_LocalResources", resxFileName + "." + rocketInterface.InterfaceKey, "Text", lang);
+            }
+            if (interfaceName == "")
+            {
+                interfaceName = rocketInterface.InterfaceKey;
+            }
+            return new RawString(interfaceName);
+        }
 
     }
 }
