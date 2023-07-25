@@ -34,7 +34,7 @@
 
         @foreach (var r in interfacelist)
         {
-            if (r.IsOnMenu)
+            if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
             {
                 var articlesfield = "";
                 var articleclass = "";
