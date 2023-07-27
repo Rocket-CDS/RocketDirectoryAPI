@@ -37,6 +37,9 @@
     var moduleedit = sessionParams.GetBool("moduleedit");
     var adminpanelurl = DNNrocketUtils.GetCookieValue("adminpanelurl");
 
+    var interfacelist = portalContent.PluginActveInterface(systemData);
+
+
 }
 
 <!-- Top Bar -->
@@ -55,11 +58,31 @@
     </div>
     @if (!Model.GetSettingBool("adminpanel") && !moduleedit)
     {
-        <a href="@adminpanelurl" type="button" class="w3-bar-item w3-yellow w3-button w3-margin-right ">
-            <span class="material-icons">
-                widgets
-            </span>&nbsp;Admin Panel&nbsp;
-        </a>
+        <div class="w3-dropdown-hover">
+            <a href="@adminpanelurl" class="w3-yellow w3-button w3-margin-right">
+                <span class="material-icons">
+                    widgets
+                </span>&nbsp;Admin Panel&nbsp;
+          </a>
+          <div class="w3-dropdown-content w3-bar-block w3-border">
+              <div class="w3-row w3-padding w3-theme-l5">
+                    @foreach (var r in interfacelist)
+                    {
+                        if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
+                        {
+                            <div class="w3-col s6 m2 w3-padding " >
+                                <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                    <div class="w3-center ">
+                                        <span class='material-icons' style=''>@r.InterfaceIcon</span>
+                                    </div>
+                                    <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+          </div>
+        </div>
     }
 
     <div class="w3-right">

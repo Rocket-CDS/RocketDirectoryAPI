@@ -277,9 +277,13 @@ order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)'
       <cmd>settingsadmin_save</cmd>
       <action>true</action>
     </command>
+	  <command>
+		  <cmd>settingsadmin_addgroup</cmd>
+		  <action>true</action>
+	  </command>	  
 
 
-    <command>
+	  <command>
       <cmd>rocketdirectoryapi_login</cmd>
       <action>false</action>
     </command>

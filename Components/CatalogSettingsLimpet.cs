@@ -60,7 +60,24 @@ namespace RocketDirectoryAPI.Components
             ReplaceInfoFields(postInfo, "genxml/lang/genxml/select/*");
             ReplaceInfoFields(postInfo, "genxml/radio/*");
             ReplaceInfoFields(postInfo, "genxml/lang/genxml/radio/*");
+
+            Info.RemoveList("grouplist");
+            foreach (var g in postInfo.GetList("grouplist"))
+            {
+                g.SetXmlProperty("genxml/textbox/ref", g.GetXmlProperty("genxml/textbox/ref").Replace(" ", "-").Trim());
+                var groupRef = g.GetXmlProperty("genxml/textbox/ref");
+                if (groupRef != "" && Info.GetListItem("grouplist", "genxml/textbox/ref", groupRef) == null) AddGroup(g);
+            }
+
             Update();
+        }
+        public List<SimplisityInfo> GroupList()
+        {
+            return Info.GetList("grouplist");
+        }
+        public void AddGroup(SimplisityInfo groupInfo)
+        {
+            Info.AddListItem("grouplist", groupInfo);
         }
         private void ReplaceInfoFields(SimplisityInfo postInfo, string xpathListSelect)
         {
@@ -95,10 +112,9 @@ namespace RocketDirectoryAPI.Components
         public Dictionary<string,string> GetPropertyGroups()
         {
             var rtn = new Dictionary<string, string>();
-            var s = PropertyGroups.Split(',');
-            foreach (var g in s)
+            foreach (var g in GroupList())
             {
-                if (g != "") rtn.Add(g, g);
+                rtn.Add(g.GetXmlProperty("genxml/textbox/ref"), g.GetXmlProperty("genxml/lang/genxml/textbox/name"));
             }
             return rtn;
         }

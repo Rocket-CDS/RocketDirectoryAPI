@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace RocketDirectoryAPI.API
@@ -16,6 +17,12 @@ namespace RocketDirectoryAPI.API
         public string SaveCatalogSettings()
         {
             _dataObject.CatalogSettings.Save(_postInfo);
+            return GetCatalogSettings();
+        }
+        public string AddPropertyGroup()
+        {
+            _dataObject.CatalogSettings.Save(_postInfo);
+            _dataObject.CatalogSettings.AddGroup(new SimplisityInfo());
             return GetCatalogSettings();
         }
 

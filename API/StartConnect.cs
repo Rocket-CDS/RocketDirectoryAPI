@@ -214,12 +214,14 @@ namespace RocketDirectoryAPI.API
                 case "settingsadmin_save":
                     strOut = SaveCatalogSettings();
                     break;
+                case "settingsadmin_addgroup":
+                    strOut = AddPropertyGroup();
+                    break;
 
 
                 case "rocketdirectoryapi_login":
                     strOut = ReloadPage();
                     break;
-
                    
 
                 case "remote_publiclist":
