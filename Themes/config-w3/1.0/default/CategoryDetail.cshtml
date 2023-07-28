@@ -51,7 +51,7 @@
 <div class='w3-animate-opacity'>
 
     <div class="w3-row w3-padding">
-        <button class="w3-button simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@(returncatid)"}'>@ButtonIcon(ButtonTypes.back)</button>
+        <button class="w3-button w3-black simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@(returncatid)"}'>@ButtonText(ButtonTypes.back)</button>
         <button class="w3-button w3-theme-action simplisity_click savecategorybutton langchangesave" s-before="saveRichText" s-list=".imagecategorylist,.articlelist" s-cmd="categoryadmin_save" s-post="#datacategorysection" s-fields='{"categoryid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="categoryadmin_delete" s-fields='{"categoryid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>

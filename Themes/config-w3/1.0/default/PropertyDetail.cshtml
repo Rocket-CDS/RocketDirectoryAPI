@@ -30,7 +30,7 @@
 <div class='w3-animate-opacity'>
 
     <div class="w3-row w3-padding">
-        <button class="w3-button simplisity_click" s-cmd="propertyadmin_editlist" s-fields=''>@ButtonIcon(ButtonTypes.back)</button>
+        <button class="w3-button w3-black simplisity_click" s-cmd="propertyadmin_editlist" s-fields=''>@ButtonText(ButtonTypes.back)</button>
         <button class="w3-button w3-theme-action simplisity_click savepropertybutton" s-list=".imagepropertylist,.articlelist" s-cmd="propertyadmin_save" s-post="#datapropertysection" s-fields='{"propertyid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="propertyadmin_delete" s-fields='{"propertyid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>
@@ -91,28 +91,13 @@
                 </div>
                 <div class='w3-row w3-padding'>
                     <label>@ResourceKey("RC.group")</label>
-                    @{
-                        var gDict = new Dictionary<string, string>();
-                        foreach (var g in catalogSettings.PropertyGroups.Split(','))
-                        {
-                            gDict.Add(g.Trim(' '), g.Trim(' '));
-                        }
-                    }
-                    @CheckBoxList(info, "genxml/checkboxlist/group", gDict, " class=' rocket-checkboxlist ' ")
+                    @CheckBoxList(info, "genxml/checkboxlist/group", catalogSettings.GetPropertyGroups(), " class=' rocket-checkboxlist ' ")
                 </div>
 
                 <div class='w3-row w3-padding'>
                     <label>@ResourceKey("RC.summary")</label>&nbsp;@EditFlag(sessionParams)
                     @TextArea(info, "genxml/lang/genxml/textbox/summary", " class='w3-input w3-border' autocomplete='off'  rows='4' ", "", true, 0)
                 </div>
-            </div>
-
-            <div id="imgs" class='w3-row sectionname' style="display:none">
-                @RenderTemplate("PropertyImages.cshtml", appThemeDirectory, Model, true)
-            </div>
-
-            <div class="w3-row">
-                @RenderTemplate("propertyImageSelect.cshtml", appThemeDirectory, Model, true)
             </div>
 
             @if (UserUtils.IsInRole("Administrator"))
@@ -168,39 +153,11 @@
     <i>ID: </i> @info.ItemID <i> GuidKey:</i> @info.GUIDKey
 </div>
 
-
-
-@RenderTemplate("PropertySelect.cshtml", appThemeDirectory, Model, true)
-
 <script>
     $(document).ready(function () {
-
-        selectMenu('propertyadmin');
         openPropertyTab('property');
-
-        $('#propertykeywords').tagEditor({
-            delimiter: ', ', /* space and comma */
-            placeholder: '@ResourceKey("RE.keywords") ...',
-            removeDuplicates: false,
-        });
-
+        $(':checkbox').addClass('w3-check');
     });
-
-    function searchFunction() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("searchtext");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("datalist");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            txtValue = li[i].textContent || li[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
 
     function openPropertyTab(propertytab) {
 
