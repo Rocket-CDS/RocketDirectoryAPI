@@ -160,15 +160,14 @@ namespace RocketDirectoryAPI.Components
         }
         public static string DisplaySystemView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template, bool editMode = true)
         {
-            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
+            var dataObject = new DataObjectLimpet(portalId, moduleRef, DNNrocketUtils.GetCurrentCulture(), sessionParam.ModuleId, sessionParam.TabId, systemKey);
+
             if (dataObject.AppThemeSystem == null) return "No System View";
-            var portalDirectoryData = new PortalCatalogLimpet(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
-            dataObject.SetDataObject("portaldirectory", portalDirectoryData);
-            dataObject.ModuleSettings.AppThemeViewFolder = portalDirectoryData.AppThemeViewFolder;
-            dataObject.ModuleSettings.AppThemeViewVersion = portalDirectoryData.AppThemeViewVersion;
-            dataObject.ModuleSettings.AppThemeAdminFolder = portalDirectoryData.AppThemeAdminFolder;
-            dataObject.ModuleSettings.AppThemeAdminVersion = portalDirectoryData.AppThemeAdminVersion;
-            dataObject.ModuleSettings.ProjectName = portalDirectoryData.ProjectNameView;
+            dataObject.ModuleSettings.AppThemeViewFolder = dataObject.PortalContent.AppThemeViewFolder;
+            dataObject.ModuleSettings.AppThemeViewVersion = dataObject.PortalContent.AppThemeViewVersion;
+            dataObject.ModuleSettings.AppThemeAdminFolder = dataObject.PortalContent.AppThemeAdminFolder;
+            dataObject.ModuleSettings.AppThemeAdminVersion = dataObject.PortalContent.AppThemeAdminVersion;
+            dataObject.ModuleSettings.ProjectName = dataObject.PortalContent.ProjectNameView;
 
             var razorTempl = dataObject.AppThemeSystem.GetTemplate(template, moduleRef);
             if (razorTempl == "") razorTempl = dataObject.AppThemeDirectory.GetTemplate(template, moduleRef);

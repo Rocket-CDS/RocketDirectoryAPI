@@ -453,6 +453,7 @@ namespace RocketDirectoryAPI.API
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
             if (template == "") template = "View.cshtml";
             var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
+            if (razorTempl == "") razorTempl = _dataObject.AppThemeAdmin.GetTemplate(template);
             if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
 
             // add the default static catid to the url data.

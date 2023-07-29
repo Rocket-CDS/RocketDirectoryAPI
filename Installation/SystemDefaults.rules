@@ -21,11 +21,11 @@ order by articlename.GUIDKey
 order by articlename.GUIDKey desc
 	    </name-desc>
         <ref>
-order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)')
-        </ref>
+			order by articleref.GUIDKey
+		</ref>
         <ref-desc>
-order by RLangIdx.XmlData.value('(genxml/textbox/articleref)[1]','nvarchar(max)') desc
-        </ref-desc>
+			order by articleref.GUIDKey desc
+		</ref-desc>
     </product>
   </sqlorderby>
 

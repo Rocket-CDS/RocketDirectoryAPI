@@ -133,6 +133,49 @@
         </div>
 
       </div>
-   </div>
 
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.dictionarylistsqlorderbyproduct').sortable();
+        $('.dictionarylistsqlorderbyproduct').disableSelection();
+
+        $('.sqlorderbyproductaddvaluekey').unbind("click");
+        $('.sqlorderbyproductaddvaluekey').click(function () {
+            dnnrocket_addtextli('', '');
+        });
+    });
+
+
+    function dnnrocket_addtextli(key, value) {
+
+        if (typeof value === 'undefined') {
+            value = '';
+        }
+
+        var rowlp = $("ul.dictionarylistsqlorderbyproduct li").length + 1;
+
+        var addtext = '';
+        addtext += '<li class="sqlorderbyproduct w3-card w3-margin-bottom w3-display-container"> ';
+        addtext += '    <div class="w3-row">';
+        addtext += '		<div class="w3-col w3-padding m3">';
+        addtext += '			<input id="sqlorderbyproductkey_' + rowlp + '" value="sqlorderby-" s-xpath="genxml/key" class="w3-input w3-border" autocomplete="off" type="text">';
+        addtext += '		</div>';
+        addtext += '		<div class="w3-col w3-padding m8">';
+        addtext += '			<input id="sqlorderbyproductvalue_' + rowlp + '" value="' + value + '" s-xpath="genxml/value" class="w3-input w3-border" autocomplete="off" type="text">';
+        addtext += '		</div>';
+        addtext += '        <div onclick="this.parentElement.parentElement.remove();" class=" w3-col m1 w3-padding-small" style="width:60px;">';
+        addtext += '           <div class="w3-button" ><i title="Remove" class="fas fa-minus-square fa-fw fa-lg"></i></a>';
+        addtext += '        </div>';
+        addtext += '	</div>';
+        addtext += '</li>';
+
+        $('.dictionarylistsqlorderbyproduct').append(addtext);
+        $('.dictionarylistsqlorderbyproduct').sortable();
+        $('.dictionarylistsqlorderbyproduct').disableSelection();
+
+    }
+
+</script>

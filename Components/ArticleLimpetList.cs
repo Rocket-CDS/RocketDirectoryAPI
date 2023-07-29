@@ -77,7 +77,11 @@ namespace RocketDirectoryAPI.Components
             ClearCategory = false;
 
             var searchText = PortalCatalog.GetFilterProductSQL(SessionParamData.Info);
-            var propertyFilter = GetPropertyFilterSQL();
+            var propertyFilter = "";
+            if (showHidden)
+                _catid = 0;  //assume showHidden is admin.
+            else
+                propertyFilter = GetPropertyFilterSQL();
 
             if (!CatalogSettings.InCategoryFilter)
             {
@@ -110,7 +114,7 @@ namespace RocketDirectoryAPI.Components
 
             if (showHidden)
             {
-                // Assume admin if show hidden.
+                // Assume admin if showhidden.
                 orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
             }
 
@@ -123,7 +127,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void DeleteAll()
         {
-            var l = GetAllArticlesForShopPortal();
+            var l = GetAllPortalArticles();
             foreach (var r in l)
             {
                 _objCtrl.Delete(r.ItemID);
@@ -146,16 +150,17 @@ namespace RocketDirectoryAPI.Components
         {
             //Filter Property
             var checkboxfilter = "";
-            RemoteModule remoteModule = null;
+            ModuleContentLimpet moduleSettings = null;
             var nodList = SessionParamData.Info.XMLDoc.SelectNodes("r/*[starts-with(name(), 'checkboxfilter')]");
-            if (nodList != null && nodList.Count > 0) remoteModule = new RemoteModule(PortalCatalog.PortalId, SessionParamData.ModuleRef);
+            if (nodList != null && nodList.Count > 0) moduleSettings = new ModuleContentLimpet(PortalCatalog.PortalId, SessionParamData.ModuleRef, _systemKey, SessionParamData.ModuleId, SessionParamData.TabId);
+
             foreach (XmlNode nod in nodList)
             {
                 if (nod.InnerText.ToLower() == "true")
                 {
                     var propid = nod.Name.Replace("checkboxfilter", "");
                     // NOTE: checkbox for filter must be called "checkboxfilterand"
-                    if (remoteModule.Record.GetXmlPropertyBool("genxml/checkbox/checkboxfilterand"))
+                    if (moduleSettings.GetSettingBool("checkboxfilterand"))
                     {
                         if (checkboxfilter != "") checkboxfilter += " and ";
                         checkboxfilter += " [PROPXREF].[XrefItemId] = " + propid + " ";
@@ -215,13 +220,13 @@ namespace RocketDirectoryAPI.Components
             }
         }
 
-        public List<SimplisityInfo> GetAllArticlesForShopPortal()
+        public List<SimplisityInfo> GetAllPortalArticles()
         {
             return _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, "", _langRequired, "", 0, 0, 0, 0, _tableName);
         }
         public void ReIndex()
         {
-            var list = GetAllArticlesForShopPortal();
+            var list = GetAllPortalArticles();
             foreach (var pInfo in list)
             {
                 _objCtrl.RebuildIndex(PortalCatalog.PortalId, pInfo.ItemID, _systemKey, _tableName);
@@ -229,7 +234,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void Validate()
         {
-            var list = GetAllArticlesForShopPortal();
+            var list = GetAllPortalArticles();
             foreach (var pInfo in list)
             {
                 var articleData = new ArticleLimpet(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);

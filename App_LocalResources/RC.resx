@@ -339,4 +339,7 @@
   <data name="listpage.Text" xml:space="preserve">
     <value>List Page</value>
   </data>
+  <data name="checkboxfilterand.Text" xml:space="preserve">
+    <value>Articles must be in all selected filters</value>
+  </data>
 </root>
