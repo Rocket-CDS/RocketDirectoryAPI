@@ -91,6 +91,7 @@
 
         $('a[id*="_cmdUpdate"]').off("click");
         $('a[id*="_cmdUpdate"]').click(function () {
+            simplisity_setCookieValue('simplisity_sessionparams', ''); // clear the simplsity data, so we refresh the values.
             simplisity_callserver($('#postsettings'));
         });
 
