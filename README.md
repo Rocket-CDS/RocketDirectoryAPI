@@ -16,8 +16,7 @@ The razor templates can use a defined set of data objects.  Some are auomaticall
     var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
     var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
     var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");

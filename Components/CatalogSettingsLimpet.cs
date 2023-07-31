@@ -132,7 +132,6 @@ namespace RocketDirectoryAPI.Components
         public string TechnicalEmail { get { return Info.GetXmlProperty("genxml/textbox/technicalemail"); } }
         public string PropertyGroups { get { return Info.GetXmlProperty("genxml/textbox/propertygroups"); } }
         public bool ManualCategoryOrderby { get { return Info.GetXmlPropertyBool("genxml/checkbox/manualcategoryorderby"); } }
-        public bool InCategoryFilter { get { return Info.GetXmlPropertyBool("genxml/checkbox/incategoryfilter"); } }
 
         // use /config/ so it does not get overwritten on save.
         public int DefaultCategoryId { get { return Info.GetXmlPropertyInt("genxml/config/defaultcategoryid"); } set { Info.SetXmlPropertyInt("genxml/config/defaultcategoryid", value); } }

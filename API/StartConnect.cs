@@ -347,6 +347,7 @@ namespace RocketDirectoryAPI.API
 
             var systemkey = systemInfo.GetXmlProperty("genxml/systemkey");
             _dataObject = new DataObjectLimpet(portalid, _sessionParams.ModuleRef, _sessionParams, systemkey);
+            _sessionParams = _dataObject.SessionParamsData; // use option altered sessionParams
 
             if (paramCmd == "rocketdirectoryapi_activate") SavePortalCatalog();
             if (paramCmd.StartsWith("rocketsystem_") && UserUtils.IsSuperUser()) return paramCmd;
@@ -364,7 +365,7 @@ namespace RocketDirectoryAPI.API
         /// <returns></returns>
         private string GetSystemTemplate(string templateName)
         {
-            var razorTempl = _dataObject.AppThemeAdmin.GetTemplate(templateName);
+            var razorTempl = _dataObject.AppTheme.GetTemplate(templateName);
             if (razorTempl == "") razorTempl = _dataObject.AppThemeSystem.GetTemplate(templateName);
             if (razorTempl == "") razorTempl = _dataObject.AppThemeDirectory.GetTemplate(templateName);
             return razorTempl;

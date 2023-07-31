@@ -228,7 +228,7 @@ namespace RocketDirectoryAPI.API
 
             _dataObject.SetDataObject("articledata", articleData);
 
-            var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("admindetail.cshtml");
+            var razorTempl = _dataObject.AppTheme.GetTemplate("admindetail.cshtml");
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
@@ -253,10 +253,10 @@ namespace RocketDirectoryAPI.API
             }
             else
             {
-                if (_dataObject.AppThemeAdmin.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
+                if (_dataObject.AppTheme.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
                 var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
                 _dataObject.SetDataObject("articlelist", articleDataList);
-                var razorTempl = _dataObject.AppThemeAdmin.GetTemplate("adminlist.cshtml");
+                var razorTempl = _dataObject.AppTheme.GetTemplate("adminlist.cshtml");
                 var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
                 if (pr.ErrorMsg != "") return pr.ErrorMsg;
                 return pr.RenderedText;
@@ -373,7 +373,7 @@ namespace RocketDirectoryAPI.API
         }
         private string GetPublicView(string template)
         {
-            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
+            var razorTempl = _dataObject.AppTheme.GetTemplate(template);
             if (razorTempl == "") return "";
             var articleid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (articleid == 0) articleid = _paramInfo.GetXmlPropertyInt("genxml/urlparams/articleid");
@@ -430,8 +430,8 @@ namespace RocketDirectoryAPI.API
             // Do product list
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
             if (template == "") template = "View.cshtml";
-            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
+            var razorTempl = _dataObject.AppTheme.GetTemplate(template);
+            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppTheme.AppThemeFolder;
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
@@ -439,40 +439,8 @@ namespace RocketDirectoryAPI.API
 
         public String GetPublicArticleList()
         {
-            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
-
-            // assume we want a product page, if we have a productid
-            var productid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
-            if (productid == 0) productid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
-            if (productid > 0 && !_paramInfo.GetXmlPropertyBool("genxml/hidden/staticlist"))
-            {
-                return GetPublicProductDetail();
-            }
-
-            // Do product list
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
-            if (template == "") template = "View.cshtml";
-            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
-            if (razorTempl == "") razorTempl = _dataObject.AppThemeAdmin.GetTemplate(template);
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
-
-            // add the default static catid to the url data.
-            if (_paramInfo.GetXmlPropertyBool("genxml/hidden/staticlist"))
-            {
-                _paramInfo.SetXmlProperty("genxml/urlparams/catid", _paramInfo.GetXmlPropertyInt("genxml/remote/categoryid").ToString());
-            }
-
-            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
-            _dataObject.SetDataObject("articlelist", articleDataList);
-            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleDataList.CategoryId, _sessionParams.CultureCode, _dataObject.SystemKey);
-            _dataObject.SetDataObject("categorydata", categoryData);
-
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, articleDataList.SessionParamData, _dataObject.PortalContent.DebugMode);
-
-            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicArticleList: " + DateTime.Now.ToString("hh:mm:ss.fff"));
-
-            if (pr.StatusCode != "00") return pr.ErrorMsg;
-            return pr.RenderedText;
+            return RocketDirectoryAPIUtils.DisplayView(_dataObject, template);
         }
         public String GetPublicProductDetail()
         {
@@ -486,8 +454,8 @@ namespace RocketDirectoryAPI.API
 
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
             if (template == "") template = "View.cshtml";
-            var razorTempl = _dataObject.AppThemeView.GetTemplate(template);
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppThemeView.AppThemeFolder;
+            var razorTempl = _dataObject.AppTheme.GetTemplate(template);
+            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppTheme.AppThemeFolder;
 
             //var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
             var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleData.DefaultCategory(), _sessionParams.CultureCode, _dataObject.SystemKey);

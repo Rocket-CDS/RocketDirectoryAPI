@@ -12,13 +12,14 @@
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var categoryList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("appthemeview");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
     var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata"); ;
     var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
     var sreturn = Model.GetSetting("searchreturnelement");
+
 }
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
@@ -51,7 +52,7 @@
     }
 
 </div>
-
+<h1>@sessionParams.Get("catid")</h1>
 <script type="text/javascript">
 	$(document).ready(function () {
         $('.simplisity_loader').hide();
@@ -65,7 +66,7 @@
 	    }
 		$('.simplisity_loader').show();
 
-        $('@(sreturn)').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{"moduleref":"@(sessionParams.ModuleRef)","moduleid":"@(sessionParams.ModuleId)","tabid":"@(sessionParams.TabId)","catid":"@(sessionParams.Get("catid"))","systemkey":"@(moduleSettings.SystemKey)"}', '');
+        $('@(sreturn)').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{"moduleref":"@(sessionParams.ModuleRef)","moduleid":"@(sessionParams.ModuleId)","tabid":"@(sessionParams.TabId)","catid":"@(sessionParams.Get("catid"))","systemkey":"@(moduleSettings.SystemKey)","template":"view.cshtml"}', '');
 
 	}
 

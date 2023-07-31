@@ -327,9 +327,6 @@
   <data name="cmdtemplatemsg.Text" xml:space="preserve">
     <value>Do NOT search for any articles, only use category and settings data.</value>
   </data>
-  <data name="incategoryfilter.Text" xml:space="preserve">
-    <value>In Category Filter</value>
-  </data>
   <data name="searchpageurl.Text" xml:space="preserve">
     <value>Search Page URL</value>
   </data>

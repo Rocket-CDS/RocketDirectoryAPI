@@ -24,10 +24,8 @@
     var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
     var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
-    var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
+    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalist");
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
     var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
     var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
@@ -36,10 +34,8 @@
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
     var moduleedit = sessionParams.GetBool("moduleedit");
     var adminpanelurl = DNNrocketUtils.GetCookieValue("adminpanelurl");
-
+    var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId, new string[0]);
     var interfacelist = portalContent.PluginActveInterface(systemData);
-
-
 }
 
 <!-- Top Bar -->
@@ -64,13 +60,23 @@
                     widgets
                 </span>&nbsp;Admin Panel&nbsp;
           </a>
-          <div class="w3-dropdown-content w3-bar-block w3-border">
+          <div class="w3-dropdown-content w3-bar-block w3-border" style="width:80%">
               <div class="w3-row w3-padding w3-theme-l5">
+
+                <div class="w3-col s6 m2 l1 w3-padding " >
+                        <div class="w3-button " onclick="$('.simplisity_loader').show();window.location.replace('@(rtnUrl)');">
+                        <div class="w3-center ">
+                                <span class='material-icons' style=''>exit_to_app</span>
+                        </div>
+                        <span class="w3-small">@ResourceKey("DNNrocket.back")</span>
+                    </div>
+                </div>
+
                     @foreach (var r in interfacelist)
                     {
                         if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
                         {
-                            <div class="w3-col s6 m2 w3-padding " >
+                            <div class="w3-col s6 m2 l1 w3-padding " >
                                 <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                                     <div class="w3-center ">
                                         <span class='material-icons' style=''>@r.InterfaceIcon</span>

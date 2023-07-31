@@ -398,14 +398,10 @@ namespace RocketDirectoryAPI.Components
         public int ArticleDocumentLimit { get { return Record.GetXmlPropertyInt("genxml/articlesdocumentlimit"); } }
         public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } }
         public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } }
-        public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 640; } }
-        public string ProjectNameView { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameview"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameview", value); } }
-        public string ProjectNameAdmin { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
-        public string AppThemeAdminFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } }
-        public string AppThemeAdminVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } }
-        public string AppThemeViewFolder { get { return Record.GetXmlProperty("genxml/select/appthemeview"); } }
-        public string AppThemeViewVersion { get { return Record.GetXmlProperty("genxml/select/appthemeviewversion"); } }
-
+        public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 640; } }        
+        public string ProjectName { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
+        public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } }
+        public string AppThemeVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } }
         #endregion
 
     }

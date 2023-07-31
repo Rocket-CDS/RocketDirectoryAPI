@@ -55,18 +55,18 @@ namespace RocketDirectoryAPI.Components
         {
             var rtn = new List<SimplisityRecord>();
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
-            if (dataObject.AppThemeView != null)
+            if (dataObject.AppTheme != null)
             {
-                foreach (var depfile in dataObject.AppThemeView.GetTemplatesDep())
+                foreach (var depfile in dataObject.AppTheme.GetTemplatesDep())
                 {
-                    var dep = dataObject.AppThemeView.GetDep(depfile.Key, moduleRef);
+                    var dep = dataObject.AppTheme.GetDep(depfile.Key, moduleRef);
                     foreach (var r in dep.GetRecordList("deps"))
                     {
                         var urlstr = r.GetXmlProperty("genxml/url");
                         if (urlstr.Contains("{"))
                         {
                             if (dataObject.PortalData != null) urlstr = urlstr.Replace("{domainurl}", dataObject.PortalData.EngineUrlWithProtocol);
-                            if (dataObject.AppThemeView != null) urlstr = urlstr.Replace("{appthemefolder}", dataObject.AppThemeView.AppThemeVersionFolderRel);
+                            if (dataObject.AppTheme != null) urlstr = urlstr.Replace("{appthemefolder}", dataObject.AppTheme.AppThemeVersionFolderRel);
                             if (dataObject.AppThemeSystem != null) urlstr = urlstr.Replace("{appthemesystemfolder}", dataObject.AppThemeSystem.AppThemeVersionFolderRel);
                         }
                         r.SetXmlProperty("genxml/id", CacheUtils.Md5HashCalc(urlstr));
@@ -97,49 +97,44 @@ namespace RocketDirectoryAPI.Components
                 var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, articleId, sessionParam.CultureCode, systemKey);
                 dataObject.SetDataObject("articledata", articleData);
             }
-            var razorTempl = "";
-            if (template.ToLower().StartsWith("view"))
-                razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
-            else
-                razorTempl = dataObject.AppThemeAdmin.GetTemplate(template, moduleRef);
+            var razorTempl = dataObject.AppTheme.GetTemplate(template, moduleRef);
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
             return pr.RenderedText;
         }
-        public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
+        public static string DisplayView(DataObjectLimpet dataObject, string template = "")
         {
-            var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
-            if (sessionParam.PageSize == 0) sessionParam.PageSize = moduleSettings.GetSettingInt("pagesize");
+            var sessionParam = dataObject.SessionParamsData;
+            if (sessionParam.PageSize == 0) sessionParam.PageSize = dataObject.ModuleSettings.GetSettingInt("pagesize");
 
-            var cacheKey = moduleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
+            var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
             if (sessionParam.SearchText == "")
             {
-                var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + portalId);
-                if (rtn != null && !moduleSettings.DisableCache) return rtn;
+                var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + dataObject.PortalId);
+                if (rtn != null && !dataObject.ModuleSettings.DisableCache) return rtn;
             }
-
-            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             var aticleId = sessionParam.GetInt("articleid");
-            var template = moduleSettings.GetSetting("displaytemplate");
+            if (template == "") template = dataObject.ModuleSettings.GetSetting("displaytemplate");
             if (template == "") template = "view.cshtml";
             var paramCmd = "list";
-            var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppThemeView, moduleRef, template);
+            var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppTheme, dataObject.ModuleSettings.ModuleRef, template);
             if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") paramCmd = modt.GetXmlProperty("genxml/cmd");
+
             if (paramCmd == "list")
             {
                 if (aticleId > 0)
                 {
-                    var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, sessionParam.CultureCode, systemKey);
+                    var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("articledata", articleData);
-                    var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleData.DefaultCategory(), sessionParam.CultureCode, systemKey);
+                    var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleData.DefaultCategory(), sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("categorydata", categoryData);
                 }
                 else
                 {
                     var defaultCat = sessionParam.GetInt("catid");
-                    if (defaultCat == 0) defaultCat = moduleSettings.DefaultCategoryId;
+                    if (defaultCat == 0) defaultCat = dataObject.ModuleSettings.DefaultCategoryId;
                     if (defaultCat == 0) defaultCat = dataObject.CatalogSettings.DefaultCategoryId;
                     var articleDataList = new ArticleLimpetList(sessionParam, dataObject.PortalContent, sessionParam.CultureCode, true, false, defaultCat);
                     dataObject.SetDataObject("articlelist", articleDataList);
@@ -152,22 +147,28 @@ namespace RocketDirectoryAPI.Components
 
             }
 
-            var razorTempl = dataObject.AppThemeView.GetTemplate(template, moduleRef);
+            var razorTempl = dataObject.AppTheme.GetTemplate(template, dataObject.ModuleSettings.ModuleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            if (sessionParam.SearchText == "") CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
+            if (sessionParam.SearchText == "") CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + dataObject.PortalId);
             return pr.RenderedText;
+
+        }
+        public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
+        {
+            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
+            return DisplayView(dataObject);
         }
         public static string DisplaySystemView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template, bool editMode = true)
         {
-            var dataObject = new DataObjectLimpet(portalId, moduleRef, DNNrocketUtils.GetCurrentCulture(), sessionParam.ModuleId, sessionParam.TabId, systemKey);
+            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
 
             if (dataObject.AppThemeSystem == null) return "No System View";
-            dataObject.ModuleSettings.AppThemeViewFolder = dataObject.PortalContent.AppThemeViewFolder;
-            dataObject.ModuleSettings.AppThemeViewVersion = dataObject.PortalContent.AppThemeViewVersion;
-            dataObject.ModuleSettings.AppThemeAdminFolder = dataObject.PortalContent.AppThemeAdminFolder;
-            dataObject.ModuleSettings.AppThemeAdminVersion = dataObject.PortalContent.AppThemeAdminVersion;
-            dataObject.ModuleSettings.ProjectName = dataObject.PortalContent.ProjectNameView;
+            dataObject.ModuleSettings.AppThemeViewFolder = dataObject.PortalContent.AppThemeFolder;
+            dataObject.ModuleSettings.AppThemeViewVersion = dataObject.PortalContent.AppThemeVersion;
+            dataObject.ModuleSettings.AppThemeAdminFolder = dataObject.PortalContent.AppThemeFolder;
+            dataObject.ModuleSettings.AppThemeAdminVersion = dataObject.PortalContent.AppThemeVersion;
+            dataObject.ModuleSettings.ProjectName = dataObject.PortalContent.ProjectName;
 
             var razorTempl = dataObject.AppThemeSystem.GetTemplate(template, moduleRef);
             if (razorTempl == "") razorTempl = dataObject.AppThemeDirectory.GetTemplate(template, moduleRef);

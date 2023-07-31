@@ -174,7 +174,6 @@ namespace RocketDirectoryAPI.Components
 
         #region "properties"
 
-        public RemoteModule RemoteModule { get; set; }
         public string CultureCode { get; set; }
         public string EntityTypeCode { get; set; }
         public SimplisityInfo Info { get; set; }

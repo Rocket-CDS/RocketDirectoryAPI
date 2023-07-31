@@ -23,7 +23,6 @@ namespace RocketDirectoryAPI.Components
         private DNNrocketController _objCtrl;
         private string _searchFilter;
         private int _catid;
-        private int _catidurl;
         private string _systemKey;
 
         public ArticleLimpetList(int categoryId, PortalCatalogLimpet portalCatalog, string langRequired, bool populate)
@@ -56,12 +55,12 @@ namespace RocketDirectoryAPI.Components
             _langRequired = langRequired;
             if (_langRequired == "") _langRequired = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
+            CatalogSettings = new CatalogSettingsLimpet(portalCatalog.PortalId, sessionParams.CultureCode, _systemKey);
 
             if (sessionParams.PageSize == 0) sessionParams.PageSize = 24;
             if (sessionParams.Page <= 0) sessionParams.Page = 1;
 
             _catid = sessionParams.GetInt("catid");
-            _catidurl = _catid;
             if (_catid == 0) _catid = defaultCategoryId;
 
             if (sessionParams.OrderByRef == "" && _catid == 0) sessionParams.OrderByRef = "sqlorderby-article-name";
@@ -70,8 +69,6 @@ namespace RocketDirectoryAPI.Components
         }
         public void Populate(bool showHidden = true)
         {
-            CatalogSettings = new CatalogSettingsLimpet(PortalCatalog.PortalId, SessionParamData.CultureCode, _systemKey);
-
             _searchFilter = "";
             ClearFilter = false;
             ClearCategory = false;
@@ -83,18 +80,6 @@ namespace RocketDirectoryAPI.Components
             else
                 propertyFilter = GetPropertyFilterSQL();
 
-            if (!CatalogSettings.InCategoryFilter)
-            {
-                if (_catidurl > 0)
-                {
-                    searchText = "";
-                    propertyFilter = "";
-                    ClearPropertyFilters();
-                    SessionParamData.SearchText = "";
-                }
-                if (propertyFilter != "") _catid = 0;
-            }
-            if (searchText != "") _catid = 0;
 
             _searchFilter += searchText;
             _searchFilter += propertyFilter;
@@ -134,18 +119,6 @@ namespace RocketDirectoryAPI.Components
             }
         }
 
-        private void ClearPropertyFilters()
-        {
-            ClearFilter = true;
-            var nodList = SessionParamData.Info.XMLDoc.SelectNodes("r/*[starts-with(name(), 'checkboxfilter')]");
-            if (nodList != null)
-            {
-                foreach (XmlNode nod in nodList)
-                {
-                    SessionParamData.Info.SetXmlProperty("r/" + nod.Name, "false");
-                }
-            }
-        }
         private string GetPropertyFilterSQL()
         {
             //Filter Property

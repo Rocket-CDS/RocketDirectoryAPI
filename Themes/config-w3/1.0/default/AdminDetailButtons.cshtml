@@ -15,9 +15,9 @@
     var articleData = (ArticleLimpet)Model.List.First();
     var sessionParams = Model.SessionParamsData;
     var moduleedit = sessionParams.GetBool("moduleedit");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
 
-    AddProcessDataResx(appThemeAdmin, true);
+    AddProcessDataResx(appTheme, true);
     AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
 
 }

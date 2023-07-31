@@ -10,8 +10,7 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var systemAppTheme = new AppThemeDNNrocketLimpet("rocketapptheme");
-    var appThemeView = new AppThemeLimpet(moduleData.PortalId, moduleData.AppThemeViewFolder, moduleData.AppThemeViewVersion, moduleData.ProjectName);
-    var appThemeAdmin = new AppThemeLimpet(moduleData.PortalId, moduleData.AppThemeAdminFolder, moduleData.AppThemeAdminVersion, moduleData.ProjectName);
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
 }
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/RocketAppTheme/App_LocalResources/")

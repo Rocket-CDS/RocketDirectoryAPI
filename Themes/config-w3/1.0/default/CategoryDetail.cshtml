@@ -11,11 +11,11 @@
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
     var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
 
-    AddProcessDataResx(appThemeAdmin, true);
+    AddProcessDataResx(appTheme, true);
     AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
 
     var parentName = "";

@@ -10,7 +10,7 @@
 
 @{
     var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
 
 }
 
@@ -47,4 +47,4 @@
     .heading_wrapper { display:none !important;}
 </style>
 
-@RenderTemplate("AdminHeader.cshtml", appThemeAdmin, Model, true)
+@RenderTemplate("AdminHeader.cshtml", appTheme, Model, true)

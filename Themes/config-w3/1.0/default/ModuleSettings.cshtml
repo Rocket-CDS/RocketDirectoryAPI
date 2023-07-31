@@ -10,8 +10,7 @@
 
 @{
     var sessionParams = Model.SessionParamsData;
-    var appThemeView = (AppThemeLimpet)Model.GetDataObject("appthemeview");
-    var appThemeAdmin = (AppThemeLimpet)Model.GetDataObject("appthemeadmin");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
@@ -19,7 +18,7 @@
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var categoryData = new CategoryLimpet(portalData.PortalId, moduleData.DefaultCategoryId, sessionParams.CultureCode, systemData.SystemKey);
 
-    var templateList = RocketDirectoryAPIUtils.ModuleTemples(appThemeView, moduleData.ModuleRef);
+    var templateList = RocketDirectoryAPIUtils.ModuleTemples(appTheme, moduleData.ModuleRef);
 }
 
 <div id="a-datasection" class="w3-container w3-margin w3-padding">
@@ -71,7 +70,7 @@
 
     <hr/>
     <div class="w3-row">
-        @RenderTemplate("ThemeSettings.cshtml", appThemeAdmin, Model, true)
+        @RenderTemplate("ThemeSettings.cshtml", appTheme, Model, true)
     </div>
 
 </div>
