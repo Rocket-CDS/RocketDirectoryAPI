@@ -133,10 +133,10 @@ namespace RocketDirectoryAPI.Components
                 {
                     var propid = nod.Name.Replace("checkboxfilter", "");
                     // NOTE: checkbox for filter must be called "checkboxfilterand"
-                    if (moduleSettings.GetSettingBool("checkboxfilterand"))
+                    if (moduleSettings != null && PortalCatalog.FilterByInAll)
                     {
                         if (checkboxfilter != "") checkboxfilter += " and ";
-                        checkboxfilter += " [PROPXREF].[XrefItemId] = " + propid + " ";
+                        checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
                     }
                     else
                     {
@@ -147,6 +147,7 @@ namespace RocketDirectoryAPI.Components
             }
             if (checkboxfilter != "")
             {
+                checkboxfilter = _objCtrl.ReplaceObjectQualifiers(checkboxfilter);
                 return " and ( " + checkboxfilter + " ) ";
             }
             return "";

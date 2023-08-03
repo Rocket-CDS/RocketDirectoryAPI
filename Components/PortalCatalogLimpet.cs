@@ -390,6 +390,7 @@ namespace RocketDirectoryAPI.Components
         public string DocFolderMapPath { get; set; }
         public string SystemKey { get { return _systemKey; } }
         public string SecurityKey { get { return Record.GetXmlProperty("genxml/securitykey"); } }
+        public bool FilterByInAll { get { return Record.GetXmlPropertyBool("genxml/checkboxfilterand"); } }
         public bool ArticleOrderBy { get { return Record.GetXmlPropertyBool("genxml/articleorderby"); } }
         public bool Active { get { return true; } }
         public bool EmailActive { get { return Record.GetXmlPropertyBool("genxml/emailon"); } }
