@@ -14,6 +14,9 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
+    var userParams = new UserParams(0);
+    var adminpanelurl = userParams.Get("adminpanelurl");
+    var viewurl = userParams.Get("viewurl");
 
     var info = new SimplisityInfo();
     if (articleData.Info != null)
@@ -23,9 +26,18 @@
 }
 
 <div class="w3-bar  w3-padding">
-    <div class="w3-padding w3-button w3-black simplisity_click" s-cmd="articleadmin_editlist" s-fields='{"track":"true","systemkey":"rocketdirectoryapi"}'>
-        @ButtonText(ButtonTypes.back)
-    </div>
+    @if (sessionParams.GetBool("moduleedit"))
+    {
+        <div class="w3-padding w3-button w3-black" onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
+            @ButtonText(ButtonTypes.back)
+        </div>        
+    }
+    else
+    {
+        <div class="w3-padding w3-button w3-black simplisity_click" s-cmd="articleadmin_editlist" s-fields='{"track":"true","systemkey":"rocketdirectoryapi"}'>
+            @ButtonText(ButtonTypes.back)
+        </div>        
+    }
     <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
     @if (articleData.Exists)
     {

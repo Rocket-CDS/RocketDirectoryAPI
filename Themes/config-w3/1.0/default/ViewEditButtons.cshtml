@@ -17,6 +17,8 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var info = new SimplisityInfo(moduleData.Record);
     var projectAppThemeData = new AppThemeProjectLimpet();
+    var userParams = new UserParams(0);
+    var adminpanelurl = userParams.Get("adminpanelurl");
 }
 
 <div id="a-editbuttons-@(moduleData.ModuleId)" class=" " style="display: none; position: absolute; top: 0px; left:0px; z-index: 9999;">
@@ -30,7 +32,7 @@
             </a>   
         }
 
-        <a href="@sessionParams.Get("adminpanelurl")" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
+        <a href="@adminpanelurl" class="w3-button w3-round w3-white w3-border w3-text-black" title="@ResourceKey("DNNrocket.edit")">
             <span class="material-icons ">
                 dataset
             </span>

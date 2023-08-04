@@ -29,10 +29,9 @@
     }
     else
     {
-        var urlparams = new Dictionary<string, string>();
-        urlparams.Add("articleid", articleData.ArticleId.ToString());
-        var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId, urlparams, articleData.Name);
-        <a href="@rtnUrl" class="w3-padding w3-button w3-black " style="text-decoration:none;" onclick="$('.simplisity_loader').show();">
+        var userParams = new UserParams(0);
+        var viewurl = userParams.Get("viewurl");
+        <a href="@viewurl" class="w3-padding w3-button w3-black " style="text-decoration:none;" onclick="$('.simplisity_loader').show();">
             <span class="">
                 @ButtonText(ButtonTypes.back)
             </span>

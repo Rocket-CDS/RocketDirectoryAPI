@@ -33,50 +33,41 @@
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
     var moduleedit = sessionParams.GetBool("moduleedit");
-    var adminpanelurl = DNNrocketUtils.GetCookieValue("adminpanelurl");
-    var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId, new string[0]);
+    var userParams = new UserParams(0);
+    var adminpanelurl = userParams.Get("adminpanelurl");
+    var viewurl = userParams.Get("viewurl");
     var interfacelist = portalContent.PluginActveInterface(systemData);
 }
 
 <!-- Top Bar -->
 <div id="topbar" class="w3-bar w3-margin-bottom w3-border-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
-    <div class="w3-bar-item">
 
-    @foreach (var l in enabledlanguages)
-    {
-        var selectedcolor = "w3-theme-l5";
-        if (sessionParams.CultureCodeEdit == l)
-        {
-            selectedcolor = "w3-theme-l3";
-        }
-        <div class="w3-button w3-padding-small w3-round @(selectedcolor) simplisity_click" s-cmd="@(Model.GetSetting("scmd"))" s-fields='@(Model.GetSetting("sfields").Replace("[LANGUAGE]", l))' language="@(l)"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" class="w3-round" /></div>
-    }
-    </div>
-    @if (!Model.GetSettingBool("adminpanel") && !moduleedit)
+
+    @if (!Model.GetSettingBool("adminpanel") && !moduleedit && !sessionParams.GetBool("portalsystems"))
     {
         <div class="w3-dropdown-hover">
-            <a href="@adminpanelurl" class="w3-yellow w3-button w3-margin-right">
+            <a href="@adminpanelurl" class="w3-yellow w3-button">
                 <span class="material-icons">
                     widgets
                 </span>&nbsp;Admin Panel&nbsp;
-          </a>
-          <div class="w3-dropdown-content w3-bar-block w3-border" style="width:80%">
-              <div class="w3-row w3-padding w3-theme-l5">
+            </a>
+            <div class="w3-dropdown-content w3-bar-block w3-border" style="width:95%">
+                <div class="w3-row w3-padding w3-theme-l5">
 
-                <div class="w3-col s6 m2 l1 w3-padding " >
-                        <div class="w3-button " onclick="$('.simplisity_loader').show();window.location.replace('@(rtnUrl)');">
-                        <div class="w3-center ">
+                    <div class="w3-col s6 m2 l1 w3-padding ">
+                        <div class="w3-button " onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
+                            <div class="w3-center ">
                                 <span class='material-icons' style=''>exit_to_app</span>
+                            </div>
+                            <span class="w3-small">@ResourceKey("DNNrocket.back")</span>
                         </div>
-                        <span class="w3-small">@ResourceKey("DNNrocket.back")</span>
                     </div>
-                </div>
 
                     @foreach (var r in interfacelist)
                     {
                         if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
                         {
-                            <div class="w3-col s6 m2 l1 w3-padding " >
+                            <div class="w3-col s6 m2 l1 w3-padding ">
                                 <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                                     <div class="w3-center ">
                                         <span class='material-icons' style=''>@r.InterfaceIcon</span>
@@ -87,29 +78,42 @@
                         }
                     }
                 </div>
-          </div>
+            </div>
         </div>
     }
 
-    <div class="w3-right">
-        <button type="button" class="w3-button " onclick="topbaractiontools()"><span class="material-icons">more_vert</span></button>
-        <div id="actiontools" class="w3-dropdown-content w3-left w3-bar-block w3-card" style="z-index: 5;right: 0">
+    <div class="w3-bar-item">
+    @foreach (var l in enabledlanguages)
+    {
+        var selectedcolor = "w3-theme-l5";
+        if (sessionParams.CultureCodeEdit == l)
+        {
+            selectedcolor = "w3-theme-l3";
+        }
+        <div class="w3-button w3-padding-small w3-round @(selectedcolor) simplisity_click" s-cmd="@(Model.GetSetting("scmd"))" s-fields='@(Model.GetSetting("sfields").Replace("[LANGUAGE]", l))' language="@(l)"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" class="w3-round" /></div>
+    }
+    </div>
+    @if (Model.GetSettingBool("adminpanel") && !moduleedit && !sessionParams.GetBool("portalsystems"))
+    {
+        <div class="w3-right">
+            <button type="button" class="w3-button " onclick="topbaractiontools()"><span class="material-icons">more_vert</span></button>
+            <div id="actiontools" class="w3-dropdown-content w3-left w3-bar-block w3-card" style="z-index: 5;right: 0">
 
-            @if (UserUtils.IsAdministrator())
-            {
-                <button type="button" class="w3-bar-item w3-button simplisity_click" s-cmd="rocketapi_clearallcache" s-reload="true" s-fields='' s-return="#simplisity_startpanel">@ResourceKey("DNNrocket.clearallcache")</button>
-                <a class="w3-bar-item w3-button" href="/cms" style="text-decoration: none;color: black;">@ResourceKey("DNNrocket.cmsadmin")</a>
-            }
-            @if (UserUtils.IsSuperUser())
-            {
-                <button type="button" class="w3-bar-item w3-button simplisity_confirmclick" s-reload="true" s-confirm="@ResourceKey("DNNrocket.cleartempdb") &nbsp;?" s-cmd="rocketapi_cleartempdb">@ResourceKey("DNNrocket.cleartempdb")</button>
-                <button type="button" class="w3-bar-item w3-button simplisity_click" s-reload="true" s-cmd="rocketapi_recycleapppool">@ResourceKey("DNNrocket.recycleapppool")</button>
-            }
+                @if (UserUtils.IsAdministrator())
+                {
+                    <button type="button" class="w3-bar-item w3-button simplisity_click" s-cmd="rocketapi_clearallcache" s-reload="true" s-fields='' s-return="#simplisity_startpanel">@ResourceKey("DNNrocket.clearallcache")</button>
+                    <a class="w3-bar-item w3-button" href="/" style="text-decoration: none;color: black;">@ResourceKey("DNNrocket.cmsadmin")</a>
+                }
+                @if (UserUtils.IsSuperUser())
+                {
+                    <button type="button" class="w3-bar-item w3-button simplisity_confirmclick" s-reload="true" s-confirm="@ResourceKey("DNNrocket.cleartempdb") &nbsp;?" s-cmd="rocketapi_cleartempdb">@ResourceKey("DNNrocket.cleartempdb")</button>
+                    <button type="button" class="w3-bar-item w3-button simplisity_click" s-reload="true" s-cmd="rocketapi_recycleapppool">@ResourceKey("DNNrocket.recycleapppool")</button>
+                }
 
             <button type="button" class="w3-bar-item w3-button simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</button>
-
+            </div>
         </div>
-    </div>
+    }
     <div class="w3-right w3-padding">@UserUtils.GetCurrentUserName()</div>
 </div>
 
@@ -125,9 +129,5 @@
         } else {
             x.className = x.className.replace(" w3-show", "");
         }
-    }
-    function seteditlanguage()
-    {
-
     }
 </script>

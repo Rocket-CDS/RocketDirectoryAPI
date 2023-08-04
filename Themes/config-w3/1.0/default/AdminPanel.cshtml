@@ -19,7 +19,10 @@
     var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
     var sessionParams = Model.SessionParamsData;
     var interfacelist = portalContent.PluginActveInterface(systemData);
-    var rtnUrl = DNNrocketUtils.NavigateURL(sessionParams.TabId, new string[0]);
+
+    var userParams = new UserParams(0);
+    var adminpanelurl = userParams.Get("adminpanelurl");
+    var viewurl = userParams.Get("viewurl");
     Model.SetSetting("adminpanel", "true");
 }
 <div class="w3-main w3-animate-opacity adminpaneldisplay" style="display:none;">
@@ -58,7 +61,7 @@
         }
 
         <div class="w3-col s6 m4 l2 w3-padding ">
-            <div onclick="$('.simplisity_loader').show();window.location.replace('@(rtnUrl)');" class="w3-hover-shadow w3-border w3-margin" style="cursor:pointer;">
+            <div onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');" class="w3-hover-shadow w3-border w3-margin" style="cursor:pointer;">
                 <div class=" w3-yellow w3-jumbo w3-center">
                     <span class='material-icons w3-jumbo' style=''>exit_to_app</span>
                 </div>
@@ -75,6 +78,7 @@
     $(document).ready(function () {
         $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { "systemkey": "@(systemData.SystemKey)", "tabid": "@(sessionParams.TabId)", "debug": "false" });
         simplisity_setParamField("basesystemkey", "rocketdirectoryapi");
+        simplisity_setParamField("admintabid", "@sessionParams.TabId");
 
         @if (articleid == 0)
         {
