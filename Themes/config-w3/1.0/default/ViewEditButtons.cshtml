@@ -17,7 +17,7 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var info = new SimplisityInfo(moduleData.Record);
     var projectAppThemeData = new AppThemeProjectLimpet();
-    var userParams = new UserParams(0);
+    var userParams = new UserParams(UserUtils.GetCurrentUserId());
     var adminpanelurl = userParams.Get("adminpanelurl");
 }
 
