@@ -43,7 +43,7 @@
 <div id="topbar" class="w3-bar w3-margin-bottom w3-border-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
 
 
-    @if (!Model.GetSettingBool("adminpanel") && !moduleedit && !sessionParams.GetBool("portalsystems"))
+    @if (!Model.GetSettingBool("adminpanel") && !sessionParams.GetBool("portalsystems"))
     {
         <div class="w3-dropdown-hover">
             <a href="@adminpanelurl" class="w3-yellow w3-button">

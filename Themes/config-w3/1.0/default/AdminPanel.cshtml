@@ -20,7 +20,7 @@
     var sessionParams = Model.SessionParamsData;
     var interfacelist = portalContent.PluginActveInterface(systemData);
 
-    var userParams = new UserParams(_sessionParam.BrowserSessionId);
+    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
     Model.SetSetting("adminpanel", "true");
