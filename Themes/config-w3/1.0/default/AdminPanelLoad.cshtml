@@ -27,7 +27,7 @@
     <script>
         $('.heading_wrapper').hide();
         $(document).ready(function () {
-            $('#adminpanel').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', '@(systemData.SystemKey)_adminpanel', '{"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","articleid":"@(articleId)"}', '')
+        $('#adminpanel').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', '@(systemData.SystemKey)_adminpanel', '{"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)","articleid":"@(articleId)"}', '')
             simplisity_sessionremove(); // clear the sessions vars on load.  These needs to be reset for the admin panel to work and not use any front office selections.
         });
 
