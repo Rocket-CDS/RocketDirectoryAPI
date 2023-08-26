@@ -24,6 +24,11 @@
     {
         selectedProject = projectData.DefaultProjectName();
     }
+    var requiredCSS = "";
+    if (info.GetXmlProperty("genxml/select/appthemeadmin") == "")
+    {
+        requiredCSS = "w3-pale-red";
+    }
 
 }
 
@@ -35,8 +40,16 @@
         @DropDownList(info, "genxml/select/selectedprojectnameadmin", projectData.ActiveList(), " name='selectedprojectnameadmin' class='w3-input w3-border simplisity_change' s-dropdownlist='#appthemeadmin' s-cmd='rocketapptheme_appthemejson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"addempty\":\"true\"}' s-after='projectdropdownreturnadmin'", selectedProject)
         </div>
         <div class="w3-col m5 w3-padding">
-        <div class="">AppTheme </div>
-        @DropDownList(info, "genxml/select/appthemeadmin", appThemeList.NameListDict(), " name='selectedappthemeadmin' class='w3-input w3-border  simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
+            @if (info.GetXmlProperty("genxml/select/appthemeadmin") == "")
+            {
+                <div class="w3-text-red">@ResourceKey("RC.appthememissing")</div>
+            }
+            else
+            {
+                <div class="">AppTheme </div>                
+            }
+
+            @DropDownList(info, "genxml/select/appthemeadmin", appThemeList.NameListDict(), " name='selectedappthemeadmin' class='w3-input w3-border " + requiredCSS + " simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
         </div>
         <div class="w3-col m2 w3-padding">
             <div class="">@ResourceKey("DNNrocket.version")</div>

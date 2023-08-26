@@ -339,4 +339,7 @@
   <data name="checkboxfilterand.Text" xml:space="preserve">
     <value>Articles must be in all selected filters</value>
   </data>
+  <data name="appthememissing.Text" xml:space="preserve">
+    <value>The AppTheme MUST be selected</value>
+  </data>
 </root>

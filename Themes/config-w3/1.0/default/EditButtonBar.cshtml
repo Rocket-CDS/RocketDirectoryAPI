@@ -14,7 +14,7 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var userParams = new UserParams(0);
+    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
 

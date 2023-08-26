@@ -273,6 +273,14 @@ namespace RocketDirectoryAPI.API
         {
             try
             {
+                // if we have no appThemes download the default
+                var appThemeProjectData = new AppThemeProjectLimpet();
+                var appThemeList = new AppThemeDataList(_dataObject.PortalId, appThemeProjectData.DefaultProjectName());
+                if (appThemeList != null && appThemeList.List.Count == 0)
+                {
+                    appThemeProjectData.DownloadGitHubProject(appThemeProjectData.DefaultProjectName());
+                }
+
                 var razorTempl = GetSystemTemplate("RocketSystem.cshtml");
                 var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.PortalContent, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
                 if (pr.StatusCode != "00") return pr.ErrorMsg;

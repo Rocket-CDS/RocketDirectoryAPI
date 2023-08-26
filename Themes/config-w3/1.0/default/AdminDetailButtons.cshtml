@@ -29,7 +29,7 @@
     }
     else
     {
-        var userParams = new UserParams(0);
+        var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
         var viewurl = userParams.Get("viewurl");
         <a href="@viewurl" class="w3-padding w3-button w3-black " style="text-decoration:none;" onclick="$('.simplisity_loader').show();">
             <span class="">

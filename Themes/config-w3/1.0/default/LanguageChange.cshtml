@@ -33,7 +33,7 @@
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
     var moduleedit = sessionParams.GetBool("moduleedit");
-    var userParams = new UserParams(0);
+    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
     var interfacelist = portalContent.PluginActveInterface(systemData);
