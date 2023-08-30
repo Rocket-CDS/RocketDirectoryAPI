@@ -50,6 +50,9 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
             SetDataObject("dashboard", new DashboardLimpet(portalid, cultureCode));
+
+
+
             ProceesSessionParams();
         }
         /// <summary>

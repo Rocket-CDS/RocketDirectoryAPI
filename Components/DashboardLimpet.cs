@@ -18,6 +18,7 @@ namespace RocketDirectoryAPI.Components
         private const string _systemkey = "rocketdirectoryapi";
         private DNNrocketController _objCtrl;
         private string _guidKey;
+        private string _cacheKey;
         private int _portalId;
         public DashboardLimpet(int portalId, string cultureCode)
         {
@@ -28,16 +29,22 @@ namespace RocketDirectoryAPI.Components
             _guidKey =  _entityTypeCode + portalId;
             _objCtrl = new DNNrocketController();
 
-            var uInfo = _objCtrl.GetByGuidKey(portalId, -1, _entityTypeCode, _guidKey, "", _tableName);
-            if (uInfo != null) Info = _objCtrl.GetInfo(uInfo.ItemID, CultureCode, _tableName);
-            if (Info == null || Info.ItemID <= 0)
+            _cacheKey = portalId + "*" + _entityTypeCode + "*" + _guidKey + "*" + _tableName;
+
+            var uInfo = (SimplisityInfo)CacheUtils.GetCache(_cacheKey, "portal" + portalId);
+            if (uInfo == null)
             {
-                Info = new SimplisityInfo();
-                Info.PortalId = _portalId;
-                Info.ModuleId = -1;
-                Info.TypeCode = _entityTypeCode;
-                Info.GUIDKey = _guidKey;
-                Info.Lang = CultureCode;
+                uInfo = _objCtrl.GetByGuidKey(portalId, -1, _entityTypeCode, _guidKey, "", _tableName);
+                if (uInfo != null) Info = _objCtrl.GetInfo(uInfo.ItemID, CultureCode, _tableName);
+                if (Info == null || Info.ItemID <= 0)
+                {
+                    Info = new SimplisityInfo();
+                    Info.PortalId = _portalId;
+                    Info.ModuleId = -1;
+                    Info.TypeCode = _entityTypeCode;
+                    Info.GUIDKey = _guidKey;
+                    Info.Lang = CultureCode;
+                }
             }
 
         }
@@ -77,10 +84,16 @@ namespace RocketDirectoryAPI.Components
         public void Update()
         {
             _objCtrl.SaveData(Info, _tableName);
+            CacheUtils.SetCache(_cacheKey, Info, "portal" + Info.PortalId);
         }
         public void Delete()
         {
             _objCtrl.Delete(Info.ItemID, _tableName);
+            ClearCache();
+        }
+        public void ClearCache()
+        {
+            CacheUtils.RemoveCache(_cacheKey, "portal" + _portalId);
         }
 
         public string EntityTypeCode { get { return _entityTypeCode; } }

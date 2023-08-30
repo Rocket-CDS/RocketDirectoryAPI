@@ -21,14 +21,13 @@ namespace RocketDirectoryAPI.Components
         private string _cacheGroup;
         private string _systemKey;        
 
-        public CategoryLimpetList(int portalId, string langRequired, string systemKey, bool populate = true, RemoteModule remoteModule = null)
+        public CategoryLimpetList(int portalId, string langRequired, string systemKey, bool populate = true)
         {
             _systemKey = systemKey;
             PortalId = portalId;
             CultureCode = langRequired;
             EntityTypeCode = _systemKey + "CAT";
             TableName = _tableName;
-            RemoteModule = remoteModule;
 
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
@@ -56,7 +55,6 @@ namespace RocketDirectoryAPI.Components
             }
             ClearCache();
         }
-        public RemoteModule RemoteModule { get; set; }
         public List<SimplisityInfo> DataList { get; private set; }
         public int PortalId { get; set; }
         public string TableName { get; set; }
@@ -78,7 +76,6 @@ namespace RocketDirectoryAPI.Components
                 var categoryData = new CategoryLimpet(PortalId, parentid, CultureCode, _systemKey);
                 if (categoryData.Exists && lp < 100)
                 {
-                    categoryData.RemoteModule = RemoteModule;
                     rtnList.Add(categoryData);
                     parentid = categoryData.ParentItemId;
                 }
@@ -122,7 +119,6 @@ namespace RocketDirectoryAPI.Components
                     categoryData.Update();
                     ClearCache();
                 }
-                categoryData.RemoteModule = RemoteModule;
                 _categoryList.Add(categoryData);
                 sortorder += 5;
             }

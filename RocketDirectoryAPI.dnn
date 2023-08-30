@@ -1,7 +1,7 @@
 ﻿<dotnetnuke type="Package" version="5.0">
 	<packages>
     
-		<package name="RocketDirectoryAPI" type="Library" version="1.0.7">
+		<package name="RocketDirectoryAPI" type="Library" version="1.0.8">
 			<friendlyName>RocketDirectoryAPI</friendlyName>
 			<description>RocketDirectoryAPI</description>
       <iconFile></iconFile>

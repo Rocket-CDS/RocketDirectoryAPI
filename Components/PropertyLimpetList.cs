@@ -19,6 +19,7 @@ namespace RocketDirectoryAPI.Components
         private DNNrocketController _objCtrl;
         private string _searchText;
         private string _systemKey;
+        private string _cachekey;
 
         public PropertyLimpetList(int portalId, string langRequired, string systemKey, string searchText = "")
         {
@@ -29,6 +30,8 @@ namespace RocketDirectoryAPI.Components
             EntityTypeCode = systemKey + "PROP";
             TableName = _tableName;
 
+            _cachekey = PortalId + "*" + _systemKey + "*" + CultureCode + "*" + systemKey + "PROP" + _tableName;
+
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
 
@@ -38,8 +41,20 @@ namespace RocketDirectoryAPI.Components
         {
             var filter = "";
             if (_searchText != "") filter = " and [XMLData].value('(genxml/lang/genxml/textbox/name)[1]','nvarchar(max)') like '%" + _searchText + "%' ";
-            DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
-            PopulatePropertyList();
+            DataList = (List<SimplisityInfo>)CacheUtils.GetCache(_cachekey + "SimplisityInfo", "portal" + PortalId);
+            _propertyList = (List<PropertyLimpet>)CacheUtils.GetCache(_cachekey + "PropertyLimpet", "portal" + PortalId);
+            if (DataList == null || _propertyList == null || filter != "")
+            {
+                DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
+                PopulatePropertyList();
+                CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, "portal" + PortalId);
+                CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, "portal" + PortalId);
+            }
+        }
+        public void ClearCache()
+        {
+            CacheUtils.RemoveCache(_cachekey + "SimplisityInfo", "portal" + PortalId);
+            CacheUtils.RemoveCache(_cachekey + "PropertyLimpet", "portal" + PortalId);
         }
         public void DeleteAll()
         {
@@ -47,6 +62,7 @@ namespace RocketDirectoryAPI.Components
             {
                 _objCtrl.Delete(r.ItemID);
             }
+            ClearCache();
         }
         public List<SimplisityInfo> DataList { get; private set; }
         public int PortalId { get; set; }
@@ -91,6 +107,7 @@ namespace RocketDirectoryAPI.Components
         /// </summary>
         public void Reload()
         {
+            ClearCache();
             Populate();
         }
     }
