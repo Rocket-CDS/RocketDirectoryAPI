@@ -26,47 +26,41 @@ namespace RocketDirectoryAPI.Components
         /// <param name="portalId"></param>
         /// <param name="articleId"></param>
         /// <param name="langRequired"></param>
-        public PropertyLimpet(int portalId, int propertyId, string langRequired, string systemKey, bool populate = true)
+        public PropertyLimpet(int portalId, int propertyId, string langRequired, string systemKey)
         {
             _cacheKey = "PropertyLimpet*" + portalId + "*" + propertyId + "*" + langRequired + "*" + systemKey;
-
-            if (propertyId <= 0) propertyId = -1;  // create new record.
             PortalId = portalId;
             EntityTypeCode = systemKey + "PROP";
             TableName = _tableName;
             CultureCode = langRequired;
-
-            Info = new SimplisityInfo();
-            Info.ItemID = propertyId;
-            Info.TypeCode = EntityTypeCode;
-            Info.ModuleId = -1;
-            Info.UserId = -1;
-            Info.PortalId = PortalId;
-            Info.Lang = CultureCode;
             _systemKey = systemKey;
-
-            Populate();
+            Populate(propertyId);
         }
-        private void Populate()
+        private void Populate(int propertyId)
         {
             _objCtrl = new DNNrocketController();
 
-            var info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
-            if (info == null)
+            Info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
+            if (Info == null)
             {
-                info = _objCtrl.GetInfo(PropertyId, CultureCode, TableName); // get existing record.
-                if (info != null) // check if we have a real record.
+                Info = _objCtrl.GetInfo(propertyId, CultureCode, TableName); // get existing record.
+                if (Info == null) // check if we have a real record.
                 {
-                    Info = info;
+                    Info = new SimplisityInfo();
+                    Info.ItemID = -1;
+                    Info.TypeCode = EntityTypeCode;
+                    Info.ModuleId = -1;
+                    Info.UserId = -1;
+                    Info.PortalId = PortalId;
+                    Info.Lang = CultureCode;
                 }
                 else
-                    Info.ItemID = -1; // flags categories does not exist yet.
-
+                {
+                    CacheUtilsDNN.SetCache(_cacheKey, Info);
+                }
                 Info.Lang = CultureCode; // reset langauge, for legacy record, without lang.
                 PortalId = Info.PortalId;
             }
-            else
-                Info = info;
             PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, SystemKey);
         }
         public void Delete()
@@ -80,7 +74,7 @@ namespace RocketDirectoryAPI.Components
                     _objCtrl.Delete(catxrefRecord.ItemID, TableName);
                 }
                 _objCtrl.Delete(Info.ItemID, TableName);
-                CacheUtils.ClearAllCache();
+                CacheUtilsDNN.RemoveCache(_cacheKey);
             }
         }
         private void ReplaceInfoFields(SimplisityInfo postInfo, string xpathListSelect)
@@ -116,16 +110,9 @@ namespace RocketDirectoryAPI.Components
             Info.GUIDKey = Ref;
             var testInfo = _objCtrl.GetByGuidKey(PortalId, -1, EntityTypeCode, Info.GUIDKey, "", _tableName, CultureCode);
             if (testInfo != null && testInfo.ItemID != Info.ItemID)
-            {
                 return -1;
-                //Info.SetXmlProperty("genxml/textbox/ref", Ref + GeneralUtils.GetRandomKey(5));
-                //Info.GUIDKey = Ref;
-            }
             else
-            {
                 return ValidateAndUpdate();
-            }
-
         }
         public List<SimplisityInfo> GetArticlesInfo()
         {
@@ -135,12 +122,9 @@ namespace RocketDirectoryAPI.Components
         public int Update()
         {
             Info = _objCtrl.SaveData(Info, TableName);
-            _cacheKey = "PropertyLimpet*" + Info.PortalId + "*" + Info.ItemID + "*" + Info.Lang + "*" + _tableName;
-            CacheUtilsDNN.SetCache(_cacheKey, Info);
-
+            CacheUtilsDNN.RemoveCache(_cacheKey);
             // clear portal cache, so list so change.
             CacheUtils.ClearAllCache("portal" + PortalId);
-
             return Info.ItemID;
         }
         public int ValidateAndUpdate()

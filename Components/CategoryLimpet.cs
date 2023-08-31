@@ -26,48 +26,41 @@ namespace RocketDirectoryAPI.Components
         /// <param name="portalId"></param>
         /// <param name="articleId"></param>
         /// <param name="langRequired"></param>
-        public CategoryLimpet(int portalId, int categoryId, string langRequired, string systemKey, bool populate = true)
+        public CategoryLimpet(int portalId, int categoryId, string langRequired, string systemKey)
         {
             _cacheKey = "CategoryLimpet*" + portalId + "*" + categoryId + "*" + langRequired + "*" + systemKey;
-
-            if (categoryId <= 0) categoryId = -1;  // create new record.
             PortalId = portalId;
             EntityTypeCode = systemKey + "CAT";
             TableName = _tableName;
             CultureCode = langRequired;
-
-            Info = new SimplisityInfo();
-            Info.ItemID = categoryId;
-            Info.TypeCode = EntityTypeCode;
-            Info.ModuleId = -1;
-            Info.UserId = -1;
-            Info.PortalId = PortalId;
-            Info.Lang = CultureCode;
             _systemKey = systemKey;
-
-            Populate();
+            Populate(categoryId);
         }
-        private void Populate()
+        private void Populate(int categoryId)
         {
             _objCtrl = new DNNrocketController();
 
-            var info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
-            if (info == null)
+            Info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
+            if (Info == null)
             {
-                info = _objCtrl.GetInfo(CategoryId, CultureCode, TableName); // get existing record.
-                if (info != null) // check if we have a real record.
+                Info = _objCtrl.GetInfo(categoryId, CultureCode, TableName); // get existing record.
+                if (Info == null) // check if we have a real record.
                 {
-                    Info = info;
-                    CacheUtilsDNN.SetCache(_cacheKey, Info);
+                    Info = new SimplisityInfo();
+                    Info.ItemID = -1;
+                    Info.TypeCode = EntityTypeCode;
+                    Info.ModuleId = -1;
+                    Info.UserId = -1;
+                    Info.PortalId = PortalId;
+                    Info.Lang = CultureCode;
                 }
                 else
-                    Info.ItemID = -1; // flags categories does not exist yet.
+                {
+                    CacheUtilsDNN.SetCache(_cacheKey, Info);
+                }
                 Info.Lang = CultureCode; // reset langauge, for legacy record, without lang.
                 PortalId = Info.PortalId;
             }
-            else
-                Info = info;
-
             PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, SystemKey);
         }
         public void Delete()
@@ -81,7 +74,7 @@ namespace RocketDirectoryAPI.Components
                     _objCtrl.Delete(catxrefRecord.ItemID, TableName);
                 }
                 _objCtrl.Delete(Info.ItemID, TableName);
-                CacheUtils.ClearAllCache();
+                CacheUtilsDNN.RemoveCache(_cacheKey);
             }
         }
         private void ReplaceInfoFields(SimplisityInfo postInfo, string xpathListSelect)
@@ -190,13 +183,9 @@ namespace RocketDirectoryAPI.Components
                 Info.GUIDKey = GeneralUtils.GetGuidKey();
                 Info = _objCtrl.SaveData(Info, TableName);
             }
-            // Rebuild cacheKey, a new category we will have -1 for id in the old key.
-            _cacheKey = "CategoryLimpet*" + PortalId + "*" + Info.ItemID + "*" + Info.Lang + "*" + _systemKey;
-            CacheUtilsDNN.SetCache(_cacheKey, Info);
-
+            ClearCache();
             // clear portal cache, so list so change.
             CacheUtils.ClearAllCache("portal" + PortalId);
-
             return Info.ItemID;
         }
         public int ValidateAndUpdate()
@@ -261,7 +250,6 @@ namespace RocketDirectoryAPI.Components
 
         #region "properties"
 
-        public RemoteModule RemoteModule { get; set; }
         public string CultureCode { get; set; }
         public string EntityTypeCode { get; set; }
         public SimplisityInfo Info { get; set; }

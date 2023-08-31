@@ -89,7 +89,11 @@ namespace RocketDirectoryAPI.Components
                 if (_articleId > 0)
                 {
                     info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.
-                    if (info != null && info.ItemID > 0) Info = info; // check if we have a real record, or a dummy being created and not saved yet.
+                    if (info != null && info.ItemID > 0)
+                    {
+                        Info = info; // check if we have a real record, or a dummy being created and not saved yet.
+                        CacheUtils.SetCache(_cacheKey, Info);
+                    }
                 }
             }
             else
@@ -197,29 +201,19 @@ namespace RocketDirectoryAPI.Components
         {
             CacheUtils.RemoveCache(_cacheKey);
         }
-        public int Update(bool cacheData = true)
+        public int Update()
         {
             Info = _objCtrl.SaveData(Info, _tableName);
             if (Info.GUIDKey == "")
             {
-                //var l = Info.GetList(ArticleRowListName);
-                //if (l.Count == 0) UpdateArticleRow("<genxml></genxml>"); // Create Default ArticleRow
-
                 // get unique ref
                 Info.GUIDKey = GeneralUtils.GetGuidKey();
                 Info = _objCtrl.SaveData(Info, _tableName);
             }
             _objCtrl.RebuildIndex(PortalId, Info.ItemID, SystemKey, _tableName);
-
-            // Rebuild cacheKey, if we are craeting a new product, we will have -1 for productid in the old key.
-            _articleId = Info.ItemID;
-            _cacheKey = "ArticleLimpet*" + PortalId + "*" + _articleId + "*" + Info.Lang + "*" + SystemKey;
-
-            if (cacheData) CacheUtils.SetCache(_cacheKey, Info);
-
-            // clear portal cache, so list so change.
+            ClearCache();
+            // clear portal cache, for list.
             CacheUtils.ClearAllCache("portal" + PortalId);
-
             return Info.ItemID;
         }
         public int ValidateAndUpdate()
@@ -232,7 +226,7 @@ namespace RocketDirectoryAPI.Components
             Info.ItemID = -1;
             Info.GUIDKey = GeneralUtils.GetGuidKey();
             ClearCache();
-            var i = Update(false);
+            var i = Update();
             return i;
         }
 

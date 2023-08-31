@@ -45,6 +45,10 @@ namespace RocketDirectoryAPI.Components
                     Info.GUIDKey = _guidKey;
                     Info.Lang = CultureCode;
                 }
+                else
+                {
+                    CacheUtils.SetCache(_cacheKey, Info, "portal" + Info.PortalId);
+                }
             }
 
         }
@@ -84,7 +88,7 @@ namespace RocketDirectoryAPI.Components
         public void Update()
         {
             _objCtrl.SaveData(Info, _tableName);
-            CacheUtils.SetCache(_cacheKey, Info, "portal" + Info.PortalId);
+            ClearCache();
         }
         public void Delete()
         {

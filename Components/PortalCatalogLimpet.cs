@@ -84,8 +84,7 @@ namespace RocketDirectoryAPI.Components
                 sqlInject = SecurityInput.CheckForSQLInjection(Record.GetXmlProperty("genxml/sqlfilterarticle"));
                 if (!sqlInject)
                 {
-                    Record = _objCtrl.SaveRecord(Record, _tableName); // you must cache what comes back.  that is the copy of the DB.
-                    CacheUtils.SetCache(_cacheKey, Record);
+                    Record = _objCtrl.SaveRecord(Record, _tableName); 
                 }                
             }
             if (sqlInject)
@@ -93,6 +92,7 @@ namespace RocketDirectoryAPI.Components
                 LogUtils.LogSystem("SQL INJECTION Attempt:" + Record.XMLData);
                 ReadRecord(Record.PortalId, Record.Lang);
             }
+            RemoveCache();
         }
         private void ReadRecord(int portalId, string cultureCode)
         {
@@ -105,6 +105,10 @@ namespace RocketDirectoryAPI.Components
                 Record.ModuleId = -1;
                 Record.TypeCode = _entityTypeCode;
                 Record.Lang = cultureCode;
+            }
+            else
+            {
+                CacheUtils.SetCache(_cacheKey, Record);
             }
         }
         public void Validate()
@@ -126,7 +130,7 @@ namespace RocketDirectoryAPI.Components
             {
                 _objCtrl.Delete(r.ItemID, _tableName);
             }
-            CacheUtils.RemoveCache(_cacheKey);
+            RemoveCache();
         }
         public void RemoveCache()
         {
