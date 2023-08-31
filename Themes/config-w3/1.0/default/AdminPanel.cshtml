@@ -47,12 +47,13 @@
                     articlesfield = ",\"articleid\":\"" + articleid + "\",\"moduleedit\":\"true\"";
                     articleclass = "articlebutton";
                 }
+
                 <div class="w3-col s6 m4 l2 w3-padding ">
-                    <div id="@r.DefaultCommand" class="w3-hover-shadow w3-border w3-margin @articleclass simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"@articlesfield}' style="cursor:pointer;">
-                        <div class=" w3-theme w3-jumbo w3-center">
+                    <div class="w3-margin simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
+                        <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
                             <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
                         </div>
-                        <div class="w3-center">
+                        <div class="w3-center w3-padding" style="line-height:1.2;">
                             <strong>@InterfaceNameResourceKey(r, systemData)</strong>
                         </div>
                     </div>
@@ -62,12 +63,12 @@
         }
 
         <div class="w3-col s6 m4 l2 w3-padding ">
-            <div onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');" class="w3-hover-shadow w3-border w3-margin" style="cursor:pointer;">
-                <div class=" w3-yellow w3-jumbo w3-center">
-                    <span class='material-icons w3-jumbo' style=''>exit_to_app</span>
+            <div onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');" class="w3-margin" style="cursor:pointer;">
+                <div class=" w3-yellow w3-center w3-padding-24 w3-round-large w3-hover-shadow">
+                    <span class='material-icons w3-jumbo' style=''>logout</span>
                 </div>
-                <div class="w3-center">
-                    <strong>@ResourceKey("DNNrocket.back")</strong>
+                <div class="w3-center w3-padding" style="line-height:1.2;">
+                <strong>@ResourceKey("DNNrocket.back")</strong>
                 </div>
             </div>
         </div>

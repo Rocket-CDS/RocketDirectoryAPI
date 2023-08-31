@@ -21,11 +21,10 @@
 
 <div class="w3-bar searchdata">
 
-    <h1>searchtext: @sessionParams.Get("searchtext")</h1>
     <div class="w3-bar-item " style=''>
         <div class="w3-bar">
-            <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
             @TextBox(new SimplisityInfo(), "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
+            <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
             <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
         </div>
     </div>
@@ -55,6 +54,7 @@
         if ($('.actionentrykey').val() !== '') {
             $('.actionentrykey').focus();
             $('.clearsearch').show();
+            $('.dosearch').hide();
             var tmpStr = $('.actionentrykey').val();
             $('.actionentrykey').val('');
             $('.actionentrykey').val(tmpStr);
@@ -62,6 +62,8 @@
         }
         else {
             $('#searchtext').removeClass('w3-theme-light');
+            $('.clearsearch').hide();
+            $('.dosearch').show();
         }
 
         $('.actionentrykey').unbind('keypress');

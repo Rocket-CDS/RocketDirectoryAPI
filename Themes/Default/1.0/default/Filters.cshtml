@@ -64,9 +64,11 @@
 		    var propref = "checkboxfilter" + p.PropertyId;
 		    @:simplisity_setSessionField('@(propref)', ($('#@(propref)').is(":checked") ? "true" : "false"));
 	    }
+		
+        simplisity_setSessionField('disablecache', 'true');
 		$('.simplisity_loader').show();
 
-        $('@(sreturn)').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{"moduleref":"@(sessionParams.ModuleRef)","moduleid":"@(sessionParams.ModuleId)","tabid":"@(sessionParams.TabId)","catid":"@(sessionParams.Get("catid"))","systemkey":"@(moduleSettings.SystemKey)","template":"view.cshtml"}', '');
+        $('#dnn_ctr387_ModuleContent').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{"moduleref":"@(sessionParams.ModuleRef)","moduleid":"@(sessionParams.ModuleId)","tabid":"@(sessionParams.TabId)","catid":"@(sessionParams.Get("catid"))","systemkey":"@(moduleSettings.SystemKey)","template":"view.cshtml"}', '');
 
 	}
 

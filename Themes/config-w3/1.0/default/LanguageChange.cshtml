@@ -42,7 +42,6 @@
 <!-- Top Bar -->
 <div id="topbar" class="w3-bar w3-margin-bottom w3-border-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
 
-
     @if (!Model.GetSettingBool("adminpanel") && !sessionParams.GetBool("portalsystems"))
     {
         <div class="w3-dropdown-hover">
@@ -68,7 +67,7 @@
                         if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
                         {
                             <div class="w3-col s6 m2 l1 w3-padding ">
-                                <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                                     <div class="w3-center ">
                                         <span class='material-icons' style=''>@r.InterfaceIcon</span>
                                     </div>

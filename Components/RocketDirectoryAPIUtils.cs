@@ -110,7 +110,7 @@ namespace RocketDirectoryAPI.Components
             if (sessionParam.PageSize == 0) sessionParam.PageSize = dataObject.ModuleSettings.GetSettingInt("pagesize");
 
             var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
-            if (sessionParam.SearchText == "")
+            if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
             {
                 var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + dataObject.PortalId);
                 if (rtn != null && !dataObject.ModuleSettings.DisableCache) return rtn;
