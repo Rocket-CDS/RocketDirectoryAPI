@@ -38,7 +38,7 @@ namespace RocketDirectoryAPI.Components
             Info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey);
             if (Info == null)
             {
-                Info = _objCtrl.GetByType(portalId, -1, entityTypeCode, "", "", _tableName);
+                Info = _objCtrl.GetByType(portalId, -1, entityTypeCode, "", CultureCode, _tableName);
                 if (Info == null || Info.ItemID <= 0)
                 {
                     Info = new SimplisityInfo();

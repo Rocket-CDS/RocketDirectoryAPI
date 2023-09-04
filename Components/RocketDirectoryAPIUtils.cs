@@ -164,8 +164,6 @@ namespace RocketDirectoryAPI.Components
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
 
             if (dataObject.AppThemeSystem == null) return "No System View";
-            dataObject.ModuleSettings.AppThemeViewFolder = dataObject.PortalContent.AppThemeFolder;
-            dataObject.ModuleSettings.AppThemeViewVersion = dataObject.PortalContent.AppThemeVersion;
             dataObject.ModuleSettings.AppThemeAdminFolder = dataObject.PortalContent.AppThemeFolder;
             dataObject.ModuleSettings.AppThemeAdminVersion = dataObject.PortalContent.AppThemeVersion;
             dataObject.ModuleSettings.ProjectName = dataObject.PortalContent.ProjectName;
