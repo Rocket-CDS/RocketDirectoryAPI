@@ -186,11 +186,9 @@ order by articlename.GUIDKey desc
       <cmd>articleadmin_assignproperty</cmd>
       <action>true</action>
     </command>
-    
 
 
-
-    <command>
+	  <command>
       <cmd>categoryadmin_add</cmd>
       <action>true</action>
     </command>
@@ -328,8 +326,12 @@ order by articlename.GUIDKey desc
     <command>
       <cmd>remote_publicmenu</cmd>
       <action>false</action>
-    </command>
-
+    </command>	  
+	  <command>
+		  <cmd>remote_publicdownload</cmd>
+		  <action>false</action>
+	  </command>
+	  
 	  <command>
 		  <cmd>rocketdirectoryapi_settings</cmd>
 		  <action>true</action>

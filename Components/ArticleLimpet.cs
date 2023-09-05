@@ -303,14 +303,14 @@ namespace RocketDirectoryAPI.Components
         {
             return Info.GetList(DocumentListName);
         }
-        public ArticleDoc AddDoc(string uniqueName)
+        public ArticleDoc AddDoc(string friendlyName, string uniqueName)
         {
             var articleDoc = new ArticleDoc(new SimplisityInfo(), "articledoc");
             if (GetDocList().Count < PortalCatalog.ArticleDocumentLimit)
             {
                 if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
-                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + uniqueName;
-                articleDoc.Name = uniqueName;
+                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + Path.GetFileName(uniqueName);
+                articleDoc.Name = friendlyName;
                 Info.AddListItem(DocumentListName, articleDoc.Info);
                 Update();
             }
@@ -324,6 +324,10 @@ namespace RocketDirectoryAPI.Components
         public ArticleDoc GetDoc(int idx)
         {
             return new ArticleDoc(Info.GetListItem(DocumentListName, idx), "articledoc");
+        }
+        public ArticleDoc GetDoc(string docKey)
+        {
+            return new ArticleDoc(Info.GetListItem(DocumentListName, "genxml/hidden/dockey", docKey), "articledoc");
         }
         public List<ArticleDoc> GetDocs()
         {

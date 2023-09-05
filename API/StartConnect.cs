@@ -152,7 +152,6 @@ namespace RocketDirectoryAPI.API
                     break;
 
 
-
                 case "categoryadmin_add":
                     strOut = AddCategory();
                     break;
@@ -242,6 +241,10 @@ namespace RocketDirectoryAPI.API
                     break;
                 case "remote_publicbase":
                     strOut = GetPublicBase();
+                    break;
+                case "remote_publicdownload":
+                    rtnDic = DownloadArticleFile();
+                    strOut = "";
                     break;
 
 
