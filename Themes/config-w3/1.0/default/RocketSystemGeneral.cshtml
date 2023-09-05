@@ -84,6 +84,10 @@
             @CheckBox(info, "genxml/debugmode", "", "class='w3-input w3-border w3-check'", false)
         </div>
         <div class="w3-quarter w3-padding">
+            <label class="">@ResourceKey("DNNrocket.secureupload")</label><br />
+            @CheckBox(info, "genxml/secureupload", "", "class='w3-input w3-border w3-check'", false)
+        </div>
+        <div class="w3-quarter w3-padding">
             <label class="">@ResourceKey("DNNrocket.securitykey")</label><br />
             @TextBox(info, "genxml/securitykey", "class='w3-input w3-border' ", GeneralUtils.GetGuidKey(), false)
         </div>

@@ -142,7 +142,11 @@ namespace RocketDirectoryAPI.API
             {
                 var filenameList = fileuploadlist.Split('*');
                 var filebase64List = fileuploadbase64.Split('*');
-                var fileList = DocUtils.UploadSecureBase64file(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
+                Dictionary<string,string> fileList;
+                if (_dataObject.PortalContent.SecureUpload)
+                    fileList = DocUtils.UploadSecureBase64file(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
+                else
+                    fileList = DocUtils.UploadBase64fileDict(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
                 foreach (var imgFileMapPath in fileList)
                 {
                     articleData.AddDoc(imgFileMapPath.Value, imgFileMapPath.Key);
@@ -331,7 +335,7 @@ namespace RocketDirectoryAPI.API
             var rtnDic = new Dictionary<string, object>();
             var strId = GeneralUtils.DeCode(_paramInfo.GetXmlProperty("genxml/urlparams/articleid"));
             var articleId = 0;
-            if (GeneralUtils.IsNumeric(strId) && UserUtils.IsAuthorised())
+            if (GeneralUtils.IsNumeric(strId) && (UserUtils.IsAuthorised() || !_dataObject.PortalContent.SecureUpload))
             {
                 articleId = Convert.ToInt32(strId);
                 var articleData = GetActiveArticle(articleId);
@@ -341,7 +345,7 @@ namespace RocketDirectoryAPI.API
                 var dockey = GeneralUtils.DeCode(_paramInfo.GetXmlProperty("genxml/urlparams/dockey"));
                 var articleDoc = articleData.GetDoc(dockey);
                 rtnDic.Add("filenamepath", DNNrocketUtils.MapPath(articleDoc.RelPath));
-                rtnDic.Add("downloadname", articleDoc.Name);
+                rtnDic.Add("downloadname", articleDoc.DownloadName);
             }
             return rtnDic;
         }
