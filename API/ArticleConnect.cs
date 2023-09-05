@@ -335,6 +335,9 @@ namespace RocketDirectoryAPI.API
             {
                 articleId = Convert.ToInt32(strId);
                 var articleData = GetActiveArticle(articleId);
+                articleData.ClearCache(); // reset data to clear cached name.
+                articleData = GetActiveArticle(articleId);
+
                 var dockey = GeneralUtils.DeCode(_paramInfo.GetXmlProperty("genxml/urlparams/dockey"));
                 var articleDoc = articleData.GetDoc(dockey);
                 rtnDic.Add("filenamepath", DNNrocketUtils.MapPath(articleDoc.RelPath));
