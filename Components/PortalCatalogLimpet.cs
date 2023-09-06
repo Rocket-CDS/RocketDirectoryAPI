@@ -142,12 +142,25 @@ namespace RocketDirectoryAPI.Components
             FastReplacer fr = new FastReplacer("{", "}", false);
             fr.Append(SqlFilterTemplate);
             var tokenList = fr.GetTokenStrings();
+            var tokenText = "";
             var nosearchText = true;
             foreach (var token in tokenList)
             {
-                var tok = "r/" + token;
-                var tokenText = paramInfo.GetXmlProperty(tok).Replace("'","''");
-                if (tokenText != "") nosearchText = false;
+                if (token.ToLower().StartsWith("isinrole:"))
+                {
+                    var tsplit = token.Split(':');
+                    if (tsplit.Count() == 2)
+                    {
+                        tokenText = UserUtils.IsInRole(tsplit[1]).ToString();
+                        nosearchText = false;
+                    }
+                }
+                else
+                {
+                    var tok = "r/" + token;
+                    tokenText = paramInfo.GetXmlProperty(tok).Replace("'", "''");
+                    if (tokenText != "") nosearchText = false;
+                }
                 fr.Replace("{" + token + "}", tokenText);
             }
             if (nosearchText) return "";

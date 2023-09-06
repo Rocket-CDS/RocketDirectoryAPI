@@ -39,7 +39,46 @@ and (
 ```
 NOTE: The articlename index is used as the "articlename.GUIDKey" column.
 
-## Example of date range select
+
+## UserInRole
+
+The sql filter supports testing for is a user is in a specific role.
+**Token**
+```
+{isinrole:Manager}
+```
+**SQL Token test**
+```
+'{isinrole:ClientImage}' = 'True'
+```
+This allows fiultering on a role system.
+
+### SQL filter exanple
+```
+and 
+(
+    (
+		isnull(articlename.GUIDKey,'') like '%{searchtext}%'
+		or isnull([XMLData].value('(genxml/textbox/articleref)[1]','nvarchar(max)'),'') like '%{searchtext}%'
+		or isnull([XMLData].value('(genxml/lang/genxml/textbox/articlekeywords)[1]','nvarchar(max)'),'') like '%{searchtext}%'
+    )
+    and
+    (
+        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') >= '{searchdate1}' or '{searchdate1}' = ''
+        and 
+        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') <= '{searchdate2}' or '{searchdate2}' = ''
+    )
+)
+and
+(
+    isnull([XMLData].value('(genxml/checkbox/internal)[1]','bit'),'0') = 0
+    or
+    (isnull([XMLData].value('(genxml/checkbox/internal)[1]','bit'),'0') = 1  and ('{isinrole:Manager}' = 'True' or '{isinrole:ClientImage}' = 'True'))
+)
+```
+
+
+## Date Range
 
 The ```{searchdate1}``` and ```{searchdate2}``` are the data sources to deal with the range select.  
 This example also included a ```{searchtext}```
@@ -159,6 +198,4 @@ and
     )
 )
 ```
-
-
 
