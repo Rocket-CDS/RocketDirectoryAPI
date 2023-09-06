@@ -37,7 +37,8 @@
             </span>
         </a>
     }
-    <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleedit":"@(moduleedit.ToString())"}'>@ButtonText(ButtonTypes.save)</div>
+    <div class="w3-button w3-theme-action simplisity_click savearticlebutton" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleedit":"@(moduleedit.ToString())"}'>@ButtonText(ButtonTypes.save)</div>
+    <div class="w3-button simplisity_click" s-before="articlerichtextSave" s-cmd="articleadmin_editarticle" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleedit":"@(moduleedit.ToString())"}'>@ButtonIcon(ButtonTypes.refresh)</div>
 
     @if (articleData.Exists)
     {
