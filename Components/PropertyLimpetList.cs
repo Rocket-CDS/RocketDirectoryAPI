@@ -45,7 +45,7 @@ namespace RocketDirectoryAPI.Components
             _propertyList = (List<PropertyLimpet>)CacheUtils.GetCache(_cachekey + "PropertyLimpet", "portal" + PortalId);
             if (DataList == null || _propertyList == null || filter != "")
             {
-                DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
+                DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by R1.SortOrder desc, [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
                 PopulatePropertyList();
                 CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, "portal" + PortalId);
                 CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, "portal" + PortalId);

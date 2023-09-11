@@ -108,6 +108,7 @@ namespace RocketDirectoryAPI.Components
             Info.RemoveXmlNode("genxml/checkboxlist");
             Info.AddXmlNode(postInfo.GetXmlNode("genxml/checkboxlist"), "group", "genxml/checkboxlist");
             Info.GUIDKey = Ref;
+            Info.SortOrder = Info.GetXmlPropertyInt("genxml/textbox/sortorder");
             var testInfo = _objCtrl.GetByGuidKey(PortalId, -1, EntityTypeCode, Info.GUIDKey, "", _tableName, CultureCode);
             if (testInfo != null && testInfo.ItemID != Info.ItemID)
                 return -1;

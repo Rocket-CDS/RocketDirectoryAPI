@@ -84,9 +84,13 @@
                         }
                         @TextBox(info, "genxml/textbox/ref", " class='w3-input w3-border' autocomplete='off' " + disabledref, "", false, 0)
                     </div>
-                    <div class='w3-col m10 w3-padding'>
+                    <div class='w3-col m8 w3-padding'>
                         <label>@ResourceKey("RC.name")</label>		&nbsp;@EditFlag(sessionParams)
                         @TextBox(info, "genxml/lang/genxml/textbox/name", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
+                    </div>
+                    <div class='w3-col m2 w3-padding' style="">
+                        <label>@ResourceKey("DNNrocket.sortorder")</label>
+                        @TextBox(info, "genxml/textbox/sortorder", " class='w3-input w3-border' autocomplete='off' min='0' step='1' ", "", false, 0,"","number")
                     </div>
                 </div>
                 <div class='w3-row w3-padding'>

@@ -37,6 +37,7 @@
             @foreach (PropertyLimpet propertyData in propertyList)
             {
                 <tr class=" simplisity_click" s-cmd="propertyadmin_edit" s-fields='{"propertyid":"@propertyData.PropertyId","track":"true"}' style="cursor:pointer;">
+                    <td class="w3-small">@propertyData.SortOrder</td>
                     <td><div class="w3-tiny">@propertyData.Ref</div><b>@propertyData.Name</b></td>
                     <td>
                         @foreach (var g in propertyData.PropertyGroups())
