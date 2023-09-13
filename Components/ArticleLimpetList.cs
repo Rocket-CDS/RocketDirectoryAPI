@@ -108,27 +108,7 @@ namespace RocketDirectoryAPI.Components
             SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
             RecordCount = SessionParamData.RowCount;
 
-            DataList = new List<SimplisityInfo>();
-            var rtnList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
-            if (!String.IsNullOrWhiteSpace(propertyFilter) && !PortalCatalog.FilterByInAll)
-            {
-                // Remove duplicate here.
-                // The SQL needs a "cross apply" and the SPROC is not build to remove duplicates.
-                // This will give a bad pagesize count, but is a quick fix for filter duplicates rather that creating a new SPROC.
-                var iList = new List<int>();
-                foreach (var i in rtnList)
-                {
-                    if (!iList.Contains(i.ItemID))
-                    {
-                        iList.Add(i.ItemID);
-                        DataList.Add(i);
-                    }
-                }
-            }
-            else
-            {
-                DataList = rtnList;
-            }
+            DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
         }
         public void DeleteAll()
         {
@@ -161,7 +141,7 @@ namespace RocketDirectoryAPI.Components
                     else
                     {
                         if (checkboxfilter != "") checkboxfilter += " or ";
-                        checkboxfilter += " [PROPXREF].[XrefItemId] = " + propid + " ";
+                        checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
                     }
                 }
             }
