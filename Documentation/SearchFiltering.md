@@ -49,7 +49,7 @@ The sql filter supports testing for is a user is in a specific role.
 ```
 **SQL Token test**
 ```
-'{isinrole:ClientImage}' = 'True'
+'{isinrole:ClientEditor}' = 'True'
 ```
 This allows fiultering on a role system.
 
@@ -73,7 +73,7 @@ and
 (
     isnull([XMLData].value('(genxml/checkbox/internal)[1]','bit'),'0') = 0
     or
-    (isnull([XMLData].value('(genxml/checkbox/internal)[1]','bit'),'0') = 1  and ('{isinrole:Manager}' = 'True' or '{isinrole:ClientImage}' = 'True'))
+    (isnull([XMLData].value('(genxml/checkbox/internal)[1]','bit'),'0') = 1  and ('{isinrole:Manager}' = 'True' or '{isinrole:ClientEditor}' = 'True'))
 )
 ```
 
