@@ -10,23 +10,27 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketEcommerce/App_LocalResources/")
 
 @{
-    var portalContent = (PortalCatalogLimpet)Model.List.First();
-    var info = portalContent.Info;
-    var systemData = SystemSingleton.Instance(portalContent.SystemKey);
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
+    var info = portalCatalog.Info;
+    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
-
+}
+<!--inject-->
+@{
     var pluginDict = new Dictionary<string, string>();
-
 }
 @foreach (var p in systemData.InterfaceList)
 {
     var interfaceProvider = new RocketInterface(systemData.SystemInfo, p.Key);
     AddProcessData("resourcepath", interfaceProvider.TemplateRelPath + "/App_LocalResources/");
 }
-@foreach (SimplisityInfo p in portalContent.PluginActveList(false))
+@foreach (SimplisityInfo p in portalCatalog.PluginActveList(false))
 {
     var key = p.GetXmlProperty("genxml/hidden/pluginkey");
-    pluginDict.Add(key, ResourceKey("SideMenu." + key).ToString());
+    if (!pluginDict.ContainsKey(key))
+    {
+        pluginDict.Add(key, ResourceKey("SideMenu." + key).ToString());
+    }
     var interfaceProvider = new RocketInterface(systemDirectoryData.SystemInfo, key);
     AddProcessData("resourcepath", interfaceProvider.TemplateRelPath + "/App_LocalResources/");
 }
@@ -55,7 +59,7 @@
                     <li class="w3-row w3-padding-small plugins">
                         <div class="w3-col m1 w3-padding-small">
                             @{
-                                var i = portalContent.Info.GetListItem("plugins", "genxml/hidden/pluginkey", interfaceProvider.InterfaceKey);
+                                var i = portalCatalog.Info.GetListItem("plugins", "genxml/hidden/pluginkey", interfaceProvider.InterfaceKey);
                             }
                             @CheckBox(i, "genxml/checkbox/active", "", "class='w3-input w3-border w3-check '", false, false, lp4)                                
                         </div>

@@ -10,15 +10,17 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var portalCatalog = (PortalCatalogLimpet)Model.List.First();
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var info = portalCatalog.Info;
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
     var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemecatalog");
     var appThemeList = (AppThemeDataList)Model.GetDataObject("appthemedatalist");
-
     var projectData = new AppThemeProjectLimpet();
+}
+<!--inject-->
+@{
     var selectedProject = portalCatalog.ProjectName;
     if (selectedProject == "" && projectData.ActiveList().Count > 0)
     {
@@ -29,7 +31,6 @@
     {
         requiredCSS = "w3-pale-red";
     }
-
 }
 
 <div id="sidemenugeneraldata" class="w3-container a-panelsidemenu">

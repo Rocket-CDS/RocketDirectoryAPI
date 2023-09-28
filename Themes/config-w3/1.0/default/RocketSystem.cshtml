@@ -3,37 +3,40 @@
 @using Simplisity;
 @using DNNrocketAPI.Components;
 @using RocketPortal.Components;
+@using Rocket.AppThemes.Components;
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/AppThemes/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var portalCatalog = (PortalCatalogLimpet)Model.List.First();
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var info = portalCatalog.Info;
     var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
     var appThemeCatalog = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var defaultsData = (SecurityLimpet)Model.GetDataObject("securitydata");
     DNNrocketUtils.SetCurrentCulture(DNNrocketUtils.GetEditCulture());
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
+    var appThemeList = (AppThemeDataList)Model.GetDataObject("appthemedatalist");
+    var projectData = new AppThemeProjectLimpet();
+    var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
+    var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
 }
 
 @RenderLanguageSelector("rocketsystem_edit", new Dictionary<string, string>(), appThemeCatalog, Model)
 
-
 <div class='w3-animate-opacity'>
 
     <div class="w3-bar  w3-padding">
-        <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.save)</button>
+        <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-cmd="portalcatalog_save" s-return=".systempopup" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId","portalsystems":"@Model.SessionParamsData.Get("portalsystems")"}'>@ButtonText(ButtonTypes.save)</button>
     </div>
 
     <div id="systemadminsection" class="w3-row">
-        @RenderTemplate("RocketSystemGeneral.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemConfig.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemTools.cshtml", appThemeCatalog, Model, true)
-        @RenderTemplate("RocketSystemProviders.cshtml", appThemeCatalog, Model, true)
+        [INJECT:appthemedirectory,RocketSystemGeneral.cshtml]
+        [INJECT:appthemedirectory,RocketSystemConfig.cshtml]
+        [INJECT:appthemedirectory,RocketSystemProviders.cshtml]
+        [INJECT:appthemedirectory,RocketSystemTools.cshtml]
     </div>
 
     <div>
@@ -41,7 +44,7 @@
         {
             <div class="w3-container">
                 <div class="w3-right">
-                    @RenderXml(portalCatalog.Info)
+                    @RenderXml(info)
                 </div>
             </div>
         }

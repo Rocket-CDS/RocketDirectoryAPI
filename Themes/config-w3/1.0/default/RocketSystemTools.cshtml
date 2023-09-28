@@ -9,7 +9,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var portalCatalog = (PortalCatalogLimpet)Model.List.First();
+    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var info = portalCatalog.Info;
 }
