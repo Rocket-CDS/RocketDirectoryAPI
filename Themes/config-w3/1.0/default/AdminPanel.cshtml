@@ -26,12 +26,14 @@
     var viewurl = userParams.Get("viewurl");
     Model.SetSetting("adminpanel", "true");
 }
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
+
 <div class="w3-main w3-animate-opacity adminpaneldisplay" style="display:none;">
  
  
     <div id="simplisity_startpanel" class="w3-row w3-padding simplisity_panel">
         <div class="w3-row">
-            @RenderLanguageSelector("rocketdirectoryapi_adminpanel", new Dictionary<string, string>(), appThemeDirectory, Model)
+            @RenderLanguageSelector(systemData.SystemKey + "_adminpanel", new Dictionary<string, string>(), appThemeDirectory, Model)
         </div>
 
         <h1>@catalogSettings.CatalogName</h1>
@@ -40,23 +42,26 @@
         {
             if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
             {
-                var articlesfield = "";
-                var articleclass = "";
-                if (r.DefaultCommand == "articleadmin_editlist" && articleid > 0)
+                if (!portalContent.IsPlugin(r.InterfaceKey) || (portalContent.IsPlugin(r.InterfaceKey) && portalContent.IsPluginActive(r.InterfaceKey)))
                 {
-                    articlesfield = ",\"articleid\":\"" + articleid + "\",\"moduleedit\":\"true\"";
-                    articleclass = "articlebutton";
-                }
-                <div class="w3-col s6 m4 l2 " style="height:210px;">
-                    <div class="w3-margin @(articleclass) simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
-                        <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
-                            <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
-                        </div>
-                        <div class="w3-center w3-padding" style="line-height:1.2;">
-                            <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                    var articlesfield = "";
+                    var articleclass = "";
+                    if (r.DefaultCommand == "articleadmin_editlist" && articleid > 0)
+                    {
+                        articlesfield = ",\"articleid\":\"" + articleid + "\",\"moduleedit\":\"true\"";
+                        articleclass = "articlebutton";
+                    }
+                    <div class="w3-col s6 m4 l2 " style="height:210px;">
+                        <div class="w3-margin @(articleclass) simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
+                            <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
+                                <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
+                            </div>
+                            <div class="w3-center w3-padding" style="line-height:1.2;">
+                                <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
 
         }

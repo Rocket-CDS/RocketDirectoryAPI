@@ -304,7 +304,12 @@ namespace RocketDirectoryAPI.Components
                 return countInt;
             }
         }
-
+        public bool IsPlugin(string interfaceKey)
+        {
+            var i = Info.GetListItem("plugins", "genxml/hidden/pluginkey", interfaceKey);
+            if (i == null) return false;
+            return true;
+        }
         public bool IsPluginActive(string interfaceKey)
         {
             //if (interfaceKey == "dashboard") return true;
