@@ -10,6 +10,7 @@ using DNNrocketAPI.Components;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -115,14 +116,20 @@ namespace RocketDirectoryAPI.Components
                 _propXrefListId.Add(p.XrefItemId);
                 _propXrefListRef.Add(c.Ref);
             }
+
             _catXrefList = _objCtrl.GetList(PortalId, -1, "CATXREF", " and R1.[ParentItemId] = " + ArticleId + " ", "", "", 0, 0, 0, 0, _tableName);
             _catXrefListId = new List<int>();
             _catXrefListRef = new List<string>();
             foreach (var p in _catXrefList)
             {
                 var c = new CategoryLimpet(PortalId, p.XrefItemId, CultureCode, SystemKey);
-                _catXrefListId.Add(p.XrefItemId);
-                _catXrefListRef.Add(c.Ref);
+                if (c.Exists)
+                {
+                    _catXrefListId.Add(p.XrefItemId);
+                    _catXrefListRef.Add(c.Ref);
+                }
+                else
+                    RemoveCategory(c.CategoryId);
             }
         }
         public void Delete()

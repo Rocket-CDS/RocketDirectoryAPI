@@ -1,16 +1,87 @@
 ﻿using DNNrocketAPI.Components;
 using Newtonsoft.Json.Linq;
 using RazorEngine.Text;
+using Rocket.AppThemes.Components;
+using RocketPortal.Components;
 using Simplisity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace RocketDirectoryAPI.Components
 {
     public class RocketDirectoryAPITokens<T> : DNNrocketAPI.render.DNNrocketTokens<T>
     {
+        // Define data classes, so we can use intellisense in inject templates
+        public ArticleLimpet articleData;
+        public AppThemeLimpet appTheme;
+        public AppThemeLimpet appThemeDefault;
+        public AppThemeSystemLimpet appThemeSystem;
+        public AppThemeSystemLimpet appThemeDirectory;
+        public AppThemeLimpet appThemeDirectoryDefault;
+        public ModuleContentLimpet moduleData;
+        [Obsolete("Use moduleData instead")]
+        public ModuleContentLimpet moduleSettings;
+        public PortalLimpet portalData;
+        public PortalCatalogLimpet portalContent;
+        public List<string> enabledlanguages = DNNrocketUtils.GetCultureCodeList();
+        public SessionParams sessionParams;
+        public UserParams userParams;
+        public SimplisityInfo info;
+        public SystemLimpet systemData;
+        public SystemLimpet systemDirectoryData;
+        public CatalogSettingsLimpet catalogSettings;
+        public CategoryLimpetList categoryList;
+        public CategoryLimpet categoryData;
+        public PropertyLimpetList propertyList;
+        public PropertyLimpet propertyData;
+        public AppThemeProjectLimpet appThemeProjects;
+        public DefaultsLimpet defaultData;
+        public SystemGlobalData globalSettings;
+        public AppThemeDataList appThemeDataList;
+        public DashboardLimpet dashBoard;
+
+        public string AssigDataModel(SimplisityRazor sModel)
+        {
+            appTheme = (AppThemeLimpet)sModel.GetDataObject("apptheme");
+            appThemeDefault = (AppThemeLimpet)sModel.GetDataObject("appthemedefault");
+            appThemeSystem = (AppThemeSystemLimpet)sModel.GetDataObject("appthemesystem");
+            appThemeDirectory = (AppThemeSystemLimpet)sModel.GetDataObject("appthemedirectory");
+            appThemeDirectoryDefault = (AppThemeLimpet)sModel.GetDataObject("appthemedirectorydefault");
+            appThemeProjects = (AppThemeProjectLimpet)sModel.GetDataObject("appthemeprojects");
+            appThemeDataList = (AppThemeDataList)sModel.GetDataObject("appthemedatalist");
+            portalContent = (PortalCatalogLimpet)sModel.GetDataObject("portalcontent");
+            systemData = (SystemLimpet)sModel.GetDataObject("systemdata");
+            systemDirectoryData = (SystemLimpet)sModel.GetDataObject("systemdirectorydata");
+            portalData = (PortalLimpet)sModel.GetDataObject("portaldata");
+            catalogSettings = (CatalogSettingsLimpet)sModel.GetDataObject("catalogsettings");
+            articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
+            moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
+            moduleSettings = moduleData;
+            categoryList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
+            categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
+            propertyList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
+            propertyData = (PropertyLimpet)sModel.GetDataObject("propertydata");
+            defaultData = (DefaultsLimpet)sModel.GetDataObject("defaultdata");
+            globalSettings = (SystemGlobalData)sModel.GetDataObject("globalsettings");
+            dashBoard = (DashboardLimpet)sModel.GetDataObject("dashboard");
+            articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
+            sessionParams = sModel.SessionParamsData;
+            userParams = (UserParams)sModel.GetDataObject("userparams");
+
+            if (sessionParams == null) sessionParams = new SessionParams(new SimplisityInfo());
+            info = articleData.Info;
+            if (info == null) info = new SimplisityInfo();
+
+            AddProcessDataResx(appTheme, true);
+            AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
+            AddProcessData("resourcepath", systemDirectoryData.SystemRelPath + "/App_LocalResources/");
+
+            // use return of "string", so we don;t get error with converting void to object.
+            return "";
+        }
 
         public IEncodedString TextBoxMoney(string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
         {
@@ -50,3 +121,4 @@ namespace RocketDirectoryAPI.Components
 
     }
 }
+

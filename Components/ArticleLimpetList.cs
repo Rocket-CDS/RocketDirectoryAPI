@@ -22,6 +22,8 @@ namespace RocketDirectoryAPI.Components
         private string _entityTypeCode;
         private DNNrocketController _objCtrl;
         private string _searchFilter;
+        private int _searchcategoryid;
+        private int _catidurl;
         private int _catid;
         private string _systemKey;
 
@@ -33,11 +35,13 @@ namespace RocketDirectoryAPI.Components
             _langRequired = langRequired;
             if (_langRequired == "") _langRequired = DNNrocketUtils.GetCurrentCulture();
             _objCtrl = new DNNrocketController();
+            CatalogSettings = new CatalogSettingsLimpet(portalCatalog.PortalId, _langRequired, _systemKey);
 
             var paramInfo = new SimplisityInfo();
             SessionParamData = new SessionParams(paramInfo);
             SessionParamData.PageSize = 0;
 
+            _searchcategoryid = categoryId;
             _catid = categoryId;
 
             if (populate) Populate();
@@ -61,7 +65,9 @@ namespace RocketDirectoryAPI.Components
             if (sessionParams.Page <= 0) sessionParams.Page = 1;
 
             _catid = sessionParams.GetInt("catid");
+            _catidurl = _catid;
             if (_catid == 0) _catid = defaultCategoryId;
+            _searchcategoryid = _catid;
 
             if (sessionParams.OrderByRef == "" && _catid == 0) sessionParams.OrderByRef = "sqlorderby-article-name";
 
@@ -83,7 +89,7 @@ namespace RocketDirectoryAPI.Components
 
             _searchFilter += searchText;
             _searchFilter += propertyFilter;
-            if (_catid > 0) _searchFilter += " and [CATXREF].[XrefItemId] = " + _catid + " ";
+            if (_searchcategoryid > 0) _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
 
             // Filter hidden
             if (!showHidden)
@@ -92,7 +98,7 @@ namespace RocketDirectoryAPI.Components
             }
 
             var orderby = "";
-            if (_catid > 0 && CatalogSettings.ManualCategoryOrderby)
+            if (_searchcategoryid > 0 && CatalogSettings.ManualCategoryOrderby)
                 orderby = " order by [CATXREF].[SortOrder] "; // use manual sort for articles by category;
             else
                 orderby = PortalCatalog.OrderByProductSQL(SessionParamData.OrderByRef);
@@ -161,7 +167,7 @@ namespace RocketDirectoryAPI.Components
         public CatalogSettingsLimpet CatalogSettings { get; private set; }
         
         public int RecordCount { get; set; }
-        public int CategoryId { get { return _catid; } }        
+        public int CategoryId { get { return _searchcategoryid; } }
         public List<ArticleLimpet> GetArticleList()
         {
             _articleList = new List<ArticleLimpet>();

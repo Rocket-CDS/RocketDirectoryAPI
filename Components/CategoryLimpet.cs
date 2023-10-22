@@ -173,6 +173,8 @@ namespace RocketDirectoryAPI.Components
         public void ClearCache()
         {
             CacheUtils.RemoveCache(_cacheKey);
+            // clear portal cache, so list so change.
+            CacheUtils.ClearAllCache("portal" + PortalId);
         }
         public int Update()
         {
@@ -184,8 +186,6 @@ namespace RocketDirectoryAPI.Components
                 Info = _objCtrl.SaveData(Info, TableName);
             }
             ClearCache();
-            // clear portal cache, so list so change.
-            CacheUtils.ClearAllCache("portal" + PortalId);
             return Info.ItemID;
         }
         public int ValidateAndUpdate()
