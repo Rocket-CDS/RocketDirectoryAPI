@@ -1,20 +1,10 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
-@using Simplisity;
 @using RocketDirectoryAPI.Components;
-@using RocketPortal.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/Images/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var imgLP = 0;
-    var datalist = articleData.GetImageList();
-    var globalSettings = new SystemGlobalData();
-    var sessionParams = Model.SessionParamsData;
-    var portalData = new PortalLimpet(articleData.PortalId);
 }
 
 <div class="w3-row imagelistdatasection">
@@ -26,7 +16,7 @@
 
     <ul id="imagelistdata" class="w3-ul">
 
-        @foreach (var imgInfo in datalist)
+        @foreach (var imgInfo in articleData.GetImageList())
         {
             imgLP += 1;
             var articleImage = new ArticleImage(imgInfo, "articleimage");
@@ -38,14 +28,7 @@
                 <div class="w3-display-container w3-card">
                     <div class="w3-row">
                         <div class="w3-col m3 l2 w3-padding-small" style="width:100px;">
-                            @if (articleImage.RelPath != "")
-                            {
-                                <img src="@ImageUrl(articleImage.RelPath, 80, 80)" style="height:80px;width:80px;" class="w3-round" />
-                            }
-                            else
-                            {
-                                <img src="@ImageUrl("/DesktopModules/DNNrocket/api/images/noimage2.png", 80, 80)" style="height:80px;width:80px;" class="w3-round" />
-                            }
+                            <img src="@ImageUrl(articleImage.RelPath, 80, 80)" style="height:80px;width:80px;" class="w3-round" />
                         </div>
                         <div class="w3-col m7 l8 w3-padding-small ">
                             @TextBox(imgInfo, "genxml/lang/genxml/textbox/imagealt", "class='w3-input w3-border w3-margin-top' MaxLength='200'  autocomplete='off'", "", true, imgLP)
@@ -63,6 +46,8 @@
     </ul>
 
 </div>
+
+[INJECT:appthemesystem,ArticleimageSelect.cshtml]
 
 <script>
     $(document).ready(function () {

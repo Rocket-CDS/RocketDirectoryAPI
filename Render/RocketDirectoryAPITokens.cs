@@ -16,6 +16,7 @@ namespace RocketDirectoryAPI.Components
     {
         // Define data classes, so we can use intellisense in inject templates
         public ArticleLimpet articleData;
+        public ArticleLimpetList articleDataList;
         public AppThemeLimpet appTheme;
         public AppThemeLimpet appThemeDefault;
         public AppThemeSystemLimpet appThemeSystem;
@@ -30,12 +31,13 @@ namespace RocketDirectoryAPI.Components
         public SessionParams sessionParams;
         public UserParams userParams;
         public SimplisityInfo info;
+        public SimplisityInfo infoempty;        
         public SystemLimpet systemData;
         public SystemLimpet systemDirectoryData;
         public CatalogSettingsLimpet catalogSettings;
-        public CategoryLimpetList categoryList;
+        public CategoryLimpetList categoryDataList;
         public CategoryLimpet categoryData;
-        public PropertyLimpetList propertyList;
+        public PropertyLimpetList propertyDataList;
         public PropertyLimpet propertyData;
         public AppThemeProjectLimpet appThemeProjects;
         public DefaultsLimpet defaultData;
@@ -60,20 +62,23 @@ namespace RocketDirectoryAPI.Components
             articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
             moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
             moduleSettings = moduleData;
-            categoryList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
+            categoryDataList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
             categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
-            propertyList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
+            propertyDataList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
             propertyData = (PropertyLimpet)sModel.GetDataObject("propertydata");
             defaultData = (DefaultsLimpet)sModel.GetDataObject("defaultdata");
             globalSettings = (SystemGlobalData)sModel.GetDataObject("globalsettings");
             dashBoard = (DashboardLimpet)sModel.GetDataObject("dashboard");
             articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
+            articleDataList = (ArticleLimpetList)sModel.GetDataObject("articlelist");
             sessionParams = sModel.SessionParamsData;
             userParams = (UserParams)sModel.GetDataObject("userparams");
 
             if (sessionParams == null) sessionParams = new SessionParams(new SimplisityInfo());
-            info = articleData.Info;
-            if (info == null) info = new SimplisityInfo();
+            info = new SimplisityInfo();
+            if (articleData != null) info = articleData.Info;
+            infoempty = new SimplisityInfo();
+
 
             AddProcessDataResx(appTheme, true);
             AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");

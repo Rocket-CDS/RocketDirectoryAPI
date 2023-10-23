@@ -1,29 +1,14 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketDirectoryAPI.Components;
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
 @using DNNrocketAPI.Components;
-@using System.Globalization;
-@using Rocket.AppThemes.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
-@{
-
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-
-    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
-}
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
 
 <div class="w3-bar searchdata">
 
     <div class="w3-bar-item " style=''>
         <div class="w3-bar">
-            @TextBox(new SimplisityInfo(), "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
+            @TextBox(infoempty, "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
             <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
             <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
         </div>
@@ -37,11 +22,11 @@
             orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
         }
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
-            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "12,24,48,96", "12,24,48,96", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
+            @DropDownList(infoempty, "genxml/hidden/pagesize", "12,24,48,96", "12,24,48,96", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
             <span>
-                @DropDownList(new SimplisityInfo(), "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
+                @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
             </span>
         </div>
     }
@@ -87,10 +72,10 @@
         simplisity_setSessionField('orderbyref', $('#orderbyref').val());
         $('.simplisity_loader').show();
         @{
-        var urlparams = new Dictionary<string, string>();
-        urlparams.Add("page", "1");
+        var urlp = new Dictionary<string, string>();
+        urlp.Add("page", "1");
         }
-        window.location.href = '@(DNNrocketUtils.NavigateURL(sessionParams.TabId, urlparams))';
+            window.location.href = '@(DNNrocketUtils.NavigateURL(sessionParams.TabId, urlp))';
     }
 
 </script>

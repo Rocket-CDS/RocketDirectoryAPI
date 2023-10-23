@@ -1,21 +1,11 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
-@using Simplisity;
 @using RocketDirectoryAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/Docs/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var docLP = 1;
-
-    var datalist = articleData.GetDocList();
-    var globalSettings = new SystemGlobalData();
-    var sessionParams = Model.SessionParamsData;
 }
-
 <div class="w3-row documentlistdatasection">
 
     <div class="w3-bar-block">
@@ -25,7 +15,7 @@
 
     <ul id="documentlistdata" class="w3-ul">
 
-        @foreach (var docInfo in datalist)
+        @foreach (var docInfo in articleData.GetDocList())
         {
             <li class="documentlist w3-display-container w3-padding w3-border-0" style="list-style-type: none;">
                 @SortableListIndex(docInfo, docLP)
@@ -53,6 +43,8 @@
     </ul>
 
 </div>
+
+[INJECT:appthemesystem,ArticleDocumentSelect.cshtml]
 
 <script>
     $(document).ready(function () {

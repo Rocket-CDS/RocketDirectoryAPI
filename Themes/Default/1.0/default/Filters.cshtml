@@ -1,30 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
-@using RocketDirectoryAPI.Components;
 @using DNNrocketAPI.Components;
-@using System.Globalization;
-
-@{
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var categoryList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata"); ;
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var sreturn = Model.GetSetting("searchreturnelement");
-
-}
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-@AddProcessData("resourcepath", appTheme.AppThemeVersionFolderRel + "/resx/")
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
 
 <div class="rocket-filters">
 

@@ -1,21 +1,10 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
-@using Simplisity;
 @using RocketDirectoryAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/RocketMod/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketECommerce/App_LocalResources/")
-
-
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var articleData = (ArticleLimpet)Model.List.First();
     var linkLP = 0;
-
-    var datalist = articleData.GetLinkList();
-    var globalSettings = new SystemGlobalData();
-    var sessionParams = Model.SessionParamsData;
     var fieldId = "articlelink";
 }
 
@@ -28,7 +17,7 @@
 
     <ul id="linklistdata" class="w3-ul">
 
-        @foreach (var linkInfo in datalist)
+        @foreach (var linkInfo in articleData.GetLinkList())
         {
             <li class="linklist w3-display-container w3-border-0"  style="list-style-type: none;">
                 @SortableListIndex(linkInfo, linkLP)

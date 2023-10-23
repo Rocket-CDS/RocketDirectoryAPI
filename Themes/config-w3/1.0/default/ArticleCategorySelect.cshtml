@@ -1,19 +1,10 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketDirectoryAPI.Components;
 @using DNNrocketAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var articleData = (ArticleLimpet)Model.List.First();
-    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorylist");
     var treelist = categoryDataList.GetCategoryTree();
-    var passModel = new SimplisityRazor(categoryDataList, Model.Settings);
 }
-
 <style>
     .w3-ul-alt {
         list-style-type: none;
@@ -42,16 +33,10 @@
         <div class="w3-margin-top" style="">
             <div id="datalistcategory" class="w3-container w3-padding">
 
-                @{
-                    var lp1 = 0;
-                }
-
                 <ul id="categorylistdata" class="w3-ul  w3-hoverable " style="border-bottom: none;">
 
                     @foreach (var catData in treelist)
                     {
-                        lp1 += 1;
-
                         <li class="categorylist w3-row simplisity_click" s-cmd="articleadmin_assigncategory" s-return=".a-articlecategorylist" s-fields='{"articleid":"@(articleData.ArticleId)","categoryid":"@(catData.CategoryId)"}'>
                             <div class="w3-row" style="">
                                 @{

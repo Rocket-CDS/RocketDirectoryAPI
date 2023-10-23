@@ -1,18 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketDirectoryAPI.Components;
 @using DNNrocketAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
-@{
-    var articleData = (ArticleLimpet)Model.List.First();
-    var propertyDataList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var categorySettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    
-}
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
 
 <style>
     .w3-ul-alt {
@@ -43,12 +33,12 @@
                 @{
                     var propertyGroups = new Dictionary<string, string>();
                     propertyGroups.Add("", "");
-                    foreach (var pg in categorySettings.GetPropertyGroups())
+                    foreach (var pg in catalogSettings.GetPropertyGroups())
                     {
                         propertyGroups.Add(pg.Key, pg.Value);
                     }
                 }
-                @DropDownList(new SimplisityInfo(),"genxml/propertygroupselect", propertyGroups," class='w3-input w3-border  w3-padding' ")
+                @DropDownList(infoempty,"genxml/propertygroupselect", propertyGroups," class='w3-input w3-border  w3-padding' ")
             </div>
 
 

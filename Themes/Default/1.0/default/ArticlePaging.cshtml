@@ -1,21 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketDirectoryAPI.Components;
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
 @using DNNrocketAPI.Components;
-@using System.Globalization;
-@using Rocket.AppThemes.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-
-
     var rowcount = articleDataList.SessionParamData.RowCount;
     var page = articleDataList.SessionParamData.Page;
     var pagesize = articleDataList.SessionParamData.PageSize;

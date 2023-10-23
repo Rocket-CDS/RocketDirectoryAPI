@@ -23,6 +23,10 @@ namespace RocketDirectoryAPI.Components
             if (!editMode) cultureCode = sessionParams.CultureCode;
             Populate(portalid, moduleRef, cultureCode, sessionParams.ModuleId, sessionParams.TabId, systemKey);
         }
+        public void Reload()
+        {
+            Populate(PortalId, ModuleRef, CultureCode, ModuleId, TabId, SystemKey);
+        }
         public void Populate(int portalid, string moduleRef, string cultureCode, int moduleId, int tabId, string systemKey, bool refresh = false)
         {
             _systemKey = systemKey;
@@ -50,8 +54,7 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
             SetDataObject("dashboard", new DashboardLimpet(portalid, cultureCode));
-
-
+            SetDataObject("userparams", new UserParams("ModuleID:" + moduleId, true));             
 
             ProceesSessionParams();
         }
@@ -118,6 +121,10 @@ namespace RocketDirectoryAPI.Components
         }
         public string SystemKey { get { return _systemKey; } }
         public int PortalId { get { return PortalData.PortalId; } }
+        public string ModuleRef { get { return ModuleSettings.ModuleRef; } }
+        public int ModuleId { get { return ModuleSettings.ModuleId; } }
+        public int TabId { get { return ModuleSettings.TabId; } }
+        public string CultureCode { get { return PortalContent.CultureCode; } }
         public Dictionary<string, object> DataObjects { get { return _dataObjects; } }
         public ModuleContentLimpet ModuleSettings { get { return (ModuleContentLimpet)GetDataObject("modulesettings"); } }
         public AppThemeSystemLimpet AppThemeSystem { get { return (AppThemeSystemLimpet)GetDataObject("appthemesystem"); } }

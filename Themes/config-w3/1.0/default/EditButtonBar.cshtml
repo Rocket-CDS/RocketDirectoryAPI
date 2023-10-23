@@ -1,28 +1,10 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketDirectoryAPI.Components;
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
-@using DNNrocketAPI.Components;
-@using System.Globalization;
-@using Rocket.AppThemes.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AssigDataModel(Model)
+<!--inject-->
 
 @{
-
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
-
-    var info = new SimplisityInfo();
-    if (articleData.Info != null)
-    {
-        info = articleData.Info;
-    }
 }
 
 <div class="w3-bar  w3-padding">

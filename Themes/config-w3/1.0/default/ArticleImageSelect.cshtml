@@ -1,23 +1,8 @@
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using DNNrocketAPI;
 @using DNNrocketAPI.Components;
-@using Simplisity;
 @using RocketDirectoryAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
-@{
-    var info = new SimplisityInfo();
-    var globalSettings = new SystemGlobalData();
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-    if (articleData.Info != null)
-    {
-        info = articleData.Info;
-    }
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-
-}
+@AssigDataModel(Model)
+<!--inject-->
 
 <div id="articleimageselect" class="w3-modal">
     <div class="w3-modal-content" style="width:40%;">

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Xml;
 
@@ -200,6 +201,7 @@ namespace RocketDirectoryAPI.API
                 var articleData = GetActiveArticle(articleId);
                 articleData.Save(_postInfo);
                 articleData.AddLink();
+                _dataObject.SetDataObject("articledata", articleData);
                 var razorTempl = GetSystemTemplate("ArticleLinks.cshtml");
                 var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
                 if (pr.ErrorMsg != "") return pr.ErrorMsg;
@@ -240,13 +242,17 @@ namespace RocketDirectoryAPI.API
         public String GetArticleCategoryList(ArticleLimpet articleData)
         {
             var razorTempl = GetSystemTemplate("ArticleCategoryList.cshtml");
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            _dataObject.SetDataObject("articledata", articleData);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
         public String GetArticlePropertyList(ArticleLimpet articleData)
         {
             var razorTempl = GetSystemTemplate("ArticlePropertyList.cshtml");
+            _dataObject.SetDataObject("articledata", articleData);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
         public String GetArticleList()
@@ -355,7 +361,6 @@ namespace RocketDirectoryAPI.API
             var propertyId = _paramInfo.GetXmlPropertyInt("genxml/hidden/propertyid");
             var articleData = GetActiveArticle(articleId);
             articleData.AddProperty(propertyId);
-
             return GetArticlePropertyList(articleData);
         }
         public string RemoveArticleProperty()
@@ -364,7 +369,6 @@ namespace RocketDirectoryAPI.API
             var propertyId = _paramInfo.GetXmlPropertyInt("genxml/hidden/propertyid");
             var articleData = GetActiveArticle(articleId);
             articleData.RemoveProperty(propertyId);
-
             return GetArticlePropertyList(articleData);
         }
         public string AssignArticleCategory()
@@ -391,7 +395,7 @@ namespace RocketDirectoryAPI.API
             var categoryId = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
             var articleData = GetActiveArticle(articleId);
             articleData.RemoveCategory(categoryId);
-
+            _dataObject.Reload();
             return GetArticleCategoryList(articleData);
         }
         private string GetPublicView(string template)

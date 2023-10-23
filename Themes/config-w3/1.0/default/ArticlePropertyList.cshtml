@@ -1,19 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketDirectoryAPI.Components;
 @using DNNrocketAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
-@{
-    var articleData = (ArticleLimpet)Model.List.First();
-    var lp1 = 0;
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcatalog");
-    var propertyDataList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var appThemeSystemCatalog = new AppThemeSystemLimpet("rocketdirectoryapi");
-}
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
 
 <div class="w3-bar-block">
     <div class="w3-button w3-padding-small w3-theme-action " onclick="$('#propertyselect').show();">@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("RC.properties")</div>
@@ -23,7 +12,6 @@
 
     <div id="datalist" class="w3-row w3-margin-top ">
         @{
-            lp1 = 0;
             var propList = articleData.GetProperties();
         }
 
@@ -35,7 +23,6 @@
             </thead>
             @foreach (var propertyData in propList)
             {
-                lp1 += 1;
                 <tr>
                     <td>
                         <div class="w3-bar">
@@ -58,7 +45,7 @@
 
 </div>
 
-@RenderTemplate("ArticlePropertySelect.cshtml", appThemeSystemCatalog, Model, true)
+[INJECT:appthemesystem,ArticlePropertySelect.cshtml]
 
 
 <script>
