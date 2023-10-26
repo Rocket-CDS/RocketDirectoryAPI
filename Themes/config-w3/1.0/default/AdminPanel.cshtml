@@ -1,27 +1,12 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
-@using Simplisity;
-@using RazorEngine.Text;
-@using RocketPortal.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-
     var articleid = Model.SessionParamsData.GetInt("articleid");
-    var appThemeSystem = new AppThemeSystemLimpet(systemData.SystemKey);
     var sessionParams = Model.SessionParamsData;
     var interfacelist = portalContent.PluginActveInterface(systemData);
-
-    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
     Model.SetSetting("adminpanel", "true");

@@ -1,18 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
-@using Simplisity;
-@using RazorEngine.Text;
-@using Rocket.AppThemes.Components;
-@using RocketPortal.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketForms/App_LocalResources")
-
-@{
-    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
-}
+@AssigDataModel(Model)
+<!--inject-->
 
 <link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/css/w3.css")">
 <script type="text/javascript" src="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/Simplisity/js/simplisity.js")"></script>

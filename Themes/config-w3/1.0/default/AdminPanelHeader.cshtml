@@ -1,19 +1,8 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
-@using Simplisity;
-@using RazorEngine.Text;
-@using RocketPortal.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
-
-@{
-    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-
-}
-
+@AssigDataModel(Model)
+<!--inject-->
 <!-- Load CSS in body, not ideal but is easier to implement and reduces 1 API call. -->
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/css/w3.css">
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/Simplisity/css/simplisity.css">

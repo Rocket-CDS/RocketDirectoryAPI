@@ -1,20 +1,12 @@
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
-@using Simplisity;
-@using RazorEngine.Text;
-@using Rocket.AppThemes.Components;
-@using RocketPortal.Components;
-
+@AssigDataModel(Model)
+<!--inject-->
 @{
-    var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
     var systemAppTheme = new AppThemeDNNrocketLimpet("rocketapptheme");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
 }
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/RocketAppTheme/App_LocalResources/")
-
 
 @RenderTemplate("Popups.cshtml", systemAppTheme, Model, true)
 

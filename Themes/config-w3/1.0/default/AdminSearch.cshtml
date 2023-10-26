@@ -1,45 +1,12 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketDirectoryAPI.Components;
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
 @using DNNrocketAPI.Components;
-@using System.Globalization;
-@using Rocket.AppThemes.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
-
-@{
-
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var appThemeProjects = (AppThemeProjectLimpet)Model.GetDataObject("appthemeprojects");
-    var defaultData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
-    var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
-
-    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
-
-}
-
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
 
 <div class="w3-bar searchdata w3-padding">
 
-    @HiddenField(new SimplisityInfo(), "genxml/hidden/page", " class='simplisity_sessionfield' s-update='ignore'", "1")
+    @HiddenField(infoempty, "genxml/hidden/page", " class='simplisity_sessionfield' s-update='ignore'", "1")
 
         <div class="w3-bar-item w3-button w3-theme-action simplisity_click" s-cmd="articleadmin_addarticle" s-fields='{"articleid":"-1","portalid":"@(portalData.PortalId)"}'>@ButtonText(ButtonTypes.add)</div>
     @{
@@ -50,17 +17,17 @@
         }
     }
     <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
-        @DropDownList(new SimplisityInfo(), "genxml/hidden/orderbyref", orderbyDictionary, "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}' title='Order By'", "")
+        @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}' title='Order By'", "")
     </div>
 
     <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style="width: 100px">
-        @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}'  title='" + @ResourceKey("DNNrocket.pagesize") + "'", "32")
+        @DropDownList(infoempty, "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}'  title='" + @ResourceKey("DNNrocket.pagesize") + "'", "32")
     </div>
 
     <div class="w3-bar-item w3-right " style=''>
         <div class="w3-bar">
             <span class="w3-bar-item w3-button clearsearch " style="display:none;" s-fields=''>@ButtonIcon(ButtonTypes.cancel)</span>
-            @TextBox(new SimplisityInfo(), "genxml/textbox/searchtext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ")
+            @TextBox(infoempty, "genxml/textbox/searchtext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ")
             <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" style="height:40px;" s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd="articleadmin_articlesearch" s-post=".searchdata">@ButtonIcon(ButtonTypes.search)</span>
         </div>
     </div>
