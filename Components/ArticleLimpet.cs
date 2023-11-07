@@ -317,7 +317,7 @@ namespace RocketDirectoryAPI.Components
             {
                 if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
                 articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + Path.GetFileName(uniqueName);
-                articleDoc.Name = friendlyName;
+                articleDoc.FileName = friendlyName;
                 articleDoc.Extension = Path.GetExtension(friendlyName);                
                 Info.AddListItem(DocumentListName, articleDoc.Info);
                 Update();

@@ -4,7 +4,7 @@
 @AssigDataModel(Model)
 <!--inject-->
 @{
-    var docLP = 1;
+    var articledocumentsLP = 1;
 }
 <div class="w3-row documentlistdatasection">
 
@@ -18,33 +18,36 @@
         @foreach (var docInfo in articleData.GetDocList())
         {
             <li class="documentlist w3-display-container w3-padding w3-border-0" style="list-style-type: none;">
-                @SortableListIndex(docInfo, docLP)
+                @SortableListIndex(docInfo, articledocumentsLP)
 
-                <div class="w3-display-container w3-padding w3-card">
+                <div class="w3-display-container w3-card">
+                    <span onclick="" class="w3-button w3-display-topright simplisity_removelistitem" s-removelist=".documentlist" s-recylebin="documentlistbin">
+                        @ButtonIcon(ButtonTypes.remove)
+                    </span>
                     <div class="w3-row">
-                        <span id="deletebutton@(docLP)" onclick="" class="w3-display-topright simplisity_removelistitem" s-removelist=".documentlist" s-recylebin="documentlistbin" style="cursor: pointer;">
-                            @ButtonIcon(ButtonTypes.remove)
-                        </span>
-                        <div class="w3-row w3-padding-small">
-                            @CheckBox(docInfo, "genxml/lang/genxml/checkbox/documenthiddenarticledoc", "&nbsp;" + EditFlag(sessionParams) + "&nbsp;" + ResourceKey("DNNrocket.hidden").ToString(), "class='w3-check'", false, false, docLP)
-                        </div>
-                        <div class="w3-row w3-padding-small">
-                            @HiddenField(docInfo, "genxml/hidden/documentpatharticledoc", "", "", false, docLP)
-                            @HiddenField(docInfo, "genxml/hidden/dockey", "", "", false, docLP)
-                            @HiddenField(docInfo, "genxml/hidden/fileextensionarticledoc", "", "", false, docLP)
-                            <label class="">@ResourceKey("DNNrocket.document")</label>
-                            @TextBox(docInfo, "genxml/textbox/documentnamearticledoc", " class='w3-input w3-border' ", "", false, docLP)
+                        <div class="w3-col m9 w3-padding">
+                                @HiddenField(docInfo, "genxml/hidden/documentpatharticledoc", "", "", false, articledocumentsLP)
+                                @HiddenField(docInfo, "genxml/hidden/dockey", "", "", false, articledocumentsLP)
+                                @HiddenField(docInfo, "genxml/hidden/fileextensionarticledoc", "", "", false, articledocumentsLP)
+                                <label>@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)
+                                @TextBox(docInfo, "genxml/lang/genxml/textbox/name", " class='w3-input w3-border' ", "", false, articledocumentsLP)
+                                <label class="">@ResourceKey("DNNrocket.document")</label>
+                                @TextBox(docInfo, "genxml/textbox/documentnamearticledoc", " class='w3-input w3-border w3-light-grey' disabled ", "", false, articledocumentsLP)
+                            </div>
+                        <div class="w3-col m3 w3-padding">
+                            @CheckBox(docInfo, "genxml/lang/genxml/checkbox/documenthiddenarticledoc", "&nbsp;" + EditFlag(sessionParams) + "&nbsp;" + ResourceKey("DNNrocket.hidden").ToString(), "class='w3-check w3-margin-top'", false, false, articledocumentsLP)
                         </div>
                     </div>
                 </div>
+
             </li>
-            docLP += 1;
+            articledocumentsLP += 1;
         }
     </ul>
 
 </div>
 
-[INJECT:appthemesystem,ArticleDocumentSelect.cshtml]
+[INJECT:appthemedirectory,ArticleDocumentSelect.cshtml]
 
 <script>
     $(document).ready(function () {

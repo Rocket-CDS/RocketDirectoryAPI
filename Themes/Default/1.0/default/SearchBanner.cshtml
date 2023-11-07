@@ -24,11 +24,14 @@
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
             @DropDownList(infoempty, "genxml/hidden/pagesize", "12,24,48,96", "12,24,48,96", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
-        <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
-            <span>
+        if (orderbyDictionary.Count > 1)
+        {
+            <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
+                <span>
                 @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
-            </span>
-        </div>
+                </span>
+            </div>
+        }
     }
 
 </div>

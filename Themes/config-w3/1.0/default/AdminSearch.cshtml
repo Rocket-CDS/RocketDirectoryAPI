@@ -16,9 +16,12 @@
             orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key")).ToString());
         }
     }
+    @if (orderbyDictionary.Count > 1)
+    {
     <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
         @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}' title='Order By'", "")
-    </div>
+    </div>        
+    }
 
     <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style="width: 100px">
         @DropDownList(infoempty, "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}'  title='" + @ResourceKey("DNNrocket.pagesize") + "'", "32")

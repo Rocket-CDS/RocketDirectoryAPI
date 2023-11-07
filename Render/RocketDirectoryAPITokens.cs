@@ -23,6 +23,7 @@ namespace RocketDirectoryAPI.Components
         public AppThemeSystemLimpet appThemeDirectory;
         public AppThemeLimpet appThemeDirectoryDefault;
         public ModuleContentLimpet moduleData;
+        public SimplisityInfo moduleDataInfo;
         [Obsolete("Use moduleData instead")]
         public ModuleContentLimpet moduleSettings;
         public PortalLimpet portalData;
@@ -61,7 +62,7 @@ namespace RocketDirectoryAPI.Components
             catalogSettings = (CatalogSettingsLimpet)sModel.GetDataObject("catalogsettings");
             articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
             moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
-            moduleSettings = moduleData;
+            moduleDataInfo = new SimplisityInfo(moduleData.Record);
             categoryDataList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
             categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
             propertyDataList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
@@ -79,10 +80,13 @@ namespace RocketDirectoryAPI.Components
             if (articleData != null) info = articleData.Info;
             infoempty = new SimplisityInfo();
 
-
             AddProcessDataResx(appTheme, true);
             AddProcessData("resourcepath", systemData.SystemRelPath + "/App_LocalResources/");
             AddProcessData("resourcepath", systemDirectoryData.SystemRelPath + "/App_LocalResources/");
+
+            // legacy
+            moduleSettings = moduleData;
+
 
             // use return of "string", so we don;t get error with converting void to object.
             return "";

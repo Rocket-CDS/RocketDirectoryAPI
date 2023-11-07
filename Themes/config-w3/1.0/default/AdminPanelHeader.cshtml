@@ -3,6 +3,7 @@
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
 <!--inject-->
+
 <!-- Load CSS in body, not ideal but is easier to implement and reduces 1 API call. -->
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/css/w3.css">
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/Simplisity/css/simplisity.css">
@@ -19,7 +20,7 @@
 <script type="text/javascript" src="/DesktopModules/DNNrocket/js/jquery.caret.min.js"></script>
 <script type="text/javascript" src="/DesktopModules/DNNrocket/js/jquery.tag-editor.min.js"></script>
 
-<script src="/DesktopModules/DNNrocket/API/CKEditor/ckeditor4.21.0/ckeditor.js"></script>
+[INJECT:appthemedirectory,CKEditor4.cshtml]
 
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium">
@@ -36,4 +37,4 @@
     .heading_wrapper { display:none !important;}
 </style>
 
-@RenderTemplate("AdminHeader.cshtml", appTheme, Model, true)
+[INJECT:apptheme,AdminHeader.cshtml]

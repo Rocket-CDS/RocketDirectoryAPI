@@ -33,7 +33,7 @@ namespace RocketDirectoryAPI.API
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             GetActiveArticle(articleId).Delete();
         }
-        public void CopyArticle()
+        public int CopyArticle()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             var articleData = GetActiveArticle(articleId);
@@ -61,7 +61,7 @@ namespace RocketDirectoryAPI.API
                 newarticleData2.AddProperty(p.PropertyId);
             }
             newarticleData2.ClearCache();
-
+            return newarticleData2.ArticleId;
         }
         public string AddArticleImage()
         {

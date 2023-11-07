@@ -37,7 +37,7 @@
                         articleclass = "articlebutton";
                     }
                     <div class="w3-col s6 m4 l2 " style="height:210px;">
-                        <div class="w3-margin @(articleclass) simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
+                        <div class="w3-margin @(articleclass) simplisity_click" s-after="showadminpaneldisplay" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
                             <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
                                 <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
                             </div>
@@ -75,24 +75,27 @@
         {
             <text>
                 $('#rocketsystem_edit').trigger('click');
-                $('.adminpaneldisplay').show();
+                showadminpaneldisplay();
             </text>
         }
 
         @if (articleid == 0)
         {
             <text>
-            $('.adminpaneldisplay').show();
+                showadminpaneldisplay();
             </text>
         }
         else
         {
             <text>
-            $('.articlebutton').trigger('click');
-            $('.adminpaneldisplay').show();
+                $('.articlebutton').trigger('click');
             </text>
         }
 
     });
+
+    function showadminpaneldisplay() {
+        $('.adminpaneldisplay').show();
+    }
 </script>
 

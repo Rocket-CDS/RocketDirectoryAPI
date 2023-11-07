@@ -99,7 +99,7 @@ namespace RocketDirectoryAPI.API
                     strOut = GetArticle(_paramInfo.GetXmlPropertyInt("genxml/hidden/articleid"));
                     break;
                 case "articleadmin_copy":
-                    CopyArticle();
+                    _sessionParams.Set("articleid", CopyArticle().ToString());
                     strOut = GetArticleList();
                     break;
                 case "articleadmin_addarticle":

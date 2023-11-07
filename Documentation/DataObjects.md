@@ -3,27 +3,38 @@ The razor templates can use a defined set of data objects.  Some are auomaticall
 
 ## Standard Razor View Data Objects
 
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var appThemeProjects = (AppThemeProjectLimpet)Model.GetDataObject("appthemeprojects");
-    var defaultData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalistview");
-    var appThemeDataListAdmin = (AppThemeDataList)Model.GetDataObject("appthemedatalistadmin");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");
+    appTheme = (AppThemeLimpet)sModel.GetDataObject("apptheme");
+    appThemeDefault = (AppThemeLimpet)sModel.GetDataObject("appthemedefault");
+    appThemeSystem = (AppThemeSystemLimpet)sModel.GetDataObject("appthemesystem");
+    appThemeDirectory = (AppThemeSystemLimpet)sModel.GetDataObject("appthemedirectory");
+    appThemeDirectoryDefault = (AppThemeLimpet)sModel.GetDataObject("appthemedirectorydefault");
+    appThemeProjects = (AppThemeProjectLimpet)sModel.GetDataObject("appthemeprojects");
+    appThemeDataList = (AppThemeDataList)sModel.GetDataObject("appthemedatalist");
+    portalContent = (PortalCatalogLimpet)sModel.GetDataObject("portalcontent");
+    systemData = (SystemLimpet)sModel.GetDataObject("systemdata");
+    systemDirectoryData = (SystemLimpet)sModel.GetDataObject("systemdirectorydata");
+    portalData = (PortalLimpet)sModel.GetDataObject("portaldata");
+    catalogSettings = (CatalogSettingsLimpet)sModel.GetDataObject("catalogsettings");
+    articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
+    moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
+    moduleDataInfo = new SimplisityInfo(moduleData.Record);
+    categoryDataList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
+    categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
+    propertyDataList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
+    propertyData = (PropertyLimpet)sModel.GetDataObject("propertydata");
+    defaultData = (DefaultsLimpet)sModel.GetDataObject("defaultdata");
+    globalSettings = (SystemGlobalData)sModel.GetDataObject("globalsettings");
+    dashBoard = (DashboardLimpet)sModel.GetDataObject("dashboard");
+    articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
+    articleDataList = (ArticleLimpetList)sModel.GetDataObject("articlelist");
+    sessionParams = sModel.SessionParamsData;
+    userParams = (UserParams)sModel.GetDataObject("userparams");
+
+    info = articleData.Info;
+    infoempty = new SimplisityInfo();
 
 ## Injected Razor View Data Objects
 
-    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
+    articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
+    articleData = (ArticleLimpet)Model.GetDataObject("articledata");
+    categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");

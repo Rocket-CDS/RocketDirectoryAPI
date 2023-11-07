@@ -6,5 +6,3 @@ RocketDirectory can have "secure documents" which are NOT available to the publi
 "Secure Documents" can be turned on by checking the checkbox in the "Admin Settings" or the system.
 
 Once turned on the documents are upload as normal, but the download in the link needs to be created with a dowload API.
-
-*[File Download Documentation](https://github.com/Rocket-CDS/DNNrocket/blob/master/API/Documents/FileDownload.md)*.  
