@@ -262,13 +262,6 @@ namespace RocketDirectoryAPI.API
 
             }
 
-            if (paramCmd == "remote_publicview" || paramCmd == "remote_publicmenu")
-            {
-                rtnDic.Add("remote-seoheader", GetPublicArticleSEO());
-                rtnDic.Add("remote-firstheader", GetPublicArticleBeforeHeader());
-                rtnDic.Add("remote-lastheader", GetPublicArticleHeader());
-            }
-
             rtnDic.Add("outputhtml", strOut);
             return rtnDic;
         }

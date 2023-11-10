@@ -77,6 +77,46 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public static List<RocketInterface> AdminInterfaceShow(PortalCatalogLimpet portalContent, List<RocketInterface> interfacelist, Dictionary<string, bool> interfacekeylist)
+        {
+            var rtn = new List<RocketInterface>();
+            foreach (var r in interfacelist)
+            {
+                if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
+                {
+                    if (!portalContent.IsPlugin(r.InterfaceKey) || (portalContent.IsPlugin(r.InterfaceKey) && portalContent.IsPluginActive(r.InterfaceKey)))
+                    {
+                        var show = true;
+                        if (!portalContent.IsPlugin(r.InterfaceKey))
+                        {
+                            if (interfacekeylist.ContainsKey(r.InterfaceKey)) show = interfacekeylist[r.InterfaceKey];
+                        }
+                        if (UserUtils.IsSuperUser()) show = true;
+                        if (show) rtn.Add(r);
+                    }
+                }
+            }
+            return rtn;
+         }
+        public static Dictionary<string, bool> AdminInterfaceKeyList(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
+        {
+            var rtn = new Dictionary<string, bool>();
+            var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
+            if (dataObject.AppTheme != null)
+            {
+                foreach (var depfile in dataObject.AppTheme.GetTemplatesDep())
+                {
+                    var dep = dataObject.AppTheme.GetDep(depfile.Key, moduleRef);
+                    foreach (var r in dep.GetRecordList("adminpanelinterfacekeys"))
+                    {
+                        var interfacekey = r.GetXmlProperty("genxml/interfacekey");
+                        var show = r.GetXmlPropertyBool("genxml/show");
+                        rtn.Add(interfacekey,show);
+                    }
+                }
+            }
+            return rtn;
+        }
         public static string AdminHeader(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template)
         {
             return ViewHeader(portalId, systemKey, moduleRef, sessionParam, template);

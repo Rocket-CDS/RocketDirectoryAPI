@@ -3,7 +3,7 @@ The searching works on a text search in SQL.
 There is a default index created that can be used or you can use the XML data.  Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created unless you want better performace with a large SQL database.  
 
 ## The default index that are created.  
-The sqlindex configuration is found in the "/Installation/SystemDefaults.rules" file.
+The sqlindex configuration is found in the "/systemrules.rules" file.
 ```
 	  <sqlindex list="true">
 		  <genxml>
@@ -27,7 +27,7 @@ The sqlindex configuration is found in the "/Installation/SystemDefaults.rules" 
 	  </sqlindex>
 
 ```
-*These can be altered by editing the "SystemDefaults.rules" file and then you must do a validation of the system to rebuild the new index.*
+*These can be altered by editing the "systemruels.rules" file and then you must do a validation of the system to rebuild the new index.*
 
 ## Defaut SQL search filter
 ```

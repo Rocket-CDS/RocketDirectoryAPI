@@ -1,0 +1,21 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+
+<div class='w3-row sectionname w3-border'>
+    <div class='w3-row  w3-padding'>
+                <label>@ResourceKey("DNNrocket.title")</label>&nbsp;@EditFlag(sessionParams)
+        @TextBox(info, articleData.SeoTitleXPath, " class='w3-input w3-border' autocomplete='off' maxlength='70' ", "", true, 0)
+    </div>
+    <div class=" w3-row w3-padding">
+                <label>@ResourceKey("DNNrocket.description")</label>&nbsp;@EditFlag(sessionParams)
+        @TextArea(info, articleData.SeoDescriptionXPath, " class='w3-input w3-border' rows='2' maxlength='250' autocomplete='off' ", "", true, 0)
+    </div>
+    <div class=" w3-row w3-padding">
+                <label>@ResourceKey("DNNrocket.keywords")</label>&nbsp;@EditFlag(sessionParams)
+        @TextArea(info, articleData.SeoKeyWordsXPath, " class='w3-input w3-border action_tageditor' rows='2' maxlength='250' autocomplete='off' ", "", true, 0)
+    </div>
+</div>
+

@@ -66,7 +66,7 @@ namespace RocketDirectoryAPI.Components
             {
                 g.SetXmlProperty("genxml/textbox/ref", g.GetXmlProperty("genxml/textbox/ref").Replace(" ", "-").Trim());
                 var groupRef = g.GetXmlProperty("genxml/textbox/ref");
-                if (groupRef != "" && Info.GetListItem("grouplist", "genxml/textbox/ref", groupRef) == null) AddGroup(g);
+                if (groupRef != "") AddGroup(g);
             }
 
             Update();

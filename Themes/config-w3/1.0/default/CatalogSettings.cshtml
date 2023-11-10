@@ -1,29 +1,20 @@
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketPortal.Components
-@using Simplisity;
-@using RocketDirectoryAPI.Components;
 @using DNNrocketAPI.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+@AddProcessDataResx(appTheme, true)
+<!--inject-->
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 
 @{
-    var settingsData = (CatalogSettingsLimpet)Model.List.First();
-    var info = settingsData.Info;
+    var info = catalogSettings.Info;
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var defaultCategory = new CategoryLimpet(portalCatalog.PortalId, settingsData.DefaultCategoryId, DNNrocketUtils.GetCurrentCulture(), systemData.SystemKey);
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");    
-    var sessionParams = Model.SessionParamsData;
+    var defaultCategory = new CategoryLimpet(portalContent.PortalId, catalogSettings.DefaultCategoryId, DNNrocketUtils.GetCurrentCulture(), systemData.SystemKey);
 
-}
-
-@{
     var sFieldDict = new Dictionary<string, string>();
+
 }
+
 @RenderLanguageSelector("settingsadmin_edit", sFieldDict, appThemeDirectory, Model)
 
 <div id="" class="w3-animate-opacity">
@@ -115,9 +106,16 @@
 
     </div>
 
-    <div class="w3-col m2 w3-tiny w3-right w3-right-align w3-padding">PortalId:&nbsp;@settingsData.PortalId</div>
+    <div class="w3-col m2 w3-tiny w3-right w3-right-align w3-padding">PortalId:&nbsp;@catalogSettings.PortalId</div>
 
 </div>
+
+@if (UserUtils.IsAdministrator())
+{
+<div>
+    @RenderXml(info)
+</div>    
+}
 
 <script>
 

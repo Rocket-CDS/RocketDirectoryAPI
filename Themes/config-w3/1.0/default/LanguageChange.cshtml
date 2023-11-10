@@ -1,42 +1,18 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
-@using RocketDirectoryAPI.Components;
-@using DNNrocketAPI;
-@using Simplisity;
-@using RocketPortal.Components;
 @using DNNrocketAPI.Components;
-@using System.Globalization;
-@using Rocket.AppThemes.Components;
-
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
-
+<!--inject-->
 @{
-
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
-    var sessionParams = (SessionParams)Model.SessionParamsData;
-    var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
-    var portalContent = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
-    var appThemeProjects = (AppThemeProjectLimpet)Model.GetDataObject("appthemeprojects");
-    var defaultData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
-    var moduleSettings = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var globalSettings = (SystemGlobalData)Model.GetDataObject("globalsettings");
-    var appThemeDefault = (AppThemeLimpet)Model.GetDataObject("appthemedefault");
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var appThemeDataListView = (AppThemeDataList)Model.GetDataObject("appthemedatalist");
-    var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
-    var catalogList = (CategoryLimpetList)Model.GetDataObject("categorylist");
-    var propertyList = (PropertyLimpetList)Model.GetDataObject("propertylist");
-    var dashBoard = (DashboardLimpet)Model.GetDataObject("dashboard");  
-    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
-    var categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");
-    var moduleedit = sessionParams.GetBool("moduleedit");
-    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
     var adminpanelurl = userParams.Get("adminpanelurl");
     var viewurl = userParams.Get("viewurl");
+    var moduleedit = sessionParams.GetBool("moduleedit");
     var interfacelist = portalContent.PluginActveInterface(systemData);
+    var interfacekeylist = RocketDirectoryAPIUtils.AdminInterfaceKeyList(portalData.PortalId, systemData.SystemKey, sessionParams.ModuleRef, sessionParams);
+    var interfaceviewlist = RocketDirectoryAPIUtils.AdminInterfaceShow(portalContent, interfacelist, interfacekeylist);
 }
 
 <!-- Top Bar -->
@@ -62,19 +38,16 @@
                         </div>
                     </div>
 
-                    @foreach (var r in interfacelist)
+                    @foreach (var r in interfaceviewlist)
                     {
-                        if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
-                        {
-                            <div class="w3-col s6 m2 l1 w3-padding ">
-                                <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                                    <div class="w3-center ">
-                                        <span class='material-icons' style=''>@r.InterfaceIcon</span>
-                                    </div>
-                                    <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
+                        <div class="w3-col s6 m2 l1 w3-padding ">
+                            <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                <div class="w3-center ">
+                                    <span class='material-icons' style=''>@r.InterfaceIcon</span>
                                 </div>
+                                <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
                             </div>
-                        }
+                        </div>
                     }
                 </div>
             </div>
