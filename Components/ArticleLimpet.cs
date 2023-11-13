@@ -207,6 +207,7 @@ namespace RocketDirectoryAPI.Components
         public void ClearCache()
         {
             CacheUtils.RemoveCache(_cacheKey);
+            CacheUtils.ClearAllCache(PortalId.ToString()); // for SEO 
         }
         public int Update()
         {
