@@ -33,6 +33,18 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public Dictionary<string, string> GetPropertyModuleGroups(CatalogSettingsLimpet catalogSettings)
+        {
+            var rtn = new Dictionary<string, string>();
+            foreach (var g in catalogSettings.GetPropertyGroups())
+            {
+                if (GetSettingBool("propertygroup-" + g.Key))
+                {
+                    rtn.Add(g.Key, g.Value);
+                }
+            }
+            return rtn;
+        }
 
     }
 }

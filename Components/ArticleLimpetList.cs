@@ -137,17 +137,21 @@ namespace RocketDirectoryAPI.Components
             {
                 if (nod.InnerText.ToLower() == "true")
                 {
-                    var propid = nod.Name.Replace("checkboxfilter", "");
-                    // NOTE: checkbox for filter must be called "checkboxfilterand"
-                    if (moduleSettings != null && PortalCatalog.FilterByInAll)
+                    var splitId = nod.Name.Split('-');
+                    if (splitId.Count() == 2)
                     {
-                        if (checkboxfilter != "") checkboxfilter += " and ";
-                        checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
-                    }
-                    else
-                    {
-                        if (checkboxfilter != "") checkboxfilter += " or ";
-                        checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                        var propid = splitId[0].Replace("checkboxfilter", "");
+                        // NOTE: checkbox for filter must be called "checkboxfilterand"
+                        if (moduleSettings != null && PortalCatalog.FilterByInAll)
+                        {
+                            if (checkboxfilter != "") checkboxfilter += " and ";
+                            checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                        }
+                        else
+                        {
+                            if (checkboxfilter != "") checkboxfilter += " or ";
+                            checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                        }
                     }
                 }
             }

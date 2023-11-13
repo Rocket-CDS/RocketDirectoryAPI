@@ -82,6 +82,16 @@ namespace RocketDirectoryAPI.Components
             }
             return _propertyList;
         }
+        public Dictionary<string,string> GetPropertyFilterList(string groupKey)
+        {
+            var rtn = new Dictionary<string, string>();
+            foreach (var p in GetPropertyList(groupKey))
+            {
+                var filterId = "checkboxfilter" + p.PropertyId + "-" + groupKey;
+                rtn.Add(filterId, p.Name);
+            }
+            return rtn;
+        }
         private List<PropertyLimpet> PopulatePropertyList()
         {
             _propertyList = new List<PropertyLimpet>();

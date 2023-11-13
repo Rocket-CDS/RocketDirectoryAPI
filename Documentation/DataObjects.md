@@ -19,7 +19,6 @@ The razor templates can use a defined set of data objects.  Some are auomaticall
     moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
     moduleDataInfo = new SimplisityInfo(moduleData.Record);
     categoryDataList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
-    categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
     propertyDataList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
     propertyData = (PropertyLimpet)sModel.GetDataObject("propertydata");
     defaultData = (DefaultsLimpet)sModel.GetDataObject("defaultdata");
@@ -37,4 +36,5 @@ The razor templates can use a defined set of data objects.  Some are auomaticall
 
     articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     articleData = (ArticleLimpet)Model.GetDataObject("articledata");
+    articleCategoryData = (CategoryLimpet)sModel.GetDataObject("articlecategorydata");
     categoryData = (CategoryLimpet)Model.GetDataObject("categorydata");

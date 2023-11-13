@@ -168,7 +168,11 @@ namespace RocketDirectoryAPI.Components
                 {
                     var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("articledata", articleData);
-                    var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleData.DefaultCategory(), sessionParam.CultureCode, dataObject.SystemKey);
+                    var articleCategoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleData.DefaultCategory(), sessionParam.CultureCode, dataObject.SystemKey);
+                    dataObject.SetDataObject("articlecategorydata", articleCategoryData);
+
+                    var catid = sessionParam.GetInt("catid");
+                    var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, catid, sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("categorydata", categoryData);
                 }
                 else

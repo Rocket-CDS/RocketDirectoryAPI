@@ -210,6 +210,9 @@ namespace RocketDirectoryAPI.Components
         }
         public int Update()
         {
+            // Add to builld CanonicalLink in Meta.ascx
+            Info.SetXmlProperty("genxml/data/articledefaulttabId", PortalCatalog.DetailPageTabId.ToString());
+
             Info = _objCtrl.SaveData(Info, _tableName);
             if (Info.GUIDKey == "")
             {

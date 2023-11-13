@@ -91,7 +91,19 @@ namespace RocketDirectoryAPI.Components
             // use return of "string", so we don;t get error with converting void to object.
             return "";
         }
-
+        /// <summary>
+        /// Textbox for money input
+        /// </summary>
+        /// <param name="cultureCode">The culture code.</param>
+        /// <param name="info">The information.</param>
+        /// <param name="xpath">The xpath.</param>
+        /// <param name="attributes">The attributes.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="localized">if set to <c>true</c> [localized].</param>
+        /// <param name="row">The row.</param>
+        /// <param name="listname">The listname.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
         public IEncodedString TextBoxMoney(string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
         {
             if (info == null) info = new SimplisityInfo();
@@ -113,6 +125,14 @@ namespace RocketDirectoryAPI.Components
             var strOut = "<input value='" + CurrencyUtils.CurrencyEdit(value, cultureCode) + "' id='" + id + "' s-datatype='int' s-xpath='" + xpath + "' " + attributes + " " + upd + " " + typeattr + " />";
             return new RawString(strOut);
         }
+        /// <summary>
+        /// Gets the interfaces name from the resource file.
+        /// </summary>
+        /// <param name="rocketInterface">The rocket interface.</param>
+        /// <param name="systemData">The system data.</param>
+        /// <param name="lang">The language.</param>
+        /// <param name="resxFileName">Name of the RESX file.</param>
+        /// <returns></returns>
         public IEncodedString InterfaceNameResourceKey(RocketInterface rocketInterface, SystemLimpet systemData, String lang = "", string resxFileName = "SideMenu")
         {
             if (lang == "") lang = DNNrocketUtils.GetCurrentCulture();
@@ -126,6 +146,86 @@ namespace RocketDirectoryAPI.Components
                 interfaceName = rocketInterface.InterfaceKey;
             }
             return new RawString(interfaceName);
+        }
+        /// <summary>
+        /// Filters the CheckBox on the "Filters" website view.
+        /// </summary>
+        /// <param name="checkboxId">The checkbox identifier.</param>
+        /// <param name="textName">Name of the text.</param>
+        /// <param name="sreturn">The sreturn.</param>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <returns></returns>
+        public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value)
+        {
+            return CheckBox(infoempty, "genxml/checkbox/" + checkboxId, "&nbsp;" + textName, " class='simplisity_sessionfield rocket-filtercheckbox'  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
+        }
+        /// <summary>
+        /// Adds the JS for calling the filter API.
+        /// </summary>
+        /// <param name="systemKey">The system key.</param>
+        /// <param name="sessionParams">The session parameters.</param>
+        /// <returns></returns>
+        public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams)
+        {
+            var strOut = "<script type=\"text/javascript\"> function callArticleList(sreturn) {";
+            strOut += " $('.simplisity_loader').show();";
+            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"articlelist.cshtml\"}', '');";
+            strOut += " } </script>";
+            return new RawString(strOut);
+        }
+        /// <summary>
+        /// CheckBox for a group filter. (Used in the ThemeSettings for selecting which group filters to use.)
+        /// </summary>
+        /// <param name="groupId">The group identifier.</param>
+        /// <param name="textName">Name of the text.</param>
+        /// <returns></returns>
+        public IEncodedString FilterGroupCheckBox(string groupId, string textName)
+        {
+            return CheckBox(info, "genxml/settings/propertygroup-" + groupId.ToLower(), textName, " class='w3-check' ");
+        }
+        /// <summary>
+        /// Builds the List URL.
+        /// </summary>
+        /// <param name="listpageid">The listpageid.</param>
+        /// <param name="categoryId">The category identifier.</param>
+        /// <param name="categoryName">Name of the category.</param>
+        /// <returns></returns>
+        public IEncodedString ListUrl(int listpageid, CategoryLimpet categoryData)
+        {
+            var listurl = "";
+            if (categoryData != null && categoryData.CategoryId > 0)
+            {
+                string[] urlparams = { "catid", categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
+                listurl = PagesUtils.NavigateURL(listpageid, "", urlparams);
+            }
+            else
+            {
+                listurl = PagesUtils.NavigateURL(listpageid);
+            }
+            return new RawString(listurl);
+        }
+        /// <summary>
+        /// Builds the Detail URL.
+        /// </summary>
+        /// <param name="detailpageid">The detailpageid.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="eId">The row eId.</param>
+        /// <returns></returns>
+        public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData)
+        {
+            var detailurl = "";
+            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+            if (categoryData != null && categoryData.CategoryId > 0)
+            {
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
+                detailurl = PagesUtils.NavigateURL(detailpageid, "", urlparams);
+            }
+            else
+            {
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle };
+                detailurl = PagesUtils.NavigateURL(detailpageid, "", urlparams);
+            }
+            return new RawString(detailurl);
         }
 
     }
