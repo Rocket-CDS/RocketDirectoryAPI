@@ -18,18 +18,18 @@ Create a "Default" sub-folder
 There are a number of razor templates required for an AppTheme.    
 The AppTheme included both Admin templates and the view (website display) templates.  Standard names and structures are required.
 
-NOTE: All admin templates use the w3.css framework, which is automatically added to the page by the rocketcontentapi system.  
+NOTE: All admin templates use the w3.css framework, which is automatically added to the page by the rocketdirectoryapi system.  
 [https://www.w3schools.com/w3css/](https://www.w3schools.com/w3css/)  
 
-#### RocketDirectory is what we call a base system, that means that other systems can be build using the RocketDirectory
-Systems that use or "inherit" RocketDirectory system are called wrapper systems and will have a different name to the RocketDirecoty system. 
+#### RocketDirectory is what we call a base system, that means that other systems can be built using the RocketDirectory
+Systems that use or "inherit" the RocketDirectory system are called wrapper systems and will have a different name to the RocketDirectory system. 
 The different name allows mulitple RocketDirectory systems to run on the same website.  You can build an AppTheme for any wrapper system in the same way, although some wrapper systems may have extra functionlaity.   
 
 #### **Step 2 -  Default Razor Templates**
 
 A RocketDirectory AppTheme is a "List and Detail" structure.  Which means that you have a page for a list of "articles" and also a possiible detail page for each article.  
 
-The easiest way t build an AppTheme is to copy an existing one that does something close to what you need.  Here we will build a simple list and detail AppTheme to show how it works.  
+The easiest way to build an AppTheme is to copy an existing one that does something close to what you need.  Here we will build a simple list and detail AppTheme to show how it works.  
 
 
 Create a file called "**AdminList.cshtml**" with this content...
@@ -170,7 +170,7 @@ Create a file called "**AdminHeader.cshtml**" with this content...
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 <!--inject-->
 ```
-Admin Header to add extra functionality.  This is a placeholder template. so we do not get a error display on admin.
+The Admin Header template allows you to add extra functionality.  *This is a placeholder template, so we do not get a error display on admin.*  
 
 Create a file called "**View.cshtml**" with this content...
 ```
@@ -276,7 +276,6 @@ Create a file called "**ArticleDetail.cshtml**" with this content...
 </div>
 ```
 
-
 #### Other possible templates
 
 **Categories.cshtml**  
@@ -287,3 +286,57 @@ See "Property Filters" in documentation
 
 **ThemeSettings.cshtml**  
 This template is used to get user settings for the AppTheme.
+
+#### AppTheme Dependancies
+
+**Create a "dep" sub-folder**
+
+```
+/DesktopModules/RocketThemes/AppThemes-W3-CSS/rocketdirectoryapi.example1/1.0/dep
+```
+
+For this AppTheme we will have a startup templates, inject css dependancies and only have articles showing on the Admin Panel.  
+
+Create a file called "example1.dep" in the "dep" folder.
+```
+<genxml>
+	<deps list="true">
+		<genxml>
+			<ctrltype><![CDATA[css]]></ctrltype>
+			<url><![CDATA[/DesktopModules/DNNrocket/css/w3.css]]></url>
+		</genxml>
+		<genxml>
+			<ctrltype><![CDATA[css]]></ctrltype>
+			<url><![CDATA[https://fonts.googleapis.com/icon?family=Material+Icons]]></url>
+		</genxml>
+	</deps>
+	<moduletemplates list="true">
+		<genxml>
+			<file><![CDATA[view.cshtml]]></file>
+			<name><![CDATA[List View]]></name>
+		</genxml>
+	</moduletemplates>
+	<adminpanelinterfacekeys list="true">
+		<genxml>
+			<interfacekey>articleadmin</interfacekey>
+			<show>true</show>
+		</genxml>
+		<genxml>
+			<interfacekey>categoryadmin</interfacekey>
+			<show>false</show>
+		</genxml>
+		<genxml>
+			<interfacekey>propertyadmin</interfacekey>
+			<show>false</show>
+		</genxml>
+		<genxml>
+			<interfacekey>settingsadmin</interfacekey>
+			<show>false</show>
+		</genxml>
+		<genxml>
+			<interfacekey>rocketdirectoryadmin</interfacekey>
+			<show>false</show>
+		</genxml>
+	</adminpanelinterfacekeys>
+</genxml>
+```
