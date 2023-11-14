@@ -1,6 +1,9 @@
 # Menu Manipulator
 
+Categoeries can be injected into the webiste menu to give a seemless navigation from the website to the directory categories.  
+
 *(See RocketTools Page Localization installation instructions)*
+
 
 Add the Node Manipulatore assembly and namespace to the RocketTools Page Localization settings.  
 
