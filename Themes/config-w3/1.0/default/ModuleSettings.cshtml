@@ -1,24 +1,27 @@
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
-@using Simplisity;
-@using RazorEngine.Text;
-@using RocketPortal.Components;
-
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AssigDataModel(Model)
+@AddProcessDataResx(appTheme, true)
+<!--inject-->
+@{
+    var info = moduleDataInfo;
+    //NOTE: xPath for module settings must use "genxml/settings/*"
+}
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
 
 @{
-    var sessionParams = Model.SessionParamsData;
-    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
-    var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
-    var portalData = (PortalLimpet)Model.GetDataObject("portaldata");
-    var info = new SimplisityInfo(moduleData.Record);
-    var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var categoryData = new CategoryLimpet(portalData.PortalId, moduleData.DefaultCategoryId, sessionParams.CultureCode, systemData.SystemKey);
-
     var templateList = RocketDirectoryAPIUtils.ModuleTemples(appTheme, moduleData.ModuleRef);
+    var sortList = new Dictionary<string, string>();
+    sortList.Add("", "");
+    if (portalContent != null)
+    {
+        foreach (var so in portalContent.GetOrderByList())
+        {
+            sortList.Add(so.GetXmlProperty("genxml/key"), so.GetXmlProperty("genxml/key"));
+        }        
+    }
 }
 
 <div id="a-datasection" class="w3-container w3-margin w3-padding">
@@ -32,6 +35,9 @@
         </div>
         <div class="w3-quarter">
             @CheckBox(info,"genxml/settings/disableheader", ResourceKey("DNNrocket.disableheader").ToString(),"class='w3-check'")
+        </div>
+        <div class="w3-quarter">
+            @CheckBox(info,"genxml/settings/staticlist", ResourceKey("RC.staticlist").ToString(),"class='w3-check'")
         </div>
     </div>
     <div class="w3-row ">
@@ -50,19 +56,19 @@
         </div>
     </div>
     <div class="w3-row ">
-        <div class="w3-half w3-padding">
-            <label>template</label>
+        <div class="w3-quarter w3-padding">
+            <label>Template</label>
             @DropDownList(info,"genxml/settings/displaytemplate", templateList, " class='w3-input w3-border' ","")
         </div>
-        <div class="w3-half w3-padding">
+        <div class="w3-quarter w3-padding">
+            <label>Static Sort</label>
+            @DropDownList(info,"genxml/settings/sortorderkey", sortList, " class='w3-input w3-border' ","")
         </div>
-    </div>
-    <div class="w3-row ">
-        <div class="w3-half  w3-padding">
+        <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.listpage")</label>
             @TabSelectListOnTabId(info, "genxml/settings/listpage"," class=' w3-input w3-border ' ", true)
         </div>
-        <div class="w3-half  w3-padding">
+        <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.detailpage")</label>
             @TabSelectListOnTabId(info, "genxml/settings/detailpage"," class=' w3-input w3-border ' ", true)
         </div>

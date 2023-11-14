@@ -164,7 +164,7 @@ namespace RocketDirectoryAPI.Components
 
             if (paramCmd == "list")
             {
-                if (aticleId > 0)
+                if (aticleId > 0 && !dataObject.ModuleSettings.GetSettingBool("staticlist"))
                 {
                     var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, sessionParam.CultureCode, dataObject.SystemKey);
                     dataObject.SetDataObject("articledata", articleData);
@@ -177,6 +177,8 @@ namespace RocketDirectoryAPI.Components
                 }
                 else
                 {
+                    var sortorderkey = dataObject.ModuleSettings.GetSetting("sortorderkey");
+                    if (sortorderkey != "") sessionParam.OrderByRef = sortorderkey; // use module setting if set.
                     var defaultCat = sessionParam.GetInt("catid");
                     if (defaultCat == 0) defaultCat = dataObject.ModuleSettings.DefaultCategoryId;
                     if (defaultCat == 0) defaultCat = dataObject.CatalogSettings.DefaultCategoryId;
