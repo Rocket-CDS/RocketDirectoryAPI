@@ -68,3 +68,17 @@ Example:
     </div>
 </div>
 ```
+
+## Module Template Definition
+A module template needs to be created on the AppTheme with an entry in the dependancies files.  
+This enables the property filters to be selected from the module settings.  
+
+*Exanple of dependancy file*
+```
+<moduletemplates list="true">
+	<genxml>
+		<file>Filters.cshtml</file>
+		<name>Property Filters</name>
+	</genxml>
+</moduletemplates>
+```

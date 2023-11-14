@@ -11,8 +11,8 @@ This enables the category menu to be selected from the module settings.
 ```
 <moduletemplates list="true">
 	<genxml>
-		<file><![CDATA[Categories.cshtml]]></file>
-		<name><![CDATA[Category Menu]]></name>
+		<file>Categories.cshtml</file>
+		<name>Category Menu</name>
 	</genxml>
 </moduletemplates>
 ```
