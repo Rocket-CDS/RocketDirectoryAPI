@@ -72,9 +72,14 @@
             <label class="">@ResourceKey("RC.detailpage")</label>
             @TabSelectListOnTabId(info, "genxml/settings/detailpage"," class=' w3-input w3-border ' ", true)
         </div>
+        <div class="w3-quarter w3-padding">
+            <br />
+            @CheckBoxRowECOMode(info, false)
+        </div>
     </div>
 
     <hr/>
+
     <div class="w3-row">
         @RenderTemplate("ThemeSettings.cshtml", appTheme, Model, true)
     </div>

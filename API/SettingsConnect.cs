@@ -32,10 +32,12 @@ namespace RocketDirectoryAPI.API
             {
                 appThemeProjectData.DownloadGitHubProject(appThemeProjectData.DefaultProjectName());
             }
-
-            if (!moduleData.HasProject) return RenderSystemTemplate("ModuleSelectProject.cshtml");
-            if (!moduleData.HasAppThemeAdmin) return RenderSystemTemplate("ModuleSelectAppTheme.cshtml");
-            if (!moduleData.HasAppThemeAdminVersion) return RenderSystemTemplate("ModuleSelectAppThemeVersion.cshtml");
+            if (_dataObject.PortalContent.ProjectName == "")
+            {
+                if (!moduleData.HasProject) return RenderSystemTemplate("ModuleSelectProject.cshtml");
+                if (!moduleData.HasAppThemeAdmin) return RenderSystemTemplate("ModuleSelectAppTheme.cshtml");
+                if (!moduleData.HasAppThemeAdminVersion) return RenderSystemTemplate("ModuleSelectAppThemeVersion.cshtml");
+            }
             return RenderSystemTemplate("ModuleSettings.cshtml");
         }
         private string SelectAppThemeProject()
@@ -60,6 +62,7 @@ namespace RocketDirectoryAPI.API
             moduleData.AppThemeAdminVersion = _paramInfo.GetXmlProperty("genxml/hidden/appthemefolderversion");
             _dataObject.SetDataObject("modulesettings", moduleData);
             moduleData.Update();
+            _dataObject.PortalContent.ResetSetting();
             _dataObject.PortalContent.ProjectName = moduleData.ProjectName;
             _dataObject.PortalContent.AppThemeFolder = moduleData.AppThemeAdminFolder;
             _dataObject.PortalContent.AppThemeVersion = moduleData.AppThemeAdminVersion;

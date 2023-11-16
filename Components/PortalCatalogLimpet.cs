@@ -371,7 +371,15 @@ namespace RocketDirectoryAPI.Components
         {
             return "articleadmin_editlist";
         }
-
+        public void ResetSetting()
+        {
+            var configFileName = DNNrocketUtils.MapPath("/DesktopModules/DNNRocketModules/" + SystemKey + "/Installation/SystemInit.rules");
+            if (File.Exists(configFileName))
+            {
+                var xmlData = FileUtils.ReadFile(configFileName);
+                Record.XMLData = xmlData;
+            }
+        }
 
         #region "Info - PortalCatalog Data"
         public SimplisityInfo Info { get { return new SimplisityInfo(Record); } }

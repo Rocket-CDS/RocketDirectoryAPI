@@ -203,7 +203,7 @@ namespace RocketDirectoryAPI.Components
         public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template = "", string noAppThemeReturn = "")
         {
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
-            if (dataObject.AppTheme == null || dataObject.AppTheme.AppThemeFolder == "") return noAppThemeReturn;
+            if (!dataObject.ModuleSettings.Exists || dataObject.AppTheme == null || dataObject.AppTheme.AppThemeFolder == "") return noAppThemeReturn;
             return DisplayView(dataObject, template);
         }
         public static string DisplaySystemView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template, bool editMode = true)
