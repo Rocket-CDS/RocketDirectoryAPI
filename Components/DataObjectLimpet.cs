@@ -99,6 +99,24 @@ namespace RocketDirectoryAPI.Components
         {
             if (_dataObjects.ContainsKey(key)) _dataObjects.Remove(key);
             _dataObjects.Add(key, value);
+
+            if (key == "modulesettings") // load appTheme if we has settings in ModuleSettings
+            {
+                if (ModuleSettings.HasProject)
+                {
+                    SetDataObject("appthemedatalist", new AppThemeDataList(ModuleSettings.PortalId, ModuleSettings.ProjectName, SystemKey));
+                    if (ModuleSettings.HasAppThemeAdmin)
+                    {
+                        var appTheme = new AppThemeLimpet(ModuleSettings.PortalId, ModuleSettings.AppThemeAdminFolder, ModuleSettings.AppThemeAdminVersion, ModuleSettings.ProjectName);
+                        SetDataObject("apptheme", appTheme);
+
+                        //appthemeview & appthemeadmin is deprecated
+                        SetDataObject("appthemeadmin", appTheme);
+                        SetDataObject("appthemeview", appTheme);
+                    }
+                }
+            }
+
         }
         public object GetDataObject(String key)
         {

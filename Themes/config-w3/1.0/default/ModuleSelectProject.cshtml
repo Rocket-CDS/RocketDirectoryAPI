@@ -1,0 +1,36 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+@AddProcessDataResx(appTheme, true)
+<!--inject-->
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContentAPI/App_LocalResources/")
+
+<div id="a-datasection" class="w3-container w3-margin w3-padding">
+    <div class="w3-large w3-margin-bottom">
+        @ResourceKey("RCT.selectproject")        
+    </div>
+    @foreach (var projectInfo in appThemeProjects.List)
+    {
+        <div class="w3-padding w3-third">
+            <div class="w3-button w3-theme w3-round w3-block w3-large a-trigger simplisity_click" s-cmd="@(portalContent.SystemKey)_selectappthemeproject" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","projectname":"@projectInfo.GetXmlProperty("genxml/textbox/name")","tabid":"@(Model.SessionParamsData.TabId)"}'>
+                @projectInfo.GetXmlProperty("genxml/textbox/name")
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(portalContent.SystemKey)', debug: false });
+        $('.simplisity_loader').hide();
+        @if (appThemeProjects.List.Count == 1)
+        {
+            <text>
+                $('.a-trigger').trigger('click');
+            </text>
+        }
+    });
+</script>
+
+

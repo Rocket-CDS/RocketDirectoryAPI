@@ -635,6 +635,8 @@ namespace RocketDirectoryAPI.Components
         public string RichTextXPath { get { return "genxml/lang/genxml/textbox/articlerichtext"; } }
         public string Name { get { return Info.GetXmlProperty(NameXPath); } set { Info.SetXmlProperty(NameXPath, value); } }
         public string NameXPath { get { return "genxml/lang/genxml/textbox/articlename"; } }
+        public DateTime PublishedDate { get { if (Info.GetXmlProperty(PublishedDateXPath) == "") return Info.ModifiedDate; else return Info.GetXmlPropertyDate(PublishedDateXPath); } set { Info.SetXmlProperty(PublishedDateXPath, value.ToString("O"), TypeCode.DateTime); } }
+        public string PublishedDateXPath { get { return "genxml/textbox/publisheddate"; } }
         public string Summary { get { return Info.GetXmlProperty(SummaryXPath); } }
         public string SummaryXPath { get { return "genxml/lang/genxml/textbox/articlesummary"; } }
         public bool Hidden { get { return Info.GetXmlPropertyBool(HiddenXPath); } }

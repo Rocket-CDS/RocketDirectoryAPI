@@ -114,11 +114,11 @@ namespace RocketDirectoryAPI.Components
         public void Validate()
         {
             // check for existing page on portal for this system
-            var tabid = PagesUtils.CreatePage(PortalId, _systemKey);
-            PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Manager);
-            PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Editor);
-            PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Collaborator);
-            PagesUtils.AddPageSkin(PortalId, tabid, "rocketportal", "rocketadmin.ascx");
+            //var tabid = PagesUtils.CreatePage(PortalId, _systemKey);
+            //PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Manager);
+            //PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Editor);
+            //PagesUtils.AddPagePermissions(PortalId, tabid, DNNrocketRoles.Collaborator);
+            //PagesUtils.AddPageSkin(PortalId, tabid, "rocketportal", "rocketadmin.ascx");
         }
         public void Delete()
         {
@@ -424,8 +424,8 @@ namespace RocketDirectoryAPI.Components
         public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } }
         public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 640; } }        
         public string ProjectName { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
-        public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } }
-        public string AppThemeVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } }
+        public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } set { Record.SetXmlProperty("genxml/select/appthemeadmin", value); } }
+        public string AppThemeVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } set { Record.SetXmlProperty("genxml/select/appthemeadminversion", value); } }
         #endregion
 
     }

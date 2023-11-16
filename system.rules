@@ -8,10 +8,22 @@
 
 	  <sqlindex list="true">
 		  <genxml>
-			<systemkey>rocketdirectoryapi</systemkey>
-			<ref>articlename</ref>
-			<xpath>genxml/lang/genxml/textbox/articlename</xpath>
-			<typecode>rocketdirectoryapiART</typecode>
+            <systemkey>rocketdirectoryapi</systemkey>
+            <ref>articlename</ref>
+            <xpath>genxml/lang/genxml/textbox/articlename</xpath>
+            <typecode>rocketdirectoryapiART</typecode>
+		  </genxml>
+		  <genxml>
+            <systemkey>rocketdirectoryapi</systemkey>
+            <ref>publisheddate</ref>
+            <xpath>genxml/textbox/publisheddate</xpath>
+            <typecode>rocketdirectoryapiART</typecode>
+		  </genxml>
+		  <genxml>
+			  <systemkey>rocketdirectoryapi</systemkey>
+			  <ref>articleref</ref>
+			  <xpath>genxml/textbox/articleref</xpath>
+			  <typecode>rocketdirectoryapiART</typecode>
 		  </genxml>
 	  </sqlindex>
 

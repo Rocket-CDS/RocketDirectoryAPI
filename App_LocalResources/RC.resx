@@ -342,4 +342,7 @@
   <data name="appthememissing.Text" xml:space="preserve">
     <value>The AppTheme MUST be selected</value>
   </data>
+  <data name="modulesettings.Text" xml:space="preserve">
+    <value>Configuration du module</value>
+  </data>
 </root>

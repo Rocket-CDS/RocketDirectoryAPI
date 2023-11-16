@@ -200,10 +200,11 @@ namespace RocketDirectoryAPI.Components
             return pr.RenderedText;
 
         }
-        public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
+        public static string DisplayView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template = "", string noAppThemeReturn = "")
         {
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
-            return DisplayView(dataObject);
+            if (dataObject.AppTheme == null || dataObject.AppTheme.AppThemeFolder == "") return noAppThemeReturn;
+            return DisplayView(dataObject, template);
         }
         public static string DisplaySystemView(int portalId, string systemKey, string moduleRef, SessionParams sessionParam, string template, bool editMode = true)
         {

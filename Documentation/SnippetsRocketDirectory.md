@@ -63,15 +63,7 @@ Usually not required in the AppTheme templates, this is added by the directory s
 ## Categories
 *Admin Example*
 ```
-<div onclick="$('#categoriestab').toggle();$('#categoriestabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align ">
-    @ResourceKey("RC.categories")
-    <span id="categoriestabexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="categoriestab" class='w3-row sectionname a-articlecategorylist w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,ArticleCategoryList.cshtml]
-</div>
+[INJECT:appthemedirectory,ArticleCategoryListBlock.cshtml]
 ```
 *View Example*
 ```
@@ -83,15 +75,7 @@ Usually not required in the AppTheme templates, this is added by the directory s
 ## Properties
 *Admin Example*
 ```
-<div onclick="$('#propertiestab').toggle();$('#propertiestabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align  w3-margin-top">
-    @ResourceKey("RC.properties")
-    <span id="propertiestabexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="propertiestab" class='w3-row sectionname a-articlepropertylist w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,ArticlePropertyList.cshtml]
-</div>
+[INJECT:appthemedirectory,ArticlePropertyListBlock.cshtml]
 ```
 *View Example*
 ```
@@ -105,15 +89,7 @@ Usually not required in the AppTheme templates, this is added by the directory s
 ## Images
 *Admin Example*
 ```
-<div onclick="$('#imgs').toggle();$('#imgsexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    @ResourceKey("DNNrocket.images")
-    <span id="imgsexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="imgs" class='w3-row sectionname w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,Articleimages.cshtml]
-</div>
+[INJECT:appthemedirectory,ArticleImagesBlock.cshtml]
 ```
 *View Example*
 ```
@@ -128,15 +104,7 @@ Usually not required in the AppTheme templates, this is added by the directory s
 
 *Admin Example*
 ```
-<div onclick="$('#docs').toggle();$('#docsexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    @ResourceKey("DNNrocket.docs")
-    <span id="docsexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="docs" class='w3-row sectionname w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,ArticleDocuments.cshtml]
-</div>
+[INJECT:appthemedirectory,ArticleDocumentsBlock.cshtml]
 ```
 *View Example*
 ```
@@ -153,15 +121,7 @@ Usually not required in the AppTheme templates, this is added by the directory s
 ## Links
 *Admin Example*
 ```
-<div onclick="$('#links').toggle();$('#linksexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    @ResourceKey("DNNrocket.links")
-    <span id="linksexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="links" class='w3-row sectionname w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,ArticleLinks.cshtml]
-</div>
+[INJECT:appthemedirectory,ArticleLinksBlock.cshtml]
 ```
 *View Example*
 ```
@@ -178,11 +138,19 @@ Usually not required in the AppTheme templates, this is added by the directory s
 ## SEO Fields
 *Admin Example*
 ```
-<div onclick="$('#seotab').toggle();$('#seotabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    SEO
-    <span id="seotabexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-[INJECT:appthemedirectory,ArticleSEO.cshtml]
+[INJECT:appthemedirectory,ArticleSEOBlock.cshtml]
 ```
+## Published Date
+*Admin*
+```
+<label>@ResourceKey("DNNrocket.date")</label>
+@TextBoxDate(info, articleData.PublishedDateXPath, " class='w3-input w3-border' autocomplete='off'", DateTime.Today.ToString("O"), false, 0)
+```
+*View*
+```
+@DateOf(articleData.Info, articleData.PublishedDateXPath, false, sessionParams.CultureCode)
+```
+By default the DB record ModifiedDate will be returned if no published date exists.  
+
+
+

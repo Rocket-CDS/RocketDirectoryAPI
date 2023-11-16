@@ -1,0 +1,15 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+<div onclick="$('#docs').toggle();$('#docsexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
+    @ResourceKey("DNNrocket.docs")
+    <span id="docsexpand" class="material-icons w3-right" style="display:none;">
+        unfold_more
+    </span>
+</div>
+<div id="docs" class='w3-row sectionname w3-border w3-padding' style="">
+    [INJECT:appthemedirectory,ArticleDocuments.cshtml]
+</div>
+

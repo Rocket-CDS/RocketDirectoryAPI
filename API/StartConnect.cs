@@ -254,6 +254,15 @@ namespace RocketDirectoryAPI.API
                 case "rocketdirectoryapi_savesettings":
                     strOut = SaveSettings();
                     break;
+                case "rocketdirectoryapi_selectappthemeproject":
+                    strOut = SelectAppThemeProject();
+                    break;
+                case "rocketdirectoryapi_selectapptheme":
+                    strOut = SelectAppTheme();
+                    break;
+                case "rocketdirectoryapi_selectappthemeversion":
+                    strOut = SelectAppThemeVersion();
+                    break;
 
 
                 case "invalidcommand":

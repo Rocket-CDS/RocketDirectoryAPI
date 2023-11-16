@@ -182,6 +182,27 @@ namespace RocketDirectoryAPI.Components
             }
             return _articleList;
         }
+        public List<List<ArticleLimpet>> GetArticleRows(int columns)
+        {
+            var rtnList = new List<List<ArticleLimpet>>();
+            var rowList = new List<ArticleLimpet>();
+            var lp = 0;
+            foreach (var o in DataList)
+            {
+                var articleData = new ArticleLimpet(o.ItemID, _langRequired, _systemKey);
+                if (articleData.Exists) rowList.Add(articleData);
+
+                if ((lp % columns) == (columns - 1))
+                {
+                    rtnList.Add(rowList);
+                    rowList = new List<ArticleLimpet>();
+                }
+                lp += 1;
+            }
+            if (rowList.Count > 0) rtnList.Add(rowList);
+
+            return rtnList;
+        }
         public void SortOrderMove(int toItemId)
         {
             SortOrderMove(SessionParamData.SortActivate, toItemId);

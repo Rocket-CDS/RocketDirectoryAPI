@@ -1,0 +1,41 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+@AddProcessDataResx(appTheme, true)
+<!--inject-->
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContentAPI/App_LocalResources/")
+
+@{
+    var cmd = portalContent.SystemKey + "_selectappthemeversion";
+}
+
+<div id="a-datasection" class="w3-container w3-margin w3-padding">
+    <div class="w3-large w3-margin-bottom">
+        @ResourceKey("RCT.selectversion")
+    </div>
+    @foreach (var appThemeV in appTheme.VersionList)
+    {
+        <div class="w3-padding w3-col m2">
+            <div class="w3-button w3-theme w3-round w3-block w3-large a-trigger simplisity_click" s-cmd="@cmd" s-fields='{"moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","appthemefolderversion":"@appThemeV","tabid":"@(Model.SessionParamsData.TabId)"}'>
+                @appThemeV
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: '@(portalContent.SystemKey)', debug: false });
+        $('.simplisity_loader').hide();
+        @if (appTheme.VersionList.Count == 1)
+        {
+            <text>
+                $('.a-trigger').trigger('click');
+            </text>
+        }
+
+    });
+</script>
+
+

@@ -343,8 +343,21 @@ order by articlename.GUIDKey desc
 	  <command>
 		  <cmd>rocketdirectoryapi_activate</cmd>
 		  <action>true</action>
-	  </command>	  
+	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_selectappthemeversion</cmd>
+		  <action>true</action>
+	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_selectapptheme</cmd>
+		  <action>true</action>
+	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_selectappthemeproject</cmd>
+		  <action>true</action>
+	  </command>
 
+	  
   </commands>
   
 </root>
