@@ -47,17 +47,17 @@ In the "default" sub-folder of the AppTheme the above template needs to be creat
                 catDict.Add("catid", c.CategoryId.ToString());
                 if (l.Count == 0)
                 {
-                    <a href="@PagesUtils.NavigateURL(sessionParams.TabId, catDict, c.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@c.Name</a>
+                    <a href="@DNNrocketUtils.NavigateURL(sessionParams.TabId, catDict, c.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@c.Name</a>
                 }
                 else
                 {
-                    <a href="@PagesUtils.NavigateURL(sessionParams.TabId, catDict, c.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@c.Name</a>
+                    <a href="@DNNrocketUtils.NavigateURL(sessionParams.TabId, catDict, c.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@c.Name</a>
                     <div class="w3-margin-left">
                         @foreach (var child in l)
                         {
                             var catDict2 = new Dictionary<string, string>();
                             catDict2.Add("catid", child.CategoryId.ToString());
-                                <a href="@PagesUtils.NavigateURL(sessionParams.TabId, catDict2, child.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@child.Name</a>
+                                <a href="@DNNrocketUtils.NavigateURL(sessionParams.TabId, catDict2, child.Name)" class="w3-bar-item w3-button" onclick="$('.simplisity_loader').show()">@child.Name</a>
                         }
                     </div>
                 }

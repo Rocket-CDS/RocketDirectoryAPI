@@ -196,11 +196,11 @@ namespace RocketDirectoryAPI.Components
             if (categoryData != null && categoryData.CategoryId > 0)
             {
                 string[] urlparams = { "catid", categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
-                listurl = PagesUtils.NavigateURL(listpageid, "", urlparams);
+                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
             }
             else
             {
-                listurl = PagesUtils.NavigateURL(listpageid);
+                listurl = DNNrocketUtils.NavigateURL(listpageid);
             }
             return new RawString(listurl);
         }
@@ -217,13 +217,13 @@ namespace RocketDirectoryAPI.Components
             var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
-                detailurl = PagesUtils.NavigateURL(detailpageid, "", urlparams);
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle,"" };
+                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, "", urlparams);
             }
             else
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle };
-                detailurl = PagesUtils.NavigateURL(detailpageid, "", urlparams);
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle, "" };
+                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             return new RawString(detailurl);
         }

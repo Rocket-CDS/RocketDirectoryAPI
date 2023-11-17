@@ -25,7 +25,12 @@
     {
         if (!orderbyDictionary.ContainsKey(orderbyInfo.GetXmlProperty("genxml/key")))
         {
-            orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key")).ToString());            
+            var textValue = ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key")).ToString();
+            if (textValue == "")
+            {
+                textValue = orderbyInfo.GetXmlProperty("genxml/key");
+            }
+            orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), textValue);            
         }
     }
 
