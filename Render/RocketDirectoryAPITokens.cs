@@ -217,12 +217,12 @@ namespace RocketDirectoryAPI.Components
             var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle,"" };
-                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, "", urlparams);
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
+                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             else
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle, "" };
+                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle };
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             return new RawString(detailurl);
