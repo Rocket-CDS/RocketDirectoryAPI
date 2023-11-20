@@ -186,6 +186,11 @@ order by articlename.GUIDKey desc
       <cmd>articleadmin_assignproperty</cmd>
       <action>true</action>
     </command>
+	<command>
+		<cmd>articleadmin_addreview</cmd>
+		<action>true</action>
+	</command>
+	  
 
 
 	  <command>
@@ -356,8 +361,13 @@ order by articlename.GUIDKey desc
 		  <cmd>rocketdirectoryapi_selectappthemeproject</cmd>
 		  <action>true</action>
 	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_addreview</cmd>
+		  <action>false</action>
+	  </command>
+  
 
-	  
+
   </commands>
   
 </root>

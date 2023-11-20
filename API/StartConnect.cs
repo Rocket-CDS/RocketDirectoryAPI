@@ -124,6 +124,9 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_addlink":
                     strOut = AddArticleLink();
                     break;
+                case "articleadmin_addreview":
+                    strOut = AddArticleReview();
+                    break;
                 case "articleadmin_docupload":
                     ArticleDocumentUploadToFolder();
                     strOut = GetArticle(_paramInfo.GetXmlPropertyInt("genxml/hidden/articleid"));
@@ -262,6 +265,9 @@ namespace RocketDirectoryAPI.API
                     break;
                 case "rocketdirectoryapi_selectappthemeversion":
                     strOut = SelectAppThemeVersion();
+                    break;
+                case "remote_publicadduserreview":
+                    strOut = AddUserReview();
                     break;
 
 

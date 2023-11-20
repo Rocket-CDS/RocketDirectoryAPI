@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
+using System.Xml.Linq;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -172,7 +173,7 @@ namespace RocketDirectoryAPI.Components
             var postLists = postInfo.GetLists();
             foreach (var listname in postLists)
             {
-                if (listname != "imagelist" && listname != "documentlist" && listname != "linklist")
+                if (listname != "imagelist" && listname != "documentlist" && listname != "linklist" && listname != "reviewlist")
                 {
                     var listData = postInfo.GetList(listname);
                     foreach (var listItem in listData)
@@ -187,6 +188,7 @@ namespace RocketDirectoryAPI.Components
             UpdateImages(postInfo.GetList("imagelist"));
             UpdateDocs(postInfo.GetList("documentlist"));
             UpdateLinks(postInfo.GetList("linklist"));
+            UpdateReview(postInfo.GetList("reviewlist"));
 
             //------------------------------------------------------------------------------------------
             //NOTE: THE FORMAT FIX CAN ONLY BE DONE IN THE SAVE, IT FIXES THE INVLIAD HUMAN INPUT.
@@ -393,6 +395,76 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        #endregion
+
+        #region "reviews"
+        public string ReviewListName { get { return "reviewlist"; } }
+        public void UpdateReview(List<SimplisityInfo> reviewList)
+        {
+            Info.RemoveList(ReviewListName);
+            foreach (var sInfo in reviewList)
+            {
+                var reviewData = new ArticleReview(sInfo, "articlereview");
+                UpdateReview(reviewData);
+            }
+        }
+        public List<SimplisityInfo> GetReviewList()
+        {
+            return Info.GetList(ReviewListName);
+        }
+        public SimplisityInfo AddReview()
+        {
+            var articleReview = new ArticleReview(new SimplisityInfo(), "articlereview");
+            if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
+            Info.AddListItem(ReviewListName, articleReview.Info);
+            Update();
+            return articleReview.Info;
+        }
+        public SimplisityInfo AddReview(SimplisityInfo postInfo)
+        {
+            var articleReview = new ArticleReview(postInfo, "articlereview");
+            if (Info.ItemID > 0)
+            {
+                if (!SecurityInput.CheckForSQLInjection(articleReview.Name) && !SecurityInput.CheckForSQLInjection(articleReview.Comment))
+                {
+                    var comment = SecurityInput.PreventSQLInjection(articleReview.Comment);
+                    comment = SecurityInput.NoProfanity(comment);
+                    comment = SecurityInput.RemoveScripts(comment);
+                    var name = SecurityInput.PreventSQLInjection(articleReview.Name);
+                    name = SecurityInput.NoProfanity(name);
+                    name = SecurityInput.RemoveScripts(name);
+
+                    articleReview.Info.XMLData = postInfo.XMLData;
+                    articleReview.UserId = UserUtils.GetCurrentUserId();
+                    articleReview.Name = name;
+                    articleReview.Comment = comment;
+                    Info.AddListItem(ReviewListName, articleReview.Info);
+                    ReviewCount = GetReviewList().Count();
+                }
+
+            }
+            Update();
+            return articleReview.Info;
+        }
+        public void UpdateReview(ArticleReview articleReview)
+        {
+            Info.RemoveListItem(ReviewListName, "genxml/hidden/reviewkey", articleReview.ReviewKey);
+            Info.AddListItem(ReviewListName, articleReview.Info);
+        }
+        public ArticleReview GetReview(int idx)
+        {
+            return new ArticleReview(Info.GetListItem(ReviewListName, idx), "articlereview");
+        }
+        public List<ArticleReview> GetReviews()
+        {
+            var rtn = new List<ArticleReview>();
+            foreach (var i in Info.GetList(ReviewListName))
+            {
+                rtn.Add(new ArticleReview(i, "articlereview"));
+            }
+            return rtn;
+        }
+
         #endregion
 
         #region "category"
@@ -675,6 +747,8 @@ namespace RocketDirectoryAPI.Components
             } 
         }
         public string SeoKeyWordsXPath { get { return "genxml/lang/genxml/textbox/seokeyword"; } }
+        public int ReviewCount { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewcount"); } set { Info.SetXmlProperty("genxml/textbox/reviewcount",value.ToString(), TypeCode.Int32); } }
+        
 
         #endregion
 

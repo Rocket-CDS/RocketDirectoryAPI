@@ -209,7 +209,39 @@ namespace RocketDirectoryAPI.API
             }
             return "ERROR: Invalid ItemId";
         }
-
+        public string AddArticleReview()
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            if (articleId > 0)
+            {
+                var articleData = GetActiveArticle(articleId);
+                articleData.Save(_postInfo);
+                articleData.AddReview();
+                _dataObject.SetDataObject("articledata", articleData);
+                var razorTempl = GetSystemTemplate("ArticleReviews.cshtml");
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+                if (pr.ErrorMsg != "") return pr.ErrorMsg;
+                return pr.RenderedText;
+            }
+            return "ERROR: Invalid ItemId";
+        }
+        public string AddUserReview()
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            if (articleId > 0)
+            {
+                if (UserUtils.IsValidUser(_dataObject.PortalId, UserUtils.GetCurrentUserId()))
+                {
+                    var articleData = GetActiveArticle(articleId);
+                    articleData.AddReview(_postInfo);
+                    _dataObject.SetDataObject("articledata", articleData);
+                    return ""; // reload page from simplisity.
+                }
+                LogUtils.LogSystem("SECURITY: Invalid user trying to add review.");
+                return "";
+            }
+            return "ERROR: Invalid AddUserReview()";
+        }
         public String AddArticle()
         {
             if (_dataObject.PortalContent.ArticleCount < _dataObject.PortalContent.MaxArticles)
