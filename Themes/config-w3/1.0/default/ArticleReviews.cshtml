@@ -8,31 +8,48 @@
     var reviewfieldId = "articlereview";
 }
 
-<div class="w3-row">
-    <div class="w3-right">
-        <label>@ResourceKey("DNNrocket.reviewcount")</label>
-        @TextBox(info, "genxml/textbox/reviewcount", " class='w3-input w3-border' autocomplete='off' style='width:100px;'", "", false,0,"","number")
-    </div>
-</div>
+<div class="w3-row reviewlistdatasection w3-padding">
 
-<div class="w3-row reviewlistdatasection">
-
-
-    <div class="w3-bar-block">
+    <div class="w3-bar-block w3-padding">
         <div class="w3-button w3-padding-small w3-theme-action simplisity_click" s-post="#articledatasection" s-return="#reviews" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-cmd="articleadmin_addreview" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.reviews")</div>
         <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="reviewlistbin" s-return="#reviewlistdata" s-removelist=".reviewlist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
-
 
     <ul id="reviewlistdata" class="w3-ul">
 
         @foreach (var reviewInfo in articleData.GetReviewList())
         {
-            <li class="reviewlist w3-display-container w3-border-0"  style="list-style-type: none;">
-                @SortableListIndex(reviewInfo, reviewLP)
+            var rKey = reviewInfo.GetXmlProperty("genxml/hidden/reviewkey");
 
-                <div class="w3-display-container w3-padding w3-card">
-                    <div class="w3-row">
+            // Hidden and sort fields required for sorting lists and tracking date.
+            <li class="reviewlist w3-border-0" style="list-style-type: none; padding: 0px 0px;">
+                @SortableListIndex(reviewInfo, reviewLP)
+                @HiddenField(reviewInfo, "genxml/hidden/reviewkey", "", "", false, reviewLP)
+                <input value="@reviewInfo.GetXmlPropertyDate("genxml/textbox/reviewdate").ToString("O")" id="reviewdate_@(reviewLP)" s-xpath="genxml/textbox/reviewdate" s-update="save" type="hidden">
+
+                <div class="w3-display-container w3-border-bottom">
+                    <div id="reviewrow@(rKey)" class="w3-row w3-padding-small" onclick="$('#reviewinput@(rKey)').toggle();" style="cursor:pointer;">
+                        <div class="w3-half">
+                            <b>@reviewInfo.GetXmlProperty("genxml/textbox/name" + reviewfieldId)</b>
+                        </div>
+                        <div class="w3-quarter">
+                            @if (reviewInfo.GetXmlPropertyDate("genxml/textbox/reviewdate") > DateTime.Now.AddYears(-100))
+                            {
+                            <span class="w3-small">@DateOf(reviewInfo, "genxml/textbox/reviewdate",sessionParams.CultureCode,"dd MMM yyy")</span>                                
+                            }
+                        </div>
+                        <div class="simplisity_removelistitem w3-display-topright" s-removelist=".reviewlist" s-recylebin="reviewlistbin" style="cursor: pointer;">
+                            @ButtonIcon(ButtonTypes.remove)
+                        </div>
+                    </div>
+                    @{
+                        var inputDisplay = "";
+                        if (reviewInfo.GetXmlProperty("genxml/textbox/name" + reviewfieldId) != "")
+                        {
+                            inputDisplay = "display:none;";
+                        }
+                    }
+                    <div id="reviewinput@(rKey)" class="w3-row w3-card w3-padding w3-margin" style="@(inputDisplay)">
                         <div class="w3-half">
                             <label>@ResourceKey("DNNrocket.name")</label>
                             @TextBox(reviewInfo, "genxml/textbox/name" + reviewfieldId, " class='w3-input w3-border' autocomplete='off'", "", false, reviewLP)
@@ -50,9 +67,6 @@
                             @TextArea(reviewInfo, "genxml/textbox/comment" + reviewfieldId, " class='w3-input w3-border' autocomplete='off'", "", false, reviewLP)
                         </div>
                     </div>
-                    <div class="simplisity_removelistitem w3-display-topright" s-removelist=".reviewlist" s-recylebin="reviewlistbin" style="cursor: pointer;">
-                        @ButtonIcon(ButtonTypes.remove)
-                    </div>
                 </div>
             </li>
             reviewLP += 1;
@@ -60,29 +74,4 @@
     </ul>
 
 </div>
-
-
-<script>
-    $(document).ready(function () {
-        $("#reviewlistdata").sortable();
-        $("#reviewlistdata").disableSelection();
-
-        $('.reviewtypeclick').unbind('click');
-        $('.reviewtypeclick').click(function () {
-            var reviewrow = $(this).attr("reviewrow");
-            var selectedval = $(this).find(":checked").val();
-            if (selectedval === '1') {
-                $('.internalreview' + reviewrow).show();
-                $('.externalreview' + reviewrow).hide();
-            }
-            if (selectedval === '2') {
-                $('.internalreview' + reviewrow).hide();
-                $('.externalreview' + reviewrow).show();
-            }
-        });
-
-    });
-
-</script>
-
 

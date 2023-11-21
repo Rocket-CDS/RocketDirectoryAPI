@@ -3,10 +3,13 @@
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
 <!--inject-->
-<div class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
+<div onclick="$('#seotab').toggle();$('#seotabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
     SEO
     <span id="seotabexpand" class="material-icons w3-right" style="display:none;">
         unfold_more
     </span>
 </div>
-[INJECT:appthemedirectory,ArticleSEO.cshtml]
+<div id="seotab" class='w3-row sectionname w3-border w3-padding' style="">
+    [INJECT:appthemedirectory,ArticleSEO.cshtml]
+</div>
+

@@ -4,7 +4,7 @@
 @AssigDataModel(Model)
 <!--inject-->
 <div onclick="$('#reviews').toggle();$('#reviewsexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    @ResourceKey("DNNrocket.reviews")
+    @ResourceKey("DNNrocket.reviews")&nbsp; @articleData.ReviewCount.ToString()
     <span id="reviewsexpand" class="material-icons w3-right" style="display:none;">
         unfold_more
     </span>

@@ -5,10 +5,10 @@
 <!--inject-->
 <div onclick="$('#categoriestab').toggle();$('#categoriestabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align ">
     @ResourceKey("RC.categories")
-    <span id="categoriestabexpand" class="material-icons w3-right" style="display:none;">
+    <span id="categoriestabexpand" class="material-icons w3-right" style="">
         unfold_more
     </span>
 </div>
-<div id="categoriestab" class='w3-row sectionname a-articlecategorylist w3-border w3-padding' style="">
+<div id="categoriestab" class='w3-row sectionname a-articlecategorylist w3-border w3-padding' style="display:none;">
     [INJECT:appthemedirectory,ArticleCategoryList.cshtml]
 </div>

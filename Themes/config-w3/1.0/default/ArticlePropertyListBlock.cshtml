@@ -5,10 +5,10 @@
 <!--inject-->
 <div onclick="$('#propertiestab').toggle();$('#propertiestabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align  w3-margin-top">
     @ResourceKey("RC.properties")
-    <span id="propertiestabexpand" class="material-icons w3-right" style="display:none;">
+    <span id="propertiestabexpand" class="material-icons w3-right" style="">
         unfold_more
     </span>
 </div>
-<div id="propertiestab" class='w3-row sectionname a-articlepropertylist w3-border w3-padding' style="">
+<div id="propertiestab" class='w3-row sectionname a-articlepropertylist w3-border w3-padding' style="display:none;">
     [INJECT:appthemedirectory,ArticlePropertyList.cshtml]
 </div>
