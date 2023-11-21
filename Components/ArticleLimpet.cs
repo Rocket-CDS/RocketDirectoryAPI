@@ -227,7 +227,8 @@ namespace RocketDirectoryAPI.Components
         {
             // Add to builld CanonicalLink in Meta.ascx
             Info.SetXmlProperty("genxml/data/articledefaulttabId", PortalCatalog.DetailPageTabId.ToString());
-            
+            CalculateReviewCount();
+
             Info = _objCtrl.SaveData(Info, _tableName);
             if (Info.GUIDKey == "")
             {
@@ -419,7 +420,6 @@ namespace RocketDirectoryAPI.Components
             { 
                 Info.AddListItem(ReviewListName, sInfo);
             }
-            CalculateReviewCount();
         }
         public List<SimplisityInfo> GetReviewList()
         {
@@ -431,14 +431,13 @@ namespace RocketDirectoryAPI.Components
             if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
             Info.AddListItem(ReviewListName, articleReview.Info);
             UpdateReview(Info.GetList("reviewlist")); // sort by date, so new is at top of list.
-            CalculateReviewCount();
             Update();
             return articleReview.Info;
         }
         public SimplisityInfo AddReview(SimplisityInfo postInfo)
         {
             var articleReview = new ArticleReview(postInfo, "articlereview");
-            if (Info.ItemID > 0 && !String.IsNullOrEmpty(articleReview.Comment))
+            if (Info.ItemID > 0 && (!String.IsNullOrEmpty(articleReview.Comment) || articleReview.Rating > 0))
             {
                 if (!SecurityInput.CheckForSQLInjection(articleReview.Name) && !SecurityInput.CheckForSQLInjection(articleReview.Comment))
                 {
@@ -455,7 +454,6 @@ namespace RocketDirectoryAPI.Components
                     articleReview.Comment = comment;
                     articleReview.ReviewDate = DateTime.Now;
                     Info.AddListItem(ReviewListName, articleReview.Info);
-                    CalculateReviewCount();
                     Update();
                 }
 
@@ -481,10 +479,16 @@ namespace RocketDirectoryAPI.Components
             var reviewList = GetReviews();
             ReviewCount = reviewList.Count();
             ReviewScore = 0;
+            var scoreCount = 0;
             foreach (var r in reviewList)
             {
-                ReviewScore += r.Rating;
+                if (r.Rating > 0)
+                {
+                    ReviewScore += r.Rating;
+                    scoreCount += 1;
+                }
             }
+            ReviewScore = ReviewScore / scoreCount;
         }
         #endregion
 
