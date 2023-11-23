@@ -345,4 +345,7 @@
   <data name="modulesettings.Text" xml:space="preserve">
     <value>Configuration du module</value>
   </data>
+  <data name="setcanonical.Text" xml:space="preserve">
+    <value>Pages required for canonical links</value>
+  </data>
 </root>

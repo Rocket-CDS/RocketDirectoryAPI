@@ -95,12 +95,13 @@
     </div>
 
     <div class="w3-row  w3-padding">
-        <label class="">@ResourceKey("RC.checkboxfilterand")</label><br />
-        @CheckBox(info, "genxml/checkboxfilterand", ""," class='w3-check' ")
+        <br />
+        @CheckBox(info, "genxml/checkboxfilterand", "&nbsp;" + @ResourceKey("RC.checkboxfilterand").ToString()," class='w3-check' ")
     </div>
 
 </div>
 
+<hr/>
 <script type="text/javascript">
 
     $(document).ready(function () {

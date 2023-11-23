@@ -92,7 +92,25 @@ namespace RocketDirectoryAPI.Components
                 LogUtils.LogSystem("SQL INJECTION Attempt:" + Record.XMLData);
                 ReadRecord(Record.PortalId, Record.Lang);
             }
+
+            SaveReferenceId(); 
+
             RemoveCache();
+        }
+        /// <summary>
+        /// Save ID as parentitemid so we can get data from non-system methods, like canonicallink in meta.ascx.
+        /// This is a reference to the portalContent settings.
+        /// We do not know what the EntityTypeCode is in different systems, so this unifies the name so it can be read.
+        /// </summary>
+        private void SaveReferenceId()
+        {
+            var sRec = new SimplisityInfo();
+            sRec.PortalId = _portalId;
+            sRec.ModuleId = -1;
+            sRec.TypeCode = "PortalSettingsRef_" + SystemKey + PortalId;
+            sRec.Lang = "";
+            sRec.ParentItemId = Record.ItemID;
+            _objCtrl.Update(sRec, _tableName);
         }
         private void ReadRecord(int portalId, string cultureCode)
         {

@@ -104,7 +104,7 @@ namespace RocketDirectoryAPI.Components
             PortalId = Info.PortalId;
             Info.Lang = CultureCode;
             PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, systemKey);
-            SystemKey = systemKey; // after populate, so unassigned values in XML are correct (legacy data)
+            SystemKey = systemKey; // after populate, so unassigned values in XML are correct. (use to identify article system for meta.ascx)
         }
         public void PopulateLists()
         {
@@ -225,10 +225,7 @@ namespace RocketDirectoryAPI.Components
         }
         public int Update()
         {
-            // Add to builld CanonicalLink in Meta.ascx
-            Info.SetXmlProperty("genxml/data/articledefaulttabId", PortalCatalog.DetailPageTabId.ToString());
             CalculateReviewCount();
-
             Info = _objCtrl.SaveData(Info, _tableName);
             if (Info.GUIDKey == "")
             {
@@ -488,7 +485,10 @@ namespace RocketDirectoryAPI.Components
                     scoreCount += 1;
                 }
             }
-            ReviewScore = ReviewScore / scoreCount;
+            if (scoreCount > 0 && ReviewScore > 0)
+            {
+                ReviewScore = ReviewScore / scoreCount;
+            }
         }
         #endregion
 
