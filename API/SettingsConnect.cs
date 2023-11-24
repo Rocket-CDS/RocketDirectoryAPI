@@ -1,4 +1,5 @@
-﻿using DNNrocketAPI.Components;
+﻿using DNNrocketAPI;
+using DNNrocketAPI.Components;
 using Rocket.AppThemes.Components;
 using RocketDirectoryAPI.Components;
 using Simplisity;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Xml;
 
 namespace RocketDirectoryAPI.API
 {
@@ -70,6 +72,98 @@ namespace RocketDirectoryAPI.API
 
             return RenderSystemTemplate("ModuleSettings.cshtml");
         }
+
+        private string ExportData()
+        {
+            // check the scheduler initiated the call.
+            var rtn = "";
+            var securityKey = DNNrocketUtils.GetTempStorage(_paramInfo.GetXmlProperty("genxml/hidden/securitykey"), true);
+            if (securityKey != null) // if it exists in the temp table, it was created by the scheduler.
+            {
+                var moduleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/moduleid");
+                var systemKey = _paramInfo.GetXmlProperty("genxml/hidden/systemkey");
+                var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
+                var databasetable = _paramInfo.GetXmlProperty("genxml/hidden/databasetable");
+                var moduleRef = portalId + "_ModuleID_" + moduleId;
+                var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, moduleId, -1);
+                if (moduleSettings.HasProject)
+                {
+                    rtn = "<export>";
+                    rtn += "<systemkey>" + systemKey + "</systemkey>";
+                    rtn += "<databasetable>RocketDirectoryAPI</databasetable>";
+                    rtn += "<modulesettings>";
+                    rtn += moduleSettings.Record.ToXmlItem();
+                    rtn += "</modulesettings>";
+                    rtn += "</export>";
+                }
+            }
+
+            return rtn;
+        }
+        private void ImportData()
+        {
+            // check the scheduler initiated the call.
+            var securityKey = DNNrocketUtils.GetTempStorage(_paramInfo.GetXmlProperty("genxml/hidden/securitykey"), true);
+            if (securityKey != null) // if it exists in the temp table, it was created by the scheduler.
+            {
+
+                var moduleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/moduleid");
+                var tabId = _paramInfo.GetXmlPropertyInt("genxml/hidden/tabid");
+                var systemKey = _paramInfo.GetXmlProperty("genxml/hidden/systemkey");
+                var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
+                var databasetable = _paramInfo.GetXmlProperty("genxml/hidden/databasetable");
+                var moduleRef = portalId + "_ModuleID_" + moduleId;
+
+                var objCtrl = new DNNrocketController();
+
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(_postInfo.XMLData);
+
+                LogUtils.LogSystem("IMPORT XML _paramInfo: " + _paramInfo.XMLData);
+                LogUtils.LogSystem("IMPORT XML _postInfo: " + _postInfo.XMLData);
+
+                //import Settings (Saved in DNNrocket table)
+                var settingsNod = xmlDoc.SelectSingleNode("export/modulesettings");
+                if (settingsNod != null)
+                {
+                    var legacymoduleref = "";
+                    var legacymoduleid = "";
+                    var ms = new SimplisityRecord();
+                    ms.FromXmlItem(settingsNod.InnerXml);
+                    var rec = objCtrl.GetRecordByGuidKey(portalId, moduleId, "MODSETTINGS", moduleRef, "");
+                    if (rec != null)
+                    {
+                        var storeId = rec.ItemID;
+                        ms = rec;
+                        ms.FromXmlItem(settingsNod.InnerXml);
+                        ms.ItemID = storeId;
+                    }
+                    else
+                    {
+                        ms.ItemID = -1;
+                    }
+                    legacymoduleref = ms.GUIDKey;
+                    ms.SetXmlProperty("genxml/legacymoduleref", legacymoduleref); // used to link DataRef on Satellite modules.
+                    legacymoduleid = ms.ModuleId.ToString();
+                    ms.SetXmlProperty("genxml/legacymoduleid", legacymoduleid);
+                    if (ms.GetXmlProperty("genxml/settings/name") != "" && legacymoduleid != "")
+                    {
+                        ms.SetXmlProperty("genxml/settings/name", ms.GetXmlProperty("genxml/settings/name").Replace(legacymoduleid, moduleId.ToString()));
+                    }
+                    else
+                    {
+                        LogUtils.LogSystem("ERROR IMPORTDATA: ms.GetXmlProperty(\"genxml/settings/name\"):" + ms.GetXmlProperty("genxml/settings/name") + " legacymoduleid:" + legacymoduleid);
+                    }
+                    ms.PortalId = portalId;
+                    ms.ModuleId = moduleId;
+                    ms.GUIDKey = moduleRef;
+                    ms.SetXmlProperty("genxml/data/tabid", tabId.ToString());
+                    objCtrl.Update(ms);
+                }
+            }
+
+        }
+
 
     }
 }

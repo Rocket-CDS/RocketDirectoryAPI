@@ -365,7 +365,15 @@ order by articlename.GUIDKey desc
 		  <cmd>rocketdirectoryapi_addreview</cmd>
 		  <action>false</action>
 	  </command>
-  
+	  <command>
+		  <cmd>rocketdirectoryapi_exportmodule</cmd>
+		  <action>false</action>
+	  </command>
+	  <command>
+		  <cmd>rocketdirectoryapi_importmodule</cmd>
+		  <action>false</action>
+	  </command>
+
 
 
   </commands>

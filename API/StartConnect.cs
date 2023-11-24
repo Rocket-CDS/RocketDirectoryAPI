@@ -270,6 +270,14 @@ namespace RocketDirectoryAPI.API
                     strOut = AddUserReview();
                     break;
 
+                case "rocketdirectoryapi_exportmodule":
+                    strOut = ExportData();
+                    break;
+                case "rocketdirectoryapi_importmodule":
+                    ImportData();
+                    strOut = "";
+                    break;
+
 
                 case "invalidcommand":
                     strOut = "INVALID COMMAND: " + _storeParamCmd;

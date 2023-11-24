@@ -66,7 +66,63 @@
         </radio>
       </genxml>
 
-    </providerdata>
+		<genxml>
+			<textbox>
+				<interfacekey>exportmodule</interfacekey>
+				<namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
+				<assembly>RocketDirectoryAPI</assembly>
+				<interfaceicon></interfaceicon>
+				<defaultcommand>rocketdirectoryapi_exportmodule</defaultcommand>
+				<relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
+			</textbox>
+			<providertype>exportmodule</providertype>
+			<dropdownlist>
+				<group></group>
+			</dropdownlist>
+			<checkbox>
+				<onmenu>false</onmenu>
+				<active>true</active>
+			</checkbox>
+			<radio>
+				<securityrolesadministrators>1</securityrolesadministrators>
+				<securityrolesmanager>0</securityrolesmanager>
+				<securityroleseditor>0</securityroleseditor>
+				<securityrolesclienteditor>0</securityrolesclienteditor>
+				<securityrolesregisteredusers>0</securityrolesregisteredusers>
+				<securityrolessubscribers>0</securityrolessubscribers>
+				<securityrolesall>0</securityrolesall>
+			</radio>
+		</genxml>
+
+		<genxml>
+			<textbox>
+				<interfacekey>importmodule</interfacekey>
+				<namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
+				<assembly>RocketDirectoryAPI</assembly>
+				<interfaceicon></interfaceicon>
+				<defaultcommand>rocketdirectoryapi_importmodule</defaultcommand>
+				<relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
+			</textbox>
+			<providertype>importmodule</providertype>
+			<dropdownlist>
+				<group></group>
+			</dropdownlist>
+			<checkbox>
+				<onmenu>false</onmenu>
+				<active>true</active>
+			</checkbox>
+			<radio>
+				<securityrolesadministrators>1</securityrolesadministrators>
+				<securityrolesmanager>0</securityrolesmanager>
+				<securityroleseditor>0</securityroleseditor>
+				<securityrolesclienteditor>0</securityrolesclienteditor>
+				<securityrolesregisteredusers>0</securityrolesregisteredusers>
+				<securityrolessubscribers>0</securityrolessubscribers>
+				<securityrolesall>0</securityrolesall>
+			</radio>
+		</genxml>
+
+	</providerdata>
 
 
     <interfacedata list="true">
