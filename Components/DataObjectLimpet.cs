@@ -157,6 +157,7 @@ namespace RocketDirectoryAPI.Components
         public Dictionary<string, string> Settings { get { return _passSettings; } }
         public CatalogSettingsLimpet CatalogSettings { get { return (CatalogSettingsLimpet)GetDataObject("catalogsettings"); } }
         public CategoryLimpetList CategoryList { get { return (CategoryLimpetList)GetDataObject("categorylist"); } }
+        public PropertyLimpetList PropertyList { get { return (PropertyLimpetList)GetDataObject("propertylist"); } }
         public SessionParams SessionParamsData { get { return _sessionParams; } }        
 
     }

@@ -59,6 +59,7 @@ namespace RocketDirectoryAPI.API
                 var propertyData = GetActiveProperty(propertyid);
                 propertyData.Delete();
             }
+            _dataObject.PropertyList.ClearCache();
             return GetPropertyList();
         }
         public string RemovePropertyArticle()

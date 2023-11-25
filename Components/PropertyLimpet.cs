@@ -68,7 +68,7 @@ namespace RocketDirectoryAPI.Components
             if (Info.ItemID > 0)
             {
                 // remove property xref
-                var catxrefList = _objCtrl.GetList(PortalId, -1, "CATXREF", " and [XrefItemId] = " + PropertyId + " ", "", "", 0, 0, 0, 0, TableName);
+                var catxrefList = _objCtrl.GetList(PortalId, -1, "PROPXREF", " and [XrefItemId] = " + PropertyId + " ", "", "", 0, 0, 0, 0, TableName);
                 foreach (var catxrefRecord in catxrefList)
                 {
                     _objCtrl.Delete(catxrefRecord.ItemID, TableName);
@@ -111,9 +111,11 @@ namespace RocketDirectoryAPI.Components
             Info.SortOrder = Info.GetXmlPropertyInt("genxml/textbox/sortorder");
             var testInfo = _objCtrl.GetByGuidKey(PortalId, -1, EntityTypeCode, Info.GUIDKey, "", _tableName, CultureCode);
             if (testInfo != null && testInfo.ItemID != Info.ItemID)
-                return -1;
-            else
-                return ValidateAndUpdate();
+            {
+                Info.GUIDKey = Ref + "-" + GeneralUtils.GetRandomKey(3);
+                Info.SetXmlProperty(RefXPath, Info.GUIDKey);
+            }
+            return ValidateAndUpdate();
         }
         public List<SimplisityInfo> GetArticlesInfo()
         {
@@ -135,6 +137,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void Validate()
         {
+            Info.SetXmlProperty(RefXPath, DNNrocketUtils.UrlFriendly(GeneralUtils.StripAccents(Ref)));
         }
         public List<string> PropertyGroups()
         {
