@@ -47,8 +47,11 @@ namespace RocketDirectoryAPI.Components
             {
                 DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by R1.SortOrder desc, [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
                 PopulatePropertyList();
-                CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, "portal" + PortalId);
-                CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, "portal" + PortalId);
+                if (filter == "") // do not cache if we are searching.
+                {
+                    CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, "portal" + PortalId);
+                    CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, "portal" + PortalId);
+                }
             }
         }
         public void ClearCache()

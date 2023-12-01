@@ -94,8 +94,11 @@
                     </div>
                 </div>
                 <div class='w3-row w3-padding'>
+                    @if (catalogSettings.GetPropertyGroups().Count > 0)
+                    {
                     <label>@ResourceKey("RC.group")</label>
-                    @CheckBoxList(info, "genxml/checkboxlist/group", catalogSettings.GetPropertyGroups(), " class=' rocket-checkboxlist ' ")
+                    @CheckBoxList(info, "genxml/checkboxlist/group", catalogSettings.GetPropertyGroups(), " class=' rocket-checkboxlist ' ")                        
+                    }
                 </div>
 
                 <div class='w3-row w3-padding'>
