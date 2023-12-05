@@ -128,7 +128,7 @@ namespace RocketDirectoryAPI.Components
 
             var articleId = sessionParam.GetInt("articleid");
             var cacheKey = moduleRef + "*" + articleId + "*" + template;
-            var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + portalId);
+            var rtn = CacheFileUtils.GetCache(cacheKey, "portal" + portalId);
             if (rtn != null && !moduleSettings.DisableCache) return rtn;
 
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
@@ -141,7 +141,7 @@ namespace RocketDirectoryAPI.Components
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
+            CacheFileUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
             return pr.RenderedText;
         }
         public static string DisplayView(DataObjectLimpet dataObject, string template = "")
@@ -152,7 +152,7 @@ namespace RocketDirectoryAPI.Components
             var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
             if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
             {
-                var rtn = (string)CacheUtils.GetCache(cacheKey, "portal" + dataObject.PortalId);
+                var rtn = CacheFileUtils.GetCache(cacheKey, "portal" + dataObject.PortalId);
                 if (rtn != null && !dataObject.ModuleSettings.DisableCache) return rtn;
             }
             var aticleId = sessionParam.GetInt("articleid");
@@ -196,7 +196,7 @@ namespace RocketDirectoryAPI.Components
             var razorTempl = dataObject.AppTheme.GetTemplate(template, dataObject.ModuleSettings.ModuleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            if (sessionParam.SearchText == "") CacheUtils.SetCache(cacheKey, pr.RenderedText, "portal" + dataObject.PortalId);
+            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(cacheKey, pr.RenderedText, "portal" + dataObject.PortalId);
             return pr.RenderedText;
 
         }
