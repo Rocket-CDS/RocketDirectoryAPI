@@ -295,7 +295,7 @@ This template is used to get user settings for the AppTheme.
 /DesktopModules/RocketThemes/AppThemes-W3-CSS/rocketdirectoryapi.example1/1.0/dep
 ```
 
-For this AppTheme we will have a startup templates, inject css dependancies and only have articles showing on the Admin Panel.  
+For this AppTheme we will have a startup templates, inject css dependancies, only have articles showing on the Admin Panel and a URL query paramters for the detail page.
 
 Create a file called "example1.dep" in the "dep" folder.
 ```
@@ -338,5 +338,17 @@ Create a file called "example1.dep" in the "dep" folder.
 			<show>false</show>
 		</genxml>
 	</adminpanelinterfacekeys>
+	<queryparams list="true">
+		<genxml>
+			<queryparam>articleid</queryparam>
+			<tablename>rocketdirectoryapi</tablename>
+		</genxml>
+	</queryparams>
 </genxml>
 ```
+
+### QueryParams
+With the directory system you may have a list and detail structure.  
+The detail should contain SEO data in the header.  The SEO data is read by using a URL parameter, this paramater is defined in the dependacies file.  Saving the directory settings will also update the Page data so the Meta.ascx can capture the detail data with an ItemId.  
+
+

@@ -19,6 +19,22 @@ namespace RocketDirectoryAPI.Components
     {
         public const string ControlPath = "/DesktopModules/DNNrocketModules/RocketDirectoryAPI";
         public const string ResourcePath = "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources";
+        public static Dictionary<string, string> UrlQueryParams(AppThemeLimpet appThemeView)
+        {
+            var rtn = new Dictionary<string, string>();
+            if (appThemeView != null)
+            {
+                foreach (var tfile in appThemeView.GetTemplatesDep())
+                {
+                    var t = appThemeView.GetModT(tfile.Key, "");
+                    foreach (var r in t.GetRecordList("queryparams"))
+                    {
+                        if (!rtn.ContainsKey(r.GetXmlProperty("genxml/queryparam"))) rtn.Add(r.GetXmlProperty("genxml/queryparam"), r.GetXmlProperty("genxml/tablename"));
+                    }
+                }
+            }
+            return rtn;
+        }
         public static Dictionary<string, string> ModuleTemples(AppThemeLimpet appThemeView, string moduleRef)
         {
             var rtn = new Dictionary<string,string>();
@@ -128,7 +144,7 @@ namespace RocketDirectoryAPI.Components
 
             var articleId = sessionParam.GetInt("articleid");
             var cacheKey = moduleRef + "*" + articleId + "*" + template;
-            var rtn = CacheFileUtils.GetCache(cacheKey, "portal" + portalId);
+            var rtn = CacheFileUtils.GetCache(cacheKey, systemKey + portalId);
             if (rtn != null && !moduleSettings.DisableCache) return rtn;
 
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
@@ -141,7 +157,7 @@ namespace RocketDirectoryAPI.Components
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            CacheFileUtils.SetCache(cacheKey, pr.RenderedText, "portal" + portalId);
+            CacheFileUtils.SetCache(cacheKey, pr.RenderedText, systemKey + portalId);
             return pr.RenderedText;
         }
         public static string DisplayView(DataObjectLimpet dataObject, string template = "")
@@ -152,7 +168,7 @@ namespace RocketDirectoryAPI.Components
             var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
             if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
             {
-                var rtn = CacheFileUtils.GetCache(cacheKey, "portal" + dataObject.PortalId);
+                var rtn = CacheFileUtils.GetCache(cacheKey, dataObject.SystemKey + dataObject.PortalId);
                 if (rtn != null && !dataObject.ModuleSettings.DisableCache) return rtn;
             }
             var aticleId = sessionParam.GetInt("articleid");
@@ -196,7 +212,7 @@ namespace RocketDirectoryAPI.Components
             var razorTempl = dataObject.AppTheme.GetTemplate(template, dataObject.ModuleSettings.ModuleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(cacheKey, pr.RenderedText, "portal" + dataObject.PortalId);
+            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
             return pr.RenderedText;
 
         }

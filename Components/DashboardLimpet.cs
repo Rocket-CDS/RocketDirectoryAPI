@@ -31,7 +31,7 @@ namespace RocketDirectoryAPI.Components
 
             _cacheKey = portalId + "*" + _entityTypeCode + "*" + _guidKey + "*" + _tableName;
 
-            var uInfo = (SimplisityInfo)CacheUtils.GetCache(_cacheKey, "portal" + portalId);
+            var uInfo = (SimplisityInfo)CacheUtils.GetCache(_cacheKey, SystemKey + portalId);
             if (uInfo == null)
             {
                 uInfo = _objCtrl.GetByGuidKey(portalId, -1, _entityTypeCode, _guidKey, "", _tableName);
@@ -47,7 +47,7 @@ namespace RocketDirectoryAPI.Components
                 }
                 else
                 {
-                    CacheUtils.SetCache(_cacheKey, Info, "portal" + Info.PortalId);
+                    CacheUtils.SetCache(_cacheKey, Info, SystemKey + Info.PortalId);
                 }
             }
 
@@ -97,7 +97,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void ClearCache()
         {
-            CacheUtils.RemoveCache(_cacheKey, "portal" + _portalId);
+            CacheUtils.RemoveCache(_cacheKey, SystemKey + _portalId);
         }
 
         public string EntityTypeCode { get { return _entityTypeCode; } }

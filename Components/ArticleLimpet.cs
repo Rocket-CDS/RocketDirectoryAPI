@@ -221,7 +221,7 @@ namespace RocketDirectoryAPI.Components
         public void ClearCache()
         {
             CacheUtils.RemoveCache(_cacheKey);
-            CacheUtils.ClearAllCache(PortalId.ToString()); // for SEO 
+            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
         }
         public int Update()
         {
@@ -235,8 +235,6 @@ namespace RocketDirectoryAPI.Components
             }
             _objCtrl.RebuildIndex(PortalId, Info.ItemID, SystemKey, _tableName);
             ClearCache();
-            // clear portal cache, for list.
-            CacheUtils.ClearAllCache("portal" + PortalId);
             return Info.ItemID;
         }
         public int ValidateAndUpdate()

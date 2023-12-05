@@ -25,7 +25,6 @@ namespace RocketDirectoryAPI.API
             _dataObject.Settings.Add("saved", "true");
             var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             var rtn = articleData.Save(_postInfo);
-            CacheUtils.ClearAllCache("article"); // hbs cache
             return rtn;
         }
         public void DeleteArticle()

@@ -41,23 +41,23 @@ namespace RocketDirectoryAPI.Components
         {
             var filter = "";
             if (_searchText != "") filter = " and [XMLData].value('(genxml/lang/genxml/textbox/name)[1]','nvarchar(max)') like '%" + _searchText + "%' ";
-            DataList = (List<SimplisityInfo>)CacheUtils.GetCache(_cachekey + "SimplisityInfo", "portal" + PortalId);
-            _propertyList = (List<PropertyLimpet>)CacheUtils.GetCache(_cachekey + "PropertyLimpet", "portal" + PortalId);
+            DataList = (List<SimplisityInfo>)CacheUtils.GetCache(_cachekey + "SimplisityInfo", _systemKey + PortalId);
+            _propertyList = (List<PropertyLimpet>)CacheUtils.GetCache(_cachekey + "PropertyLimpet", _systemKey + PortalId);
             if (DataList == null || _propertyList == null || filter != "")
             {
                 DataList = _objCtrl.GetList(PortalId, -1, EntityTypeCode, filter, CultureCode, " order by R1.SortOrder desc, [XMLData].value('(genxml/textbox/ref)[1]','nvarchar(max)') ", 0, 0, 0, 0, TableName);
                 PopulatePropertyList();
                 if (filter == "") // do not cache if we are searching.
                 {
-                    CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, "portal" + PortalId);
-                    CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, "portal" + PortalId);
+                    CacheUtils.SetCache(_cachekey + "SimplisityInfo", DataList, _systemKey + PortalId);
+                    CacheUtils.SetCache(_cachekey + "PropertyLimpet", _propertyList, _systemKey + PortalId);
                 }
             }
         }
         public void ClearCache()
         {
-            CacheUtils.RemoveCache(_cachekey + "SimplisityInfo", "portal" + PortalId);
-            CacheUtils.RemoveCache(_cachekey + "PropertyLimpet", "portal" + PortalId);
+            CacheUtils.RemoveCache(_cachekey + "SimplisityInfo", _systemKey + PortalId);
+            CacheUtils.RemoveCache(_cachekey + "PropertyLimpet", _systemKey + PortalId);
         }
         public void DeleteAll()
         {

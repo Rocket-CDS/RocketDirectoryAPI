@@ -93,6 +93,30 @@ namespace RocketDirectoryAPI.Components
                 ReadRecord(Record.PortalId, Record.Lang);
             }
 
+            // update PL settings for QueryParams
+            if (AppThemeFolder != "")
+            {
+                var info = _objCtrl.GetRecordByGuidKey(_portalId, -1, "PLSETTINGS", "PLSETTINGS");
+                if (info != null)
+                {
+                    var upd = false;
+                    var appTheme = new AppThemeLimpet(PortalId, AppThemeFolder, AppThemeVersion, ProjectName);
+                    foreach (var qdata in RocketDirectoryAPIUtils.UrlQueryParams(appTheme))
+                    {
+                        if (info.GetRecordListItem("queryparams", "genxml/textbox/queryparam", qdata.Key) == null)
+                        {
+                            var qRec = new SimplisityRecord();
+                            qRec.SetXmlProperty("genxml/select/tablename", qdata.Value);
+                            qRec.SetXmlProperty("genxml/textbox/queryparam", qdata.Key);
+                            info.AddRecordListItem("queryparams", qRec);
+                            upd = true;
+                        }
+                    }
+                    if (upd) _objCtrl.Update(info);
+                }
+
+            }
+
             SaveReferenceId(); 
 
             RemoveCache();

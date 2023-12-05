@@ -30,8 +30,7 @@ namespace RocketDirectoryAPI.API
 
             portalCatalog.Update();
 
-            CacheUtils.ClearAllCache();
-            CacheUtilsDNN.ClearAllCache();
+            CacheFileUtils.ClearFileCache(portalId);
             DNNrocketUtils.ClearAllCache();
         }
 
