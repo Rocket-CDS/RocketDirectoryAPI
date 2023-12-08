@@ -4,11 +4,13 @@ using RazorEngine.Text;
 using Rocket.AppThemes.Components;
 using RocketPortal.Components;
 using Simplisity;
+using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -174,12 +176,50 @@ namespace RocketDirectoryAPI.Components
             return new RawString(strOut);
         }
         /// <summary>
+        /// Tags the button.
+        /// </summary>
+        /// <param name="propertyid">The propertyid.</param>
+        /// <param name="textName">Name of the text.</param>
+        /// <param name="cssClasses">The CSS classes.</param>
+        /// <param name="activeCssClasses">The active CSS classes.</param>
+        /// <param name="sessionParams">The session parameters.</param>
+        /// <returns></returns>
+        public IEncodedString TagButton(int propertyid, string textName, string cssClassOff, string cssClassOn, SessionParams sessionParams)
+        {
+            var css = cssClassOff;
+            if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = cssClassOn;
+            var strOut = "<button type='button' class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList('" + propertyid + "');return false;\" >" + textName + "</button>";
+            return new RawString(strOut);
+        }
+        /// <summary>
+        /// Adds the JS for calling the filter API.
+        /// </summary>
+        /// <param name="systemKey">The system key.</param>
+        /// <param name="sreturn">The sreturn.</param>
+        /// <param name="sessionParams">The session parameters.</param>
+        /// <returns></returns>
+        public IEncodedString TagJsApiCall(string systemKey, string sreturn, string cssClassOff, string cssClassOn, SessionParams sessionParams)
+        {
+            var strOut = "<script type='text/javascript'>";
+            strOut += "    function callTagArticleList(propertyid) {";
+            strOut += "        $('.simplisity_loader').show();";
+            strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
+            strOut += "        $('.rocket-tagbutton').addClass('" + cssClassOff + "');";
+            strOut += "        if (propertyid > 0) {";
+            strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";
+            strOut += "        }";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"articlelist.cshtml\"}', '');";
+            strOut += "    }";
+            strOut += "</script>";
+            return new RawString(strOut);
+        }
+        /// <summary>
         /// CheckBox for a group filter. (Used in the ThemeSettings for selecting which group filters to use.)
         /// </summary>
         /// <param name="groupId">The group identifier.</param>
         /// <param name="textName">Name of the text.</param>
         /// <returns></returns>
-        public IEncodedString FilterGroupCheckBox(string groupId, string textName)
+        public IEncodedString FilterGroupCheckBox(SimplisityInfo info, string groupId, string textName)
         {
             return CheckBox(info, "genxml/settings/propertygroup-" + groupId.ToLower(), textName, " class='w3-check' ");
         }

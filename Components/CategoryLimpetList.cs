@@ -33,7 +33,7 @@ namespace RocketDirectoryAPI.Components
             _objCtrl = new DNNrocketController();
 
             _cacheKey = PortalId + "*" + EntityTypeCode + "*" + CultureCode + "*" + _tableName + "*" + systemKey;
-            _cacheGroup = "categorylist*" + systemKey + "*" + PortalId;
+            _cacheGroup = systemKey + PortalId;
 
             if (populate) Populate();
         }
@@ -173,7 +173,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void ClearCache()
         {
-            CacheUtils.ClearAllCache(_cacheGroup);
+            CacheFileUtils.ClearAllCache(_cacheGroup);
         }
     }
 

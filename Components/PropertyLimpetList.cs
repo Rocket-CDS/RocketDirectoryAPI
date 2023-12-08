@@ -95,6 +95,15 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public Dictionary<int, string> GetPropertyTagList(string groupKey)
+        {
+            var rtn = new Dictionary<int, string>();
+            foreach (var p in GetPropertyList(groupKey))
+            {
+                rtn.Add(p.PropertyId, p.Name);
+            }
+            return rtn;
+        }
         private List<PropertyLimpet> PopulatePropertyList()
         {
             _propertyList = new List<PropertyLimpet>();

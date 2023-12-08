@@ -35,7 +35,7 @@ namespace RocketDirectoryAPI.Components
             var entityTypeCode = SystemKey + "CATALOGSETTINGS";
             _cacheKey = entityTypeCode + portalId + "*" + cultureCode;
 
-            Info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey);
+            Info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey, SystemKey + PortalId);
             if (Info == null)
             {
                 Info = _objCtrl.GetByType(portalId, -1, entityTypeCode, "", CultureCode, _tableName);
@@ -47,6 +47,7 @@ namespace RocketDirectoryAPI.Components
                     Info.TypeCode = entityTypeCode;
                     Info.Lang = cultureCode;
                 }
+                CacheUtils.SetCache(_cacheKey, Info, SystemKey + PortalId);
             }
         }
 
@@ -102,12 +103,12 @@ namespace RocketDirectoryAPI.Components
         public void Update()
         {
             Info = _objCtrl.SaveData(Info, _tableName);
-            CacheUtils.SetCache(_cacheKey, Info);
+            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
         }
         public void Delete()
         {
             _objCtrl.Delete(Info.ItemID, _tableName);
-            CacheUtils.RemoveCache(_cacheKey);
+            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
         }
         public Dictionary<string,string> GetPropertyGroups()
         {
