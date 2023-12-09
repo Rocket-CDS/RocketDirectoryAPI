@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Xsl;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -115,6 +116,61 @@ namespace RocketDirectoryAPI.Components
             RecordCount = SessionParamData.RowCount;
 
             DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+        }
+        public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0)
+        {
+            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1);
+            var endDate = DateTime.Now.AddMonths(numberOfMonths * -1);
+
+            var rtn = new Dictionary<DateTime, List<SimplisityInfo>>();
+            var searchFilter = " and [XMLData].value('(genxml/checkbox/hidden)[1]','bit') = 0 ";
+            var orderby = "order by modifieddate";
+            var systemData = new SystemLimpet(_systemKey);
+            var sqlIndexRec = systemData.GetSqlIndex(sqlindexDateRef);
+            if (sqlindexDateRef != "" && sqlIndexRec != null)
+            {
+                var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
+                searchFilter += " and [XMLdata].value('(" + xpath + ")[1]','date') <= convert(date,'" + startDate.Date.ToString("O") + "') and [XMLdata].value('(" + xpath + ")[1]','date') >= convert(date,'" + endDate.Date.ToString("O") + "') ";
+                orderby = "order by " + sqlindexDateRef + ".GUIDKey";
+            }
+            if (catid > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + catid + " ";
+            var articleList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, searchFilter, _langRequired, orderby, 1000, 0, 0, 0, _tableName);
+            foreach (var a in articleList)
+            {
+                var d = a.ModifiedDate;
+                if (sqlindexDateRef != "" && sqlIndexRec != null)
+                {
+                    var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
+                    d = a.GetXmlPropertyDate(xpath);
+                }
+                var sd = new DateTime(d.Year, d.Month, 1);
+                if (rtn.ContainsKey(sd))
+                {
+                    var l = rtn[sd];
+                    l.Add(a);
+                    rtn.Remove(sd);
+                    rtn.Add(sd, l);
+                }
+                else
+                {
+                    var l = new List<SimplisityInfo>();
+                    l.Add(a);
+                    rtn.Add(sd, l);
+                }
+
+            }
+            var rtn2 = new Dictionary<DateTime, List<SimplisityInfo>>();
+            for (int i = 0; i < numberOfMonths; i++)
+            {
+                var d = startDate.AddMonths(i * -1);
+                var sd = new DateTime(d.Year, d.Month, 1);
+                if (rtn.ContainsKey(sd))
+                    rtn2.Add(sd, rtn[sd]);
+                else
+                    rtn2.Add(sd, new List<SimplisityInfo>());
+            }
+            rtn2 = rtn2.OrderByDescending(obj => obj.Key).ToDictionary(obj => obj.Key, obj => obj.Value);
+            return rtn2;
         }
         public void DeleteAll()
         {

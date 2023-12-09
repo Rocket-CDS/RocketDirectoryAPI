@@ -36,6 +36,11 @@
 
 </div>
 
+<div class="simplisity_loader">
+    <span class=" simplisity_loader_inner">
+    </span>
+</div>
+
 <script>
 
     $(document).ready(function () {
@@ -61,7 +66,7 @@
                 return false; // prevent the button click from happening
             }
         });
-
+        $('.simplisity_loader').hide();
     });
 
     function clearSearch() {

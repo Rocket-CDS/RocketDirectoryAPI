@@ -51,7 +51,7 @@ The sql filter supports testing for is a user is in a specific role.
 ```
 '{isinrole:ClientEditor}' = 'True'
 ```
-This allows fiultering on a role system.
+This allows filtering on a role system.
 
 ### SQL filter exanple
 ```
@@ -62,12 +62,12 @@ and
 		or isnull([XMLData].value('(genxml/textbox/articleref)[1]','nvarchar(max)'),'') like '%{searchtext}%'
 		or isnull([XMLData].value('(genxml/lang/genxml/textbox/articlekeywords)[1]','nvarchar(max)'),'') like '%{searchtext}%'
     )
-    and
-    (
-        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') >= '{searchdate1}' or '{searchdate1}' = ''
-        and 
-        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') <= '{searchdate2}' or '{searchdate2}' = ''
-    )
+	and
+	(
+	    ([XMLData].value('(genxml/textbox/publisheddate)[1]','date') >= convert(date,'{searchdate1}') or '{searchdate1}' = '')
+	    and
+	    ([XMLData].value('(genxml/textbox/publisheddate)[1]','date') <= convert(date,'{searchdate2}') or '{searchdate2}' = '')
+	)
 )
 and
 (
@@ -190,12 +190,12 @@ and
 	    or isnull([XMLData].value('(genxml/textbox/articleref)[1]','nvarchar(max)'),'') like '%{searchtext}%'
 	    or isnull([XMLData].value('(genxml/lang/genxml/textbox/articlekeywords)[1]','nvarchar(max)'),'') like '%{searchtext}%'
     )
-    and
-    (
-        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') >= '{searchdate1}' or '{searchdate1}' = ''
-    and 
-        [XMLData].value('(genxml/textbox/publisheddate)[1]','nvarchar(max)') <= '{searchdate2}' or '{searchdate2}' = ''
-    )
+	and
+	(
+	    ([XMLData].value('(genxml/textbox/publisheddate)[1]','date') >= convert(date,'{searchdate1}') or '{searchdate1}' = '')
+	    and
+	    ([XMLData].value('(genxml/textbox/publisheddate)[1]','date') <= convert(date,'{searchdate2}') or '{searchdate2}' = '')
+	)
 )
 ```
 

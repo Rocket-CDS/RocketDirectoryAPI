@@ -162,16 +162,19 @@ namespace RocketDirectoryAPI.Components
             return CheckBox(infoempty, "genxml/checkbox/" + checkboxId, "&nbsp;" + textName, " class='simplisity_sessionfield rocket-filtercheckbox'  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
         }
         /// <summary>
-        /// Adds the JS for calling the filter API.
+        /// Adds the JS for calling the filter API. JS:callArticleList() cmd:remote_publiclist
         /// </summary>
         /// <param name="systemKey">The system key.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams)
+        public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var strOut = "<script type=\"text/javascript\"> function callArticleList(sreturn) {";
             strOut += " $('.simplisity_loader').show();";
-            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"articlelist.cshtml\"}', '');";
+            strOut += " simplisity_setSessionField('searchdate1', '');";
+            strOut += " simplisity_setSessionField('searchdate2', '');";
+            strOut += " simplisity_setSessionField('page', '1');";
+            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += " } </script>";
             return new RawString(strOut);
         }
@@ -192,23 +195,46 @@ namespace RocketDirectoryAPI.Components
             return new RawString(strOut);
         }
         /// <summary>
-        /// Adds the JS for calling the filter API.
+        /// Adds the JS for calling the filter API. JS:callTagArticleList() cmd:remote_publiclist
         /// </summary>
         /// <param name="systemKey">The system key.</param>
         /// <param name="sreturn">The sreturn.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString TagJsApiCall(string systemKey, string sreturn, string cssClassOff, string cssClassOn, SessionParams sessionParams)
+        public IEncodedString TagJsApiCall(string systemKey, string sreturn, string cssClassOff, string cssClassOn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList(propertyid) {";
             strOut += "        $('.simplisity_loader').show();";
             strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
             strOut += "        $('.rocket-tagbutton').addClass('" + cssClassOff + "');";
+            strOut += "        simplisity_setSessionField('searchdate1', '');";
+            strOut += "        simplisity_setSessionField('searchdate2', '');";
+            strOut += "        simplisity_setSessionField('page', '1');";
             strOut += "        if (propertyid > 0) {";
             strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";
             strOut += "        }";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"articlelist.cshtml\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "    }";
+            strOut += "</script>";
+            return new RawString(strOut);
+        }
+        /// <summary>
+        /// Dates the js API call. JS function: doDateSearchReload cmd:remote_publiclist
+        /// </summary>
+        /// <param name="systemKey">systemkey.</param>
+        /// <param name="sreturn">sreturn.</param>
+        /// <param name="sessionParams">The session parameters.</param>
+        /// <returns></returns>
+        public IEncodedString DateJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        {
+            var strOut = "<script type='text/javascript'>";
+            strOut += "    function doDateSearchReload(searchdate1, searchdate2) {";
+            strOut += "        simplisity_setSessionField('searchdate1', searchdate1);";
+            strOut += "        simplisity_setSessionField('searchdate2', searchdate2);";
+            strOut += "        simplisity_setSessionField('page', '1');";
+            strOut += "        $('.simplisity_loader').show();";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
