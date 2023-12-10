@@ -1,4 +1,4 @@
-# Search and Filtering
+# Search
 The searching works on a text search in SQL.  
 There is a default index created that can be used or you can use the XML data.  Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created unless you want better performace with a large SQL database.  
 
