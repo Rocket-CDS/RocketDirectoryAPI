@@ -119,7 +119,7 @@ namespace RocketDirectoryAPI.Components
         }
         public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0)
         {
-            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1);
+            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
             var endDate = DateTime.Now.AddMonths(numberOfMonths * -1);
 
             var rtn = new Dictionary<DateTime, List<SimplisityInfo>>();

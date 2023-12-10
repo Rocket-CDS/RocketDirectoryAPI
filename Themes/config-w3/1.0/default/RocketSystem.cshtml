@@ -30,6 +30,10 @@
 
     <div class="w3-bar  w3-padding">
         <button class="w3-padding w3-button w3-theme-action savebutton simplisity_click" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId","portalsystems":"@Model.SessionParamsData.Get("portalsystems")"}'>@ButtonText(ButtonTypes.save)</button>
+        @if (UserUtils.IsAdministrator())
+        {
+        <button class="w3-padding w3-button w3-red w3-right savebutton simplisity_confirmclick" s-confirm="reset?" s-reload="true" s-cmd="portalcatalog_reset" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.reset)</button>            
+        }        
     </div>
 
     <div id="systemadminsection" class="w3-row">

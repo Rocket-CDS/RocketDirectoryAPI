@@ -13,22 +13,8 @@ namespace RocketDirectoryAPI.API
     {
         private void ResetPortalCatalog(int portalId)
         {
-            var defaultFileMapPath = DNNrocketUtils.MapPath(_rocketInterface.TemplateRelPath).TrimEnd('\\') + "\\default_portalcatalog.xml";
-            var defaultxml = FileUtils.ReadFile(defaultFileMapPath);
             var portalCatalog = new PortalCatalogLimpet(portalId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
-
-            var sitekey = portalCatalog.SiteKey;
-
-            if (defaultxml != "")
-            {
-                var tempInfo = new SimplisityInfo();
-                tempInfo.FromXmlItem(defaultxml);
-                portalCatalog.Record.XMLData = tempInfo.XMLData;
-            }
-
-            portalCatalog.SiteKey = sitekey;
-
-            portalCatalog.Update();
+            portalCatalog.Reset();
 
             CacheFileUtils.ClearFileCache(portalId);
             DNNrocketUtils.ClearAllCache();

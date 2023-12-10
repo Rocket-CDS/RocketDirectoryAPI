@@ -64,7 +64,6 @@ namespace RocketDirectoryAPI.API
             moduleData.AppThemeAdminVersion = _paramInfo.GetXmlProperty("genxml/hidden/appthemefolderversion");
             _dataObject.SetDataObject("modulesettings", moduleData);
             moduleData.Update();
-            _dataObject.PortalContent.ResetSetting();
             _dataObject.PortalContent.ProjectName = moduleData.ProjectName;
             _dataObject.PortalContent.AppThemeFolder = moduleData.AppThemeAdminFolder;
             _dataObject.PortalContent.AppThemeVersion = moduleData.AppThemeAdminVersion;

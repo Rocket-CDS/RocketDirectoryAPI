@@ -174,6 +174,11 @@ namespace RocketDirectoryAPI.Components
             }
             RemoveCache();
         }
+        public void Reset()
+        {
+            _objCtrl.Delete(Record.ItemID, _tableName);
+            RemoveCache();
+        }
         public void RemoveCache()
         {
             CacheUtils.RemoveCache(_cacheKey);
@@ -412,15 +417,6 @@ namespace RocketDirectoryAPI.Components
         public string DefaultCmd()
         {
             return "articleadmin_editlist";
-        }
-        public void ResetSetting()
-        {
-            var configFileName = DNNrocketUtils.MapPath("/DesktopModules/DNNRocketModules/" + SystemKey + "/Installation/SystemInit.rules");
-            if (File.Exists(configFileName))
-            {
-                var xmlData = FileUtils.ReadFile(configFileName);
-                Record.XMLData = xmlData;
-            }
         }
 
         #region "Info - PortalCatalog Data"
