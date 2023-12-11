@@ -169,6 +169,8 @@ namespace RocketDirectoryAPI.Components
             ReplaceInfoFields(postInfo, "genxml/lang/genxml/select/*");
             ReplaceInfoFields(postInfo, "genxml/radio/*");
             ReplaceInfoFields(postInfo, "genxml/lang/genxml/radio/*");
+            ReplaceInfoFields(postInfo, "genxml/data/*");
+            ReplaceInfoFields(postInfo, "genxml/lang/genxml/data/*");
 
             var postLists = postInfo.GetLists();
             foreach (var listname in postLists)
