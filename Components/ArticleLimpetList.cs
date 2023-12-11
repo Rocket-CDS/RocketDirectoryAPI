@@ -117,24 +117,14 @@ namespace RocketDirectoryAPI.Components
 
             DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
         }
-        public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0)
+        public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
         {
-            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
-            var endDate = DateTime.Now.AddMonths(numberOfMonths * -1);
-
             var rtn = new Dictionary<DateTime, List<SimplisityInfo>>();
-            var searchFilter = " and [XMLData].value('(genxml/checkbox/hidden)[1]','bit') = 0 ";
-            var orderby = "order by modifieddate";
+            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
             var systemData = new SystemLimpet(_systemKey);
             var sqlIndexRec = systemData.GetSqlIndex(sqlindexDateRef);
-            if (sqlindexDateRef != "" && sqlIndexRec != null)
-            {
-                var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
-                searchFilter += " and [XMLdata].value('(" + xpath + ")[1]','date') <= convert(date,'" + startDate.Date.ToString("O") + "') and [XMLdata].value('(" + xpath + ")[1]','date') >= convert(date,'" + endDate.Date.ToString("O") + "') ";
-                orderby = "order by " + sqlindexDateRef + ".GUIDKey";
-            }
-            if (catid > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + catid + " ";
-            var articleList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, searchFilter, _langRequired, orderby, 1000, 0, 0, 0, _tableName);
+
+            var articleList = GetArticlesByDateDesc(startMonthDate, numberOfMonths, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
                 var d = a.ModifiedDate;
@@ -171,6 +161,33 @@ namespace RocketDirectoryAPI.Components
             }
             rtn2 = rtn2.OrderByDescending(obj => obj.Key).ToDictionary(obj => obj.Key, obj => obj.Value);
             return rtn2;
+        }
+        public List<ArticleLimpet> GetArticleRssList(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
+        {
+            var rtn = new List<ArticleLimpet>();
+            var articleList = GetArticlesByDateDesc(startMonthDate, numberOfMonths, sqlindexDateRef,catid, limit);
+            foreach (var a in articleList)
+            {
+                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+            }
+            return rtn;
+        }
+        public List<SimplisityInfo> GetArticlesByDateDesc(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
+        {
+            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
+            var endDate = DateTime.Now.AddMonths(numberOfMonths * -1);
+            var searchFilter = " and [XMLData].value('(genxml/checkbox/hidden)[1]','bit') = 0 ";
+            var orderby = "order by modifieddate";
+            var systemData = new SystemLimpet(_systemKey);
+            var sqlIndexRec = systemData.GetSqlIndex(sqlindexDateRef);
+            if (sqlindexDateRef != "" && sqlIndexRec != null)
+            {
+                var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
+                searchFilter += " and [XMLdata].value('(" + xpath + ")[1]','date') <= convert(date,'" + startDate.Date.ToString("O") + "') and [XMLdata].value('(" + xpath + ")[1]','date') >= convert(date,'" + endDate.Date.ToString("O") + "') ";
+                orderby = "order by " + sqlindexDateRef + ".GUIDKey";
+            }
+            if (catid > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + catid + " ";
+            return _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, searchFilter, _langRequired, orderby, limit, 0, 0, 0, _tableName);
         }
         public void DeleteAll()
         {

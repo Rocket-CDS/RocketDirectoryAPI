@@ -127,7 +127,8 @@ namespace RocketDirectoryAPI.Components
         public int PortalId { get { return Info.PortalId; } }
         public bool Exists { get { if (Info.ItemID > 0) return true; else return false; }  }
         public string CultureCode { get; set; }
-        public string CatalogName { get { return Info.GetXmlProperty("genxml/textbox/catalogname"); } }
+        public string CatalogName { get { return Info.GetXmlProperty("genxml/lang/genxml/textbox/catalogname"); } }
+        public string Summary { get { return Info.GetXmlProperty("genxml/lang/genxml/textbox/summary"); } }
         public string FromEmail { get { return Info.GetXmlProperty("genxml/textbox/fromemail"); } }
         public string ContactEmail { get { return Info.GetXmlProperty("genxml/textbox/contactemail"); } }
         public string TechnicalEmail { get { return Info.GetXmlProperty("genxml/textbox/technicalemail"); } }

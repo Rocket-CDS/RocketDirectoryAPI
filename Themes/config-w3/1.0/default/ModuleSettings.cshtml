@@ -24,9 +24,14 @@
     }
 }
 
-@RenderXml(info)
-
 <div id="a-datasection" class="w3-container w3-margin w3-padding">
+
+    <div class="w3-row w3-padding">
+        <!-- create element to update settings via API when the DNN update is clicked. -->
+        <div id="postsettings" class="w3-right w3-button w3-round w3-theme-action w3-padding a-savebutton simplisity_click" s-cmd="@(systemData.SystemKey)_savesettings" s-post="#a-datasection" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'>
+            @ButtonIcon(ButtonTypes.save)
+        </div>
+    </div>
 
     <div class="w3-row w3-padding">
         <div class="w3-quarter">
@@ -92,10 +97,7 @@
     <span>ModuleRef: @moduleData.ModuleRef</span>
 </div>
 
-<!-- create element to update settings via API when the DNN update is clicked. -->
-<span id="postsettings" class="w3-hide" s-cmd="@(systemData.SystemKey)_savesettings" s-post="#a-datasection" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'></span>
-
-
+@RenderXml(info)
 
 <script>
     $(document).ready(function () {

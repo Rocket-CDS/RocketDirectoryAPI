@@ -29,6 +29,7 @@ namespace RocketDirectoryAPI.API
         public Dictionary<string, object> ProcessCommand(string paramCmd, SimplisityInfo systemInfo, SimplisityInfo interfaceInfo, SimplisityInfo postInfo, SimplisityInfo paramInfo, string langRequired = "")
         {
             var strOut = ""; // return nothing if not matching commands.
+            var strXml = "";
             _storeParamCmd = paramCmd;
 
             paramCmd = InitCmd(paramCmd, systemInfo, interfaceInfo, postInfo, paramInfo, langRequired);
@@ -278,6 +279,9 @@ namespace RocketDirectoryAPI.API
                     strOut = "";
                     break;
 
+                case "rocketdirectoryapi_rss":
+                    strOut = GetRss();
+                    break;
 
                 case "invalidcommand":
                     strOut = "INVALID COMMAND: " + _storeParamCmd;

@@ -376,8 +376,10 @@ order by articlename.GUIDKey desc
 		  <cmd>rocketdirectoryapi_importmodule</cmd>
 		  <action>false</action>
 	  </command>
-
-
+	  <command>
+		  <cmd>rocketdirectoryapi_rss</cmd>
+		  <action>false</action>
+	  </command>	  
 
   </commands>
   

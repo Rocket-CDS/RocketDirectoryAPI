@@ -36,7 +36,7 @@
                 <div class="w3-row portaldatasection">
                     <div class="w3-twothird w3-padding">
                         <label>@ResourceKey("RC.catalogname")</label>
-                        @TextBox(info, "genxml/textbox/catalogname", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
+                        @TextBox(info, "genxml/lang/genxml/textbox/catalogname", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
                     </div>
                     <div class="w3-third w3-padding">
                         <label>@ResourceKey("RC.defaultcategory")&nbsp;</label>
@@ -49,6 +49,8 @@
                 </div>
 
                 <div class="w3-row w3-padding">
+                    <label>@ResourceKey("DNNrocket.summary")</label>
+                    @TextArea(info, "genxml/lang/genxml/textbox/summary", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
                 </div>
 
                 <div class="w3-row">
@@ -103,14 +105,21 @@
             </div>
             <div class="w3-third w3-padding">
                 <div class="w3-row w3-padding">
-                    <span>
                     @CheckBox(info,"genxml/checkbox/manualcategoryorderby","&nbsp;" + ResourceKey("RC.manualcategoryorderby").ToString()," class='w3-check' ", true)
-                    </span>
+                </div>
+                <div class="w3-row w3-padding">
+                    @CheckBox(info, "genxml/checkbox/rssimage", "&nbsp;" + ResourceKey("RocketBlogApi.rssimage").ToString(), " class='w3-check'",false)
+                </div>
+                <div class="w3-row w3-padding">
+                    <label>@ResourceKey("RocketBlogApi.imagewidthrss")</label>
+                    @TextBox(info, "genxml/textbox/imagewidthrss"," class='w3-input w3-border' ","160",false,0,"","number")
+                </div>
+                <div class="w3-row w3-padding">
+                    <label>@ResourceKey("RocketBlogApi.imageheightrss")</label>
+                    @TextBox(info, "genxml/textbox/imageheightrss"," class='w3-input w3-border' ","160",false,0,"","number")
                 </div>
 
-                <div class="w3-row w3-padding">
-                    @RenderTemplate("SystemSettings.cshtml",appThemeSystem,Model)
-                </div>
+                @RenderTemplate("SystemSettings.cshtml",appThemeSystem,Model)
             </div>
         </div>
     </div>

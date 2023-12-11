@@ -1,14 +1,17 @@
 ﻿using DNNrocketAPI;
 using DNNrocketAPI.Components;
+using RazorEngine.Templating;
 using Rocket.AppThemes.Components;
 using RocketDirectoryAPI.Components;
 using Simplisity;
+using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace RocketDirectoryAPI.API
@@ -70,6 +73,28 @@ namespace RocketDirectoryAPI.API
             _dataObject.PortalContent.Update();
 
             return RenderSystemTemplate("ModuleSettings.cshtml");
+        }
+        private string GetRss()
+        {
+            var catid = _dataObject.SessionParamsData.GetInt("catid");
+            var numberOfMonths = _dataObject.SessionParamsData.GetInt("months");
+            var sqlindexDateRef = _dataObject.SessionParamsData.Get("sqlidx");
+            if (numberOfMonths == 0) numberOfMonths = 1;
+            var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
+
+            var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
+
+            _dataObject.SetDataObject("rsslist", rsslist);
+
+            var razorTempl = _dataObject.AppTheme.GetTemplate("Rss.cshtml", _dataObject.ModuleSettings.ModuleRef);
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
+            if (pr.StatusCode != "00") return pr.ErrorMsg;
+            var rtn = pr.RenderedText;
+            rtn = Regex.Replace(rtn, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
+
+            //CacheFileUtils.SetCache(cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
+
+            return rtn;
         }
 
         private string ExportData()
