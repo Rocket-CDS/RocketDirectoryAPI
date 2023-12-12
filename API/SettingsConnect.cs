@@ -80,20 +80,20 @@ namespace RocketDirectoryAPI.API
             var numberOfMonths = _dataObject.SessionParamsData.GetInt("months");
             var sqlindexDateRef = _dataObject.SessionParamsData.Get("sqlidx");
             if (numberOfMonths == 0) numberOfMonths = 1;
-            var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
-
-            var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
-
-            _dataObject.SetDataObject("rsslist", rsslist);
-
-            var razorTempl = _dataObject.AppTheme.GetTemplate("Rss.cshtml", _dataObject.ModuleSettings.ModuleRef);
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
-            if (pr.StatusCode != "00") return pr.ErrorMsg;
-            var rtn = pr.RenderedText;
-            rtn = Regex.Replace(rtn, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
-
-            //CacheFileUtils.SetCache(cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
-
+            var cacheKey = "RSS*" + catid + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + _dataObject.SessionParamsData.CultureCode;
+            var rtn = (string)CacheUtils.GetCache(cacheKey, "portalid" + _dataObject.PortalId);
+            if (String.IsNullOrEmpty(rtn))
+            {
+                var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
+                var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
+                _dataObject.SetDataObject("rsslist", rsslist);
+                var razorTempl = _dataObject.AppTheme.GetTemplate("Rss.cshtml", _dataObject.ModuleSettings.ModuleRef);
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
+                if (pr.StatusCode != "00") return pr.ErrorMsg;
+                rtn = pr.RenderedText;
+                rtn = Regex.Replace(rtn, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
+                CacheUtils.SetCache(cacheKey, rtn, "portalid" + _dataObject.PortalId);
+            }
             return rtn;
         }
 
