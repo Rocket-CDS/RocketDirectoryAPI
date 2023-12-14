@@ -32,7 +32,7 @@ resulting RSS feed
 ## RSS template
 The RSS is built using a razor template in the AppTheme selected for the system.  The template should be call "RSS.cshtml", if no template exists in the AppTheme no RSS feed will be generatored.  
 
-Example RSS.cshtml template:
+Example RSS.cshtml template:  (CDATA should be used)
 ```
 @inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
