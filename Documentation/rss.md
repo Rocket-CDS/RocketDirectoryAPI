@@ -29,6 +29,35 @@ resulting RSS feed
     </channel>
 </rss>
 ```
+## RSS URL Token
+To make creating the RSS URL easier, you can use a razor token.
+```
+RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
+```
+Example:
+```
+@RssUrl(portalData.PortalId,"rocketblogapi_rss")
+```
+
+```
+<a href="@RssUrl(portalData.PortalId,"rocketblogapi_rss",1,"publisheddate",sessionParams.GetInt("catid"))" target="_blank">
+    <span class="material-icons">
+    rss_feed
+    </span>
+</a>
+
+```
+*NOTE: The RssUrl() token forces https:// protocol.*  
+
+### Build your own Rss Url without using the razor token
+```
+<a href="@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss&months=2" target="_blank">
+    <span class="material-icons">
+    rss_feed
+    </span>
+</a>
+```
+
 ## RSS template
 The RSS is built using a razor template in the AppTheme selected for the system.  The template should be call "RSS.cshtml", if no template exists in the AppTheme no RSS feed will be generatored.  
 
@@ -53,7 +82,7 @@ Example RSS.cshtml template:  (CDATA should be used)
         <lastBuildDate>@DateTime.Now.ToString("r")</lastBuildDate>
         <generator>RocketCDS Blog RSS Generator</generator>
         <ttl>30</ttl>
-        <atom:link href="@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss" rel="self" type="application/rss+xml" />
+        <atom:link href="@RssUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("months"),sessionParams.Get("sqlidx"),sessionParams.GetInt("catid"))" rel="self" type="application/rss+xml" />
 
 @foreach (ArticleLimpet articleData in rssList)
 {

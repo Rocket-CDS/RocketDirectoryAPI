@@ -294,6 +294,18 @@ namespace RocketDirectoryAPI.Components
             return new RawString(detailurl);
         }
 
+        public IEncodedString RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
+        {
+            var portalData = new PortalLimpet(portalId);
+            var rssurl = portalData.EngineUrlWithProtocol + "/Desktopmodules/dnnrocket/api/rocket/action?cmd=" + cmd + "&months=" + numberOfMonths;
+            var catparam = "";
+            if (catid > 0) catparam = "&catid=" + catid;
+            var sqlidxparam = "";
+            if (sqlidx != "") sqlidxparam = "&sqlidx=" + sqlidx;
+            rssurl = rssurl + catparam + sqlidxparam;
+            return new RawString(rssurl);
+        }
+
     }
 }
 
