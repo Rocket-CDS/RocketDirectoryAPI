@@ -9,22 +9,22 @@ resulting RSS feed
 ```
 <rss xmlns:blog="http://rocket-cds.org" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
     <channel>
-        <title><![CDATA[Testing RSS]]></title>
-        <link><![CDATA[http://test.rocketcds.site/en-us/blog]]></link>
-        <description><![CDATA[Testing Description]]></description>
-        <pubDate><![CDATA[Thu, 14 Dec 2023 14:19:40 GMT]]></pubDate>
-        <lastBuildDate><![CDATA[Thu, 14 Dec 2023 14:19:40 GMT]]></lastBuildDate>
-        <generator><![CDATA[RocketCDS Blog RSS Generator]]></generator>
-        <ttl><![CDATA[30]]></ttl>
+        <title>Testing RSS</title>
+        <link>http://test.rocketcds.site/en-us/blog</link>
+        <description>Testing Description</description>
+        <pubDate>Thu, 14 Dec 2023 14:19:40 GMT</pubDate>
+        <lastBuildDate>Thu, 14 Dec 2023 14:19:40 GMT</lastBuildDate>
+        <generator>RocketCDS Blog RSS Generator</generator>
+        <ttl>30</ttl>
         <atom:link href="https://test.rocketcds.site/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss" rel="self" type="application/rss+xml" />
         <item>
-            <title><![CDATA[111111111111111111111]]></title>
-            <description><![CDATA[]]></description>
-            <category><![CDATA[1111111111111]]></category>
-            <guid isPermaLink="true"><![CDATA[http://test.rocketcds.site/en-us/blog/articleid/716/111111111111111111111]]></guid>
-            <pubDate><![CDATA[Wed, 29 Nov 2023 00:00:00 GMT]]></pubDate>
+            <title>111111111111111111111</title>
+            <description></description>
+            <category>1111111111111</category>
+            <guid isPermaLink="true">http://test.rocketcds.site/en-us/blog/articleid/716/111111111111111111111</guid>
+            <pubDate>Wed, 29 Nov 2023 00:00:00 GMT</pubDate>
             <media:thumbnail width="160" height="160" url="https://test.rocketcds.site/DesktopModules/DNNrocket/API/DNNrocketThumb.ashx?src=/Portals/0/DNNrocket/rocketblogapi/images/716/4OG3Cir0UEC3OrJXrJVHLg.jpg&w=160&h=160&imgtype=jpg" />
-            <blog:publishedon><![CDATA[Wed, 29 Nov 2023 00:00:00 GMT]]></blog:publishedon>
+            <blog:publishedon>Wed, 29 Nov 2023 00:00:00 GMT</blog:publishedon>
         </item>
     </channel>
 </rss>
@@ -46,13 +46,13 @@ Example RSS.cshtml template:
 
     <channel>
         
-        <title><![CDATA[@catalogSettings.CatalogName]]></title>
-        <link><![CDATA[@(DNNrocketUtils.NavigateURL(portalContent.ListPageTabId))]]></link>
-        <description><![CDATA[@catalogSettings.Summary <test>jsd cjhsd>< "!£$%^&*()"]]></description>
-        <pubDate><![CDATA[@DateTime.Now.ToString("r")]]></pubDate>
-        <lastBuildDate><![CDATA[@DateTime.Now.ToString("r")]]></lastBuildDate>
-        <generator><![CDATA[RocketCDS Blog RSS Generator]]></generator>
-        <ttl><![CDATA[30]]></ttl>
+        <title>@catalogSettings.CatalogName</title>
+        <link>@(DNNrocketUtils.NavigateURL(portalContent.ListPageTabId))</link>
+        <description>@catalogSettings.Summary <test>jsd cjhsd>< "!£$%^&*()"</description>
+        <pubDate>@DateTime.Now.ToString("r")</pubDate>
+        <lastBuildDate>@DateTime.Now.ToString("r")</lastBuildDate>
+        <generator>RocketCDS Blog RSS Generator</generator>
+        <ttl>30</ttl>
         <atom:link href="@(portalData.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss" rel="self" type="application/rss+xml" />
 
 @foreach (ArticleLimpet articleData in rssList)
@@ -63,21 +63,21 @@ Example RSS.cshtml template:
     var dateFormat = date.ToShortDateString();
 
         <item>
-            <title><![CDATA[@articleData.Name]]></title>
-            <description><![CDATA[@articleData.Summary]]></description>
+            <title>@articleData.Name</title>
+            <description>@articleData.Summary</description>
             @foreach (var c in articleData.GetCategories())
             {
-            <category><![CDATA[@c.Name]]></category>
+            <category>@c.Name</category>
             }
-            <guid isPermaLink="true"><![CDATA[@DetailUrl(moduleData.DetailPageTabId(), articleData, categoryData)]]></guid>
-            <pubDate><![CDATA[@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")]]></pubDate>
+            <guid isPermaLink="true">@DetailUrl(moduleData.DetailPageTabId(), articleData, categoryData)</guid>
+            <pubDate>@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")</pubDate>
             @if (catalogSettings.Info.GetXmlPropertyBool("genxml/checkbox/rssimage"))
             {
                 var imagewidthrss = catalogSettings.Info.GetXmlPropertyInt("genxml/textbox/imagewidthrss");
                 var imageheightrss = catalogSettings.Info.GetXmlPropertyInt("genxml/textbox/imageheightrss");
                 <media:thumbnail width="@(imagewidthrss)" height="@(imageheightrss)" url="@(portalData.EngineUrlWithProtocol)@ImageUrl(articleData.GetImage(0).RelPath, imagewidthrss, imageheightrss)" />
             } 
-            <blog:publishedon><![CDATA[@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")]]></blog:publishedon>
+            <blog:publishedon>@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")</blog:publishedon>
         </item>
 }
 
