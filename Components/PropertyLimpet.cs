@@ -125,8 +125,8 @@ namespace RocketDirectoryAPI.Components
         public int Update()
         {
             Info = _objCtrl.SaveData(Info, TableName);
-            CacheUtilsDNN.RemoveCache(_cacheKey);
-            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
+            CacheUtils.RemoveCache(_cacheKey);
+            CacheFileUtils.ClearAllCache(PortalId, SystemKey + PortalId);
             return Info.ItemID;
         }
         public int ValidateAndUpdate()

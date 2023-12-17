@@ -283,6 +283,10 @@ namespace RocketDirectoryAPI.API
                     strOut = GetRss();
                     break;
 
+                case "article_search":
+                    rtnDic = ArticleSearch();
+                    break;                    
+
                 case "invalidcommand":
                     strOut = "INVALID COMMAND: " + _storeParamCmd;
                     break;
@@ -355,7 +359,7 @@ namespace RocketDirectoryAPI.API
             _paramInfo = paramInfo;
 
             var portalid = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
-            if (portalid == 0) portalid = PortalUtils.GetCurrentPortalId();
+            if (portalid < 0 || _paramInfo.GetXmlProperty("genxml/hidden/portalid") == "") portalid = PortalUtils.GetCurrentPortalId();
 
             _rocketInterface = new RocketInterface(interfaceInfo);
             _sessionParams = new SessionParams(_paramInfo);

@@ -84,19 +84,55 @@ namespace RocketDirectoryAPI.API
             var rtn = (string)CacheUtils.GetCache(cacheKey, "portalid" + _dataObject.PortalId);
             if (String.IsNullOrEmpty(rtn))
             {
-                var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
-                var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
-                _dataObject.SetDataObject("rsslist", rsslist);
                 var razorTempl = _dataObject.AppTheme.GetTemplate("Rss.cshtml", _dataObject.ModuleSettings.ModuleRef);
-                var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
-                if (pr.StatusCode != "00") return pr.ErrorMsg;
-                rtn = pr.RenderedText;
-                rtn = Regex.Replace(rtn, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
-                CacheUtils.SetCache(cacheKey, rtn, "portalid" + _dataObject.PortalId);
+                if (razorTempl != "")
+                {
+                    var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
+                    var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
+                    _dataObject.SetDataObject("rsslist", rsslist);
+                    var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
+                    if (pr.StatusCode != "00") return pr.ErrorMsg;
+                    rtn = pr.RenderedText;
+                    rtn = Regex.Replace(rtn, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
+                    CacheUtils.SetCache(cacheKey, rtn, "portalid" + _dataObject.PortalId);
+                }
             }
             return rtn;
         }
+        public Dictionary<string, object> ArticleSearch()
+        {
+            var rtn = new Dictionary<string, object>();
+            var rtnList = new List<Dictionary<string, object>>();
+            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCode, false, false);
+            foreach (var articleData in articleDataList.GetArticleChangedList(_sessionParams.ModuleId))
+            {
+                var rtn2 = new Dictionary<string, object>();
+                var bodydata = articleData.Summary;
+                var descriptiondata = articleData.RichText;
+                var titledata = articleData.Name;
 
+                rtn2.Add("body", bodydata.Trim(' '));
+                rtn2.Add("description", descriptiondata.Trim(' '));
+                rtn2.Add("modifieddate", articleData.Info.ModifiedDate.ToString("O"));
+                rtn2.Add("title", titledata.Trim(' '));
+                rtn2.Add("querystring", "articleid=" + articleData.ArticleId);
+                if (articleData.Hidden) 
+                    rtn2.Add("removesearchrecord", "true");
+                else
+                    rtn2.Add("removesearchrecord", "false");
+
+                var uniquekey = articleData.ArticleId + "_" + articleData.ModuleId;
+                rtn2.Add("uniquekey", uniquekey);
+
+                // Replace changed flag
+                articleData.ModuleId = -1; // moduleid used as changed flag.
+                articleData.Update();
+
+                rtnList.Add(rtn2);
+            }
+            rtn.Add("searchindex", rtnList);
+            return rtn;
+        }
         private string ExportData()
         {
             // check the scheduler initiated the call.

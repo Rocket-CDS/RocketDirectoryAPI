@@ -60,13 +60,29 @@
     }
     <i>@ResourceKey("RC.setcanonical")</i>
     <div class="w3-row ">
-        <div class="w3-half  w3-padding">
+        <div class="w3-third  w3-padding">
             <label class="">@ResourceKey("RC.listpage")</label>
             @TabSelectListOnTabId(info, "genxml/listpage"," class=' w3-input w3-border ' ", false)
         </div>
-            <div class="w3-half  w3-padding">
+        <div class="w3-third w3-padding">
             <label class="">@ResourceKey("RC.detailpage")</label>
             @TabSelectListOnTabId(info, "genxml/detailpage"," class=' w3-input w3-border ' ", false)
+        </div>
+        <div class="w3-third w3-padding">
+            @if (PagesUtils.PageExists(info.PortalId, info.GetXmlPropertyInt("genxml/detailpage")))
+            {
+                var moduleDict = ModuleUtils.GetTabModuleTitles(info.GetXmlPropertyInt("genxml/detailpage"));
+                var moduleDict2 = new Dictionary<string, string>();
+                moduleDict2.Add("-1", "");
+                foreach (var m in moduleDict)
+                {
+                    moduleDict2.Add(m.Key.ToString(), m.Value);
+                }
+                <span>
+                    <label class="">@ResourceKey("RC.searchmoduleid")</label>
+                    @DropDownList(info, "genxml/searchmoduleid", moduleDict2, " class=' w3-input w3-border ' ","", false)
+                </span>
+            }
         </div>
     </div>
 

@@ -24,13 +24,23 @@ namespace RocketDirectoryAPI.API
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             _dataObject.Settings.Add("saved", "true");
             var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
+            articleData.ModuleId = _dataObject.PortalContent.SearchModuleId ; // moduleid used as changed flag.
             var rtn = articleData.Save(_postInfo);
+
+            DNNrocketUtils.SynchronizeModule(_dataObject.PortalContent.SearchModuleId); // module search
+
             return rtn;
         }
         public void DeleteArticle()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
-            GetActiveArticle(articleId).Delete();
+            var articleData = GetActiveArticle(articleId);
+            var uniqueKey = articleData.ArticleId + "_" + _dataObject.PortalContent.SearchModuleId;
+            DNNrocketUtils.DeleteSearchDocument(_dataObject.PortalId, uniqueKey);
+            articleData.ClearCache();
+            articleData.Delete();
+            CacheFileUtils.ClearAllCache(_dataObject.PortalId, _dataObject.SystemKey + _dataObject.PortalId);
+            _sessionParams.Set("articleid", "0"); // so we return the list
         }
         public int CopyArticle()
         {

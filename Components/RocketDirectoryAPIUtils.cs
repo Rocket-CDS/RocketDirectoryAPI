@@ -144,7 +144,7 @@ namespace RocketDirectoryAPI.Components
 
             var articleId = sessionParam.GetInt("articleid");
             var cacheKey = moduleRef + "*" + articleId + "*" + template;
-            var rtn = CacheFileUtils.GetCache(cacheKey, systemKey + portalId);
+            var rtn = CacheFileUtils.GetCache(portalId, cacheKey, systemKey + portalId);
             if (rtn != null && !moduleSettings.DisableCache) return rtn;
 
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
@@ -157,7 +157,7 @@ namespace RocketDirectoryAPI.Components
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            CacheFileUtils.SetCache(cacheKey, pr.RenderedText, systemKey + portalId);
+            CacheFileUtils.SetCache(portalId, cacheKey, pr.RenderedText, systemKey + portalId);
             return pr.RenderedText;
         }
         public static string DisplayView(DataObjectLimpet dataObject, string template = "")
@@ -168,7 +168,7 @@ namespace RocketDirectoryAPI.Components
             var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
             if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
             {
-                var rtn = CacheFileUtils.GetCache(cacheKey, dataObject.SystemKey + dataObject.PortalId);
+                var rtn = CacheFileUtils.GetCache(dataObject.PortalId, cacheKey, dataObject.SystemKey + dataObject.PortalId);
                 if (!String.IsNullOrEmpty(rtn) && !dataObject.ModuleSettings.DisableCache) return rtn;
             }
             var aticleId = sessionParam.GetInt("articleid");
@@ -212,7 +212,7 @@ namespace RocketDirectoryAPI.Components
             var razorTempl = dataObject.AppTheme.GetTemplate(template, dataObject.ModuleSettings.ModuleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
+            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(dataObject.PortalId, cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
             return pr.RenderedText;
 
         }

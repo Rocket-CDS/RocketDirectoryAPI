@@ -103,12 +103,12 @@ namespace RocketDirectoryAPI.Components
         public void Update()
         {
             Info = _objCtrl.SaveData(Info, _tableName);
-            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
+            CacheFileUtils.ClearAllCache(PortalId, SystemKey + PortalId);
         }
         public void Delete()
         {
             _objCtrl.Delete(Info.ItemID, _tableName);
-            CacheFileUtils.ClearAllCache(SystemKey + PortalId);
+            CacheFileUtils.ClearAllCache(PortalId, SystemKey + PortalId);
         }
         public Dictionary<string,string> GetPropertyGroups()
         {

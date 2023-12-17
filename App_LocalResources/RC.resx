@@ -348,4 +348,7 @@
   <data name="setcanonical.Text" xml:space="preserve">
     <value>Pages required for canonical links</value>
   </data>
+  <data name="searchmoduleid.Text" xml:space="preserve">
+    <value>Search Data Module</value>
+  </data>
 </root>

@@ -173,7 +173,7 @@ namespace RocketDirectoryAPI.Components
         }
         public void ClearCache()
         {
-            CacheFileUtils.ClearAllCache(_cacheGroup);
+            CacheFileUtils.ClearAllCache(PortalId, _cacheGroup);
         }
     }
 

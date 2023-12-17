@@ -189,6 +189,23 @@ namespace RocketDirectoryAPI.Components
             if (catid > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + catid + " ";
             return _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, searchFilter, _langRequired, orderby, limit, 0, 0, 0, _tableName);
         }
+        /// <summary>
+        /// Gets a listof articles that have changed, usually used for search index.  (ModuleId is used as a changed flag)
+        /// </summary>
+        /// <param name="moduleId">Search ModuleID</param>
+        /// <param name="limit">limit of return records.</param>
+        /// <returns></returns>
+        public List<ArticleLimpet> GetArticleChangedList(int moduleId, int limit = 1000)
+        {
+            var rtn = new List<ArticleLimpet>();
+            var searchFilter = " and R1.ModuleId = " + moduleId + " ";
+            var articleList = _objCtrl.GetList(PortalCatalog.PortalId, moduleId, _entityTypeCode, searchFilter, _langRequired, "", limit, 0, 0, 0, _tableName);
+            foreach (var a in articleList)
+            {
+                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+            }
+            return rtn;
+        }
         public void DeleteAll()
         {
             var l = GetAllPortalArticles();

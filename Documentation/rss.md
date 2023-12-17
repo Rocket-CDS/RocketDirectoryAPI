@@ -1,5 +1,5 @@
 ﻿# RSS Feed
-RocketDirectory and Arapper Systems for it can implment an RSS feed.  This is activated by a url with specific parameters.
+RocketDirectory and Wrapper Systems can implment an RSS feed.  This is activated by a url with specific parameters.
 
 Example URL:
 ```
