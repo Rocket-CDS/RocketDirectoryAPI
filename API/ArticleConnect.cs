@@ -35,8 +35,8 @@ namespace RocketDirectoryAPI.API
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             var articleData = GetActiveArticle(articleId);
-            var uniqueKey = articleData.ArticleId + "_" + _dataObject.PortalContent.SearchModuleId;
-            DNNrocketUtils.DeleteSearchDocument(_dataObject.PortalId, uniqueKey);
+            var queryString = "articleid=" + articleData.ArticleId;
+            DNNrocketUtils.DeleteSearchDocument(_dataObject.PortalId, queryString);
             articleData.ClearCache();
             articleData.Delete();
             CacheFileUtils.ClearAllCache(_dataObject.PortalId, _dataObject.SystemKey + _dataObject.PortalId);

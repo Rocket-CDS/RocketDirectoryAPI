@@ -37,4 +37,5 @@
     .heading_wrapper { display:none !important;}
 </style>
 
-[INJECT:apptheme,AdminHeader.cshtml]
+@RenderTemplate("AdminHeader.cshtml", appTheme, Model)
+

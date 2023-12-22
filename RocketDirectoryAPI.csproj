@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="DNNpackager.exe $(ProjectDir) $(ProjectDir)$(OutDir) $(ConfigurationName)" />
+    <Exec Command="DNNpackager.exe $(ProjectDir) $(ProjectDir)$(OutDir) $(ConfigurationName)&#xD;&#xA;" />
   </Target>
 
   <ItemGroup>

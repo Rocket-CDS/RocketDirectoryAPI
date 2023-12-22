@@ -13,7 +13,7 @@
     var interfacelist = portalContent.PluginActveInterface(systemData);
     var interfacekeylist = RocketDirectoryAPIUtils.AdminInterfaceKeyList(portalData.PortalId, systemData.SystemKey, sessionParams.ModuleRef, sessionParams);
     var interfaceviewlist = RocketDirectoryAPIUtils.AdminInterfaceShow(portalContent, interfacelist, interfacekeylist);
-
+    var lp = 1;
 }
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
 
@@ -28,6 +28,12 @@
 
         @foreach (var r in interfaceviewlist)
         {
+            var cmd = r.DefaultCommand;
+            if (!appTheme.Exists)
+            {
+                cmd = systemData.SystemKey + "_rocketsystem"; // no settings
+            }
+
             var articlesfield = "";
             var articleclass = "";
             if (r.DefaultCommand == "articleadmin_editlist" && articleid > 0)
@@ -36,7 +42,7 @@
                 articleclass = "articlebutton";
             }
             <div class="w3-col s6 m4 l2 " style="height:210px;">
-                <div class="w3-margin @(articleclass) simplisity_click" s-after="showadminpaneldisplay" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
+                <div class="w3-margin @(articleclass) menubutton@(lp) simplisity_click" s-after="showadminpaneldisplay" s-cmd='@cmd' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
                     <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
                         <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
                     </div>
@@ -44,7 +50,8 @@
                         <strong>@InterfaceNameResourceKey(r, systemData)</strong>
                     </div>
                 </div>
-            </div>                        
+            </div>
+            lp += 1;
         }
 
         <div class="w3-col s6 m4 l2 " style="height:210px;">
@@ -86,6 +93,12 @@
         {
             <text>
                 $('.articlebutton').trigger('click');
+            </text>
+        }
+        @if (!appTheme.Exists && lp > 1)
+        {
+            <text>
+                $('.menubutton1').trigger('click');
             </text>
         }
 

@@ -27,9 +27,19 @@
         selectedProject = projectData.DefaultProjectName();
     }
     var requiredCSS = "";
+    var appThemeDict = new Dictionary<string, string>();
     if (info.GetXmlProperty("genxml/select/appthemeadmin") == "")
     {
         requiredCSS = "w3-pale-red";
+        if (selectedProject != "")
+        {
+            var appThemeDataList = AppThemeUtils.AppThemeDataList(portalCatalog.PortalId, selectedProject, systemData.SystemKey);
+            appThemeDict = appThemeDataList.NameListDict(true);
+        }
+    }
+    else
+    {
+        appThemeDict = appThemeList.NameListDict();
     }
 }
 
@@ -50,7 +60,7 @@
                 <div class="">AppTheme </div>                
             }
 
-            @DropDownList(info, "genxml/select/appthemeadmin", appThemeList.NameListDict(), " name='selectedappthemeadmin' class='w3-input w3-border " + requiredCSS + " simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
+            @DropDownList(info, "genxml/select/appthemeadmin", appThemeDict, " name='selectedappthemeadmin' class='w3-input w3-border " + requiredCSS + " simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
         </div>
         <div class="w3-col m2 w3-padding">
             <div class="">@ResourceKey("DNNrocket.version")</div>

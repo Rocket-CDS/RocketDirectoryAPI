@@ -121,7 +121,7 @@ namespace RocketDirectoryAPI.API
                 else
                     rtn2.Add("removesearchrecord", "false");
 
-                var uniquekey = articleData.ArticleId + "_" + articleData.ModuleId;
+                var uniquekey = articleData.ArticleId + "_" + articleData.ModuleId + "_" + articleData.CultureCode;
                 rtn2.Add("uniquekey", uniquekey);
 
                 // Replace changed flag

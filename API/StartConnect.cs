@@ -385,10 +385,9 @@ namespace RocketDirectoryAPI.API
             _sessionParams = _dataObject.SessionParamsData; // use option altered sessionParams
 
             if (paramCmd == "rocketdirectoryapi_activate") SavePortalCatalog();
+            if (paramCmd == "rocketdirectoryapi_rocketsystem") paramCmd = "rocketsystem_edit"; //need a active interface in the API.
             if (paramCmd.StartsWith("rocketsystem_") && UserUtils.IsSuperUser()) return paramCmd;
-            if (!_dataObject.PortalContent.Active && paramCmd != "portalcatalog_save") return "rocketdirectoryapi_notactive";
             if (paramCmd.StartsWith("remote_public")) return paramCmd;
-
             var securityData = new SecurityLimpet(portalid, _baseSystemKey, _rocketInterface, -1, -1, _dataObject.SystemKey);
             paramCmd = securityData.HasSecurityAccess(paramCmd, "rocketdirectoryapi_login");
             return paramCmd;

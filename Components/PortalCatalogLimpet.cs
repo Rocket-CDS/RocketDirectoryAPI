@@ -128,13 +128,19 @@ namespace RocketDirectoryAPI.Components
         /// </summary>
         private void SaveReferenceId()
         {
-            var sRec = new SimplisityInfo();
-            sRec.PortalId = _portalId;
-            sRec.ModuleId = -1;
-            sRec.TypeCode = "PortalSettingsRef_" + SystemKey + PortalId;
-            sRec.Lang = "";
-            sRec.ParentItemId = Record.ItemID;
-            _objCtrl.Update(sRec, _tableName);
+            var sRec = DNNrocketUtils.GetPortalContentRecByRefId(PortalId, SystemKey, _tableName);
+            if (sRec == null)
+            {
+                var entityType = "PortalSettingsRef_" + SystemKey + PortalId;
+                sRec = new SimplisityInfo();
+                sRec.PortalId = _portalId;
+                sRec.ModuleId = -1;
+                sRec.TypeCode = entityType;
+                sRec.GUIDKey = entityType;
+                sRec.Lang = "";
+                sRec.ParentItemId = Record.ItemID;
+                _objCtrl.Update(sRec, _tableName);
+            }
         }
         private void ReadRecord(int portalId, string cultureCode)
         {
