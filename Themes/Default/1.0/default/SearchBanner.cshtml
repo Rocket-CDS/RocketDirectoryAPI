@@ -22,7 +22,7 @@
             orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
         }
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
-            @DropDownList(infoempty, "genxml/hidden/pagesize", "12,24,48,96", "12,24,48,96", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
+            @DropDownList(infoempty, "genxml/hidden/pagesize", "4,12,24,48", "4,12,24,48", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
         if (orderbyDictionary.Count > 1)
         {
