@@ -281,14 +281,26 @@ namespace RocketDirectoryAPI.Components
         {
             var detailurl = "";
             var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+
+            var articleParamKey = "";
+            var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
+            foreach (var paramDict in paramidList)
+            {
+                if (articleData.SystemKey == paramDict.Value.systemkey)
+                {
+                    articleParamKey = paramDict.Value.queryparam;
+                    break;
+                }
+            }
+
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
+                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             else
             {
-                string[] urlparams = { "articleid", articleData.ArticleId.ToString(), seotitle };
+                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             return new RawString(detailurl);

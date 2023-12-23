@@ -283,6 +283,31 @@ namespace RocketDirectoryAPI.Components
             }
             return _articleList;
         }
+        public List<ArticleLimpet> GetArticleList(ModuleContentLimpet moduleData, int maxReturn = 20)
+        {
+            var returnLimit = moduleData.GetSettingInt("itemlimit");
+            if (returnLimit > maxReturn) returnLimit = maxReturn; // limit search for performace.
+            var articleList  = new List<ArticleLimpet>();
+
+            var searchFilter = "";
+            if (moduleData.DefaultCategoryId > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + moduleData.DefaultCategoryId + " ";
+            searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
+
+            var orderby = "";
+            if (moduleData.DefaultCategoryId > 0 && CatalogSettings.ManualCategoryOrderby)
+                orderby = " order by [CATXREF].[SortOrder] "; // use manual sort for articles by category;
+            else
+                orderby = PortalCatalog.OrderByProductSQL(moduleData.GetSetting("sortorderkey"));
+
+            var sList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, searchFilter, _langRequired, orderby, returnLimit, 0, 0, 0, _tableName);
+
+            foreach (var o in sList)
+            {
+                var articleData = new ArticleLimpet(o.ItemID, _langRequired, _systemKey);
+                if (articleData.Exists) articleList.Add(articleData);
+            }
+            return articleList;
+        }
         public List<List<ArticleLimpet>> GetArticleRows(int columns)
         {
             var rtnList = new List<List<ArticleLimpet>>();

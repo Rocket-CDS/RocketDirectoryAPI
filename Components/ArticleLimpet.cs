@@ -28,11 +28,13 @@ namespace RocketDirectoryAPI.Components
         private List<int> _catXrefListId;
         private List<string> _catXrefListRef;
         private string _cacheKey;
+        private string _entityTypeKey;
 
         public ArticleLimpet(string systemKey)
         {
             Info = new SimplisityInfo();
             SystemKey = systemKey;
+            _entityTypeKey = systemKey + _entityTypeCodeAppendix;
         }
         /// <summary>
         /// Read an existing article, if it does not exist the "Exists" property will be false. 
@@ -41,6 +43,7 @@ namespace RocketDirectoryAPI.Components
         /// <param name="langRequired"></param>
         public ArticleLimpet(int articleId, string langRequired, string systemKey)
         {
+            _entityTypeKey = systemKey + _entityTypeCodeAppendix;
             Info = new SimplisityInfo();
             _articleId = articleId;
             Populate(langRequired, systemKey);
@@ -53,12 +56,13 @@ namespace RocketDirectoryAPI.Components
         /// <param name="langRequired"></param>
         public ArticleLimpet(int portalId, int articleId, string langRequired, string systemKey)
         {
+            _entityTypeKey = systemKey + _entityTypeCodeAppendix;
             if (articleId <= 0) articleId = -1;  // create new record.
             _articleId = articleId;
             PortalId = portalId;
             Info = new SimplisityInfo();
             Info.ItemID = articleId;
-            Info.TypeCode = systemKey + _entityTypeCodeAppendix;
+            Info.TypeCode = _entityTypeKey;
             Info.ModuleId = -1;
             Info.UserId = -1;
             Info.PortalId = PortalId;
@@ -70,6 +74,7 @@ namespace RocketDirectoryAPI.Components
         /// <param name="articleData"></param>
         public ArticleLimpet(ArticleLimpet articleData)
         {
+            _entityTypeKey = articleData.EntityTypeCode;
             Info = articleData.Info;
             _articleId = articleData.ArticleId;
             CultureCode = articleData.CultureCode;
@@ -90,11 +95,15 @@ namespace RocketDirectoryAPI.Components
             {
                 if (_articleId > 0)
                 {
-                    info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.
-                    if (info != null && info.ItemID > 0)
+                    info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.                    
+                    if (info != null && info.ItemID > 0 && info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
                     {
                         Info = info; // check if we have a real record, or a dummy being created and not saved yet.
                         CacheUtils.SetCache(_cacheKey, Info);
+                    }
+                    else
+                    {
+                        Info.ItemID = 0; // article is a differet system, flag it as not existing.
                     }
                 }
             }
