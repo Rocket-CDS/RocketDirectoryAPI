@@ -97,6 +97,14 @@ namespace RocketDirectoryAPI.Components
             if (AppThemeFolder != "")
             {
                 var info = _objCtrl.GetRecordByGuidKey(_portalId, -1, "PLSETTINGS", "PLSETTINGS");
+                if (info == null)
+                {
+                    info = new SimplisityRecord();
+                    info.ItemID = -1;
+                    info.PortalId = _portalId;
+                    info.TypeCode = "PLSETTINGS";
+                    info.GUIDKey = "PLSETTINGS";
+                }
                 if (info != null)
                 {
                     var upd = false;

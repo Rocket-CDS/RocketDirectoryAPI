@@ -683,17 +683,20 @@ namespace RocketDirectoryAPI.Components
             if (_propXrefList == null) PopulateLists();
             return _propXrefList;
         }
-        public List<PropertyLimpet> GetProperties()
+        public List<PropertyLimpet> GetProperties(string groupRef = "")
         {
             if (_propXrefListId == null) PopulateLists();
             var rtn = new List<PropertyLimpet>();
             foreach (var propertyId in _propXrefListId)
             {
                 var propertyData = new PropertyLimpet(PortalId, propertyId, CultureCode, SystemKey);
-                if (propertyData.Exists)
-                    rtn.Add(propertyData);
-                else
-                    RemoveProperty(propertyId);
+                if (groupRef == "" || propertyData.IsInGroup(groupRef))
+                {
+                    if (propertyData.Exists)
+                        rtn.Add(propertyData);
+                    else
+                        RemoveProperty(propertyId);
+                }
             }
             return rtn;
         }
