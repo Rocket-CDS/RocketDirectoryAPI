@@ -16,39 +16,52 @@
 }
 
 <!-- Top Bar -->
-<div id="topbar" class="w3-bar w3-margin-bottom w3-border-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
+<div id="topbar" class="w3-bar w3-margin-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
 
     @if (!Model.GetSettingBool("adminpanel") && !sessionParams.GetBool("portalsystems"))
     {
-        <div class="w3-dropdown-hover">
+
+        <div class="w3-bar-item w3-hide-medium  w3-hide-large">
             <a href="@adminpanelurl" class="w3-yellow w3-button">
                 <span class="material-icons">
                     widgets
                 </span>&nbsp;Admin Panel&nbsp;
             </a>
-            <div class="w3-dropdown-content w3-bar-block w3-border" style="width:95%">
-                <div class="w3-row w3-padding w3-theme-l5">
+        </div>
 
-                    <div class="w3-col s6 m2 l1 w3-padding ">
-                        <div class="w3-button " onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
-                            <div class="w3-center ">
-                                <span class='material-icons' style=''>exit_to_app</span>
-                            </div>
-                            <span class="w3-small">@ResourceKey("DNNrocket.back")</span>
-                        </div>
-                    </div>
 
+        <div class="w3-bar-item w3-hide-small w3-dropdown-hover">
+            <a href="@adminpanelurl" class="w3-yellow w3-button">
+                <span class="material-icons">
+                    widgets
+                </span>&nbsp;Admin Panel&nbsp;
+            </a>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-animate-zoom" style="width:95%">
+                <div class="w3-row w3-theme-l5">
                     @foreach (var r in interfaceviewlist)
                     {
-                        <div class="w3-col s6 m2 l1 w3-padding ">
-                            <div class="w3-button simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                                <div class="w3-center ">
+                        <div class="w3-col s6 m2 l1 w3-padding " style="height:100px;">
+                            <div class="simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                <div class="w3-theme w3-center w3-padding w3-round-large w3-hover-shadow" style="width:100%">
                                     <span class='material-icons' style=''>@r.InterfaceIcon</span>
                                 </div>
-                                <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
+                                <div class="w3-center w3-small w3-padding" style="line-height:1.2;">
+                                    <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                                </div>
                             </div>
                         </div>
                     }
+                    <div class="w3-col s6 m2 l1 w3-padding " style="height:100px;">
+                        <div class="" onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
+                            <div class="w3-yellow  w3-center w3-padding w3-round-large w3-hover-shadow">
+                                <span class='material-icons' style=''>exit_to_app</span>
+                            </div>
+                            <div class="w3-center w3-small w3-padding" style="line-height:1.2;">
+                                <strong>@ResourceKey("DNNrocket.back")</strong>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
