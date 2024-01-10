@@ -11,8 +11,10 @@ namespace RocketDirectoryAPI.Components
     public class DefaultsLimpet
     {
         private string _defaultFileMapPath;
+        private string _systemKey;
         public DefaultsLimpet(string systemKey)
         {
+            _systemKey = systemKey;
             var cahceKey = systemKey + "*RocketDirectoryAPI*SystemDefaults.rules";
             try
             {
@@ -68,7 +70,9 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
-
+        public string MenuProviderAssembly { get { return Info.GetXmlProperty("root/menuprovider/assembly"); } }
+        public string MenuProviderClass { get { return Info.GetXmlProperty("root/menuprovider/namespaceclass"); } }
+        public string SystemKey { get { return _systemKey; } }
 
     }
 }

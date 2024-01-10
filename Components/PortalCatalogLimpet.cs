@@ -121,15 +121,26 @@ namespace RocketDirectoryAPI.Components
                             upd = true;
                         }
                     }
+
+                    // Add Menu Provider
+                    var defaultData = new DefaultsLimpet(SystemKey);
+                    if (defaultData.MenuProviderAssembly != "")
+                    {
+                        var mRec = new SimplisityRecord();
+                        mRec.SetXmlProperty("genxml/textbox/assembly", defaultData.MenuProviderAssembly);
+                        mRec.SetXmlProperty("genxml/textbox/namespaceclass", defaultData.MenuProviderClass);
+                        mRec.SetXmlProperty("genxml/textbox/systemkey", defaultData.SystemKey);
+                        info.AddRecordListItem("menuprovider", mRec);
+                        upd = true;
+                    }
+
                     if (upd) _objCtrl.Update(info);
                 }
-
             }
-
             SaveReferenceId(); 
-
             RemoveCache();
         }
+
         /// <summary>
         /// Save ID as parentitemid so we can get data from non-system methods, like canonicallink in meta.ascx.
         /// This is a reference to the portalContent settings.

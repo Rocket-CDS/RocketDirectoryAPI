@@ -31,8 +31,12 @@ order by articlename.GUIDKey desc
 		</ref-desc>
     </product>
   </sqlorderby>
+	<menuprovider>
+		<assembly>RocketDirectoryAPI</assembly>
+		<namespaceclass>RocketDirectoryAPI.Components.MenuDirectory</namespaceclass>
+	</menuprovider>
 
-  <commands>
+	<commands>
 
 	<command>
 		<cmd>rocketsystem_edit</cmd>
