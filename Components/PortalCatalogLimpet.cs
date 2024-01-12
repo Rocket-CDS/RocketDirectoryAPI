@@ -130,6 +130,7 @@ namespace RocketDirectoryAPI.Components
                         mRec.SetXmlProperty("genxml/textbox/assembly", defaultData.MenuProviderAssembly);
                         mRec.SetXmlProperty("genxml/textbox/namespaceclass", defaultData.MenuProviderClass);
                         mRec.SetXmlProperty("genxml/textbox/systemkey", defaultData.SystemKey);
+                        info.RemoveRecordList("menuprovider");
                         info.AddRecordListItem("menuprovider", mRec);
                         upd = true;
                     }
