@@ -21,13 +21,13 @@
     var parentName = "";
     var returncatid = 0;
     var info = new SimplisityInfo();
+
     if (categoryData.Info != null)
     {
         info = categoryData.Info;
         var parentCategoryData = new CategoryLimpet(categoryData.PortalId, categoryData.ParentItemId, categoryData.CultureCode, systemData.SystemKey);
-        if (!parentCategoryData.Exists)
+        if (parentCategoryData.Exists)
         {
-            parentCategoryData.Info.SetXmlProperty("genxml/lang/genxml/textbox/name", ResourceKey("RE.home").ToString());
             parentName = parentCategoryData.Name;
         }
         returncatid = parentCategoryData.CategoryId;
@@ -35,10 +35,7 @@
         {
             returncatid = 0;
         }
-
     }
-
-
 }
 
 @{
@@ -46,7 +43,6 @@
     sFieldDict.Add("categoryid", info.ItemID.ToString());
 }
 @RenderLanguageSelector("categoryadmin_edit", sFieldDict, appThemeDirectory, Model)
-
 
 <div class='w3-animate-opacity'>
 
