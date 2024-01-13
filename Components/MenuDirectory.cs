@@ -34,7 +34,10 @@ namespace RocketDirectoryAPI.Components
                 else
                     p.ParentPageId = catData.ParentItemId;
                 p.PageId = catData.CategoryId;
-                p.Url = DNNrocketUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
+                if (catData.Disabled)
+                    p.Url = "#";
+                else
+                    p.Url = DNNrocketUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
                 rtn.Add(p);
             }
             return rtn;
