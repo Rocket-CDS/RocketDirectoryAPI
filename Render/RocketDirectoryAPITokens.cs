@@ -191,7 +191,7 @@ namespace RocketDirectoryAPI.Components
         {
             var css = cssClassOff;
             if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = cssClassOn;
-            var strOut = "<button type='button' class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList('" + propertyid + "');return false;\" >" + textName + "</button>";
+            var strOut = "<span class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList('" + propertyid + "');return false;\" >" + textName + "</span>";
             return new RawString(strOut);
         }
         /// <summary>

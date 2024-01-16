@@ -233,24 +233,27 @@ namespace RocketDirectoryAPI.Components
                 var nodList = SessionParamData.Info.XMLDoc.SelectNodes("r/*[starts-with(name(), 'checkboxfilter')]");
                 if (nodList != null && nodList.Count > 0) moduleSettings = new ModuleContentLimpet(PortalCatalog.PortalId, SessionParamData.ModuleRef, _systemKey, SessionParamData.ModuleId, SessionParamData.TabId);
 
-                foreach (XmlNode nod in nodList)
+                if (nodList != null)
                 {
-                    if (nod.InnerText.ToLower() == "true")
+                    foreach (XmlNode nod in nodList)
                     {
-                        var splitId = nod.Name.Split('-');
-                        if (splitId.Count() == 2)
+                        if (nod.InnerText.ToLower() == "true")
                         {
-                            var propid = splitId[0].Replace("checkboxfilter", "");
-                            // NOTE: checkbox for filter must be called "checkboxfilterand"
-                            if (moduleSettings != null && PortalCatalog.FilterByInAll)
+                            var splitId = nod.Name.Split('-');
+                            if (splitId.Count() == 2)
                             {
-                                if (checkboxfilter != "") checkboxfilter += " and ";
-                                checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
-                            }
-                            else
-                            {
-                                if (checkboxfilter != "") checkboxfilter += " or ";
-                                checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                                var propid = splitId[0].Replace("checkboxfilter", "");
+                                // NOTE: checkbox for filter must be called "checkboxfilterand"
+                                if (moduleSettings != null && PortalCatalog.FilterByInAll)
+                                {
+                                    if (checkboxfilter != "") checkboxfilter += " and ";
+                                    checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                                }
+                                else
+                                {
+                                    if (checkboxfilter != "") checkboxfilter += " or ";
+                                    checkboxfilter += " R1.ItemId IN (SELECT ParentItemId FROM {databaseOwner}[{objectQualifier}" + _tableName + "] as [PROPXREF] where [PROPXREF].TypeCode =  'PROPXREF' and [PROPXREF].XrefItemId = " + propid + ") ";
+                                }
                             }
                         }
                     }

@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -170,7 +171,21 @@ namespace RocketDirectoryAPI.Components
             var sessionParam = dataObject.SessionParamsData;
             if (sessionParam.PageSize == 0) sessionParam.PageSize = dataObject.ModuleSettings.GetSettingInt("pagesize");
 
+            // ------------------------------
+            // CacheKey, with properties
             var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
+            cacheKey += "-" + sessionParam.Get("rocketpropertyidtag");
+            var nodList = sessionParam.Info.XMLDoc.SelectNodes("r/*[starts-with(name(), 'checkboxfilter')]");
+            if (nodList != null)
+            {
+                foreach (XmlNode nod in nodList)
+                {
+                    cacheKey += "-" + nod.Name;
+                    cacheKey += "-" + nod.InnerText;                        
+                }
+            }
+            // ------------------------------
+
             if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
             {
                 var rtn = CacheFileUtils.GetCache(dataObject.PortalId, cacheKey, dataObject.SystemKey + dataObject.PortalId);
