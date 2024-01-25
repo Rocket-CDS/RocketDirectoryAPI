@@ -36,9 +36,7 @@ The templates to deal with tag filters can use special razor token to help build
         {
             if (!displayList.Contains(p.Key))
             {
-                <span style="">
-                    @TagButton(p.Key, p.Value, "rocket-tagbuttonOff", "rocket-tagbuttonOn",sessionParams)
-                </span>
+                @TagButton(p.Key, p.Value, "rocket-tagbuttonOff", "rocket-tagbuttonOn",sessionParams)
                 displayList.Add(p.Key);
             }
         }
