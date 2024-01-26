@@ -91,6 +91,18 @@
                 <div class="w3-col m10">
 
                     <div class='w3-row'>
+                        <div class="w3-quarter w3-padding">
+                            @CheckBox(info, "genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden"), " class='w3-check' ")
+                        </div>
+                        <div class="w3-quarter w3-padding">
+                            @CheckBox(info, "genxml/lang/genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden") + "&nbsp;" + EditFlag(sessionParams), " class='w3-check' ")
+                        </div>
+                        <div class="w3-quarter w3-padding">
+                            @CheckBox(info, "genxml/checkbox/disabled", "&nbsp;" + ResourceKey("DNNrocket.disabled"), " class='w3-check' ")
+                        </div>
+                    </div>
+
+                    <div class='w3-row'>
                         <div class='w3-col m2 w3-padding'>
                             <label>@ResourceKey("RC.ref")</label>
                             @TextBox(info, "genxml/textbox/ref", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
@@ -112,26 +124,25 @@
                         <label>@ResourceKey("RC.summary")</label>&nbsp;@EditFlag(sessionParams)
                         @TextArea(info, "genxml/lang/genxml/textbox/summary", " class='w3-input w3-border' autocomplete='off'  rows='4' ", "", true, 0)
                     </div>
-                    <div class='w3-row w3-padding'>
-                        <label>@ResourceKey("RC.keywords")</label>&nbsp;@EditFlag(sessionParams)
-                        @TextArea(info, "genxml/lang/genxml/textbox/categorykeywords", "class='w3-input w3-border' rows='4'", "", true, 0)
-                    </div>
-                    <div class='w3-row'>
-                        <div class="w3-quarter w3-padding">
-                            @CheckBox(info,"genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden"), " class='w3-check' ")
-                        </div>
-                        <div class="w3-quarter w3-padding">
-                            @CheckBox(info, "genxml/lang/genxml/checkbox/hidden", "&nbsp;" + ResourceKey("RC.hidden") + "&nbsp;" + EditFlag(sessionParams), " class='w3-check' ")
-                        </div>
-                        <div class="w3-quarter w3-padding">
-                            @CheckBox(info,"genxml/checkbox/disabled", "&nbsp;" + ResourceKey("DNNrocket.disabled"), " class='w3-check' ")
-                        </div>
-                    </div>
 
                     <div class='w3-row'>
                         @RenderTemplate("CategoryFields.cshtml", appTheme, Model, true)
                     </div>
 
+                    <div class='w3-row'>
+                        <div class='w3-row  w3-padding'>
+                            <label>SEO @ResourceKey("DNNrocket.title")</label>&nbsp;@EditFlag(sessionParams)
+                            @TextBox(info, "genxml/lang/genxml/textbox/seotitle", " class='w3-input w3-border' autocomplete='off' maxlength='70' ", "", true, 0)
+                        </div>
+                        <div class=" w3-row w3-padding">
+                            <label>SEO @ResourceKey("DNNrocket.description")</label>&nbsp;@EditFlag(sessionParams)
+                            @TextArea(info, "genxml/lang/genxml/textbox/seodescription", " class='w3-input w3-border' rows='2' maxlength='250' autocomplete='off' ", "", true, 0)
+                        </div>
+                        <div class='w3-row w3-padding'>
+                            <label>@ResourceKey("RC.keywords")</label>&nbsp;@EditFlag(sessionParams)
+                            @TextArea(info, "genxml/lang/genxml/textbox/categorykeywords", "class='w3-input w3-border' rows='4'", "", true, 0)
+                        </div>
+                    </div>
 
                 </div>
             </div>
