@@ -189,7 +189,9 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString TagButtonClear(string textName, SessionParams sessionParams)
         {
-            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList('0');return false;\" >" + textName + "</span>";
+            var s = "style='display:none;'";
+            if (sessionParams.GetInt("rocketpropertyidtag") > 0) s = "";
+            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList('0');return false;\" " + s + ">" + textName + "</span>";
             return new RawString(strOut);
         }
         public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams)
