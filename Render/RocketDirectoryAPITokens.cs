@@ -187,9 +187,15 @@ namespace RocketDirectoryAPI.Components
         /// <param name="activeCssClasses">The active CSS classes.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString TagButton(int propertyid, string textName, string cssClassOff, string cssClassOn, SessionParams sessionParams)
+        public IEncodedString TagButtonClear(string textName, SessionParams sessionParams)
         {
-            var css = cssClassOff;
+            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList('0');return false;\" >" + textName + "</span>";
+            return new RawString(strOut);
+        }
+        public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams)
+        {
+            string cssClassOn = "rocket-tagbuttonOn";
+            var css = "";
             if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = cssClassOn;
             var strOut = "<span class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList('" + propertyid + "');return false;\" >" + textName + "</span>";
             return new RawString(strOut);
@@ -201,18 +207,23 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">The sreturn.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString TagJsApiCall(string systemKey, string sreturn, string cssClassOff, string cssClassOn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        public IEncodedString TagJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
+            string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList(propertyid) {";
             strOut += "        $('.simplisity_loader').show();";
             strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
-            strOut += "        $('.rocket-tagbutton').addClass('" + cssClassOff + "');";
             strOut += "        simplisity_setSessionField('searchdate1', '');";
             strOut += "        simplisity_setSessionField('searchdate2', '');";
             strOut += "        simplisity_setSessionField('page', '1');";
             strOut += "        if (propertyid > 0) {";
             strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";
+            strOut += "        $('.rocket-tagbuttonclear').show();";
+            strOut += "        }";
+            strOut += "        else";
+            strOut += "        {";
+            strOut += "        $('.rocket-tagbuttonclear').hide();";
             strOut += "        }";
             strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
