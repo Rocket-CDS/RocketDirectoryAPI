@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -109,6 +110,7 @@ namespace RocketDirectoryAPI.Components
                 {
                     var upd = false;
                     var appTheme = new AppThemeLimpet(PortalId, AppThemeFolder, AppThemeVersion, ProjectName);
+                    // Add Query Params for Article and Categories
                     foreach (var qdata in RocketDirectoryAPIUtils.UrlQueryParams(appTheme))
                     {
                         if (info.GetRecordListItem("queryparams", "genxml/textbox/queryparam", qdata.Key) == null)
@@ -121,18 +123,18 @@ namespace RocketDirectoryAPI.Components
                             upd = true;
                         }
                     }
-
                     // Add Menu Provider
-                    var defaultData = new DefaultsLimpet(SystemKey);
-                    if (defaultData.MenuProviderAssembly != "")
+                    foreach (var menuproviderData in RocketDirectoryAPIUtils.MenuProvider(appTheme))
                     {
-                        var mRec = new SimplisityRecord();
-                        mRec.SetXmlProperty("genxml/textbox/assembly", defaultData.MenuProviderAssembly);
-                        mRec.SetXmlProperty("genxml/textbox/namespaceclass", defaultData.MenuProviderClass);
-                        mRec.SetXmlProperty("genxml/textbox/systemkey", defaultData.SystemKey);
-                        info.RemoveRecordList("menuprovider");
-                        info.AddRecordListItem("menuprovider", mRec);
-                        upd = true;
+                        if (info.GetRecordListItem("menuprovider", "genxml/textbox/systemkey", menuproviderData.Key) == null)
+                        {
+                            var mRec = new SimplisityRecord();
+                            mRec.SetXmlProperty("genxml/textbox/assembly", menuproviderData.Value.assembly);
+                            mRec.SetXmlProperty("genxml/textbox/namespaceclass", menuproviderData.Value.namespaceclass);
+                            mRec.SetXmlProperty("genxml/textbox/systemkey", menuproviderData.Value.systemkey);
+                            info.AddRecordListItem("menuprovider", mRec);
+                            upd = true;
+                        }
                     }
 
                     if (upd) _objCtrl.Update(info);

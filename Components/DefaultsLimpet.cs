@@ -70,8 +70,6 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
-        public string MenuProviderAssembly { get { return Info.GetXmlProperty("root/menuprovider/assembly"); } }
-        public string MenuProviderClass { get { return Info.GetXmlProperty("root/menuprovider/namespaceclass"); } }
         public string SystemKey { get { return _systemKey; } }
 
     }
