@@ -193,7 +193,9 @@ namespace RocketDirectoryAPI.Components
 
             // ------------------------------
             // CacheKey, with properties
-            var cacheKey = dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
+            if (template == "") template = dataObject.ModuleSettings.GetSetting("displaytemplate");
+            if (template == "") template = "view.cshtml";
+            var cacheKey = template + "*" + dataObject.ModuleSettings.ModuleRef + "*" + sessionParam.UrlFriendly + "-" + sessionParam.OrderByRef + "-" + sessionParam.Page + "-" + sessionParam.PageSize;
             cacheKey += "-" + sessionParam.Get("rocketpropertyidtag");
             var nodList = sessionParam.Info.XMLDoc.SelectNodes("r/*[starts-with(name(), 'checkboxfilter')]");
             if (nodList != null)
@@ -212,13 +214,12 @@ namespace RocketDirectoryAPI.Components
                 if (!String.IsNullOrEmpty(rtn) && !dataObject.ModuleSettings.DisableCache) return rtn;
             }
             var aticleId = GetArticleId(dataObject.PortalId, dataObject.SystemKey, dataObject.SessionParamsData);
-            if (template == "") template = dataObject.ModuleSettings.GetSetting("displaytemplate");
-            if (template == "") template = "view.cshtml";
-            var paramCmd = "listdetail";
+            var cmdType = dataObject.SessionParamsData.Get("cmdtype");
+            if (cmdType == "") cmdType = "listdetail";
             var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppTheme, dataObject.ModuleSettings.ModuleRef, template);
-            if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") paramCmd = modt.GetXmlProperty("genxml/cmd");
+            if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") cmdType = modt.GetXmlProperty("genxml/cmd");
 
-            if (paramCmd == "list" || paramCmd == "listdetail")
+            if (cmdType == "list" || cmdType == "listdetail")
             {
                 var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
                 if (articleData.Exists)
@@ -226,22 +227,22 @@ namespace RocketDirectoryAPI.Components
                 else
                     dataObject = ListData(dataObject);
             }
-            if (paramCmd == "listonly")
+            if (cmdType == "listonly")
             {
                 dataObject = ListData(dataObject);
             }
-            if (paramCmd == "detailonly")
+            if (cmdType == "detailonly")
             {
                 var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
                 dataObject = DetailData(articleData, dataObject);
             }
-            if (paramCmd == "satellite")
+            if (cmdType == "satellite")
             {
                 // load datalist, without populating it, for satelite modules.  use GetArticleList(ModuleContentLimpet moduleData, int maxReturn = 20) method.
                 var articleDataList = new ArticleLimpetList(sessionParam, dataObject.PortalContent, sessionParam.CultureCode, false, false);
                 dataObject.SetDataObject("articlelist", articleDataList);
             }
-            if (paramCmd == "catmenu")
+            if (cmdType == "catmenu")
             {
                 var defaultCat = sessionParam.GetInt("catid");
                 if (defaultCat == 0) defaultCat = dataObject.ModuleSettings.DefaultCategoryId;
