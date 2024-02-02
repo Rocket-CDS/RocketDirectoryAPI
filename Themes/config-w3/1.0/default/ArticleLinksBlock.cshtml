@@ -3,12 +3,14 @@
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
 <!--inject-->
-<div onclick="$('#links').toggle();$('#linksexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
-    @ResourceKey("DNNrocket.links")
-    <span id="linksexpand" class="material-icons w3-right" style="display:none;">
-        unfold_more
-    </span>
-</div>
-<div id="links" class='w3-row sectionname w3-border w3-padding' style="">
-    [INJECT:appthemedirectory,ArticleLinks.cshtml]
+<div class="w3-row w3-margin-bottom">
+    <div onclick="$('#links').toggle();$('#linksexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align w3-margin-top">
+        @ResourceKey("DNNrocket.links")
+        <span id="linksexpand" class="material-icons w3-right" style="display:none;">
+            unfold_more
+        </span>
+    </div>
+    <div id="links" class='w3-row sectionname w3-border w3-padding' style="">
+        [INJECT:appthemedirectory,ArticleLinks.cshtml]
+    </div>
 </div>

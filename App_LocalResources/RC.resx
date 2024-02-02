@@ -351,4 +351,7 @@
   <data name="searchmoduleid.Text" xml:space="preserve">
     <value>Search Data Module</value>
   </data>
+  <data name="socialmedia.Text" xml:space="preserve">
+    <value>Social Media</value>
+  </data>
 </root>

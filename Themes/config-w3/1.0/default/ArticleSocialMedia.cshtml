@@ -1,0 +1,79 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+
+<div class="w3-row">
+
+    <div class="w3-display-container w3-padding">
+        <div class="w3-row">
+            <div class="w3-col m1" style="width:80px;">
+            </div>
+            <div class="w3-col m2" style="">
+                <label>YouTube</label>
+            </div>
+            <div class="w3-col m9">
+                <label>@ResourceKey("DNNrocket.url")</label>
+                @TextBox(info, "genxml/textbox/youtubelink", " class='w3-input w3-border' autocomplete='off'", "", false)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-display-container w3-padding">
+        <div class="w3-row">
+            <div class="w3-col m1" style="width:80px;">
+            </div>
+            <div class="w3-col m2" style="">
+                <label>LinkedIn</label>
+            </div>
+            <div class="w3-col m9">
+                <label>@ResourceKey("DNNrocket.url")</label>
+                @TextBox(info, "genxml/textbox/linkedinlink", " class='w3-input w3-border' autocomplete='off'", "", false)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-display-container w3-padding">
+        <div class="w3-row">
+            <div class="w3-col m1" style="width:80px;">
+            </div>
+            <div class="w3-col m2" style="">
+                <label>Instagram</label>
+            </div>
+            <div class="w3-col m9">
+                <label>@ResourceKey("DNNrocket.url")</label>
+                @TextBox(info, "genxml/textbox/instagramlink", " class='w3-input w3-border' autocomplete='off'", "", false)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-display-container w3-padding">
+        <div class="w3-row">
+            <div class="w3-col m1" style="width:80px;">
+            </div>
+            <div class="w3-col m2" style="">
+                <label>Twitter</label>
+            </div>
+            <div class="w3-col m9">
+                <label>@ResourceKey("DNNrocket.url")</label>
+                @TextBox(info, "genxml/textbox/twitterlink", " class='w3-input w3-border' autocomplete='off'", "", false)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-display-container w3-padding">
+        <div class="w3-row">
+            <div class="w3-col m1" style="width:80px;">
+            </div>
+            <div class="w3-col m2" style="">
+                <label>Facebook</label>
+            </div>
+            <div class="w3-col m9">
+                <label>@ResourceKey("DNNrocket.url")</label>
+                @TextBox(info, "genxml/textbox/facebooklink", " class='w3-input w3-border' autocomplete='off'", "", false)
+            </div>
+        </div>
+    </div>
+
+</div>
