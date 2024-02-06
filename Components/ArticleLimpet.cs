@@ -84,7 +84,7 @@ namespace RocketDirectoryAPI.Components
         }
         private void Populate(string cultureCode, string systemKey)
         {
-            _cacheKey = "ArticleLimpet*" + PortalId + "*" + _articleId + "*" + cultureCode + "*" + systemKey;
+            _cacheKey = "ArticleLimpet*" + _articleId + "*" + cultureCode + "*" + systemKey;
 
             _objCtrl = new DNNrocketController();
             CultureCode = cultureCode;
