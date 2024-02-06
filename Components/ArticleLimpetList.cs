@@ -127,7 +127,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = GetArticlesByDateDesc(startMonthDate, numberOfMonths, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
-                var d = a.ModifiedDate;
+                DateTime d = a.ModifiedDate;
                 if (sqlindexDateRef != "" && sqlIndexRec != null)
                 {
                     var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
