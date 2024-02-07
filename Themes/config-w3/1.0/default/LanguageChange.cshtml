@@ -16,54 +16,35 @@
 }
 
 <!-- Top Bar -->
-<div id="topbar" class="w3-bar w3-margin-bottom " style="z-index:2;height:48px;overflow:visible;width: 100%;">
+<div id="topbar" class="w3-bar w3-margin-bottom" style="z-index:2;height:48px;overflow:visible;width: 100%;">
 
     @if (!Model.GetSettingBool("adminpanel") && !sessionParams.GetBool("portalsystems"))
     {
-
-        <div class="w3-bar-item w3-hide-medium  w3-hide-large">
-            <a href="@adminpanelurl" class="w3-yellow w3-button">
-                <span class="material-icons">
-                    widgets
-                </span>&nbsp;Admin Panel&nbsp;
+        <div class="w3-bar-item w3-hide-small">
+        <div class="w3-dropdown-click">
+            <a href="#" class="w3-yellow w3-button" onclick="admindropdown()">
+                <span class="material-icons">menu</span>
             </a>
-        </div>
-
-
-        <div class="w3-bar-item w3-hide-small w3-dropdown-hover">
-            <a href="@adminpanelurl" class="w3-yellow w3-button">
-                <span class="material-icons">
-                    widgets
-                </span>&nbsp;Admin Panel&nbsp;
-            </a>
-            <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-animate-zoom" style="width:95%">
-                <div class="w3-row w3-theme-l5">
-                    @foreach (var r in interfaceviewlist)
-                    {
-                        <div class="w3-col s6 m2 l1 w3-padding " style="height:100px;">
-                            <div class="simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                                <div class="w3-theme w3-center w3-padding w3-round-large w3-hover-shadow" style="width:100%">
-                                    <span class='material-icons' style=''>@r.InterfaceIcon</span>
-                                </div>
-                                <div class="w3-center w3-small w3-padding" style="line-height:1.2;">
-                                    <strong>@InterfaceNameResourceKey(r, systemData)</strong>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div class="w3-col s6 m2 l1 w3-padding " style="height:100px;">
-                        <div class="" onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
-                            <div class="w3-yellow  w3-center w3-padding w3-round-large w3-hover-shadow">
-                                <span class='material-icons' style=''>exit_to_app</span>
-                            </div>
-                            <div class="w3-center w3-small w3-padding" style="line-height:1.2;">
-                                <strong>@ResourceKey("DNNrocket.back")</strong>
-                            </div>
-                        </div>
-                    </div>
-
+            <div class="w3-dropdown-content w3-bar-block w3-border w3-theme-l5" id="adminmenu">
+                @foreach (var r in interfaceviewlist)
+                {
+                <div class="simplisity_click w3-theme w3-bar-item w3-button" s-cmd='@r.DefaultCommand' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                    <span class='material-icons'>@r.InterfaceIcon</span>
+                    <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                </div>
+                }
+                <div class="w3-yellow w3-bar-item w3-button" onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');">
+                    <span class='material-icons'>exit_to_app</span>
+                    <strong>@ResourceKey("DNNrocket.back")</strong>
                 </div>
             </div>
+        </div>
+        </div>
+        <div class="w3-bar-item">
+            <a href="@adminpanelurl" class="w3-yellow w3-button">
+                <span class="material-icons">widgets</span>
+                <strong>Admin Panel</strong>
+            </a>
         </div>
     }
 
@@ -103,9 +84,15 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-    });
-
+    // Admin dropdown menu
+    function admindropdown() {
+        var x = document.getElementById("adminmenu");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
     // Tools dropdown menu
     function topbaractiontools() {
         var x = document.getElementById("actiontools");

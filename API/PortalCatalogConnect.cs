@@ -40,6 +40,7 @@ namespace RocketDirectoryAPI.API
             if (portalId >= 0)
             {
                 _dataObject.PortalContent.Save(_postInfo);
+                CacheFileUtils.ClearAllCache(_dataObject.PortalId);
                 return "OK";
             }
             return "Invalid Portal SiteKey";
