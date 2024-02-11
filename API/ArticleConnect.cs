@@ -14,16 +14,16 @@ namespace RocketDirectoryAPI.API
 {    
     public partial class StartConnect
     {
-        private ArticleLimpet GetActiveArticle(int articleid)
+        private ArticleLimpet GetActiveArticle(int articleid, bool useCache = true)
         {
-            return new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
+            return RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCodeEdit, _dataObject.SystemKey, useCache);
         }
 
         public int SaveArticle()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             _dataObject.Settings.Add("saved", "true");
-            var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
+            var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             articleData.ModuleId = _dataObject.PortalContent.SearchModuleId ; // moduleid used as changed flag.
             var rtn = articleData.Save(_postInfo);
 
@@ -51,15 +51,15 @@ namespace RocketDirectoryAPI.API
             var l = DNNrocketUtils.GetCultureCodeList();
             foreach (var c in l)
             {
-                articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleId, c, _dataObject.SystemKey);
-                var newarticleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, newarticleId, c, _dataObject.SystemKey);
+                articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleId, c, _dataObject.SystemKey);
+                var newarticleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, newarticleId, c, _dataObject.SystemKey);
                 newarticleData.Info.XMLData = articleData.Info.XMLData;
                 newarticleData.Name += " - " + LocalUtils.ResourceKey("RC.copy", "Text", c);
                 newarticleData.Update();
             }
             // add categories
             articleData = GetActiveArticle(articleId);
-            var newarticleData2 = new ArticleLimpet(_dataObject.PortalContent.PortalId, newarticleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
+            var newarticleData2 = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, newarticleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             foreach (var c in articleData.GetCategories())
             {
                 newarticleData2.AddCategory(c.CategoryId);
@@ -448,7 +448,7 @@ namespace RocketDirectoryAPI.API
             if (articleid == 0) articleid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
             if (articleid > 0)
             {
-                var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
                 _dataObject.DataObjects.Remove("articledata");
                 _dataObject.DataObjects.Add("articledata", articleData);  
             }
@@ -481,7 +481,7 @@ namespace RocketDirectoryAPI.API
             if (articleid > 0)
             {
                 // do detail
-                var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
                 var seotitle = articleData.SeoTitle;
                 if (seotitle == "") seotitle = articleData.Name;
                 var seodesc = articleData.SeoDescription;
@@ -516,7 +516,7 @@ namespace RocketDirectoryAPI.API
 
             var productid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (productid == 0) productid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
-            var articleData = new ArticleLimpet(_dataObject.PortalContent.PortalId, productid, _sessionParams.CultureCode, _dataObject.SystemKey);
+            var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, productid, _sessionParams.CultureCode, _dataObject.SystemKey);
 
             if (!articleData.Exists) return "404";
 

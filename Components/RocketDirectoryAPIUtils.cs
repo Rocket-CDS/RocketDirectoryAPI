@@ -20,6 +20,30 @@ namespace RocketDirectoryAPI.Components
     {
         public const string ControlPath = "/DesktopModules/DNNrocketModules/RocketDirectoryAPI";
         public const string ResourcePath = "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources";
+
+        /// <summary>
+        /// Get ArticleData and implement cache, if the article exists.
+        /// </summary>
+        /// <param name="portalId">PortalId</param>
+        /// <param name="articleId">-1 creates new record, no cache implemented.</param>
+        /// <param name="cultureCode"></param>
+        /// <param name="systemKey"></param>
+        /// <param name="useCache">use Cache, default true</param>
+        /// <returns></returns>
+        public static ArticleLimpet GetArticleData(int portalId, int articleId, string cultureCode, string systemKey, bool useCache = true)
+        {
+            var cacheKey = "ArticleLimpet*" + portalId + "*" + articleId + "*" + cultureCode + "*" + systemKey;
+            var groupId = systemKey + portalId;
+            var articleData = (ArticleLimpet)CacheUtils.GetCache(cacheKey, groupId);
+            if (articleData == null)
+            {
+                articleData = new ArticleLimpet(portalId, articleId, cultureCode, systemKey);
+                if (articleId > 0) CacheUtils.SetCache(cacheKey, articleData, groupId);
+                LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
+            }
+            return articleData;
+        }
+
         public static Dictionary<string, QueryParamsData> UrlQueryParams(AppThemeLimpet appThemeView)
         {
             var rtn = new Dictionary<string, QueryParamsData>();
@@ -176,7 +200,7 @@ namespace RocketDirectoryAPI.Components
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             if (articleId > 0)
             {
-                var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, articleId, sessionParam.CultureCode, systemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(dataObject.PortalContent.PortalId, articleId, sessionParam.CultureCode, systemKey);
                 dataObject.SetDataObject("articledata", articleData);
             }
             var razorTempl = dataObject.AppTheme.GetTemplate(template, moduleRef);
@@ -221,7 +245,7 @@ namespace RocketDirectoryAPI.Components
 
             if (cmdType == "list" || cmdType == "listdetail")
             {
-                var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
                 if (articleData.Exists)
                     dataObject = DetailData(articleData, dataObject);
                 else
@@ -233,7 +257,7 @@ namespace RocketDirectoryAPI.Components
             }
             if (cmdType == "detailonly")
             {
-                var articleData = new ArticleLimpet(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
                 dataObject = DetailData(articleData, dataObject);
             }
             if (cmdType == "satellite")

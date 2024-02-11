@@ -168,7 +168,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = GetArticlesByDateDesc(startMonthDate, numberOfMonths, sqlindexDateRef,catid, limit);
             foreach (var a in articleList)
             {
-                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
             }
             return rtn;
         }
@@ -212,7 +212,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = GetArticlesByDateInfo(startMonthDate, endMonthDate, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
-                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
             }
             return rtn;
         }
@@ -222,7 +222,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = GetArticlesByDateInfo(monthDate, monthDate, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
-                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
             }
             return rtn;
         }
@@ -238,7 +238,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = GetArticlesInMonthInfo(monthDate, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
-                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
             }
             return rtn;            
         }
@@ -255,7 +255,7 @@ namespace RocketDirectoryAPI.Components
             var articleList = _objCtrl.GetList(PortalCatalog.PortalId, moduleId, _entityTypeCode, searchFilter, _langRequired, "", limit, 0, 0, 0, _tableName);
             foreach (var a in articleList)
             {
-                rtn.Add(new ArticleLimpet(a.ItemID, a.Lang, _systemKey));
+                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
             }
             return rtn;
         }
@@ -334,7 +334,7 @@ namespace RocketDirectoryAPI.Components
             _articleList = new List<ArticleLimpet>();
             foreach (var o in DataList)
             {
-                var articleData = new ArticleLimpet(o.ItemID, _langRequired, _systemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(o.PortalId, o.ItemID, _langRequired, _systemKey);
                 if (articleData.Exists) _articleList.Add(articleData);
             }
             return _articleList;
@@ -359,7 +359,7 @@ namespace RocketDirectoryAPI.Components
 
             foreach (var o in sList)
             {
-                var articleData = new ArticleLimpet(o.ItemID, _langRequired, _systemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(o.PortalId, o.ItemID, _langRequired, _systemKey);
                 if (articleData.Exists) articleList.Add(articleData);
             }
             return articleList;
@@ -371,7 +371,7 @@ namespace RocketDirectoryAPI.Components
             var lp = 0;
             foreach (var o in DataList)
             {
-                var articleData = new ArticleLimpet(o.ItemID, _langRequired, _systemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(o.PortalId, o.ItemID, _langRequired, _systemKey);
                 if (articleData.Exists) rowList.Add(articleData);
 
                 if ((lp % columns) == (columns - 1))
@@ -393,8 +393,8 @@ namespace RocketDirectoryAPI.Components
         {
             if (fromItemId > 0 && toItemId > 0)
             {
-                var moveData = new ArticleLimpet(fromItemId, _langRequired, _systemKey);
-                var toData = new ArticleLimpet(toItemId, _langRequired, _systemKey);
+                var moveData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, fromItemId, _langRequired, _systemKey);
+                var toData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, toItemId, _langRequired, _systemKey);
                 if (moveData.Exists && toData.Exists)
                 {
                     var newSortOrder = toData.SortOrder - 1;
@@ -424,7 +424,7 @@ namespace RocketDirectoryAPI.Components
             var list = GetAllPortalArticles();
             foreach (var pInfo in list)
             {
-                var articleData = new ArticleLimpet(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
                 articleData.ValidateAndUpdate();
             }
         }

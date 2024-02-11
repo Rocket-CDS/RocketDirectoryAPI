@@ -27,34 +27,16 @@ namespace RocketDirectoryAPI.Components
         private List<SimplisityInfo> _catXrefList;
         private List<int> _catXrefListId;
         private List<string> _catXrefListRef;
-        private string _cacheKey;
         private string _entityTypeKey;
 
-        public ArticleLimpet(string systemKey)
-        {
-            Info = new SimplisityInfo();
-            SystemKey = systemKey;
-            _entityTypeKey = systemKey + _entityTypeCodeAppendix;
-        }
         /// <summary>
-        /// Read an existing article, if it does not exist the "Exists" property will be false. 
+        /// Get ArticleLimpet data. (use RocketDirectoryAPIUtils.GetArticleData() to implement cache)
         /// </summary>
-        /// <param name="articleId"></param>
-        /// <param name="langRequired"></param>
-        public ArticleLimpet(int articleId, string langRequired, string systemKey)
-        {
-            _entityTypeKey = systemKey + _entityTypeCodeAppendix;
-            Info = new SimplisityInfo();
-            _articleId = articleId;
-            Populate(langRequired, systemKey);
-        }
-        /// <summary>
-        /// Should be used to create an article, the portalId is required on creation
-        /// </summary>
-        /// <param name="portalId"></param>
-        /// <param name="articleId"></param>
-        /// <param name="langRequired"></param>
-        public ArticleLimpet(int portalId, int articleId, string langRequired, string systemKey)
+        /// <param name="portalId">portalId</param>
+        /// <param name="articleId">-1 creates new record</param>
+        /// <param name="cultureCode"></param>
+        /// <param name="cultureCode"></param>
+        public ArticleLimpet(int portalId, int articleId, string cultureCode, string systemKey)
         {
             _entityTypeKey = systemKey + _entityTypeCodeAppendix;
             if (articleId <= 0) articleId = -1;  // create new record.
@@ -66,51 +48,22 @@ namespace RocketDirectoryAPI.Components
             Info.ModuleId = -1;
             Info.UserId = -1;
             Info.PortalId = PortalId;
-            Populate(langRequired, systemKey);
-        }
-        /// <summary>
-        /// When we populate with a child article row.
-        /// </summary>
-        /// <param name="articleData"></param>
-        public ArticleLimpet(ArticleLimpet articleData)
-        {
-            _entityTypeKey = articleData.EntityTypeCode;
-            Info = articleData.Info;
-            _articleId = articleData.ArticleId;
-            CultureCode = articleData.CultureCode;
-            PortalId = Info.PortalId;
-            SystemKey = articleData.SystemKey;
-            PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, SystemKey);
+            Populate(cultureCode, systemKey);
         }
         private void Populate(string cultureCode, string systemKey)
         {
-            _cacheKey = "ArticleLimpet*" + _articleId + "*" + cultureCode + "*" + systemKey;
-
             _objCtrl = new DNNrocketController();
+            SystemKey = systemKey;
             CultureCode = cultureCode;
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetEditCulture();
-
-            var info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey);
-            if (info == null)
+            if (_articleId > 0)
             {
-                if (_articleId > 0)
-                {
-                    info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.                    
-                    if (info != null && info.ItemID > 0 && info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
-                    {
-                        Info = info; // check if we have a real record, or a dummy being created and not saved yet.
-                        CacheUtils.SetCache(_cacheKey, Info);
-                    }
-                    else
-                    {
-                        Info.ItemID = 0; // article is a differet system, flag it as not existing.
-                    }
-                }
+                var info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.                    
+                if (Info != null && Info.ItemID > 0 && Info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
+                    Info = info;
+                else
+                    Info.ItemID = 0; // article is a differet system, flag it as not existing.
             }
-            else
-                Info = info;
-
-            PortalId = Info.PortalId;
             Info.Lang = CultureCode;
             PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, systemKey);
             SystemKey = systemKey; // after populate, so unassigned values in XML are correct. (use to identify article system for meta.ascx)
@@ -231,8 +184,8 @@ namespace RocketDirectoryAPI.Components
         }
         public void ClearCache()
         {
-            CacheUtils.RemoveCache(_cacheKey);
-            CacheFileUtils.ClearAllCache(PortalId, SystemKey + PortalId);
+            var groupId = SystemKey + PortalId;
+            CacheFileUtils.ClearAllCache(PortalId, groupId); // clear system cache, so lists and razor views are reloaded.
         }
         public int Update()
         {

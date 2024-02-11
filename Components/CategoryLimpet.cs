@@ -118,7 +118,7 @@ namespace RocketDirectoryAPI.Components
             {
                 var categoryguidkey = articleRec.GetXmlProperty("genxml/hidden/categoryguidkey");
                 var articleId = articleRec.GetXmlPropertyInt("genxml/hidden/articleid");
-                var articleData = new ArticleLimpet(articleId, CultureCode, SystemKey);
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(articleRec.PortalId, articleId, CultureCode, SystemKey);
                 articleData.UpdateCategorySortOrder(categoryguidkey, lp);
                 lp += 5;
             }
