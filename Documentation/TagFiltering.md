@@ -20,30 +20,31 @@ The templates to deal with tag filters can use special razor token to help build
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
-@AddProcessDataResx(appTheme, true)
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 <!--inject-->
 @{
     var displayList = new List<int>();
 }
-<div class="rocket-tags w3-padding">
-    <span style="">
-        @TagButton(0, "X", "rocket-tagbuttonOff", "rocket-tagbuttonOff",sessionParams)
-    </span>
+
+<div class="rocket-tags">
+    <ul class="">
     @foreach (var g in moduleData.GetPropertyModuleGroups(catalogSettings))
     {
         foreach (var p in propertyDataList.GetPropertyTagList(g.Key))
         {
             if (!displayList.Contains(p.Key))
             {
-                @TagButton(p.Key, p.Value, "rocket-tagbuttonOff", "rocket-tagbuttonOn",sessionParams)
+                <li>
+                    @TagButton(p.Key, p.Value ,sessionParams)
+                </li>
                 displayList.Add(p.Key);
             }
         }
     }
+    </ul>
+    <div class="">@TagButtonClear("Effacer", sessionParams)</div>
 </div>
 
-@TagJsApiCall(moduleData.SystemKey,"#rocket-blog", "rocket-tagbuttonOff", "rocket-tagbuttonOn", sessionParams)
+@TagJsApiCall(moduleData.SystemKey, "#rocketlistcontainer", sessionParams)
 ```
 
 Create property group checkbox in module settings. "ThemeSettings.cshtml" to select which property groups should be included on the website view.

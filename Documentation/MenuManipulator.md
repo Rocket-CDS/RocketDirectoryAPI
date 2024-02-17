@@ -74,7 +74,7 @@ We do not want the page name to be "catdir" in our URL, we can rename the page i
 
 ## DetailURL()
 
-The detail URL will not normally contain the "catid" parameter.  To avoid adding this to the URL you can pass *null* as the categoryData.
+The detail URL will not normally contain the categoryid parameter.  To avoid adding this to the URL you can pass *null* as the categoryData.
 ```
 @DetailUrl(moduleData.DetailPageTabId(), articleData, null)
 ```

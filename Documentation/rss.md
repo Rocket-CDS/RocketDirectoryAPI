@@ -40,7 +40,7 @@ Example:
 ```
 
 ```
-<a href="@RssUrl(portalData.PortalId,"rocketblogapi_rss",1,"publisheddate",sessionParams.GetInt("catid"))" target="_blank">
+<a href="@RssUrl(portalData.PortalId,"rocketblogapi_rss",1,"publisheddate",sessionParams.GetInt("blogcatid"))" target="_blank">
     <span class="material-icons">
     rss_feed
     </span>
@@ -82,7 +82,7 @@ Example RSS.cshtml template:  (CDATA should be used)
         <lastBuildDate>@DateTime.Now.ToString("r")</lastBuildDate>
         <generator>RocketCDS Blog RSS Generator</generator>
         <ttl>30</ttl>
-        <atom:link href="@RssUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("months"),sessionParams.Get("sqlidx"),sessionParams.GetInt("catid"))" rel="self" type="application/rss+xml" />
+        <atom:link href="@RssUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("months"),sessionParams.Get("sqlidx"),sessionParams.GetInt("blogcatid"))" rel="self" type="application/rss+xml" />
 
 @foreach (ArticleLimpet articleData in rssList)
 {
@@ -124,9 +124,9 @@ Here we will explain the generic RSS feed options.
 The RSS feed uses URL query paramaters to select data.  The default system system expects at least 1 date for selecting data.  The date reference is passed to the RSS feed by using a URL parameter call "sqldataref", if not "sqldataref" is found in the URL a defualt of the last modified date is used.  
 
 ### Category selection
-Data can be filtered by categories using a "catid" parameter.  The category id number can be found on the bottom left of the category detail admin UI.
+Data can be filtered by categories using a category parameter.  The category id number can be found on the bottom left of the category detail admin UI.
 ```
-/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss&catid=725
+/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss&blogcatid=725
 ```
 *NOTE: The RSS requires a category id, which could change during the life cycle of the website.*  
 

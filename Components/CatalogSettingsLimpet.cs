@@ -65,8 +65,8 @@ namespace RocketDirectoryAPI.Components
             Info.RemoveList("grouplist");
             foreach (var g in postInfo.GetList("grouplist"))
             {
-                g.SetXmlProperty("genxml/textbox/ref", g.GetXmlProperty("genxml/textbox/ref").Replace(" ", "-").Trim());
-                var groupRef = g.GetXmlProperty("genxml/textbox/ref");
+                g.SetXmlProperty("genxml/textbox/ref", g.GetXmlProperty("genxml/textbox/ref").Replace(" ", "-").Trim().ToLower());
+                var groupRef = g.GetXmlProperty("genxml/textbox/ref").ToLower();
                 if (groupRef != "") AddGroup(g);
             }
 
@@ -115,7 +115,7 @@ namespace RocketDirectoryAPI.Components
             var rtn = new Dictionary<string, string>();
             foreach (var g in GroupList())
             {
-                var r = g.GetXmlProperty("genxml/textbox/ref");
+                var r = g.GetXmlProperty("genxml/textbox/ref").ToLower();
                 var v = g.GetXmlProperty("genxml/lang/genxml/textbox/name");
                 if (v == "") v = r;
                 rtn.Add(r, v);

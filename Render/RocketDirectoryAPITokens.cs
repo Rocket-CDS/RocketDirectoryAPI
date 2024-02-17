@@ -169,12 +169,13 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
             var strOut = "<script type=\"text/javascript\"> function callArticleList(sreturn) {";
             strOut += " $('.simplisity_loader').show();";
             strOut += " simplisity_setSessionField('searchdate1', '');";
             strOut += " simplisity_setSessionField('searchdate2', '');";
             strOut += " simplisity_setSessionField('page', '1');";
-            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += " } </script>";
             return new RawString(strOut);
         }
@@ -211,6 +212,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString TagJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
             string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList(propertyid) {";
@@ -227,7 +229,7 @@ namespace RocketDirectoryAPI.Components
             strOut += "        {";
             strOut += "        $('.rocket-tagbuttonclear').hide();";
             strOut += "        }";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
@@ -247,7 +249,7 @@ namespace RocketDirectoryAPI.Components
             strOut += "        simplisity_setSessionField('searchdate2', searchdate2);";
             strOut += "        simplisity_setSessionField('page', '1');";
             strOut += "        $('.simplisity_loader').show();";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get("catid") + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey)) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
@@ -274,7 +276,7 @@ namespace RocketDirectoryAPI.Components
             var listurl = "";
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { "catid", categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
+                string[] urlparams = { RocketDirectoryAPIUtils.UrlQueryCategoryKey(categoryData.PortalId, categoryData.SystemKey), categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
                 listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
             }
             else
@@ -296,19 +298,23 @@ namespace RocketDirectoryAPI.Components
             var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
 
             var articleParamKey = "";
+            var categoryParamKey = "";
             var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
             foreach (var paramDict in paramidList)
             {
-                if (articleData.SystemKey == paramDict.Value.systemkey)
+                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
                 {
                     articleParamKey = paramDict.Value.queryparam;
-                    break;
+                }
+                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "category")
+                {
+                    categoryParamKey = paramDict.Value.queryparam;
                 }
             }
 
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), "catid", categoryData.CategoryId.ToString(), seotitle };
+                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), categoryParamKey, categoryData.CategoryId.ToString(), seotitle };
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             else

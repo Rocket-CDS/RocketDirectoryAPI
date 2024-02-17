@@ -76,7 +76,7 @@ namespace RocketDirectoryAPI.API
         }
         private string GetRss()
         {
-            var catid = _dataObject.SessionParamsData.GetInt("catid");
+            var catid = _dataObject.SessionCatId();
             var numberOfMonths = _dataObject.SessionParamsData.GetInt("months");
             var sqlindexDateRef = _dataObject.SessionParamsData.Get("sqlidx");
             if (numberOfMonths == 0) numberOfMonths = 1;

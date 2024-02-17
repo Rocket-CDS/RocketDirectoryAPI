@@ -65,7 +65,7 @@ namespace RocketDirectoryAPI.Components
             if (sessionParams.PageSize == 0) sessionParams.PageSize = 24;
             if (sessionParams.Page <= 0) sessionParams.Page = 1;
 
-            _catid = sessionParams.GetInt("catid");
+            _catid = sessionParams.GetInt(RocketDirectoryAPIUtils.UrlQueryCategoryKey(portalCatalog.PortalId, _systemKey));
             _catidurl = _catid;
             if (_catid == 0) _catid = defaultCategoryId;
             _searchcategoryid = _catid;

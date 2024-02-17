@@ -24,10 +24,7 @@ same as using a CheckBox like this..
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
-@AddProcessDataResx(appTheme, true)
-@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
 <!--inject-->
-
 <div class="rocket-filters">
     @foreach (var g in moduleData.GetPropertyModuleGroups(catalogSettings))
     {
@@ -39,11 +36,8 @@ same as using a CheckBox like this..
             </div>
         }
     }
-
 </div>
-
 @FilterJsApiCall(moduleData.SystemKey, sessionParams)
-
 ```
 
 Create property group checkbox in module settings. "ThemeSettings.cshtml" to select which property groups should be included on the website view.

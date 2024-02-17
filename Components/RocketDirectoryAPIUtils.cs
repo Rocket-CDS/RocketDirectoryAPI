@@ -58,6 +58,7 @@ namespace RocketDirectoryAPI.Components
                         queryParamsData.queryparam = r.GetXmlProperty("genxml/queryparam");
                         queryParamsData.tablename = r.GetXmlProperty("genxml/tablename");
                         queryParamsData.systemkey = r.GetXmlProperty("genxml/systemkey");
+                        queryParamsData.datatype = r.GetXmlProperty("genxml/datatype");
                         queryParamsData.queryparamvalue = "";
                         if (!rtn.ContainsKey(queryParamsData.queryparam)) rtn.Add(queryParamsData.queryparam, queryParamsData);
                     }
@@ -243,6 +244,8 @@ namespace RocketDirectoryAPI.Components
             var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppTheme, dataObject.ModuleSettings.ModuleRef, template);
             if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") cmdType = modt.GetXmlProperty("genxml/cmd");
 
+            LogUtils.LogSystem("START  DisplayView() cmdType: " + cmdType);
+
             if (cmdType == "list" || cmdType == "listdetail")
             {
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
@@ -268,7 +271,7 @@ namespace RocketDirectoryAPI.Components
             }
             if (cmdType == "catmenu")
             {
-                var defaultCat = sessionParam.GetInt("catid");
+                var defaultCat = dataObject.SessionCatId();
                 if (defaultCat == 0) defaultCat = dataObject.ModuleSettings.DefaultCategoryId;
                 if (defaultCat == 0) defaultCat = dataObject.CatalogSettings.DefaultCategoryId;
                 var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, defaultCat, sessionParam.CultureCode, dataObject.SystemKey);
@@ -279,6 +282,9 @@ namespace RocketDirectoryAPI.Components
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             if (sessionParam.SearchText == "") CacheFileUtils.SetCache(dataObject.PortalId, cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
+
+            LogUtils.LogSystem("END  DisplayView() cmdType: " + cmdType);
+
             return pr.RenderedText;
         }
         private static int GetArticleId(int portalId, string systemKey, SessionParams sessionParams)
@@ -299,7 +305,7 @@ namespace RocketDirectoryAPI.Components
         {
             var sortorderkey = dataObject.ModuleSettings.GetSetting("sortorderkey");
             if (sortorderkey != "") dataObject.SessionParamsData.OrderByRef = sortorderkey; // use module setting if set.
-            var defaultCat = dataObject.SessionParamsData.GetInt("catid");
+            var defaultCat = dataObject.SessionCatId();
             if (defaultCat == 0) defaultCat = dataObject.ModuleSettings.DefaultCategoryId;
             if (defaultCat == 0) defaultCat = dataObject.CatalogSettings.DefaultCategoryId;
             var articleDataList = new ArticleLimpetList(dataObject.SessionParamsData, dataObject.PortalContent, dataObject.SessionParamsData.CultureCode, true, false, defaultCat);
@@ -316,7 +322,7 @@ namespace RocketDirectoryAPI.Components
                 var articleCategoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, articleData.DefaultCategory(), dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
                 dataObject.SetDataObject("articlecategorydata", articleCategoryData);
             }
-            var catid = dataObject.SessionParamsData.GetInt("catid");
+            var catid = dataObject.SessionCatId();
             var categoryData = new CategoryLimpet(dataObject.PortalContent.PortalId, catid, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
             dataObject.SetDataObject("categorydata", categoryData);
             return dataObject;
@@ -369,6 +375,33 @@ namespace RocketDirectoryAPI.Components
             return rtn;
         }
 
+        public static string UrlQueryKey(int portalId, string systemKey, string dataType)
+        {
+            var cacheKey = "UrlQueryKey*" + portalId + "*" + systemKey + "*" + dataType;
+            var paramKey = (string)CacheUtils.GetCache(cacheKey);
+            if (paramKey == null)
+            {
+                paramKey = "";
+                var paramidList = DNNrocketUtils.GetQueryKeys(portalId);
+                foreach (var paramDict in paramidList)
+                {
+                    if (systemKey == paramDict.Value.systemkey && paramDict.Value.datatype == dataType)
+                    {
+                        paramKey = paramDict.Value.queryparam;
+                    }
+                }
+                CacheUtils.SetCache(cacheKey, paramKey, "portalid" + portalId);
+            }
+            return paramKey;
+        }
+        public static string UrlQueryCategoryKey(int portalId, string systemKey)
+        {
+            return UrlQueryKey(portalId, systemKey, "category");
+        }
+        public static string UrlQueryArticleKey(int portalId, string systemKey)
+        {
+            return UrlQueryKey(portalId, systemKey, "article");
+        }
 
     }
 

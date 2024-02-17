@@ -117,6 +117,7 @@ namespace RocketDirectoryAPI.Components
                         {
                             var qRec = new SimplisityRecord();
                             qRec.SetXmlProperty("genxml/select/tablename", qdata.Value.tablename);
+                            qRec.SetXmlProperty("genxml/select/datatype", qdata.Value.datatype);
                             qRec.SetXmlProperty("genxml/textbox/queryparam", qdata.Value.queryparam);
                             qRec.SetXmlProperty("genxml/textbox/systemkey", qdata.Value.systemkey);
                             info.AddRecordListItem("queryparams", qRec);

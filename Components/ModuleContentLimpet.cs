@@ -38,9 +38,9 @@ namespace RocketDirectoryAPI.Components
             var rtn = new Dictionary<string, string>();
             foreach (var g in catalogSettings.GetPropertyGroups())
             {
-                if (GetSettingBool("propertygroup-" + g.Key))
+                if (GetSettingBool("propertygroup-" + g.Key.ToLower()))
                 {
-                    rtn.Add(g.Key, g.Value);
+                    rtn.Add(g.Key.ToLower(), g.Value);
                 }
             }
             return rtn;

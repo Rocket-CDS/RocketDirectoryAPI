@@ -66,10 +66,10 @@ namespace RocketDirectoryAPI.Components
         public void ProceesSessionParams()
         {
             //RULE: Search text will search across ALL categories. 
-            if (_sessionParams.SearchText != "") _sessionParams.Set("catid", "0");
+            if (_sessionParams.SearchText != "") _sessionParams.Set(UrlQueryCategoryKey(), "0");
 
             // RULE: Clear search on category select.
-            if (_sessionParams.GetInt("catid") > 0) _sessionParams.SearchText = ""; 
+            if (_sessionParams.GetInt(UrlQueryCategoryKey()) > 0) _sessionParams.SearchText = ""; 
         }
         private bool HasPropertyFilterSelected()
         {
@@ -136,6 +136,22 @@ namespace RocketDirectoryAPI.Components
         public List<SimplisityRecord> GetAppThemeProjects()
         {
             return AppThemeProjects.List;
+        }
+        public string UrlQueryCategoryKey()
+        {
+            return RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalData.PortalId, _systemKey);
+        }
+        public int SessionCatId()
+        {
+            return SessionParamsData.GetInt(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalData.PortalId, _systemKey));
+        }
+        public string UrlQueryArticleKey()
+        {
+            return RocketDirectoryAPIUtils.UrlQueryArticleKey(PortalData.PortalId, _systemKey);
+        }
+        public int SessionArticleId()
+        {
+            return SessionParamsData.GetInt(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalData.PortalId, _systemKey));
         }
         public string SystemKey { get { return _systemKey; } }
         public int PortalId { get { return PortalData.PortalId; } }
