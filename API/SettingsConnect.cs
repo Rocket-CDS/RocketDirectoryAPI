@@ -109,8 +109,19 @@ namespace RocketDirectoryAPI.API
                 foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalId))
                 {
                     var articleData = new ArticleLimpet(_dataObject.PortalId, articleid, l, _dataObject.SystemKey);
+
+                    // Extra DNN Search fields
+                    var extraData = "";
+                    var xpathlist = _dataObject.PortalContent.Info.GetXmlProperty("genxml/dnnsearchextra");
+                    if (xpathlist != "")
+                    {
+                        foreach (var xpath in xpathlist.Split(','))
+                        {
+                            extraData += articleData.Info.GetXmlProperty(xpath) + " ";
+                        }
+                    }
                     var rtn2 = new Dictionary<string, object>();
-                    var bodydata = articleData.Summary;
+                    var bodydata = (articleData.Summary + " " + extraData).Trim();
                     var descriptiondata = articleData.RichText;
                     var titledata = articleData.Name;
 

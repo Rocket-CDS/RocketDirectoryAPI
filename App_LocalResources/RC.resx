@@ -360,4 +360,10 @@
   <data name="showpagesize.Text" xml:space="preserve">
     <value>Show Page Size</value>
   </data>
+  <data name="dnnsearchextra.Help" xml:space="preserve">
+    <value>Extra DNN search data fields, defined as a CSV list of article xpath fields.</value>
+  </data>
+  <data name="dnnsearchextra.Text" xml:space="preserve">
+    <value>DNN Search xpath</value>
+  </data>
 </root>

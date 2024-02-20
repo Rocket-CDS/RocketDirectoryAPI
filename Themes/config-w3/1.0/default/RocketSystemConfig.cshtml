@@ -90,6 +90,15 @@
         <label class="">@ResourceKey("RCP.sqlfilterarticle")</label>
         @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, defaultsData.Get("root/sqlfilter/article"), false)
     </div>
+    <div class="w3-row  w3-padding">
+        <label class=""><b>@ResourceKey("RC.dnnsearchextra")</b></label>
+        <div class="w3-small">
+            <i>
+                @ResourceKey("RC.dnnsearchextra", "", "Help")
+            </i>
+        </div>
+        @TextArea(info, "genxml/dnnsearchextra", "class='w3-input w3-border' rows='2' ", "", false)
+    </div>
 
     <div class="w3-row  w3-padding">
         <label class=""><b>@ResourceKey("RCP.sqlorderby")</b></label>
