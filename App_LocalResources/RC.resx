@@ -354,4 +354,10 @@
   <data name="socialmedia.Text" xml:space="preserve">
     <value>Social Media</value>
   </data>
+  <data name="showorderby.Text" xml:space="preserve">
+    <value>Show OrderBy</value>
+  </data>
+  <data name="showpagesize.Text" xml:space="preserve">
+    <value>Show Page Size</value>
+  </data>
 </root>

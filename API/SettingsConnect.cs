@@ -104,31 +104,45 @@ namespace RocketDirectoryAPI.API
             var rtn = new Dictionary<string, object>();
             var rtnList = new List<Dictionary<string, object>>();
             var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCode, false, false);
-            foreach (var articleData in articleDataList.GetArticleChangedList(_sessionParams.ModuleId))
+            foreach (var articleid in articleDataList.GetArticleChangedList(_sessionParams.ModuleId))
             {
-                var rtn2 = new Dictionary<string, object>();
-                var bodydata = articleData.Summary;
-                var descriptiondata = articleData.RichText;
-                var titledata = articleData.Name;
+                foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalId))
+                {
+                    var articleData = new ArticleLimpet(_dataObject.PortalId, articleid, l, _dataObject.SystemKey);
+                    var rtn2 = new Dictionary<string, object>();
+                    var bodydata = articleData.Summary;
+                    var descriptiondata = articleData.RichText;
+                    var titledata = articleData.Name;
 
-                rtn2.Add("body", bodydata.Trim(' '));
-                rtn2.Add("description", descriptiondata.Trim(' '));
-                rtn2.Add("modifieddate", articleData.Info.ModifiedDate.ToString("O"));
-                rtn2.Add("title", titledata.Trim(' '));
-                rtn2.Add("querystring", "articleid=" + articleData.ArticleId);
-                if (articleData.Hidden) 
-                    rtn2.Add("removesearchrecord", "true");
-                else
-                    rtn2.Add("removesearchrecord", "false");
+                    var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+                    var articleParamKey = "";
+                    var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
+                    foreach (var paramDict in paramidList)
+                    {
+                        if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
+                        {
+                            articleParamKey = paramDict.Value.queryparam;
+                        }
+                    }
 
-                var uniquekey = articleData.ArticleId + "_" + articleData.ModuleId + "_" + articleData.CultureCode;
-                rtn2.Add("uniquekey", uniquekey);
+                    rtn2.Add("body", bodydata.Trim(' '));
+                    rtn2.Add("description", descriptiondata.Trim(' '));
+                    rtn2.Add("modifieddate", articleData.Info.ModifiedDate.ToString("O"));
+                    rtn2.Add("title", titledata.Trim(' '));
+                    rtn2.Add("querystring", articleParamKey + "=" + articleData.ArticleId + "&" + seotitle);
+                    if (articleData.Hidden)
+                        rtn2.Add("removesearchrecord", "true");
+                    else
+                        rtn2.Add("removesearchrecord", "false");
 
+                    var uniquekey = articleData.ArticleId + "_" + articleData.ModuleId + "_" + articleData.CultureCode;
+                    rtn2.Add("uniquekey", uniquekey);
+                    rtnList.Add(rtn2);
+                }
                 // Replace changed flag
-                articleData.ModuleId = -1; // moduleid used as changed flag.
-                articleData.Update();
-
-                rtnList.Add(rtn2);
+                var articleData2 = new ArticleLimpet(_dataObject.PortalId, articleid, _sessionParams.CultureCode, _dataObject.SystemKey);
+                articleData2.ModuleId = -1; // moduleid used as changed flag.
+                articleData2.Update();
             }
             rtn.Add("searchindex", rtnList);
             return rtn;

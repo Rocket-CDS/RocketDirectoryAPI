@@ -248,14 +248,14 @@ namespace RocketDirectoryAPI.Components
         /// <param name="moduleId">Search ModuleID</param>
         /// <param name="limit">limit of return records.</param>
         /// <returns></returns>
-        public List<ArticleLimpet> GetArticleChangedList(int moduleId, int limit = 1000)
+        public List<int> GetArticleChangedList(int moduleId, int limit = 1000)
         {
-            var rtn = new List<ArticleLimpet>();
+            var rtn = new List<int>();
             var searchFilter = " and R1.ModuleId = " + moduleId + " ";
             var articleList = _objCtrl.GetList(PortalCatalog.PortalId, moduleId, _entityTypeCode, searchFilter, _langRequired, "", limit, 0, 0, 0, _tableName);
             foreach (var a in articleList)
             {
-                rtn.Add(RocketDirectoryAPIUtils.GetArticleData(a.PortalId, a.ItemID, a.Lang, _systemKey));
+                rtn.Add(a.ItemID);
             }
             return rtn;
         }

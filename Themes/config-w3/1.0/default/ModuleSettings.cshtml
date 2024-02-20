@@ -47,11 +47,19 @@
             @CheckBox(info,"genxml/settings/staticlist", ResourceKey("RC.staticlist").ToString(),"class='w3-check'")
         </div>
     </div>
-    <div class="w3-row ">
-        <div class="w3-half w3-padding">
-            <label>@ResourceKey("DNNrocket.name")</label>
-            @TextBox(info, "genxml/settings/name"," class='w3-input w3-border' ", "RocketContent: " + moduleData.ModuleRef)
+    <div class="w3-row w3-padding">
+        <div class="w3-quarter">
+            @CheckBox(info, "genxml/settings/showorderby", ResourceKey("RC.showorderby").ToString(), "class='w3-check'")
         </div>
+        <div class="w3-quarter">
+            @CheckBox(info, "genxml/settings/showpagesize", ResourceKey("RC.showpagesize").ToString(), "class='w3-check'")
+        </div>
+        <div class="w3-quarter">
+        </div>
+        <div class="w3-quarter">
+        </div>
+    </div>
+    <div class="w3-row ">
         <div class="w3-half w3-padding">
             <label>@ResourceKey("RC.defaultcategory")&nbsp;</label>
             <div class="w3-row">
