@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -214,7 +215,7 @@ namespace RocketDirectoryAPI.Components
             CacheUtils.RemoveCache(_cacheKey);
         }
         private string SqlFilterProduct { get { return Record.GetXmlProperty("genxml/sqlfilterarticle"); } }
-        private string GetFilterSQL(string SqlFilterTemplate, SimplisityInfo paramInfo)
+        private string GetFilterSQL(string SqlFilterTemplate, SimplisityInfo paramInfo, string systemKey)
         {
             FastReplacer fr = new FastReplacer("{", "}", false);
             fr.Append(SqlFilterTemplate);
@@ -231,6 +232,40 @@ namespace RocketDirectoryAPI.Components
                         tokenText = UserUtils.IsInRole(tsplit[1]).ToString();
                         nosearchText = false;
                     }
+                } if (token.ToLower().StartsWith("contains:"))
+                {
+                    var tsplit = token.Split(':');
+                    if (tsplit.Count() == 2)
+                    {
+                        tokenText = paramInfo.GetXmlProperty("r/" + tsplit[1]);
+                        if (!String.IsNullOrEmpty(tokenText))
+                        {
+                            var searchmodel = new SearchPostModel();
+                            searchmodel.SearchInput = tokenText;
+                            searchmodel.PageIndex = 1;
+                            searchmodel.PageSize = 200;
+                            var searchResults = SearchUtils.DoSearch(PortalId, searchmodel);
+                            string inClause = "";
+                            foreach (string searchKey in searchResults)
+                            {
+                                var searchKeys = searchKey.Split('_');
+                                if (searchKeys.Count() >= 3 && searchKeys[0] == systemKey)
+                                {
+                                    var itemid = searchKeys[2];
+                                    if (GeneralUtils.IsNumeric(itemid))
+                                    {
+                                        if (!string.IsNullOrEmpty(inClause)) inClause += ", ";
+                                        inClause += itemid;
+                                    }
+                                }
+                            }
+                            if (inClause != "")
+                            {
+                                tokenText = " AND [R1].ItemId IN (" + inClause + ") ";
+                                nosearchText = false;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -244,9 +279,9 @@ namespace RocketDirectoryAPI.Components
             var filtersql = " " + fr.ToString() + " ";
             return filtersql;
         }
-        public string GetFilterProductSQL(SimplisityInfo paramInfo)
+        public string GetFilterProductSQL(SimplisityInfo paramInfo, string systemKey)
         {
-            return GetFilterSQL(SqlFilterProduct, paramInfo);
+            return GetFilterSQL(SqlFilterProduct, paramInfo, systemKey);
         }
         public string EntityTypeCode { get { return _entityTypeCode; } }
 

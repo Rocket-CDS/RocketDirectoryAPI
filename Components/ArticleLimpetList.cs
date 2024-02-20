@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -80,7 +81,7 @@ namespace RocketDirectoryAPI.Components
             ClearFilter = false;
             ClearCategory = false;
 
-            var searchText = PortalCatalog.GetFilterProductSQL(SessionParamData.Info);
+            var searchText = PortalCatalog.GetFilterProductSQL(SessionParamData.Info, _systemKey);
             var propertyFilter = "";
             if (showHidden)
                 _catid = 0;  //assume showHidden is admin.
@@ -425,8 +426,10 @@ namespace RocketDirectoryAPI.Components
             foreach (var pInfo in list)
             {
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
+                articleData.ModuleId = PortalCatalog.SearchModuleId; // moduleid used as changed flag.
                 articleData.ValidateAndUpdate();
             }
+            DNNrocketUtils.SynchronizeModule(PortalCatalog.SearchModuleId); // module search
         }
 
         public string ListUrl()

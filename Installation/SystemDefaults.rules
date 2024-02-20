@@ -1,16 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
   <sqlfilter>
-    <article>
-		<![CDATA[
-		and
-		(
-		isnull(articlename.GUIDKey,'') like '%{searchtext}%'
-		or isnull([XMLData].value('(genxml/textbox/articleref)[1]','nvarchar(max)'),'') like '%{searchtext}%'
-		or isnull([XMLData].value('(genxml/lang/genxml/textbox/articlekeywords)[1]','nvarchar(max)'),'') like '%{searchtext}%'
-		)
-		]]>
-	</article>    
+    <article><![CDATA[{contains:searchtext}]]></article>    
   </sqlfilter>
   <sqlorderby>
 	  <product>

@@ -1,6 +1,7 @@
 # Search
 The searching works on a text search in SQL.  
-There is a default index created that can be used or you can use the XML data.  Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created unless you want better performace with a large SQL database.  
+There is a default index created that can be used or you can use the XML data.  
+Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created.  Also, the DNN search database can be used to increase peformace on  
 
 ## The default index that are created.  
 The sqlindex configuration is found in the "/systemrules.rules" file.
@@ -29,7 +30,12 @@ The sqlindex configuration is found in the "/systemrules.rules" file.
 ```
 *These can be altered by editing the "systemruels.rules" file and then you must do a validation of the system to rebuild the new index.*
 
-## Defaut SQL search filter
+## Defaut SQL search filter 
+**DNN search must be activated**
+```
+{contains:searchtext}
+```
+## XML and index SQL search filter
 ```
 and (
     isnull(articlename.GUIDKey,'') like '%{searchtext}%'
@@ -53,7 +59,7 @@ The sql filter supports testing for is a user is in a specific role.
 ```
 This allows filtering on a role system.
 
-### SQL filter exanple
+### XML SQL filter exanple
 ```
 and 
 (
