@@ -7,7 +7,9 @@ using Simplisity;
 using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -140,6 +142,7 @@ namespace RocketDirectoryAPI.API
                     rtn2.Add("description", descriptiondata.Trim(' '));
                     rtn2.Add("modifieddate", articleData.Info.ModifiedDate.ToString("O"));
                     rtn2.Add("title", titledata.Trim(' '));
+                    rtn2.Add("culturecode", articleData.CultureCode);
                     rtn2.Add("querystring", articleParamKey + "=" + articleData.ArticleId + "&" + seotitle);
                     if (articleData.Hidden)
                         rtn2.Add("removesearchrecord", "true");
@@ -148,6 +151,17 @@ namespace RocketDirectoryAPI.API
 
                     var uniquekey = _dataObject.SystemKey + "_" + _dataObject.PortalId + "_"  + articleData.ArticleId + "_" + articleData.ModuleId + "_" + articleData.CultureCode;
                     rtn2.Add("uniquekey", uniquekey);
+
+                    var tags = new List<string>();
+                    foreach (var c in articleData.CategoryIds)
+                    {
+                        tags.Add("cat_" + c);
+                    }
+                    foreach (var c in articleData.PropertyIds)
+                    {
+                        tags.Add("prop_" + c);
+                    }
+                    rtn2.Add("tags", tags);
                     rtnList.Add(rtn2);
                 }
                 // Replace changed flag

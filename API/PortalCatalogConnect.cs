@@ -58,6 +58,7 @@ namespace RocketDirectoryAPI.API
         }
         public string ValidateCatalog()
         {
+            SearchUtils.DeleteAllDocuments(_dataObject.PortalContent.PortalId);
             foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {
                 var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, l, false);

@@ -739,7 +739,20 @@ namespace RocketDirectoryAPI.Components
         public string SeoKeyWordsXPath { get { return "genxml/lang/genxml/textbox/seokeyword"; } }
         public int ReviewCount { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewcount"); } set { Info.SetXmlProperty("genxml/textbox/reviewcount",value.ToString(), TypeCode.Int32); } }
         public int ReviewScore { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewscore"); } set { Info.SetXmlProperty("genxml/textbox/reviewscore", value.ToString(), TypeCode.Int32); } }
-
+        public List<int> CategoryIds { get
+        {
+                if (_catXrefListId == null) PopulateLists();
+                return _catXrefListId; 
+            } 
+        }
+        public List<int> PropertyIds
+        {
+            get
+            {
+                if (_propXrefListId == null) PopulateLists();
+                return _propXrefListId;
+            }
+        }
         #endregion
 
     }
