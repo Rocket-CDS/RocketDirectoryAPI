@@ -213,6 +213,8 @@ namespace RocketDirectoryAPI.API
                 var databasetable = _paramInfo.GetXmlProperty("genxml/hidden/databasetable");
                 var moduleRef = portalId + "_ModuleID_" + moduleId;
 
+                PortalUtils.CreateRocketDirectories(portalId);
+
                 var objCtrl = new DNNrocketController();
 
                 var xmlDoc = new XmlDocument();

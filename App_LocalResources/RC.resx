@@ -366,4 +366,13 @@
   <data name="dnnsearchextra.Text" xml:space="preserve">
     <value>DNN Search xpath</value>
   </data>
+  <data name="searchpage.Text" xml:space="preserve">
+    <value>Search Page</value>
+  </data>
+  <data name="cachehours.Text" xml:space="preserve">
+    <value>Cache Hours</value>
+  </data>
+  <data name="unlimited.Text" xml:space="preserve">
+    <value>Unlimited</value>
+  </data>
 </root>

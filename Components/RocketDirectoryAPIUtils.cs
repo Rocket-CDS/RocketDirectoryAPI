@@ -281,7 +281,10 @@ namespace RocketDirectoryAPI.Components
             var razorTempl = dataObject.AppTheme.GetTemplate(template, dataObject.ModuleSettings.ModuleRef);
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;
-            if (sessionParam.SearchText == "") CacheFileUtils.SetCache(dataObject.PortalId, cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
+            if (sessionParam.SearchText == "")
+            {
+                CacheFileUtils.SetCache(dataObject.PortalId, cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId, dataObject.ModuleSettings.Record.GetXmlPropertyInt("genxml/settings/cachehours"));
+            }
 
             LogUtils.LogSystem("END  DisplayView() cmdType: " + cmdType);
 

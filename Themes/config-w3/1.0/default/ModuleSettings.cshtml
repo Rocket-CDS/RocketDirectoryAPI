@@ -69,6 +69,10 @@
             @HiddenField(info,"genxml/settings/defaultcategory")
             @RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
         </div>
+        <div class="w3-quarter w3-padding">
+            <label>@ResourceKey("RC.cachehours")</label>
+            @DropDownList(info, "genxml/settings/cachehours", "0,1,2,8,24,48", ResourceKey("RC.unlimited").ToString() + ",1,2,8,24,48", " class='w3-input w3-border'")
+        </div>
     </div>
     <div class="w3-row ">
         <div class="w3-quarter w3-padding">
