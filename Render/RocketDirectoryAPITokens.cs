@@ -157,10 +157,24 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">The sreturn.</param>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns></returns>
-        public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value)
+        public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value, string cssClass = "")
         {
-            return CheckBox(infoempty, "genxml/checkbox/" + checkboxId, "&nbsp;" + textName, " class='simplisity_sessionfield rocket-filtercheckbox'  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
+            return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
         }
+        private IEncodedString FilterCheckBoxRender(SimplisityInfo info, String xpath, String text, String attributes = "", Boolean defaultValue = false, bool localized = false, int row = 0, string listname = "")
+        {
+            if (info == null) info = new SimplisityInfo();
+            var value = getChecked(info, xpath, defaultValue);
+            if (localized && !xpath.StartsWith("genxml/lang/"))
+            {
+                value = getChecked(info, "genxml/lang/" + xpath, defaultValue);
+            }
+            var upd = getUpdateAttr(xpath, attributes, localized);
+            var id = getIdFromXpath(xpath, row, listname);
+            var strOut = "    <input id=\"" + id + "\" s-xpath=\"" + xpath + "\" type=\"checkbox\" " + value + " " + attributes + " " + upd + " /><label for=\"" + id + "\"><span class=\"rocket-filtercheckbox-name\">" + text + "</span><span class=\"rocket-filtercheckbox-display\"></span></label>";
+            return new RawString(strOut);
+        }
+
         /// <summary>
         /// Adds the JS for calling the filter API. JS:callArticleList() cmd:remote_publiclist
         /// </summary>
@@ -177,6 +191,13 @@ namespace RocketDirectoryAPI.Components
             strOut += " simplisity_setSessionField('page', '1');";
             strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += " } </script>";
+            return new RawString(strOut);
+        }
+        public IEncodedString FilterActionButton(string textName, SessionParams sessionParams, bool action)
+        {
+            var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, " + action.ToString().ToLower() + "); });";
+            js += "location.reload();";
+            var strOut = "<span class=\"rocket-filterbutton rocket-filterbuttonclear\" onclick=\"" + js + "return false;\">" + textName + "</span>";
             return new RawString(strOut);
         }
         /// <summary>

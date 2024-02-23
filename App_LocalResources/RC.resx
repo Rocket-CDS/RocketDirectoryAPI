@@ -375,4 +375,7 @@
   <data name="unlimited.Text" xml:space="preserve">
     <value>Unlimited</value>
   </data>
+  <data name="clearsearchoncat.Text" xml:space="preserve">
+    <value>Clear Search Text on Category Select</value>
+  </data>
 </root>
