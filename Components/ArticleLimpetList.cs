@@ -28,6 +28,7 @@ namespace RocketDirectoryAPI.Components
         private int _catidurl;
         private int _catid;
         private string _systemKey;
+        private string _orderby;
 
         public ArticleLimpetList(int categoryId, PortalCatalogLimpet portalCatalog, string langRequired, bool populate)
         {
@@ -99,24 +100,24 @@ namespace RocketDirectoryAPI.Components
                 _searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
             }
 
-            var orderby = "";
+            _orderby = "";
             if (_searchcategoryid > 0 && CatalogSettings.ManualCategoryOrderby)
-                orderby = " order by [CATXREF].[SortOrder] "; // use manual sort for articles by category;
+                _orderby = " order by [CATXREF].[SortOrder] "; // use manual sort for articles by category;
             else
-                orderby = PortalCatalog.OrderByProductSQL(SessionParamData.OrderByRef);
+                _orderby = PortalCatalog.OrderByProductSQL(SessionParamData.OrderByRef);
 
             if (showHidden)
             {
                 // Assume admin if showhidden.
-                orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
+                _orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
             }
 
-            if (orderby == "") orderby = " order by articlename.GUIDKey ";
+            if (_orderby == "") _orderby = " order by articlename.GUIDKey ";
 
             SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
             RecordCount = SessionParamData.RowCount;
 
-            DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+            DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
         }
         public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
         {
@@ -267,6 +268,16 @@ namespace RocketDirectoryAPI.Components
             {
                 _objCtrl.Delete(r.ItemID);
             }
+        }
+        public List<ArticleLimpet> GetArticlesListWithoutPaging(int limit = 1000)
+        {
+            var rtn = new List<ArticleLimpet>();
+            var articleList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, limit, 0, 0, 0, _tableName);
+            foreach (var a in articleList)
+            {
+                rtn.Add(new ArticleLimpet(a));
+            }
+            return rtn;
         }
 
         private string GetPropertyFilterSQL()

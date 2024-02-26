@@ -3,25 +3,38 @@
 @using RocketDirectoryAPI.Components;
 @AssigDataModel(Model)
 <!--inject-->
-
-<div class="w3-bar searchdata">
-
-    <div class="w3-bar-item " style=''>
-        <div class="w3-bar">
-            @TextBox(infoempty, "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
-            <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
-            <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
-        </div>
-    </div>
-
-    @if (moduleData.GetSettingBool("showpagesize"))
+@{
+    var showtext = " display:none; ";
+    if (moduleData.GetSettingBool("showsearchtext"))
     {
-        <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
+        showtext = "";
+    }
+    var showpage = " display:none; ";
+    if (moduleData.GetSettingBool("showpagesize"))
+    {
+        showpage = "";
+    }
+    var showorderby = " display:none; ";
+    if (moduleData.GetSettingBool("showorderby"))
+    {
+        showorderby = "";
+    }
+}
+    <div class="w3-bar searchdata">
+
+        <div class="w3-bar-item " style='@(showtext)'>
+            <div class="w3-bar">
+                @TextBox(infoempty, "genxml/textbox/searchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("searchtext"))
+                <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
+                <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
+            </div>
+        </div>
+
+        <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style='@(showpage)'>
             @DropDownList(infoempty, "genxml/hidden/pagesize", "12,24,48", "12,24,48", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
-    }
-    @if (moduleData.GetSettingBool("showorderby"))
-    {
+
+    @{
         var orderbyDictionary = new Dictionary<string, string>();
         foreach (var orderbyInfo in portalContent.GetProductOrderByList())
         {
@@ -29,7 +42,7 @@
         }
         if (orderbyDictionary.Count > 1)
         {
-            <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
+            <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style='@(showorderby)'>
                 <span>
                 @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
                 </span>

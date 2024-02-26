@@ -73,9 +73,9 @@
             @TabSelectListOnTabId(info, "genxml/searchpage", " class=' w3-input w3-border ' ", true)
         </div>
         <div class="w3-quarter  w3-padding">
-            @if (PagesUtils.PageExists(info.PortalId, info.GetXmlPropertyInt("genxml/detailpage")))
+            @if (PagesUtils.PageExists(info.PortalId, info.GetXmlPropertyInt("genxml/searchpage")))
             {
-                var moduleDict = ModuleUtils.GetTabModuleTitles(info.GetXmlPropertyInt("genxml/detailpage"));
+                var moduleDict = ModuleUtils.GetTabModuleTitles(info.GetXmlPropertyInt("genxml/searchpage"));
                 var moduleDict2 = new Dictionary<string, string>();
                 moduleDict2.Add("-1", "");
                 foreach (var m in moduleDict)

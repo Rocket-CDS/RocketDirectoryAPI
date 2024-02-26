@@ -49,12 +49,13 @@
     </div>
     <div class="w3-row w3-padding">
         <div class="w3-quarter">
+            @CheckBox(info, "genxml/settings/showsearchtext", ResourceKey("RC.showsearchtext").ToString(), "class='w3-check'")
+        </div>
+        <div class="w3-quarter">
             @CheckBox(info, "genxml/settings/showorderby", ResourceKey("RC.showorderby").ToString(), "class='w3-check'")
         </div>
         <div class="w3-quarter">
             @CheckBox(info, "genxml/settings/showpagesize", ResourceKey("RC.showpagesize").ToString(), "class='w3-check'")
-        </div>
-        <div class="w3-quarter">
         </div>
         <div class="w3-quarter">
         </div>

@@ -50,6 +50,16 @@ namespace RocketDirectoryAPI.Components
             Info.PortalId = PortalId;
             Populate(cultureCode, systemKey);
         }
+        /// <summary>
+        ///  Use to populate without accessing DB.
+        /// </summary>
+        /// <param name="sInfo"></param>
+        public ArticleLimpet(SimplisityInfo sInfo)
+        {
+            Info = sInfo;
+            CultureCode = Info.Lang;
+            PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, SystemKey);
+        }
         private void Populate(string cultureCode, string systemKey)
         {
             _objCtrl = new DNNrocketController();
