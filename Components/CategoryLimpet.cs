@@ -40,7 +40,7 @@ namespace RocketDirectoryAPI.Components
         {
             _objCtrl = new DNNrocketController();
 
-            Info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
+            Info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey);
             if (Info == null)
             {
                 Info = _objCtrl.GetInfo(categoryId, CultureCode, TableName); // get existing record.

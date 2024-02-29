@@ -19,8 +19,8 @@
             </span>
         </a>
     }
-    <div class="w3-button w3-theme-action simplisity_click savearticlebutton" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleid":"@(Model.SessionParamsData.ModuleId)","moduleedit":"@(sessionParams.GetBool("moduleedit").ToString())"}'>@ButtonText(ButtonTypes.save)</div>
-    <div class="w3-button simplisity_click" s-before="articlerichtextSave" s-cmd="articleadmin_editarticle" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleid":"@(Model.SessionParamsData.ModuleId)","moduleedit":"@(sessionParams.GetBool("moduleedit").ToString())"}'>@ButtonIcon(ButtonTypes.refresh)</div>
+    <div class="w3-button w3-theme-action simplisity_click savearticlebutton" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleid":"@(Model.SessionParamsData.ModuleId)","moduleedit":"@(sessionParams.GetBool("moduleedit").ToString())"}'>@ButtonText(ButtonTypes.save)</div>
+    <div class="w3-button simplisity_click" s-cmd="articleadmin_editarticle" s-post="#articledatasection" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-fields='{"articleid":"@articleData.ArticleId","tabid":"@(Model.SessionParamsData.TabId)","moduleid":"@(Model.SessionParamsData.ModuleId)","moduleedit":"@(sessionParams.GetBool("moduleedit").ToString())"}'>@ButtonIcon(ButtonTypes.refresh)</div>
 
     @if (articleData.Exists)
     {
@@ -28,3 +28,4 @@
     }
     <div class="w3-button w3-right w3-margin-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="articleadmin_delete" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.delete)</div>
 </div>
+

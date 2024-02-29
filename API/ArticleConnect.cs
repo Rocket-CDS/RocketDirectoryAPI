@@ -402,6 +402,8 @@ namespace RocketDirectoryAPI.API
             var propertyId = _paramInfo.GetXmlPropertyInt("genxml/hidden/propertyid");
             var articleData = GetActiveArticle(articleId);
             articleData.AddProperty(propertyId);
+            articleData.ClearCache();
+            articleData = GetActiveArticle(articleId); // reload
             return GetArticlePropertyList(articleData);
         }
         public string RemoveArticleProperty()
@@ -410,6 +412,8 @@ namespace RocketDirectoryAPI.API
             var propertyId = _paramInfo.GetXmlPropertyInt("genxml/hidden/propertyid");
             var articleData = GetActiveArticle(articleId);
             articleData.RemoveProperty(propertyId);
+            articleData.ClearCache();
+            articleData = GetActiveArticle(articleId); // reload
             return GetArticlePropertyList(articleData);
         }
         public string AssignArticleCategory()
@@ -418,6 +422,7 @@ namespace RocketDirectoryAPI.API
             var categoryId = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
             var articleData = GetActiveArticle(articleId);
             articleData.AddCategory(categoryId);
+            articleData.ClearCache();
             articleData = GetActiveArticle(articleId); // reload
             return GetArticleCategoryList(articleData);
         }
@@ -427,6 +432,7 @@ namespace RocketDirectoryAPI.API
             var categoryId = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
             var articleData = GetActiveArticle(articleId);
             articleData.SetDefaultCategory(categoryId);
+            articleData.ClearCache();
             articleData = GetActiveArticle(articleId); // reload
             return GetArticleCategoryList(articleData);
         }
@@ -436,6 +442,8 @@ namespace RocketDirectoryAPI.API
             var categoryId = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
             var articleData = GetActiveArticle(articleId);
             articleData.RemoveCategory(categoryId);
+            articleData.ClearCache();
+            articleData = GetActiveArticle(articleId); // reload
             _dataObject.Reload();
             return GetArticleCategoryList(articleData);
         }
