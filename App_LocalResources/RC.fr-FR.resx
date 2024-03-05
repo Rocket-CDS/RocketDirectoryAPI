@@ -279,4 +279,127 @@
   <data name="staticlist.Text" xml:space="preserve">
     <value>Static List</value>
   </data>
+  <data name="sqlorderby-product-name-desc.Text" xml:space="preserve">
+    <value>Nom uarr ;</value>
+  </data>
+  <data name="sqlorderby-product-name.Text" xml:space="preserve">
+    <value>Nom darr ;</value>
+  </data>
+  <data name="sqlorderby-product-price-desc.Text" xml:space="preserve">
+    <value>Prix uarr ;</value>
+  </data>
+  <data name="sqlorderby-product-price.Text" xml:space="preserve">
+    <value>Prix darr ;</value>
+  </data>
+  <data name="sqlorderby-product-ref-desc.Text" xml:space="preserve">
+    <value>Ref. uarr ;</value>
+  </data>
+  <data name="sqlorderby-product-ref.Text" xml:space="preserve">
+    <value>Réf. darr ;</value>
+  </data>
+  <data name="projectname.Text" xml:space="preserve">
+    <value>Projet AppTheme</value>
+  </data>
+  <data name="adminapptheme.Text" xml:space="preserve">
+    <value>Admin AppTheme</value>
+  </data>
+  <data name="propertygroups.Text" xml:space="preserve">
+    <value>Groupes de propriété</value>
+  </data>
+  <data name="contactemail.Text" xml:space="preserve">
+    <value>Contact Email</value>
+  </data>
+  <data name="fromemail.Text" xml:space="preserve">
+    <value>De l'email</value>
+  </data>
+  <data name="settings.Text" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="property.Text" xml:space="preserve">
+    <value>Propriété</value>
+  </data>
+  <data name="group.Text" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="duplicateref.Text" xml:space="preserve">
+    <value>AVERTISSEMENT : La référence existe déjà.  La propriété n'est pas sauvegardée.</value>
+  </data>
+  <data name="template.Text" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="apptheme.Text" xml:space="preserve">
+    <value>AppTheme</value>
+  </data>
+  <data name="detailpageurl.Text" xml:space="preserve">
+    <value>URL de la page de détail</value>
+  </data>
+  <data name="listpageurl.Text" xml:space="preserve">
+    <value>URL de la page de liste</value>
+  </data>
+  <data name="manualcategoryorderby.Text" xml:space="preserve">
+    <value>Catégorie manuelle Commander par</value>
+  </data>
+  <data name="cmdlistmsg.Text" xml:space="preserve">
+    <value>Rechercher dans la base de données tous les articles correspondant aux critères de recherche.</value>
+  </data>
+  <data name="cmdtemplatemsg.Text" xml:space="preserve">
+    <value>Ne recherchez PAS d'articles, utilisez uniquement les données relatives aux catégories et aux paramètres.</value>
+  </data>
+  <data name="searchpageurl.Text" xml:space="preserve">
+    <value>URL de la page de recherche</value>
+  </data>
+  <data name="detailpage.Text" xml:space="preserve">
+    <value>Page de détail</value>
+  </data>
+  <data name="listpage.Text" xml:space="preserve">
+    <value>Page de liste</value>
+  </data>
+  <data name="checkboxfilterand.Text" xml:space="preserve">
+    <value>Les articles doivent figurer dans tous les filtres sélectionnés</value>
+  </data>
+  <data name="appthememissing.Text" xml:space="preserve">
+    <value>Le thème de l'application DOIT être sélectionné</value>
+  </data>
+  <data name="modulesettings.Text" xml:space="preserve">
+    <value>Configuration du module</value>
+  </data>
+  <data name="setcanonical.Text" xml:space="preserve">
+    <value>Pages requises pour les liens canoniques</value>
+  </data>
+  <data name="searchmoduleid.Text" xml:space="preserve">
+    <value>Module de recherche de données</value>
+  </data>
+  <data name="socialmedia.Text" xml:space="preserve">
+    <value>Médias sociaux</value>
+  </data>
+  <data name="showorderby.Text" xml:space="preserve">
+    <value>Afficher OrderBy</value>
+  </data>
+  <data name="showpagesize.Text" xml:space="preserve">
+    <value>Afficher la taille de la page</value>
+  </data>
+  <data name="dnnsearchextra.Help" xml:space="preserve">
+    <value>Champs supplémentaires de données de recherche DNN, définis comme une liste CSV de champs xpath d'articles.</value>
+  </data>
+  <data name="dnnsearchextra.Text" xml:space="preserve">
+    <value>DNN Search xpath</value>
+  </data>
+  <data name="searchpage.Text" xml:space="preserve">
+    <value>Page de recherche</value>
+  </data>
+  <data name="cachehours.Text" xml:space="preserve">
+    <value>Heures de cache</value>
+  </data>
+  <data name="unlimited.Text" xml:space="preserve">
+    <value>Illimité</value>
+  </data>
+  <data name="clearsearchoncat.Text" xml:space="preserve">
+    <value>Effacer le texte de recherche lors de la sélection d'une catégorie</value>
+  </data>
+  <data name="showsearchtext.Text" xml:space="preserve">
+    <value>Afficher le texte de la recherche</value>
+  </data>
+  <data name="noresults.Text" xml:space="preserve">
+    <value>Aucun résultat.</value>
+  </data>
 </root>
