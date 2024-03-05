@@ -280,22 +280,22 @@
     <value>Static List</value>
   </data>
   <data name="sqlorderby-product-name-desc.Text" xml:space="preserve">
-    <value>Nom uarr ;</value>
+    <value>Nom &amp;uarr;</value>
   </data>
   <data name="sqlorderby-product-name.Text" xml:space="preserve">
-    <value>Nom darr ;</value>
+    <value>Nom &amp;darr;</value>
   </data>
   <data name="sqlorderby-product-price-desc.Text" xml:space="preserve">
-    <value>Prix uarr ;</value>
+    <value>Prix &amp;uarr;</value>
   </data>
   <data name="sqlorderby-product-price.Text" xml:space="preserve">
-    <value>Prix darr ;</value>
+    <value>Prix &amp;darr;</value>
   </data>
   <data name="sqlorderby-product-ref-desc.Text" xml:space="preserve">
-    <value>Ref. uarr ;</value>
+    <value>Ref. &amp;uarr;</value>
   </data>
   <data name="sqlorderby-product-ref.Text" xml:space="preserve">
-    <value>Réf. darr ;</value>
+    <value>Réf. &amp;darr;</value>
   </data>
   <data name="projectname.Text" xml:space="preserve">
     <value>Projet AppTheme</value>
