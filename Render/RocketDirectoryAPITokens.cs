@@ -157,9 +157,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">The sreturn.</param>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns></returns>
-        public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value, string cssClass = "")
+        public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value, string cssClass = "", string attributes = "")
         {
-            return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
+            return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " " + attributes + " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
         }
         private IEncodedString FilterCheckBoxRender(SimplisityInfo info, String xpath, String text, String attributes = "", Boolean defaultValue = false, bool localized = false, int row = 0, string listname = "")
         {
