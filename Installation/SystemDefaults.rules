@@ -334,8 +334,12 @@ order by articlename.GUIDKey desc
 		  <cmd>remote_publicdownload</cmd>
 		  <action>false</action>
 	  </command>
-	  
-	  <command>
+		<command>
+			<cmd>remote_publicsearchpreview</cmd>
+			<action>false</action>
+		</command>		
+
+		<command>
 		  <cmd>rocketdirectoryapi_settings</cmd>
 		  <action>true</action>
 	  </command>

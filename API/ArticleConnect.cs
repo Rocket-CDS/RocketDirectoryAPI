@@ -512,7 +512,20 @@ namespace RocketDirectoryAPI.API
             if (pr.StatusCode != "00") return pr.ErrorMsg;
             return pr.RenderedText;
         }
+        public String ArticleSearchPreview()
+        {
+            var searchmodel = new SearchPostModel();
+            searchmodel.SearchInput = _sessionParams.Get("searchtext");
+            if (searchmodel.SearchInput == "") return "";
+            searchmodel.PageIndex = 1;
+            searchmodel.PageSize = 200;
 
+            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
+            if (template == "") template = "SearchPreview.cshtml";
+            var searchResults = SearchUtils.DoSearchRecord(_dataObject.PortalId, searchmodel);
+            _dataObject.SetDataObject("previewsearch", searchResults);
+            return RocketDirectoryAPIUtils.DisplayView(_dataObject, template);
+        }
         public String GetPublicArticleList()
         {
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");

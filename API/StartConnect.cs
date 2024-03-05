@@ -250,6 +250,9 @@ namespace RocketDirectoryAPI.API
                     rtnDic = DownloadArticleFile();
                     strOut = "";
                     break;
+                case "remote_publicsearchpreview":
+                    strOut = ArticleSearchPreview();
+                    break;
 
 
                 case "rocketdirectoryapi_settings":
@@ -285,7 +288,7 @@ namespace RocketDirectoryAPI.API
 
                 case "article_search":
                     rtnDic = ArticleSearch();
-                    break;                    
+                    break;
 
                 case "invalidcommand":
                     strOut = "INVALID COMMAND: " + _storeParamCmd;

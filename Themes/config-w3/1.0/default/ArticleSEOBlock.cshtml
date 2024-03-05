@@ -4,13 +4,13 @@
 @AssigDataModel(Model)
 <!--inject-->
 <div class="w3-row w3-margin-bottom">
-    <div onclick="$('#seotab').toggle();$('#seotabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align">
-        SEO
-        <span id="seotabexpand" class="material-icons w3-right" style="display:none;">
+    <div onclick="$('#seotab').toggle();" class="w3-button w3-block w3-theme w3-left-align w3-round-large " style="margin-bottom:8px;">
+        <strong>SEO</strong>
+        <span id="seotabexpand" class="material-icons w3-right">
             unfold_more
         </span>
     </div>
-    <div id="seotab" class='w3-row sectionname w3-border w3-padding' style="">
+    <div id="seotab" class='w3-row sectionname w3-border w3-padding w3-round-large' style="">
         [INJECT:appthemedirectory,ArticleSEO.cshtml]
     </div>
 </div>

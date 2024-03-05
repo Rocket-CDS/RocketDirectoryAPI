@@ -4,13 +4,13 @@
 @AssigDataModel(Model)
 <!--inject-->
 <div class="w3-row w3-margin-bottom">
-    <div onclick="$('#propertiestab').toggle();$('#propertiestabexpand').toggle();" class="w3-button w3-block w3-theme-l3 w3-left-align  w3-margin-top">
-        @ResourceKey("RC.properties")
-        <span id="propertiestabexpand" class="material-icons w3-right" style="display:none;">
+    <div onclick="$('#propertiestab').toggle();" class="w3-button w3-block w3-theme w3-left-align w3-round-large " style="margin-bottom:8px;">
+        <strong>@ResourceKey("RC.properties")</strong>
+        <span id="propertiestabexpand" class="material-icons w3-right">
             unfold_more
         </span>
     </div>
-    <div id="propertiestab" class='w3-row sectionname a-articlepropertylist w3-border w3-padding' style="">
+    <div id="propertiestab" class='w3-row sectionname a-articlepropertylist w3-border w3-padding w3-round-large' style="">
         [INJECT:appthemedirectory,ArticlePropertyList.cshtml]
     </div>
 </div>
