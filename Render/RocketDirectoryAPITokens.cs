@@ -292,17 +292,19 @@ namespace RocketDirectoryAPI.Components
         /// <param name="categoryId">The category identifier.</param>
         /// <param name="categoryName">Name of the category.</param>
         /// <returns></returns>
-        public IEncodedString ListUrl(int listpageid, CategoryLimpet categoryData)
+        public IEncodedString ListUrl(int listpageid, CategoryLimpet categoryData, string[] urlparams = null)
         {
+            if (urlparams == null) urlparams = new string[] { };
             var listurl = "";
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { RocketDirectoryAPIUtils.UrlQueryCategoryKey(categoryData.PortalId, categoryData.SystemKey), categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
+                string[] urlparams2 = { RocketDirectoryAPIUtils.UrlQueryCategoryKey(categoryData.PortalId, categoryData.SystemKey), categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
+                urlparams = urlparams.Concat(urlparams2).ToArray();
                 listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
             }
             else
             {
-                listurl = DNNrocketUtils.NavigateURL(listpageid);
+                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
             }
             return new RawString(listurl);
         }
@@ -313,8 +315,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="title">The title.</param>
         /// <param name="eId">The row eId.</param>
         /// <returns></returns>
-        public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData)
+        public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData, string[] urlparams = null)
         {
+            if (urlparams == null) urlparams = new string[] { };
             var detailurl = "";
             var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
 
@@ -335,12 +338,14 @@ namespace RocketDirectoryAPI.Components
 
             if (categoryData != null && categoryData.CategoryId > 0)
             {
-                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), categoryParamKey, categoryData.CategoryId.ToString(), seotitle };
+                string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), categoryParamKey, categoryData.CategoryId.ToString(), seotitle };
+                urlparams = urlparams.Concat(urlparams2).ToArray();
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             else
             {
-                string[] urlparams = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
+                string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
+                urlparams = urlparams.Concat(urlparams2).ToArray();
                 detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
             }
             return new RawString(detailurl);

@@ -3,9 +3,9 @@
 @AssigDataModel(Model)
 <!--inject-->
 @{
-    var rowcount = articleDataList.SessionParamData.RowCount;
-    var page = articleDataList.SessionParamData.Page;
-    var pagesize = articleDataList.SessionParamData.PageSize;
+    var rowcount = sessionParams.RowCount;
+    var page = sessionParams.Page;
+    var pagesize = sessionParams.PageSize;
     var pagechapter = 5;
     var lastpage = 0;
     var catid = articleDataList.CategoryId;
