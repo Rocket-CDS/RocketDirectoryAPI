@@ -38,6 +38,7 @@ namespace RocketDirectoryAPI.Components
         /// <param name="cultureCode"></param>
         public ArticleLimpet(int portalId, int articleId, string cultureCode, string systemKey)
         {
+            _objCtrl = new DNNrocketController();
             _entityTypeKey = systemKey + _entityTypeCodeAppendix;
             if (articleId <= 0) articleId = -1;  // create new record.
             _articleId = articleId;
@@ -56,13 +57,13 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sInfo"></param>
         public ArticleLimpet(SimplisityInfo sInfo)
         {
+            _objCtrl = new DNNrocketController();
             Info = sInfo;
             CultureCode = Info.Lang;
             PortalCatalog = new PortalCatalogLimpet(PortalId, CultureCode, SystemKey);
         }
         private void Populate(string cultureCode, string systemKey)
         {
-            _objCtrl = new DNNrocketController();
             SystemKey = systemKey;
             CultureCode = cultureCode;
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetEditCulture();

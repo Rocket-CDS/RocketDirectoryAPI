@@ -384,4 +384,13 @@
   <data name="noresults.Text" xml:space="preserve">
     <value>No Results, please try another search.</value>
   </data>
+  <data name="imageheightrss.Text" xml:space="preserve">
+    <value>RSS image height</value>
+  </data>
+  <data name="imagewidthrss.Text" xml:space="preserve">
+    <value>RSS image width</value>
+  </data>
+  <data name="rssimage.Text" xml:space="preserve">
+    <value>Include Image in RSS feed</value>
+  </data>
 </root>
