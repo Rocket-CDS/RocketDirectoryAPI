@@ -39,7 +39,7 @@ namespace RocketDirectoryAPI.API
             DNNrocketUtils.DeleteSearchDocument(_dataObject.PortalId, queryString);
             articleData.ClearCache();
             articleData.Delete();
-            CacheFileUtils.ClearAllCache(_dataObject.PortalId, _dataObject.SystemKey + _dataObject.PortalId);
+            CacheUtils.ClearAllCache(_dataObject.SystemKey + _dataObject.PortalId);
             _sessionParams.Set("articleid", "0"); // so we return the list
         }
         public int CopyArticle()

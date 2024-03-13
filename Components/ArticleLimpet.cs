@@ -196,7 +196,7 @@ namespace RocketDirectoryAPI.Components
         public void ClearCache()
         {
             var groupId = SystemKey + PortalId;
-            CacheFileUtils.ClearAllCache(PortalId, groupId); // clear system cache, so lists and razor views are reloaded.
+            CacheUtils.ClearAllCache(groupId); // clear system cache, so lists and razor views are reloaded.
         }
         public int Update()
         {
