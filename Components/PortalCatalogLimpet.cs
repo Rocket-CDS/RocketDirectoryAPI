@@ -111,7 +111,9 @@ namespace RocketDirectoryAPI.Components
                 {
                     var upd = false;
                     var appTheme = new AppThemeLimpet(PortalId, AppThemeFolder, AppThemeVersion, ProjectName);
+
                     // Add Query Params for Article and Categories
+                    var newqueryParamList = new List<SimplisityRecord>();
                     foreach (var qdata in RocketDirectoryAPIUtils.UrlQueryParams(appTheme))
                     {
                         if (info.GetRecordListItem("queryparams", "genxml/textbox/queryparam", qdata.Key) == null)
@@ -121,8 +123,29 @@ namespace RocketDirectoryAPI.Components
                             qRec.SetXmlProperty("genxml/select/datatype", qdata.Value.datatype);
                             qRec.SetXmlProperty("genxml/textbox/queryparam", qdata.Value.queryparam);
                             qRec.SetXmlProperty("genxml/textbox/systemkey", qdata.Value.systemkey);
-                            info.AddRecordListItem("queryparams", qRec);
+                            newqueryParamList.Add(qRec);
                             upd = true;
+                        }
+                    }
+                    if (upd)
+                    {
+                        // Remove duplicate Query Params
+                        foreach (var newq in newqueryParamList)
+                        {
+                            var idx = 0;
+                            foreach (var q in info.GetRecordList("queryparams"))
+                            {
+                                if (q.GetXmlProperty("genxml/select/datatype") == newq.GetXmlProperty("genxml/select/datatype") && q.GetXmlProperty("genxml/select/systemkey") == newq.GetXmlProperty("genxml/select/systemkey"))
+                                {
+                                    info.RemoveRecordListItem("queryparams", idx);
+                                    break; // should only be 1.
+                                }
+                                idx += 1;
+                            }
+                        }
+                        foreach (var newq in newqueryParamList)
+                        {
+                            info.AddRecordListItem("queryparams", newq);
                         }
                     }
                     // Add Menu Provider
@@ -146,7 +169,6 @@ namespace RocketDirectoryAPI.Components
             SaveReferenceId(); 
             RemoveCache();
         }
-
         /// <summary>
         /// Save ID as parentitemid so we can get data from non-system methods, like canonicallink in meta.ascx.
         /// This is a reference to the portalContent settings.
