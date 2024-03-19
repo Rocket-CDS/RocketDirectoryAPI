@@ -80,17 +80,22 @@ namespace RocketDirectoryAPI.API
         {
             var catid = _dataObject.SessionCatId();
             var numberOfMonths = _dataObject.SessionParamsData.GetInt("months");
+            var monthDate = _dataObject.SessionParamsData.GetInt("month");
+            var yearDate = _dataObject.SessionParamsData.GetInt("year");
             var sqlindexDateRef = _dataObject.SessionParamsData.Get("sqlidx");
-            if (numberOfMonths == 0) numberOfMonths = 1;
-            var cacheKey = "RSS*" + catid + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + _dataObject.SessionParamsData.CultureCode;
+            numberOfMonths = numberOfMonths - 1;
+            if (numberOfMonths < 0) numberOfMonths = 0;
+            var cacheKey = "RSS*" + catid + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + _dataObject.SessionParamsData.CultureCode + "*" + monthDate + "*" + yearDate;
             var rtn = (string)CacheUtils.GetCache(cacheKey, "portalid" + _dataObject.PortalId);
             if (String.IsNullOrEmpty(rtn))
             {
                 var razorTempl = _dataObject.AppTheme.GetTemplate("Rss.cshtml", _dataObject.ModuleSettings.ModuleRef);
                 if (razorTempl != "")
                 {
+                    var startMonthDate = DateTime.Now.Date;
+                    if (monthDate > 0 && yearDate > 0) startMonthDate = new DateTime(yearDate, monthDate, 1);
                     var articleDataList = new ArticleLimpetList(catid, _dataObject.PortalContent, _dataObject.SessionParamsData.CultureCode, false);
-                    var rsslist = articleDataList.GetArticleRssList(DateTime.Now.Date, numberOfMonths, sqlindexDateRef, catid);
+                    var rsslist = articleDataList.GetArticleRssList(startMonthDate, numberOfMonths, sqlindexDateRef, catid);
                     _dataObject.SetDataObject("rsslist", rsslist);
                     var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.DataObjects, null, _dataObject.SessionParamsData, true);
                     if (pr.StatusCode != "00") return pr.ErrorMsg;

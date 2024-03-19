@@ -180,8 +180,8 @@ namespace RocketDirectoryAPI.Components
         }
         public List<SimplisityInfo> GetArticlesByDateDesc(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
         {
-            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
-            var endDate = DateTime.Now.AddMonths(numberOfMonths * -1);
+            var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1);
+            var endDate = new DateTime(startMonthDate.Year, startMonthDate.Month, DateTime.DaysInMonth(startMonthDate.Year, startMonthDate.AddMonths(numberOfMonths).Month));
             var searchFilter = " and [XMLData].value('(genxml/checkbox/hidden)[1]','bit') = 0 ";
             var orderby = "order by modifieddate";
             var systemData = new SystemLimpet(_systemKey);
@@ -189,7 +189,7 @@ namespace RocketDirectoryAPI.Components
             if (sqlindexDateRef != "" && sqlIndexRec != null)
             {
                 var xpath = sqlIndexRec.GetXmlProperty("genxml/xpath");
-                searchFilter += " and [XMLdata].value('(" + xpath + ")[1]','date') <= convert(date,'" + startDate.Date.ToString("O") + "') and [XMLdata].value('(" + xpath + ")[1]','date') >= convert(date,'" + endDate.Date.ToString("O") + "') ";
+                searchFilter += " and [XMLdata].value('(" + xpath + ")[1]','date') >= convert(date,'" + startDate.Date.ToString("O") + "') and [XMLdata].value('(" + xpath + ")[1]','date') <= convert(date,'" + endDate.Date.ToString("O") + "') ";
                 orderby = "order by " + sqlindexDateRef + ".GUIDKey";
             }
             if (catid > 0) searchFilter += " and [CATXREF].[XrefItemId] = " + catid + " ";
