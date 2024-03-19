@@ -40,7 +40,7 @@ namespace RocketDirectoryAPI.Components
         {
             _objCtrl = new DNNrocketController();
 
-            Info = (SimplisityInfo)CacheUtilsDNN.GetCache(_cacheKey);
+            Info = (SimplisityInfo)CacheUtils.GetCache(_cacheKey);
             if (Info == null)
             {
                 Info = _objCtrl.GetInfo(propertyId, CultureCode, TableName); // get existing record.
@@ -56,7 +56,7 @@ namespace RocketDirectoryAPI.Components
                 }
                 else
                 {
-                    CacheUtilsDNN.SetCache(_cacheKey, Info);
+                    CacheUtils.SetCache(_cacheKey, Info);
                 }
                 Info.Lang = CultureCode; // reset langauge, for legacy record, without lang.
                 PortalId = Info.PortalId;
@@ -74,7 +74,7 @@ namespace RocketDirectoryAPI.Components
                     _objCtrl.Delete(catxrefRecord.ItemID, TableName);
                 }
                 _objCtrl.Delete(Info.ItemID, TableName);
-                CacheUtilsDNN.RemoveCache(_cacheKey);
+                CacheUtils.RemoveCache(_cacheKey);
             }
         }
         private void ReplaceInfoFields(SimplisityInfo postInfo, string xpathListSelect)
