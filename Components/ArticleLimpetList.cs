@@ -74,9 +74,9 @@ namespace RocketDirectoryAPI.Components
 
             if (sessionParams.OrderByRef == "" && _catid == 0) sessionParams.OrderByRef = "sqlorderby-article-name";
 
-            if (populate) Populate(showHidden);
+            if (populate) Populate(showHidden, sessionParams.Get("sqladminfilter"));
         }
-        public void Populate(bool showHidden = true)
+        public void Populate(bool showHidden = true, string sqladminfilter = "")
         {
             _searchFilter = "";
             ClearFilter = false;
@@ -98,6 +98,10 @@ namespace RocketDirectoryAPI.Components
             if (!showHidden)
             {
                 _searchFilter += " and NOT(isnull([XMLData].value('(genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') and NOT(isnull([XMLData].value('(genxml/lang/genxml/checkbox/hidden)[1]','nvarchar(4)'),'false') = 'true') ";
+            }
+            else
+            {
+                _searchFilter += sqladminfilter;
             }
 
             _orderby = "";

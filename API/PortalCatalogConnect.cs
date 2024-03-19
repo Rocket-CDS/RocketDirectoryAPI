@@ -1,4 +1,5 @@
-﻿using DNNrocketAPI.Components;
+﻿using DNNrocketAPI;
+using DNNrocketAPI.Components;
 using RocketDirectoryAPI.Components;
 using Simplisity;
 using System;
@@ -59,12 +60,28 @@ namespace RocketDirectoryAPI.API
         public string ValidateCatalog()
         {
             SearchUtils.DeleteAllDocuments(_dataObject.PortalContent.PortalId);
+            DeleteIDX(_dataObject.PortalContent.PortalId, _dataObject.SystemKey);
             foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {
                 var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, l, false);
                 articleDataList.Validate(); // Will also reindex.
             }
             return "OK";
+        }
+        public void DeleteIDX(int portalId, string systemKey)
+        {
+            var objCtrl = new DNNrocketController();
+            var sqlCmd = "SELECT [ItemId] FROM {databaseOwner}[{objectQualifier}RocketDirectoryAPI] ";
+            sqlCmd += " where portalid = " + portalId + " and typecode like 'IDX_%' ";
+            sqlCmd += " and textdata = '" + systemKey + "' "; // ModuleId used as flag for recurring base event
+            sqlCmd += " for xml raw";
+
+            var xmlList = objCtrl.ExecSqlXmlList(sqlCmd);
+            foreach (SimplisityRecord x in xmlList)
+            {
+                var i = x.GetXmlPropertyInt("row/@ItemId");
+                objCtrl.Delete(i, "RocketDirectoryAPI");
+            }
         }
 
 
