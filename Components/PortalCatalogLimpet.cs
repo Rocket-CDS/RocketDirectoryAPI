@@ -165,7 +165,10 @@ namespace RocketDirectoryAPI.Components
                     if (upd) _objCtrl.Update(info);
                 }
             }
-            if (SearchModuleId > 0 && SearchPageTabId > 0) PortalUtils.SetSearchTabId(PortalId, SearchPageTabId);
+
+            // Do not force search tab, it is not compatible with the way DNN9 works.
+            //if (SearchModuleId > 0 && SearchPageTabId > 0) PortalUtils.SetSearchTabId(PortalId, SearchPageTabId);
+            
             SaveReferenceId(); 
             RemoveCache();
         }
