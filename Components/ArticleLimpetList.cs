@@ -432,8 +432,12 @@ namespace RocketDirectoryAPI.Components
             var list = GetAllPortalArticles();
             foreach (var pInfo in list)
             {
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
+                articleData.ModuleId = PortalCatalog.SearchModuleId; // moduleid used as changed flag.
+                articleData.Update();
                 _objCtrl.RebuildIndex(PortalCatalog.PortalId, pInfo.ItemID, _systemKey, _tableName);
             }
+            DNNrocketUtils.SynchronizeModule(PortalCatalog.SearchModuleId); // module search
         }
         public void Validate()
         {
@@ -441,10 +445,8 @@ namespace RocketDirectoryAPI.Components
             foreach (var pInfo in list)
             {
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
-                articleData.ModuleId = PortalCatalog.SearchModuleId; // moduleid used as changed flag.
                 articleData.ValidateAndUpdate();
             }
-            DNNrocketUtils.SynchronizeModule(PortalCatalog.SearchModuleId); // module search
         }
 
         public string ListUrl()
