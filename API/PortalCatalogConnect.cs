@@ -71,17 +71,10 @@ namespace RocketDirectoryAPI.API
         public void DeleteIDX(int portalId, string systemKey)
         {
             var objCtrl = new DNNrocketController();
-            var sqlCmd = "SELECT [ItemId] FROM {databaseOwner}[{objectQualifier}RocketDirectoryAPI] ";
+            var sqlCmd = "DELETE FROM {databaseOwner}[{objectQualifier}RocketDirectoryAPI] ";
             sqlCmd += " where portalid = " + portalId + " and typecode like 'IDX_%' ";
-            sqlCmd += " and textdata = '" + systemKey + "' "; // ModuleId used as flag for recurring base event
-            sqlCmd += " for xml raw";
-
-            var xmlList = objCtrl.ExecSqlXmlList(sqlCmd);
-            foreach (SimplisityRecord x in xmlList)
-            {
-                var i = x.GetXmlPropertyInt("row/@ItemId");
-                objCtrl.Delete(i, "RocketDirectoryAPI");
-            }
+            sqlCmd += " and textdata = '" + systemKey + "' "; 
+            objCtrl.ExecSql(sqlCmd);
         }
 
 
