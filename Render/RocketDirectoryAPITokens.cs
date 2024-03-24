@@ -184,6 +184,7 @@ namespace RocketDirectoryAPI.Components
         public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
+            if (queryCatKey == "") queryCatKey = "nocatkey";
             var strOut = "<script type=\"text/javascript\"> function callArticleList(sreturn) {";
             strOut += " $('.simplisity_loader').show();";
             strOut += " simplisity_setSessionField('searchdate1', '');";
