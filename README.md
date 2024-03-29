@@ -1,4 +1,4 @@
-# RocketDirectoryAPI v1.1.2.6
+# RocketDirectoryAPI v1.1.2.7
 
 RocketDirectory framework for building webbase directory and catalog systems.  
 

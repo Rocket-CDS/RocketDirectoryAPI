@@ -296,7 +296,7 @@ namespace RocketDirectoryAPI.Components
             var paramidList = DNNrocketUtils.GetQueryKeys(portalId);
             foreach (var p in paramidList)
             {
-                if (p.Value.systemkey == systemKey)
+                if (p.Value.systemkey == systemKey && p.Value.datatype.ToLower() == "article")
                 {
                     rtn = sessionParams.GetInt(p.Key);
                     break;
