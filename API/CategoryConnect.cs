@@ -136,6 +136,20 @@ namespace RocketDirectoryAPI.API
             }
             return "ERROR: Invalid ItemId";
         }
+        public string RemoveCategoryImage()
+        {
+            var categoryid = _paramInfo.GetXmlPropertyInt("genxml/hidden/categoryid");
+            if (categoryid > 0)
+            {
+                var categoryData = GetActiveCategory(categoryid);
+                categoryData.Save(_postInfo);
+                categoryData.RemoveImageList();
+                categoryData.Update();
+                _dataObject.CategoryList.Reload();
+                return GetCategory(categoryData.CategoryId);
+            }
+            return "ERROR: Invalid ItemId";
+        }
         public string AssignParentCategory()
         {
             var parentid = _paramInfo.GetXmlPropertyInt("genxml/hidden/parentid");

@@ -78,14 +78,15 @@
             <!-- The Detail-->
             <div id="detailDisplay" class="w3-container">
                 <div class="w3-col m2 w3-margin-right w3-margin-top w3-display-container" title="@categoryData.Name" style="width:172px;">
-                    <span onclick="$('#categoryimageselect').show();" class="w3-button w3-display-topright">@ButtonIcon(ButtonTypes.photo)</span>
                     @if (categoryData.LogoRelPath != "")
                     {
-                        <img src="@ThumbnailImageUrl(categoryData.LogoRelPath, 172, 172)" style="height:172px;width:172px;" class="w3-round" />
+                        <span class="w3-button w3-display-topright simplisity_click" s-cmd="categoryadmin_removeimage" s-fields='{"categoryid":"@(categoryData.CategoryId)"}'>@ButtonIcon(ButtonTypes.remove)</span>
+                        <img src="@ImageUrl(categoryData.LogoRelPath, 172, 172)" style="height:172px;width:172px;" class="w3-round" />
                     }
                     else
                     {
-                        <img src="@ThumbnailImageUrl("/DesktopModules/DNNrocket/api/images/noimage2.png", 72, 72)" style="height:172px;width:172px;" class="w3-round" />
+                        <span onclick="$('#categoryimageselect').show();" class="w3-button w3-display-topright">@ButtonIcon(ButtonTypes.photo)</span>
+                        <img src="@ImageUrl("/DesktopModules/DNNrocket/api/images/noimage2.png", 72, 72)" style="height:172px;width:172px;" class="w3-round" />
                     }
                 </div>
                 <div class="w3-col m10">
@@ -189,11 +190,11 @@
                                 <div class="w3-bar-item ">
                                     @if (articleData.GetImage(0) != null && articleData.GetImage(0).RelPath != "")
                                     {
-                                        <img src="@ThumbnailImageUrl(articleData.GetImage(0).RelPath, 48, 48)" style="height:48px;width:48px;" class="w3-round" />
+                                        <img src="@ImageUrl(articleData.GetImage(0).RelPath, 48, 48)" style="height:48px;width:48px;" class="w3-round" />
                                     }
                                     else
                                     {
-                                        <img src="@ThumbnailImageUrl("/DesktopModules/DNNrocket/api/images/noimage2.png", 48, 48)" style="height:48px;width:48px;" class="w3-round" />
+                                        <img src="@ImageUrl("/DesktopModules/DNNrocket/api/images/noimage2.png", 48, 48)" style="height:48px;width:48px;" class="w3-round" />
                                     }
 
                                 </div>
