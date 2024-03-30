@@ -27,7 +27,7 @@
 
         <div class="w3-row w3-padding">
             <div class="w3-col m9 w3-padding ">
-                <input class="w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextproperty" onkeyup="searchFunctionProperty()">
+                <input class="w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextproperty">
             </div>
             <div class="w3-col m3 w3-padding ">
                 @{
@@ -87,6 +87,15 @@
         $("#propertygroupselect").on('change', function () {
             groupFunctionProperty($(this).val());
         } );
+
+        $('#searchtextproperty').keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            } else {
+                searchFunctionProperty();
+            }
+        });
 
     });
 
