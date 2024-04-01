@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketPortal", "..\..\DNNro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketTools", "..\..\DNNrocket\RocketTools\RocketTools.csproj", "{313C79EB-00FC-4E38-A25F-075E5CAFC676}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketDirectoryMod", "..\..\RocketModules\RocketDirectoryMod\RocketDirectoryMod.csproj", "{9E42696C-4665-44DA-A2A7-4AAC1A73398C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Comp All|Any CPU = Comp All|Any CPU
@@ -80,6 +82,16 @@ Global
 		{313C79EB-00FC-4E38-A25F-075E5CAFC676}.Razor|Any CPU.Build.0 = razor|Any CPU
 		{313C79EB-00FC-4E38-A25F-075E5CAFC676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{313C79EB-00FC-4E38-A25F-075E5CAFC676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Comp All|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Comp All|Any CPU.Build.0 = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.CompAll|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.CompAll|Any CPU.Build.0 = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Razor|Any CPU.ActiveCfg = Release|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Razor|Any CPU.Build.0 = Release|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E42696C-4665-44DA-A2A7-4AAC1A73398C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -531,35 +531,6 @@ namespace RocketDirectoryAPI.API
             var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
             return RocketDirectoryAPIUtils.DisplayView(_dataObject, template);
         }
-        public String GetPublicProductDetail()
-        {
-            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " START - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
-
-            var productid = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
-            if (productid == 0) productid = _paramInfo.GetXmlPropertyInt("genxml/remote/urlparams/articleid");
-            var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, productid, _sessionParams.CultureCode, _dataObject.SystemKey);
-
-            if (!articleData.Exists) return "404";
-
-            var template = _paramInfo.GetXmlProperty("genxml/hidden/template");
-            if (template == "") template = "View.cshtml";
-            var razorTempl = _dataObject.AppTheme.GetTemplate(template);
-            if (razorTempl == "") return "No Razor Template.  Check engine server. Theme: '" + _dataObject.AppTheme.AppThemeFolder;
-
-            //var articleDataList = new ArticleLimpetList(_paramInfo, _dataObject.PortalContent, _sessionParams.CultureCode, true, false, _dataObject.CatalogSettings.DefaultCategoryId);
-            var categoryData = new CategoryLimpet(_dataObject.PortalContent.PortalId, articleData.DefaultCategory(), _sessionParams.CultureCode, _dataObject.SystemKey);
-
-            _dataObject.SetDataObject("articledata", articleData);
-            //_dataObject.SetDataObject("articlelist", articleDataList);
-            _dataObject.SetDataObject("categorydata", categoryData);
-
-            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
-
-            if (_dataObject.PortalContent.DebugMode) LogUtils.LogSystem(_storeParamCmd + " END - GetPublicProductDetail: " + DateTime.Now.ToString("hh:mm:ss.fff"));
-
-            if (pr.StatusCode != "00") return pr.ErrorMsg;
-            return pr.RenderedText;
-        }
         private string AddArticleListItem()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
