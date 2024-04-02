@@ -181,7 +181,7 @@ namespace RocketDirectoryAPI.Components
         public List<SimplisityInfo> GetArticlesByDateDesc(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
         {
             var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1);
-            var endDate = new DateTime(startMonthDate.Year, startMonthDate.Month, DateTime.DaysInMonth(startMonthDate.Year, startMonthDate.AddMonths(numberOfMonths).Month));
+            var endDate = new DateTime(startMonthDate.AddMonths(numberOfMonths).Year, startMonthDate.AddMonths(numberOfMonths).Month, DateTime.DaysInMonth(startMonthDate.AddMonths(numberOfMonths).Year, startMonthDate.AddMonths(numberOfMonths).Month));
             var searchFilter = " and [XMLData].value('(genxml/checkbox/hidden)[1]','bit') = 0 ";
             var orderby = "order by modifieddate";
             var systemData = new SystemLimpet(_systemKey);
