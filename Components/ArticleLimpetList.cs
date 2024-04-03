@@ -129,7 +129,7 @@ namespace RocketDirectoryAPI.Components
             var startDate = new DateTime(startMonthDate.Year, startMonthDate.Month, 1).AddMonths(1).AddDays(-1);
             var systemData = new SystemLimpet(_systemKey);
             var sqlIndexRec = systemData.GetSqlIndex(sqlindexDateRef);
-
+            var ed = startDate;
             var articleList = GetArticlesByDateDesc(startMonthDate, numberOfMonths, sqlindexDateRef, catid, limit);
             foreach (var a in articleList)
             {
@@ -153,12 +153,13 @@ namespace RocketDirectoryAPI.Components
                     l.Add(a);
                     rtn.Add(sd, l);
                 }
-
+                ed = sd;
             }
+            var endDate = ed;
             var rtn2 = new Dictionary<DateTime, List<SimplisityInfo>>();
             for (int i = 0; i < numberOfMonths; i++)
             {
-                var d = startDate.AddMonths(i * -1);
+                var d = endDate.AddMonths(i * -1);
                 var sd = new DateTime(d.Year, d.Month, 1);
                 if (rtn.ContainsKey(sd))
                     rtn2.Add(sd, rtn[sd]);
