@@ -3,42 +3,45 @@ RocketDirectory and Wrapper Systems can implment an RSS feed.  This is activated
 
 Example URL:
 ```
+/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketdirectoryapi_rss
+```
+```
 /Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss
 ```
-resulting RSS feed
 ```
-<rss xmlns:blog="http://rocket-cds.org" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
-    <channel>
-        <title>Testing RSS</title>
-        <link>http://test.rocketcds.site/en-us/blog</link>
-        <description>Testing Description</description>
-        <pubDate>Thu, 14 Dec 2023 14:19:40 GMT</pubDate>
-        <lastBuildDate>Thu, 14 Dec 2023 14:19:40 GMT</lastBuildDate>
-        <generator>RocketCDS Blog RSS Generator</generator>
-        <ttl>30</ttl>
-        <atom:link href="https://test.rocketcds.site/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss" rel="self" type="application/rss+xml" />
-        <item>
-            <title>111111111111111111111</title>
-            <description></description>
-            <category>1111111111111</category>
-            <guid isPermaLink="true">http://test.rocketcds.site/en-us/blog/articleid/716/111111111111111111111</guid>
-            <pubDate>Wed, 29 Nov 2023 00:00:00 GMT</pubDate>
-            <media:thumbnail width="160" height="160" url="https://test.rocketcds.site/DesktopModules/DNNrocket/API/DNNrocketThumb.ashx?src=/Portals/0/DNNrocket/rocketblogapi/images/716/4OG3Cir0UEC3OrJXrJVHLg.jpg&w=160&h=160&imgtype=jpg" />
-            <blog:publishedon>Wed, 29 Nov 2023 00:00:00 GMT</blog:publishedon>
-        </item>
-    </channel>
-</rss>
+/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketnewsapi_rss
 ```
 ## RSS URL Token
 To make creating the RSS URL easier, you can use a razor token.
 ```
 RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
 ```
+```
+RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
+```
+*portalId = PortalId*  
+*cmd = RSS command (rocketdirectoryapi_rss)*  
+*yearDate = Starting Year (Default to current year)*  
+*monthDate = Starting Month (Default to current year, 1st of the month is always used)*  
+*numberOfMonths = number of months to search (Optional)*  
+*sqlidx = SQL index key (Optional)*  
+*catid = categoryID to search (Optional)*  
+
 Example:
 ```
 @RssUrl(portalData.PortalId,"rocketblogapi_rss")
 ```
+```
+@RssUrl(portalData.PortalId, "rocketblogapi_rss", DateTime.Now.Year, DateTime.Now.Month)
+```
 
+NOTE: Some systems may have their own RSS feed token, like RocketEventsAPI.  
+*ONLY use in RocketEventsAPI*  
+```
+@RssEventUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("month"),sessionParams.GetInt("year"))
+```
+
+Example code
 ```
 <a href="@RssUrl(portalData.PortalId,"rocketblogapi_rss",1,"publisheddate",sessionParams.GetInt("blogcatid"))" target="_blank">
     <span class="material-icons">
@@ -75,14 +78,14 @@ Example RSS.cshtml template:  (CDATA should be used)
 
     <channel>
         
-        <title>@catalogSettings.CatalogName</title>
-        <link>@(DNNrocketUtils.NavigateURL(portalContent.ListPageTabId))</link>
-        <description>@catalogSettings.Summary <test>jsd cjhsd>< "!£$%^&*()"</description>
-        <pubDate>@DateTime.Now.ToString("r")</pubDate>
-        <lastBuildDate>@DateTime.Now.ToString("r")</lastBuildDate>
-        <generator>RocketCDS Blog RSS Generator</generator>
-        <ttl>30</ttl>
-        <atom:link href="@RssUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("months"),sessionParams.Get("sqlidx"),sessionParams.GetInt("blogcatid"))" rel="self" type="application/rss+xml" />
+        <title><![CDATA[@catalogSettings.CatalogName]]></title>
+        <link><![CDATA[@(DNNrocketUtils.NavigateURL(portalContent.ListPageTabId))]]></link>
+        <description><![CDATA[@catalogSettings.Summary]]></description>
+        <pubDate><![CDATA[@DateTime.Now.ToString("r")]]></pubDate>
+        <lastBuildDate><![CDATA[@DateTime.Now.ToString("r")]]></lastBuildDate>
+        <generator><![CDATA[RocketCDS RSS Generator]]></generator>
+        <ttl><![CDATA[30]]></ttl>
+        <atom:link href="@RssUrl(portalData.PortalId,sessionParams.Get("cmd"),sessionParams.GetInt("year"),sessionParams.GetInt("month"),sessionParams.GetInt("months"),sessionParams.Get("sqlidx"))" rel="self" type="application/rss+xml" />
 
 @foreach (ArticleLimpet articleData in rssList)
 {
@@ -92,43 +95,34 @@ Example RSS.cshtml template:  (CDATA should be used)
     var dateFormat = date.ToShortDateString();
 
         <item>
-            <title>@articleData.Name</title>
-            <description>@articleData.Summary</description>
+            <title><![CDATA[@articleData.Name]]></title>
+            <description><![CDATA[@articleData.Summary]]></description>
             @foreach (var c in articleData.GetCategories())
             {
-            <category>@c.Name</category>
+            <category><![CDATA[@c.Name]]></category>
             }
-            <guid isPermaLink="true">@DetailUrl(moduleData.DetailPageTabId(), articleData, categoryData)</guid>
-            <pubDate>@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")</pubDate>
+            <guid isPermaLink="true"><![CDATA[@DetailUrl(moduleData.DetailPageTabId(), articleData, categoryData)]]></guid>
+            <pubDate><![CDATA[@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")]]></pubDate>
             @if (catalogSettings.Info.GetXmlPropertyBool("genxml/checkbox/rssimage"))
             {
                 var imagewidthrss = catalogSettings.Info.GetXmlPropertyInt("genxml/textbox/imagewidthrss");
                 var imageheightrss = catalogSettings.Info.GetXmlPropertyInt("genxml/textbox/imageheightrss");
                 <media:thumbnail width="@(imagewidthrss)" height="@(imageheightrss)" url="@(portalData.EngineUrlWithProtocol)@ImageUrl(articleData.GetImage(0).RelPath, imagewidthrss, imageheightrss)" />
             } 
-            <blog:publishedon>@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")</blog:publishedon>
+            <blog:publishedon><![CDATA[@articleData.Info.GetXmlPropertyDate("genxml/textbox/publisheddate").ToString("r")]]></blog:publishedon>
         </item>
 }
 
     </channel>
-</rss>
+    </rss>
 ```
-This razor template formats the selected items into a valid RSS feed format.  
-*In this example there is a setting in the AppTheme settings that can chose not to include the image.*  
 
+The razor template formats the selected items into a valid RSS feed format.  
+*In this example there is a setting in the AppTheme settings that can chose not to include the image.*  
 
 ## Generic Data List 
 By default the RocketDirectory system includes a generic RSS feed generator to select data.    
 Here we will explain the generic RSS feed options.  
-
-The RSS feed uses URL query paramaters to select data.  The default system system expects at least 1 date for selecting data.  The date reference is passed to the RSS feed by using a URL parameter call "sqldataref", if not "sqldataref" is found in the URL a defualt of the last modified date is used.  
-
-### Category selection
-Data can be filtered by categories using a category parameter.  The category id number can be found on the bottom left of the category detail admin UI.
-```
-/Desktopmodules/dnnrocket/api/rocket/action?cmd=rocketblogapi_rss&blogcatid=725
-```
-*NOTE: The RSS requires a category id, which could change during the life cycle of the website.*  
 
 ### Number of Months
 By default only 1 month of changes are returned.  This can be altered by adding the "months" parameter.  
@@ -139,28 +133,20 @@ By default only 1 month of changes are returned.  This can be altered by adding 
 The "sqlidx" parameter is used to identify what date in the data Article should be used to do the selection.  
 This "ref" is taken from the "sqlindex" section of the system.rules file.
 ```
-	<sqlindex list="true">
-		<genxml>
-			<systemkey>rocketblogapi</systemkey>
-			<ref>articlename</ref>
-			<xpath>genxml/lang/genxml/textbox/articlename</xpath>
-			<typecode>rocketblogapiART</typecode>
-		</genxml>
-		<genxml>
-			<systemkey>rocketblogapi</systemkey>
-			<ref>publisheddate</ref>
-			<xpath>genxml/textbox/publisheddate</xpath>
-			<typecode>rocketblogapiART</typecode>
-		</genxml>
-		<genxml>
-			<systemkey>rocketblogapi</systemkey>
-			<ref>articleref</ref>
-			<xpath>genxml/textbox/articleref</xpath>
-			<typecode>rocketblogapiART</typecode>
-		</genxml>
-	</sqlindex>
+<sqlindex list="true">
+	<genxml>
+        <systemkey>rocketdirectoryapi</systemkey>
+        <ref>publisheddate</ref>
+        <xpath>genxml/textbox/publisheddate</xpath>
+        <typecode>rocketdirectoryapiART</typecode>
+	</genxml>
+</sqlindex>
 ```
-*NOTE: You must ensure that the "ref" used is a date.*
+*NOTE: You must ensure that the "ref" used is a date.*  
+
+*rocketdirectorysapi = publisheddate*
+*rocketblogapi = publisheddate*
+*rocketnewsapi = publisheddate*
 
 Example URL:
 ```

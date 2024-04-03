@@ -352,15 +352,18 @@ namespace RocketDirectoryAPI.Components
             return new RawString(detailurl);
         }
 
+        [Obsolete("Use RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths, string sqlidx)")]
         public IEncodedString RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
         {
+            return RssUrl(portalId, cmd, DateTime.Now.Year, DateTime.Now.Month, numberOfMonths, sqlidx);
+        }
+        public IEncodedString RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths = 1, string sqlidx = "")
+        {
             var portalData = new PortalLimpet(portalId);
-            var rssurl = portalData.EngineUrlWithProtocol + "/Desktopmodules/dnnrocket/api/rocket/action?cmd=" + cmd + "&months=" + numberOfMonths;
-            var catparam = "";
-            if (catid > 0) catparam = "&catid=" + catid;
+            var rssurl = portalData.EngineUrlWithProtocol + "/Desktopmodules/dnnrocket/api/rocket/action?cmd=" + cmd + "&year=" + yearDate + "&month=" + monthDate  + "&months=" + numberOfMonths;
             var sqlidxparam = "";
             if (sqlidx != "") sqlidxparam = "&sqlidx=" + sqlidx;
-            rssurl = rssurl + catparam + sqlidxparam;
+            rssurl = rssurl + sqlidxparam;
             return new RawString(rssurl);
         }
 
