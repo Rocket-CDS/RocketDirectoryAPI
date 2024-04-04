@@ -47,6 +47,7 @@ namespace RocketDirectoryAPI.Components
         public SystemGlobalData globalSettings;
         public AppThemeDataList appThemeDataList;
         public DashboardLimpet dashBoard;
+        public AppThemeRocketApiLimpet appThemeRocketApi;
 
         public string AssigDataModel(SimplisityRazor sModel)
         {
@@ -76,7 +77,8 @@ namespace RocketDirectoryAPI.Components
             articleDataList = (ArticleLimpetList)sModel.GetDataObject("articlelist");
             sessionParams = sModel.SessionParamsData;
             userParams = (UserParams)sModel.GetDataObject("userparams");
-
+            appThemeRocketApi = (AppThemeRocketApiLimpet)sModel.GetDataObject("appthemerocketapi");
+            
             if (sessionParams == null) sessionParams = new SessionParams(new SimplisityInfo());
             info = new SimplisityInfo();
             if (articleData != null) info = articleData.Info;
@@ -366,7 +368,12 @@ namespace RocketDirectoryAPI.Components
             rssurl = rssurl + sqlidxparam;
             return new RawString(rssurl);
         }
-
+        public IEncodedString ChatGPT(string textId, string sourceTextId = "")
+        {
+            var globalData = new SystemGlobalData();
+            if (String.IsNullOrEmpty(globalData.ChatGptKey)) return new RawString("");
+            return new RawString("<span class=\"material-icons\" title=\"AI\" style=\"cursor:pointer;\" onclick=\"$('#chatgptmodal').show();simplisity_setSessionField('chatgpttextid','" + textId + "');simplisity_setSessionField('chatgptcmd','rocketdirectoryapi_chatgpt');$('#chatgptquestion').val($('#" + sourceTextId + "').val());\">comment</span>");
+        }
     }
 }
 

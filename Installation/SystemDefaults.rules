@@ -63,9 +63,13 @@ order by articlename.GUIDKey desc
       <cmd>dashboard_save</cmd>
       <action>true</action>
     </command>
-    
+	<command>
+		<cmd>rocketdirectoryapi_chatgpt</cmd>
+		<action>true</action>
+	</command>
 
-    <command>
+
+	<command>
       <cmd>rocketdirectoryapi_setup</cmd>
       <action>true</action>
     </command>
@@ -188,10 +192,10 @@ order by articlename.GUIDKey desc
 		<cmd>articleadmin_addreview</cmd>
 		<action>true</action>
 	</command>
-	  
 
 
-	  <command>
+
+	<command>
       <cmd>categoryadmin_add</cmd>
       <action>true</action>
     </command>
@@ -387,8 +391,8 @@ order by articlename.GUIDKey desc
 	  <command>
 		  <cmd>article_search</cmd>
 		  <action>false</action>
-	  </command>	  
+	  </command>
 
-  </commands>
+	</commands>
   
 </root>

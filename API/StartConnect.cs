@@ -29,7 +29,6 @@ namespace RocketDirectoryAPI.API
         public Dictionary<string, object> ProcessCommand(string paramCmd, SimplisityInfo systemInfo, SimplisityInfo interfaceInfo, SimplisityInfo postInfo, SimplisityInfo paramInfo, string langRequired = "")
         {
             var strOut = ""; // return nothing if not matching commands.
-            var strXml = "";
             _storeParamCmd = paramCmd;
 
             paramCmd = InitCmd(paramCmd, systemInfo, interfaceInfo, postInfo, paramInfo, langRequired);
@@ -52,8 +51,9 @@ namespace RocketDirectoryAPI.API
                 case "rocketdirectoryapi_activate":
                     strOut = RocketSystemSave();
                     break;
-
-
+                case "rocketdirectoryapi_chatgpt":
+                    strOut = ChatGptReturn();
+                    break;
                 case "rocketdirectoryapi_adminpanel":
                     strOut = AdminPanel();
                     break;
@@ -437,7 +437,17 @@ namespace RocketDirectoryAPI.API
                 return ex.ToString();
             }
         }
-
+        public string ChatGptReturn()
+        {
+            var chatGPT = new DNNrocketAPI.Components.ChatGPT();
+            var sQuestion = _postInfo.GetXmlProperty("genxml/textbox/chatgptquestion");
+            var chatgpttext = chatGPT.SendMsg(sQuestion);
+            _sessionParams.Set("chatgptreturn", chatgpttext);
+            var razorTempl = AppThemeUtils.AppThemeRocketApi(_dataObject.PortalId).GetTemplate("ChatGptReturn.cshtml");
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            if (pr.StatusCode != "00") return pr.ErrorMsg;
+            return pr.RenderedText;
+        }
         private string AdminPanelHeader()
         {
             try
