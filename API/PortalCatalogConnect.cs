@@ -64,8 +64,18 @@ namespace RocketDirectoryAPI.API
             foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {
                 var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, l, false);
-                articleDataList.ReIndex();
                 articleDataList.Validate();
+            }
+            return "OK";
+        }
+        public string IndexCatalog()
+        {
+            SearchUtils.DeleteAllDocuments(_dataObject.PortalContent.PortalId);
+            DeleteIDX(_dataObject.PortalContent.PortalId, _dataObject.SystemKey);
+            foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
+            {
+                var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, l, false);
+                articleDataList.ReIndex();
             }
             return "OK";
         }

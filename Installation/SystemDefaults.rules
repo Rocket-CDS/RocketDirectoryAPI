@@ -106,6 +106,10 @@ order by articlename.GUIDKey desc
       <cmd>portalcatalog_validatecatalog</cmd>
       <action>true</action>
     </command>
+		<command>
+			<cmd>portalcatalog_indexcatalog</cmd>
+			<action>true</action>
+		</command>		
     <command>
       <cmd>portalcatalog_reset</cmd>
       <action>true</action>
