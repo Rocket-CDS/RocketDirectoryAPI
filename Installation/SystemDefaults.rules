@@ -67,9 +67,13 @@ order by articlename.GUIDKey desc
 		<cmd>rocketdirectoryapi_chatgpt</cmd>
 		<action>true</action>
 	</command>
-
-
 	<command>
+		<cmd>rocketdirectoryapi_translate</cmd>
+		<action>true</action>
+	</command>		
+
+
+		<command>
       <cmd>rocketdirectoryapi_setup</cmd>
       <action>true</action>
     </command>

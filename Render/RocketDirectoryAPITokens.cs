@@ -372,7 +372,15 @@ namespace RocketDirectoryAPI.Components
         {
             var globalData = new SystemGlobalData();
             if (String.IsNullOrEmpty(globalData.ChatGptKey)) return new RawString("");
-            return new RawString("<span class=\"material-icons\" title=\"AI\" style=\"cursor:pointer;\" onclick=\"$('#chatgptmodal').show();simplisity_setSessionField('chatgpttextid','" + textId + "');simplisity_setSessionField('chatgptcmd','rocketdirectoryapi_chatgpt');$('#chatgptquestion').val($('#" + sourceTextId + "').val());\">comment</span>");
+            var apiResx = "/DesktopModules/DNNrocket/api/App_LocalResources/";
+            return new RawString("<span class=\"w3-button w3-text-theme\" style=\"width:40px;height:40px;padding:8px 0;\"><span class=\"material-icons\" title=\"" + DNNrocketUtils.GetResourceString(apiResx, "DNNrocket.chatgpt", "Text") + "\" style=\"cursor:pointer;\" onclick=\"$('#chatgptmodal').show();simplisity_setSessionField('chatgpttextid','" + textId + "');simplisity_setSessionField('chatgptcmd','rocketdirectoryapi_chatgpt');$('#chatgptquestion').val($('#" + sourceTextId + "').val());\">sms</span></span>");
+        }
+        public IEncodedString DeepL(string textId, string sourceTextId = "", string cultureCode = "")
+        {
+            var globalData = new SystemGlobalData();
+            if (String.IsNullOrEmpty(globalData.DeepLauthKey)) return new RawString("");
+            var apiResx = "/DesktopModules/DNNrocket/api/App_LocalResources/";
+            return new RawString("<span class=\"w3-button w3-text-theme\" style=\"width:40px;height:40px;padding:8px 0;\"><span class=\"material-icons\" title=\"" + DNNrocketUtils.GetResourceString(apiResx, "DNNrocket.translate", "Text", cultureCode) + "\" style=\"cursor:pointer;\" onclick=\"$('#deeplmodal').show();simplisity_setSessionField('deepltextid','" + textId + "');simplisity_setSessionField('deeplcmd','rocketdirectoryapi_deepl');$('#deeplquestion').val(stripHTML($('#" + sourceTextId + "').val()));\">translate</span></span>");
         }
     }
 }
