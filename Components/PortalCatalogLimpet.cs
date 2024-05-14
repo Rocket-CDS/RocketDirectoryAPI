@@ -258,7 +258,7 @@ namespace RocketDirectoryAPI.Components
                         tokenText = UserUtils.IsInRole(tsplit[1]).ToString();
                         nosearchText = false;
                     }
-                } if (token.ToLower().StartsWith("contains:"))
+                } else if (token.ToLower().StartsWith("contains:"))
                 {
                     var tsplit = token.Split(':');
                     if (tsplit.Count() == 2)
