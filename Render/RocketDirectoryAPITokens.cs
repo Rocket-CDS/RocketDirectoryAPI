@@ -49,7 +49,7 @@ namespace RocketDirectoryAPI.Components
         public DashboardLimpet dashBoard;
         public AppThemeRocketApiLimpet appThemeRocketApi;
 
-        public string AssigDataModel(SimplisityRazor sModel)
+        public string AssignDataModel(SimplisityRazor sModel)
         {
             appTheme = (AppThemeLimpet)sModel.GetDataObject("apptheme");
             appThemeDefault = (AppThemeLimpet)sModel.GetDataObject("appthemedefault");
@@ -93,6 +93,12 @@ namespace RocketDirectoryAPI.Components
 
 
             // use return of "string", so we don;t get error with converting void to object.
+            return "";
+        }
+        [Obsolete]
+        public string AssigDataModel(SimplisityRazor sModel)
+        {
+            AssignDataModel(sModel);
             return "";
         }
         /// <summary>
