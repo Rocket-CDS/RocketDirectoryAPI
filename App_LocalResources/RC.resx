@@ -393,4 +393,10 @@
   <data name="rssimage.Text" xml:space="preserve">
     <value>Include Image in RSS feed</value>
   </data>
+  <data name="description.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="general.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
 </root>

@@ -21,17 +21,22 @@
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
 }
 
-@{
-    var sFieldDict = new Dictionary<string, string>();
-    sFieldDict.Add("propertyid", propertyData.PropertyId.ToString());
-}
-@RenderLanguageSelector("propertyadmin_edit", sFieldDict, appThemeDirectory, Model)
+<div class="pl-breadcrumb">
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="propertyadmin_editlist" s-fields='{"track":"true"}'>@ResourceKey("RC.properties")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="propertyadmin_edit" s-fields='{"track":"true","propertyid":"@propertyData.PropertyId "}'>@propertyData.Name</div>
+</div>
 
-<div class='w3-animate-opacity'>
+<div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     <div class="w3-row w3-padding">
-        <button class="w3-button w3-black simplisity_click" s-cmd="propertyadmin_editlist" s-fields=''>@ButtonText(ButtonTypes.back)</button>
-        <button class="w3-button w3-theme-action simplisity_click savepropertybutton" s-list=".imagepropertylist,.articlelist" s-cmd="propertyadmin_save" s-post="#datapropertysection" s-fields='{"propertyid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
+        <button class="w3-button w3-theme-action2 simplisity_click savepropertybutton" s-list=".imagepropertylist,.articlelist" s-cmd="propertyadmin_save" s-post="#datapropertysection" s-fields='{"propertyid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="propertyadmin_delete" s-fields='{"propertyid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>
 
@@ -47,22 +52,10 @@
     </div>        
     }
 
-    <div class="w3-row">
-        <div onclick="openPropertyTab('property');" class="w3-quarter w3-hover-light-grey w3-center">
-            <div class="propertybutton cattablink w3-bottombar w3-border-black w3-large w3-padding">
-                <span class="material-icons">
-                    library_books
-                </span>
-                @ResourceKey("RC.property")
-            </div>
-        </div>
-        <div onclick="openPropertyTab('articles');" class="w3-quarter w3-hover-light-grey w3-center">
-            <div class="articlesbutton cattablink  w3-large w3-padding">
-                <span class="material-icons">
-                    qr_code
-                </span>
-                @ResourceKey("RC.articles")
-            </div>
+    <div class="w3-padding">
+        <div class="w3-bar w3-margin-top w3-theme-l4">
+            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar categorybutton cattablink" onclick="openPropertyTab('property');">@ResourceKey("RC.category")</div>
+            <div class="w3-bar-item w3-button articlesbutton cattablink " onclick="openPropertyTab('articles');">@ResourceKey("RC.articles")</div>
         </div>
     </div>
 
@@ -180,11 +173,9 @@
         tablinks = document.getElementsByClassName("cattablink");
         for (i = 0; i < x.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" w3-bottombar", "");
-            tablinks[i].className = tablinks[i].className.replace(" w3-border-black", "");
         }
         document.getElementById(propertytab).style.display = "block";
         $('.' + propertytab + 'button').addClass('w3-bottombar');
-        $('.' + propertytab + 'button').addClass('w3-border-black');
     }
 
 </script>

@@ -8,7 +8,7 @@
 
     @HiddenField(infoempty, "genxml/hidden/page", " class='simplisity_sessionfield' s-update='ignore'", "1")
 
-        <div class="w3-bar-item w3-button w3-theme-action simplisity_click" s-cmd="articleadmin_addarticle" s-fields='{"articleid":"-1","portalid":"@(portalData.PortalId)"}'>@ButtonText(ButtonTypes.add)</div>
+        <div class="w3-bar-item w3-button w3-theme-action2 simplisity_click" s-cmd="articleadmin_addarticle" s-fields='{"articleid":"-1","portalid":"@(portalData.PortalId)"}'>@ButtonText(ButtonTypes.add)</div>
     @{
         var orderbyDictionary = new Dictionary<string, string>();
         foreach (var orderbyInfo in portalContent.GetProductOrderByList())

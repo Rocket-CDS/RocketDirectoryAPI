@@ -1,111 +1,165 @@
 ﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI.Components;
 @using RocketDirectoryAPI.Components;
+@using Simplisity;
 @AssigDataModel(Model)
 <!--inject-->
+
 @{
-    var articleid = Model.SessionParamsData.GetInt("articleid");
-    var sessionParams = Model.SessionParamsData;
-    var adminpanelurl = userParams.Get("adminpanelurl");
-    var viewurl = userParams.Get("viewurl");
+    var groupList = systemData.GetGroups(true);
+    var interfacelist = portalContent.PluginActveInterface(systemData);
     Model.SetSetting("adminpanel", "true");
 
-    var interfacelist = portalContent.PluginActveInterface(systemData);
-    var interfacekeylist = RocketDirectoryAPIUtils.AdminInterfaceKeyList(portalData.PortalId, systemData.SystemKey, sessionParams.ModuleRef, sessionParams);
-    var interfaceviewlist = RocketDirectoryAPIUtils.AdminInterfaceShow(portalContent, interfacelist, interfacekeylist);
-    var lp = 1;
+    var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
+
 }
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
 
-<div class="w3-main w3-animate-opacity adminpaneldisplay" style="display:none;">
- 
-    <div id="simplisity_startpanel" class="w3-row w3-padding simplisity_panel">
-        <div class="w3-row">
-            @RenderLanguageSelector(systemData.SystemKey + "_adminpanel", new Dictionary<string, string>(), appThemeDirectory, Model)
+<!-- Page Content -->
+<div class="w3-top w3-bar w3-theme-dark " style="height:41px;">
+    <div class="w3-bar-item">
+        <img src="/DesktopModules/DNNrocket/API/images/nevoweb-icon.png" class="w3-round w3-white" style="height:29px;" />
+    </div>
+    <div class="w3-bar-item" style="cursor:pointer;" onclick="window.location.reload();">
+        <img src="/DesktopModules/DNNrocket/API/images/apps.svg" class="w3-round" style="height:29px;" />
+        <span class="w3-small">&nbsp;@ResourceKey("DNNrocket.services")</span>
+    </div>
+
+    <div class="w3-right w3-bar-item" style="cursor:pointer;">
+        <div class="w3-small" onclick="$('#accountdropdown').toggle();">
+            <img src="/DesktopModules/DNNrocket/API/images/manage_accounts.svg" class="w3-round" style="height:29px;" />
+            @UserUtils.GetCurrentUserName()
         </div>
+        <div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding" style="width:320px;left:calc(100vw - 320px)!important;">
+            <div>
+                @UserUtils.GetCurrentUserEmail()
+            </div>
+            <hr />
+            <div class="w3-button w3-theme-action2 w3-right simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</div>
+        </div>
+    </div>
 
-        <h1>@catalogSettings.CatalogName</h1>
 
-        @foreach (var r in interfaceviewlist)
+    @if (enabledlanguages.Count() > 1)
+    {
+        <div class="w3-bar-item">
+            @foreach (var l in enabledlanguages)
+            {
+                var selectedcolor = "";
+                if (sessionParams.CultureCodeEdit == l)
+                {
+                    selectedcolor = "w3-border-bottom";
+                }
+                <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
+            }
+        </div>        
+    }
+
+
+</div>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" style="top:41px;display:none" id="largeSidebar">
+
+    <div class="w3-theme-light w3-padding " style="height:41px;">
+        <div onclick="closeLargeSideBar()" class="w3-right w3-padding" style="cursor: pointer">
+            <b>&times;</b>
+        </div>
+    </div>
+
+    @foreach (var r in interfacelist)
+    {
+        if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
         {
-            var cmd = r.DefaultCommand;
-            if (!appTheme.Exists)
+            if (r.DefaultCommand != "")
             {
-                cmd = systemData.SystemKey + "_rocketsystem"; // no settings
-            }
-
-            var articlesfield = "";
-            var articleclass = "";
-            if (r.DefaultCommand == "articleadmin_editlist" && articleid > 0)
-            {
-                articlesfield = ",\"articleid\":\"" + articleid + "\",\"moduleedit\":\"true\"";
-                articleclass = "articlebutton";
-            }
-            <div class="w3-col s6 m4 l2 " style="height:210px;">
-                <div class="w3-margin @(articleclass) menubutton@(lp) simplisity_click" s-after="showadminpaneldisplay" s-cmd='@cmd' s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"@articlesfield}' style="cursor:pointer;">
-                    <div class="w3-theme w3-center w3-padding-24 w3-round-large w3-hover-shadow">
-                        <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
-                    </div>
-                    <div class="w3-center w3-padding" style="line-height:1.2;">
-                        <strong>@InterfaceNameResourceKey(r, systemData)</strong>
-                    </div>
+                <div class="simplisity_click w3-theme-light w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                    <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
                 </div>
-            </div>
-            lp += 1;
+            }
         }
+    }
 
-        <div class="w3-col s6 m4 l2 " style="height:210px;">
-            <div onclick="$('.simplisity_loader').show();window.location.replace('@(viewurl)');" class="w3-margin" style="cursor:pointer;">
-                <div class=" w3-yellow w3-center w3-padding-24 w3-round-large w3-hover-shadow">
-                    <span class='material-icons w3-jumbo' style=''>logout</span>
-                </div>
-                <div class="w3-center w3-padding" style="line-height:1.2;">
-                <strong>@ResourceKey("DNNrocket.back")</strong>
-                </div>
-            </div>
-        </div>
-
+</div>
+<div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" id="smallSidebar" style="top:41px;width:40px;">
+    <div onclick="openLargeSideBar()" class="w3-center w3-margin-top" style="cursor: pointer;">
+        <img src="/DesktopModules/DNNrocket/API/images/hamburgermenu.svg" />
     </div>
 </div>
-<div class="w3-right w3-padding w3-tiny">@systemData.SystemKey</div>
+
+<div id="main" class="" style="margin-top:41px;margin-left:20px;margin-right:0px;display:none;float: right;width: calc(100% - 20px);">
+
+    <div id="simplisity_startpanel" class="w3-row w3-padding simplisity_panel">
+
+        <div class="w3-container w3-animate-opacity w3-card w3-padding w3-margin w3-white">
+
+
+            @foreach (var r in interfacelist)
+            {
+                if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
+                {
+                    if (r.DefaultCommand != "")
+                    {
+                        var menuclass = "w3-theme-l1";
+                        if (r.Info.GetXmlProperty("genxml/textbox/menuclass") != "")
+                        {
+                            menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
+                        }
+                        <div class="w3-col s6 m4 l2 " style="height:210px;">
+                            <div class="w3-margin simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                <div class="@(menuclass) w3-center w3-padding-24 w3-hover-shadow w3-border">
+                                    <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
+                                </div>
+                                <div class="w3-center w3-padding" style="line-height:1.2;">
+                                    <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
-        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', { "systemkey": "@(systemData.SystemKey)", "tabid": "@(sessionParams.TabId)", "debug": "false" });
+
+        $(document).simplisityStartUp('/Desktopmodules/dnnrocket/api/rocket/action', '{"track":"false", "systemkey": "@(systemData.SystemKey)" }');
+
+        // Ensure we always have a systemkey
         simplisity_setParamField("basesystemkey", "rocketdirectoryapi");
-        simplisity_setParamField("admintabid", "@sessionParams.TabId");
+        simplisity_setParamField("systemkey", "@(systemData.SystemKey)");
+        $('#simplisity_systemkey').val('@(systemData.SystemKey)');
 
-        @if (appTheme.AppThemeFolder == "")
-        {
-            <text>
-                $('#rocketsystem_edit').trigger('click');
-                showadminpaneldisplay();
-            </text>
-        }
-
-        @if (articleid == 0)
-        {
-            <text>
-                showadminpaneldisplay();
-            </text>
-        }
-        else
-        {
-            <text>
-                $('.articlebutton').trigger('click');
-            </text>
-        }
-        @if (!appTheme.Exists && lp > 1)
-        {
-            <text>
-                $('.menubutton1').trigger('click');
-            </text>
-        }
-
+        showMainPanel();
     });
 
-    function showadminpaneldisplay() {
-        $('.adminpaneldisplay').show();
+    function showMainPanel() {
+        $('#main').show();
     }
+
+    function openLargeSideBar() {
+        document.getElementById("main").style.marginLeft = "280px";
+        document.getElementById("largeSidebar").style.width = "280px";
+        document.getElementById("largeSidebar").style.display = "block";
+        document.getElementById("smallSidebar").style.display = "none";
+    }
+
+    function closeLargeSideBar() {
+        document.getElementById("main").style.marginLeft = "49px";
+        document.getElementById("smallSidebar").style.width = "49px";
+        document.getElementById("largeSidebar").style.display = "none";
+        document.getElementById("smallSidebar").style.display = "block";
+    }
+
+    function changeEditLanguage(l) {
+        simplisity_setCookieValue('simplisity_editlanguage', l);
+        $('.a-reloadpage').trigger('click');
+        $('.a-langaugebuttons').removeClass('w3-border-bottom');
+        $('#language-' + l).addClass('w3-border-bottom');
+    }
+
 </script>
 

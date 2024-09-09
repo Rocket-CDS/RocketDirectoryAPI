@@ -25,12 +25,6 @@
 
 }
 
-@{
-    var sFieldDict = new Dictionary<string, string>();
-    sFieldDict.Add("categoryid", categoryDataList.SelectedParentId.ToString());
-}
-@RenderLanguageSelector("categoryadmin_editlist", sFieldDict, appThemeDirectory, Model)
-
 <style>
     .w3-ul-alt {
         list-style-type: none;
@@ -44,13 +38,19 @@
         }
 </style>
 
+<div class="pl-breadcrumb">
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"track":"true"}'>@ResourceKey("RC.categories")</div>
+</div>
 
-<div class='w3-animate-opacity'>
+<div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     <div class="w3-bar  w3-padding">
-        <div class="w3-bar-item w3-button w3-theme-action simplisity_click" s-cmd="categoryadmin_add" s-fields='{"parentid":"@(categoryDataList.SelectedParentId)","categoryid":"-1"}'>@ButtonText(ButtonTypes.add)</div>
+        <div class="w3-bar-item w3-button w3-theme-action2 simplisity_click" s-cmd="categoryadmin_add" s-fields='{"parentid":"@(categoryDataList.SelectedParentId)","categoryid":"-1"}'>@ButtonText(ButtonTypes.add)</div>
         <div class="w3-bar-item w3-right w3-button" onclick="$('#categorytree').show();">@ButtonIcon(ButtonTypes.tree)</div>
-        <div class="w3-bar-item w3-right w3-button simplisity_click" s-cmd="categoryadmin_editlist">@ButtonIcon(ButtonTypes.refresh)</div>
 
         <input class="w3-bar-item w3-right w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtext" onkeyup="searchFunction()">
 
@@ -87,12 +87,12 @@
                             <div class="w3-rest w3-card" style="">
                                 <div class="w3-bar w3-card " style="">
                                     <div class="w3-bar-item">
-                                        <div class="w3-button simplisity_click" s-cmd="categoryadmin_edit" s-fields='{"categoryid":"@categoryData.CategoryId"}'>
+                                        <div class="w3-button simplisity_click" s-cmd="categoryadmin_edit" s-fields='{"track":"true","categoryid":"@categoryData.CategoryId"}'>
                                             @ButtonIcon(ButtonTypes.edit)
                                         </div>
                                     </div>
                                     <div class="w3-bar-item">
-                                        <div class="w3-button simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@categoryData.CategoryId"}'>
+                                        <div class="w3-button simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"track":"true","categoryid":"@categoryData.CategoryId"}'>
                                             @ButtonIcon(ButtonTypes.folder)
                                         </div>
                                     </div>
@@ -160,8 +160,6 @@
         });
 
         $("#categorylistdata").disableSelection();
-
-        selectMenu('categoryadmin');
 
     });
 

@@ -38,40 +38,31 @@
     }
 }
 
-@{
-    var sFieldDict = new Dictionary<string, string>();
-    sFieldDict.Add("categoryid", info.ItemID.ToString());
-}
-@RenderLanguageSelector("categoryadmin_edit", sFieldDict, appThemeDirectory, Model)
+<div class="pl-breadcrumb">
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"track":"true"}'>@ResourceKey("RC.categories")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="categoryadmin_edit" s-fields='{"track":"true","categoryid":"@categoryData.CategoryId"}'>@categoryData.Name</div>
+</div>
 
-<div class='w3-animate-opacity'>
+<div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     <div class="w3-row w3-padding">
-        <button class="w3-button w3-black simplisity_click" s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@(returncatid)"}'>@ButtonText(ButtonTypes.back)</button>
-        <button class="w3-button w3-theme-action simplisity_click savecategorybutton langchangesave" s-before="saveRichText" s-list=".imagecategorylist,.articlelist" s-cmd="categoryadmin_save" s-post="#datacategorysection" s-fields='{"categoryid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
+        <button class="w3-button w3-theme-action2 simplisity_click savecategorybutton langchangesave" s-before="saveRichText" s-list=".imagecategorylist,.articlelist" s-cmd="categoryadmin_save" s-post="#datacategorysection" s-fields='{"categoryid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="categoryadmin_delete" s-fields='{"categoryid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>
 
-
-    <div class="w3-row w3-padding">
-        <div onclick="openCategoryTab('category');" class="w3-quarter  w3-hover-light-grey w3-center">
-            <div class="categorybutton cattablink w3-bottombar w3-border-black w3-large w3-padding">
-                <span class="material-icons">
-                    library_books
-                </span>
-                @ResourceKey("RC.category")
-            </div>
-        </div>
-        <div onclick="openCategoryTab('articles');" class="w3-quarter  w3-hover-light-grey w3-center">
-            <div class="articlesbutton cattablink  w3-large w3-padding">
-                <span class="material-icons">
-                    qr_code
-                </span>
-                @ResourceKey("RC.articles")
-            </div>
+    <div class="w3-padding">
+        <div class="w3-bar w3-margin-top w3-theme-l4">
+            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar categorybutton cattablink" onclick="openCategoryTab('category')">@ResourceKey("RC.category")</div>
+            <div class="w3-bar-item w3-button articlesbutton cattablink " onclick="openCategoryTab('articles')">@ResourceKey("RC.articles")</div>
         </div>
     </div>
-
 
     <div id="datacategorysection" class="">
         <div id="category" class="categorytab">
@@ -240,8 +231,6 @@
         $("#articlelistdata").sortable();
         $("#articlelistdata").disableSelection();
 
-        selectMenu('categoryadmin');
-
     });
 
     function searchFunction() {
@@ -278,11 +267,9 @@
         tablinks = document.getElementsByClassName("cattablink");
         for (i = 0; i < x.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" w3-bottombar", "");
-            tablinks[i].className = tablinks[i].className.replace(" w3-border-black", "");
         }
         document.getElementById(categorytab).style.display = "block";
         $('.' + categorytab + 'button').addClass('w3-bottombar');
-        $('.' + categorytab + 'button').addClass('w3-border-black');
     }
     function saveRichText() {
         $('#datacategorysection').append($('#richtext')); // we need to move the richtext to the save data area.

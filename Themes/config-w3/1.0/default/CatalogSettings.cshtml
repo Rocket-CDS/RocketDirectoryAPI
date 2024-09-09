@@ -11,18 +11,20 @@
     var info = catalogSettings.Info;
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();
     var defaultCategory = new CategoryLimpet(portalContent.PortalId, catalogSettings.DefaultCategoryId, DNNrocketUtils.GetCurrentCulture(), systemData.SystemKey);
-
-    var sFieldDict = new Dictionary<string, string>();
-
 }
 
-@RenderLanguageSelector("settingsadmin_edit", sFieldDict, appThemeDirectory, Model)
+<div class="pl-breadcrumb">
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="settingsadmin_edit" s-fields='{"track":"true"}'>@ResourceKey("DNNrocket.settings")</div>
+</div>
 
-<div id="" class="w3-animate-opacity">
+<div id="" class="w3-animate-opacity w3-card w3-padding w3-margin w3-white">
 
     <div class="w3-bar w3-margin">
-        <div class="w3-bar-item w3-button w3-theme-action simplisity_click" s-list=".grouplist" s-cmd="settingsadmin_save" s-post="#settingscontent">@ButtonText(ButtonTypes.save)</div>
-        <div class="w3-bar-item w3-button simplisity_click" s-cmd="settingsadmin_edit" s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}'>@ButtonIcon(ButtonTypes.refresh)</div>
+        <div class="w3-bar-item w3-button w3-theme-action2 simplisity_click" s-list=".grouplist" s-cmd="settingsadmin_save" s-post="#settingscontent">@ButtonText(ButtonTypes.save)</div>
     </div>
 
     <div id="settingscontent" class="w3-margin w3-border-bottom">

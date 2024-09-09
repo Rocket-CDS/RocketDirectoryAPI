@@ -6,27 +6,22 @@
 
 @{
     var articleId = Model.SessionParamsData.GetInt("articleid");
+    var cmd = systemData.SystemKey + "_adminpanel";
 }
 
-
-    <div id="adminpanel">
-        <div class="simplisity_loader">
-            <span class=" simplisity_loader_inner">
-            </span>
-        </div>
+<div id="adminpanel">
+    <div class="simplisity_loader">
+        <span class=" simplisity_loader_inner">
+        </span>
     </div>
-    
-	
-    <script>
-        $('.heading_wrapper').hide();
-        $(document).ready(function () {
-        $('#adminpanel').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', '@(systemData.SystemKey)_adminpanel', '{"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)","articleid":"@(articleId)"}', '')
-            simplisity_sessionremove(); // clear the sessions vars on load.  These needs to be reset for the admin panel to work and not use any front office selections.
-        });
 
-        function selectMenu() {
-            // legacy function to stop error.
-        }
+</div>
 
-    </script>
+<script>
+    $('.heading_wrapper').hide();
+    $(document).ready(function () {
+        $('#adminpanel').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', '@(cmd)', '{"systemkey":"@(systemData.SystemKey)","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)","articleid":"@(articleId)"}', '')
+        //simplisity_sessionremove(); // clear the sessions vars on load.  These needs to be reset for the admin panel to work and not use any front office selections.
+    });
+</script>
    

@@ -15,13 +15,16 @@
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
 }
 
-@{
-    var sFieldDict = new Dictionary<string, string>();
-}
-@RenderLanguageSelector("propertyadmin_editlist", sFieldDict, appThemeDirectory, Model)
+<div class="pl-breadcrumb">
+    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+    <div class="pl-breadcrumb-item">
+        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+    </div>
+    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="propertyadmin_editlist" s-fields='{"track":"true"}'>@ResourceKey("RC.properties")</div>
+</div>
 
 
-<div class='w3-animate-opacity'>
+<div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     @RenderTemplate("PropertySearch.cshtml", appThemeDirectory, Model, true)
 
@@ -30,7 +33,8 @@
         <table class="w3-table w3-bordered w3-hoverable">
             <thead>
                 <tr>
-                    <th>@ResourceKey("RE.name")</th>
+                    <th></th>
+                    <th>@ResourceKey("DNNrocket.name")</th>
                     <th></th>
                 </tr>
             </thead>
@@ -55,6 +59,5 @@
 
 <script>
     $(document).ready(function () {
-        selectMenu('propertyadmin');
     });
 </script>
