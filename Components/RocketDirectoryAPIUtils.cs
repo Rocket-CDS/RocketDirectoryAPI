@@ -298,7 +298,8 @@ namespace RocketDirectoryAPI.Components
             {
                 if (p.Value.systemkey == systemKey && p.Value.datatype.ToLower() == "article")
                 {
-                    rtn = sessionParams.GetInt(p.Key);
+                    var keyArray = p.Key.Split('_');
+                    rtn = sessionParams.GetInt(keyArray[0]);
                     break;
                 }
             }
