@@ -11,7 +11,7 @@
 <div class="w3-row linklistdatasection">
 
     <div class="w3-bar-block">
-        <div class="w3-button w3-padding-small w3-theme-action simplisity_click" s-post="#articledatasection" s-return="#links" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-cmd="articleadmin_addlink" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.links")</div>
+        <div class="w3-button w3-padding-small  w3-border simplisity_click" s-post="#articledatasection" s-return="#links" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-cmd="articleadmin_addlink" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.links")</div>
         <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="linklistbin" s-return="#linklistdata" s-removelist=".linklist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
 

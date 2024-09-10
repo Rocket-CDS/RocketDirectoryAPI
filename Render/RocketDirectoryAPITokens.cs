@@ -63,7 +63,6 @@ namespace RocketDirectoryAPI.Components
             systemDirectoryData = (SystemLimpet)sModel.GetDataObject("systemdirectorydata");
             portalData = (PortalLimpet)sModel.GetDataObject("portaldata");
             catalogSettings = (CatalogSettingsLimpet)sModel.GetDataObject("catalogsettings");
-            articleData = (ArticleLimpet)sModel.GetDataObject("articledata");
             moduleData = (ModuleContentLimpet)sModel.GetDataObject("modulesettings");
             moduleDataInfo = new SimplisityInfo(moduleData.Record);
             categoryDataList = (CategoryLimpetList)sModel.GetDataObject("categorylist");
