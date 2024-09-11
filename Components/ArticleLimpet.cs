@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Xml.Linq;
+using System.Reflection;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -214,7 +215,7 @@ namespace RocketDirectoryAPI.Components
             {
                 foreach (XmlNode nod in nodList)
                 {
-                    Info.SetXmlPropertyInt("genxml/money/" + nod.Name, CurrencyUtils.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name), CultureCode).ToString());
+                    Info.SetXmlPropertyInt("genxml/money/" + nod.Name, PortalCatalog.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name)).ToString());
                 }
             }
 
@@ -766,6 +767,7 @@ namespace RocketDirectoryAPI.Components
                 {
                     var temp = template.Replace("{ref}", modelData.Ref);
                     temp = temp.Replace("{name}", modelData.Name);
+                    temp = temp.Replace("{barcode}", modelData.BarCode);
                     temp = temp.Replace("{price}", modelData.PriceDisplay(cultureCode));
                     rtn.Add(modelData.ModelKey, temp.Trim(' '));
                 }

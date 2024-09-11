@@ -414,4 +414,7 @@
   <data name="model.Text" xml:space="preserve">
     <value>Model</value>
   </data>
+  <data name="barcode.Text" xml:space="preserve">
+    <value>Bar Code</value>
+  </data>
 </root>

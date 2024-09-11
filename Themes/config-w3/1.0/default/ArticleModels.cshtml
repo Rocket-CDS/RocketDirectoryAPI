@@ -34,9 +34,13 @@
                             <label class="">@ResourceKey("DNNrocket.ref")</label>
                             @TextBox(modelInfo, "genxml/textbox/modelref", " class='w3-input w3-border' autocomplete='off' ", "", false, modLP)
                         </div>
-                        <div class="w3-col m9 w3-padding" style="min-width: 200px;">
+                        <div class="w3-col m5 w3-padding" style="min-width: 200px;">
                             <label class="">@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)
                             @TextBox(modelInfo, "genxml/lang/genxml/textbox/modelname", " class='w3-input w3-border' autocomplete='off' ", "", true, modLP)
+                        </div>
+                        <div class="w3-col m4 w3-padding" style="min-width: 200px;">
+                            <label class="">@ResourceKey("RC.barcode")</label>
+                            @TextBox(modelInfo, "genxml/textbox/barcode", " class='w3-input w3-border' autocomplete='off' ", "", false, modLP)
                         </div>
                         <div class="w3-col m1 w3-padding" style="min-width: 160px;">
                             <label class="">@ResourceKey("RC.price")</label>

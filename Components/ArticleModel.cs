@@ -61,6 +61,17 @@ namespace RocketDirectoryAPI.Components
                 Info.SetXmlProperty("genxml/lang/genxml/textbox/modelname", value);
             }
         }
+        public string BarCode
+        {
+            get
+            {
+                return Info.GetXmlProperty("genxml/textbox/barcode");
+            }
+            set
+            {
+                Info.SetXmlProperty("genxml/textbox/barcode", value);
+            }
+        }
         public void PriceSetValue(string price)
         {
             PriceCents = PortalContent.CurrencyConvertCents(price);
