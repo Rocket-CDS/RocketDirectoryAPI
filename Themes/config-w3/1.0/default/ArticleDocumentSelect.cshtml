@@ -18,7 +18,7 @@
                     <h2>@ResourceKey("DNNrocket.documentupload")</h2>
                     <p>@ResourceKey("DNNrocket.documentupload", "", "Msg")</p>
 
-                    <input id="documentfileupload" class="simplisity_base64upload" s-reload="false" s-cmd="articleadmin_adddoc" s-post="#articledatasection" s-return="#docs" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}' type="file" name="file[]" multiple style="display:none;">
+                    <input id="documentfileupload" class="simplisity_base64upload" s-reload="false" s-cmd="articleadmin_adddoc" s-post="#articledatasection" s-return="#docs" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId"}' type="file" name="file[]" multiple style="display:none;">
                     <div class="w3-row w3-margin-bottom">
                         <span class="w3-col m12 w3-button w3-teal fileuploadaction" onclick="$('#articledocumentselect').hide();$('#documentfileupload').trigger('click');">@ButtonText(ButtonTypes.upload)</span>
                     </div>

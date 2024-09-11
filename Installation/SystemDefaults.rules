@@ -123,7 +123,12 @@ order by articlename.GUIDKey desc
       <action>true</action>
     </command>
 
-    
+
+		
+	<command>
+		<cmd>articleadmin_addmodel</cmd>
+		<action>true</action>
+	</command>
     <command>
       <cmd>articleadmin_editlist</cmd>
       <action>true</action>

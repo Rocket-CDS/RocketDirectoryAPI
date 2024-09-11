@@ -1,0 +1,63 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssignDataModel(Model)
+<!--inject-->
+
+@{
+    var modLP = 0;
+    var datalist = articleData.GetModelList();
+}
+
+<div class="w3-row modellistdatasection">
+
+    <div class="w3-container">
+        <div class="w3-col ">
+            <div class="w3-button w3-padding-small  w3-border simplisity_click" s-post="#datasection" s-return="#models" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-cmd="articleadmin_addmodel" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("RC.model")</div>
+            <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="modellistbin" s-return="#modellistdata" s-removelist=".modellist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
+        </div>
+    </div>
+
+    <div id="modellistcontainer" class="w3-container">
+
+        <ul id="modellistdata" class="w3-ul">
+
+            @foreach (var modelInfo in datalist)
+            {
+                <li class="modellist w3-display-container w3-padding w3-border-0">
+                    @SortableListIndex(modelInfo, modLP)
+
+                    <input id="modelkey" type="hidden" value="@modelInfo.GetXmlProperty("genxml/hidden/modelkey")" />
+
+                    <div class="w3-row w3-display-container w3-card">
+                        <div class="w3-col m1 w3-padding" style="min-width: 160px;">
+                            <label class="">@ResourceKey("DNNrocket.ref")</label>
+                            @TextBox(modelInfo, "genxml/textbox/modelref", " class='w3-input w3-border' autocomplete='off' ", "", false, modLP)
+                        </div>
+                        <div class="w3-col m9 w3-padding" style="min-width: 200px;">
+                            <label class="">@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)
+                            @TextBox(modelInfo, "genxml/lang/genxml/textbox/modelname", " class='w3-input w3-border' autocomplete='off' ", "", true, modLP)
+                        </div>
+                        <div class="w3-col m1 w3-padding" style="min-width: 160px;">
+                            <label class="">@ResourceKey("RC.price")</label>
+                            @TextBoxMoney(articleData.CultureCode, modelInfo, "genxml/textbox/modelprice", "  class='w3-input w3-border w3-right-align ' autocomplete='off' ", "0", false, modLP)
+                        </div>
+                        <div class="simplisity_removelistitem w3-right w3-padding" s-removelist=".modellist" s-recylebin="modellistbin" style="cursor: pointer;">
+                            @ButtonIcon(ButtonTypes.remove)
+                        </div>
+                    </div>
+
+                </li>
+                modLP += 1;
+            }
+        </ul>
+    </div>
+
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $("#modellistdata").sortable();
+            $("#modellistdata").disableSelection();
+        });
+    </script>

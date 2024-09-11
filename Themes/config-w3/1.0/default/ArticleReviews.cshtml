@@ -11,7 +11,7 @@
 <div class="w3-row reviewlistdatasection w3-padding">
 
     <div class="w3-bar-block w3-padding">
-        <div class="w3-button w3-padding-small w3-theme-action simplisity_click" s-post="#articledatasection" s-return="#reviews" s-list=".@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-cmd="articleadmin_addreview" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.reviews")</div>
+        <div class="w3-button w3-padding-small w3-theme-action simplisity_click" s-post="#articledatasection" s-return="#reviews" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-cmd="articleadmin_addreview" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.reviews")</div>
         <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="reviewlistbin" s-return="#reviewlistdata" s-removelist=".reviewlist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
 

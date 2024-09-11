@@ -234,6 +234,22 @@ namespace RocketDirectoryAPI.API
             }
             return "ERROR: Invalid ItemId";
         }
+        public string AddArticleModel()
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            if (articleId > 0)
+            {
+                var articleData = GetActiveArticle(articleId);
+                articleData.Save(_postInfo);
+                articleData.AddModel();
+                _dataObject.SetDataObject("articledata", articleData);
+                var razorTempl = GetSystemTemplate("ArticleModels.cshtml");
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+                if (pr.ErrorMsg != "") return pr.ErrorMsg;
+                return pr.RenderedText;
+            }
+            return "ERROR: Invalid ItemId";
+        }
         public string AddUserReview()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");

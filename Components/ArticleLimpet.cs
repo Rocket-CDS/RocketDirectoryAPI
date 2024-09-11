@@ -148,7 +148,7 @@ namespace RocketDirectoryAPI.Components
             var postLists = postInfo.GetLists();
             foreach (var listname in postLists)
             {
-                if (listname != "imagelist" && listname != "documentlist" && listname != "linklist" && listname != "reviewlist")
+                if (listname != "modellist" && listname != "imagelist" && listname != "documentlist" && listname != "linklist" && listname != "reviewlist")
                 {
                     var listData = postInfo.GetList(listname);
                     foreach (var listItem in listData)
@@ -678,6 +678,71 @@ namespace RocketDirectoryAPI.Components
             return false;
         }
 
+        #endregion
+
+        #region "models"
+
+        public string ModelListName { get { return "modellist"; } }
+
+        public void UpdateModels(List<SimplisityInfo> modelList)
+        {
+            Info.RemoveList("modellist");
+            foreach (var sInfo in modelList)
+            {
+                var modelData = new ArticleModel(sInfo, CultureCode);
+                UpdateModel(modelData);
+            }
+        }
+        public List<SimplisityInfo> GetModelList()
+        {
+            return Info.GetList("modellist");
+        }
+        public ArticleModel AddModel()
+        {
+            var sInfo = new SimplisityInfo();
+            var modelkey = GeneralUtils.GetUniqueString();
+            sInfo.SetXmlProperty("genxml/hidden/modelkey", modelkey);
+            Info.AddListItem("modellist", sInfo);
+            return GetModel(modelkey);
+        }
+        public void UpdateModel(ArticleModel ArticleModel)
+        {
+            Info.RemoveListItem("modellist", "genxml/hidden/modelkey", ArticleModel.ModelKey);
+            Info.AddListItem("modellist", ArticleModel.Info);
+        }
+        public ArticleModel GetModel(int idx)
+        {
+            return new ArticleModel(Info.GetListItem("modellist", idx), CultureCode);
+        }
+        public ArticleModel GetModel(string modelKey)
+        {
+            return new ArticleModel(Info.GetListItem("modellist", "genxml/hidden/modelkey", modelKey), CultureCode);
+        }
+        public List<ArticleModel> GetModels()
+        {
+            var rtn = new List<ArticleModel>();
+            foreach (var i in Info.GetList("modellist"))
+            {
+                rtn.Add(new ArticleModel(i, CultureCode));
+            }
+            return rtn;
+        }
+        public Dictionary<string, string> GetModelDictionary(string template = "{ref} {name} {price}", string cultureCode = "")
+        {
+            if (cultureCode == "") cultureCode = DNNrocketUtils.GetCurrentCulture();
+            var rtn = new Dictionary<string, string>();
+            foreach (var modelData in GetModels())
+            {
+                if (!rtn.ContainsKey(modelData.ModelKey) && modelData.ModelKey != "")
+                {
+                    var temp = template.Replace("{ref}", modelData.Ref);
+                    temp = temp.Replace("{name}", modelData.Name);
+                    temp = temp.Replace("{price}", modelData.BestPriceDisplay(cultureCode));
+                    rtn.Add(modelData.ModelKey, temp.Trim(' '));
+                }
+            }
+            return rtn;
+        }
         #endregion
 
         #region "properties"

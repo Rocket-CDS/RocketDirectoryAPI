@@ -67,8 +67,23 @@ namespace RocketDirectoryAPI.Components
         public void Save(SimplisityInfo info)
         {
             Record.XMLData = info.XMLData;
+            UpdateCurrencyCode(CurrencyCultureCode);
             Update();
         }
+        public void UpdateCurrencyCode(string currencyCultureCode)
+        {
+            CurrencyCultureCode = currencyCultureCode;
+            //currency data
+            var cultureInfo = new CultureInfo(CurrencyCultureCode, false);
+            NumberFormatInfo nfi = cultureInfo.NumberFormat;
+            CurrencyDecimalDigits = nfi.CurrencyDecimalDigits;
+            CurrencyDecimalSeparator = nfi.CurrencyDecimalSeparator;
+            CurrencyGroupSeparator = nfi.CurrencyGroupSeparator;
+            CurrencySymbol = nfi.CurrencySymbol;
+            var ri = new RegionInfo(cultureInfo.LCID);
+            CurrencyCode = ri.ISOCurrencySymbol;
+        }
+
         public void Update()
         {
             // check for SQL injection
@@ -509,6 +524,109 @@ namespace RocketDirectoryAPI.Components
         {
             return "articleadmin_editlist";
         }
+
+        #region "Currency"
+        private bool IsNumeric(string value)
+        {
+            int i = 0;
+            return int.TryParse(value, out i); //i now = value 
+        }
+        public int CurrencyConvertCents(string value)
+        {
+            var rtn = CurrencyConvertToCulture(value);
+            var rtnStr = Regex.Replace(rtn.ToString(), "[^0-9]", ""); // remove ALL non numeric
+            if (IsNumeric(rtnStr)) return Convert.ToInt32(rtnStr);
+            return 0;
+        }
+        public string CurrencyEdit(int intValue)
+        {
+            return CurrencyCentsToDollars(intValue).ToString();
+        }
+        public string CurrencyDisplay(decimal value)
+        {
+            return value.ToString("C", CultureInfo.GetCultureInfo(CurrencyCultureCode));
+        }
+        public decimal CurrencyCentsToDollars(int cents)
+        {
+            // DCL: Unsure why we make everything positive, I think it was a mistake.  
+            //var minus = false;
+            //if (cents < 0) minus = true;
+
+            var multiplyer = "1";
+            var lp = 0;
+            while (lp < CurrencyDecimalDigits)
+            {
+                multiplyer += "0";
+                lp += 1;
+            }
+            var rtn = Convert.ToDecimal(cents) / Convert.ToDecimal(multiplyer);
+            //if (minus) rtn = (rtn * -1);
+            return CurrencyConvertToCulture(rtn.ToString());
+        }
+        public decimal CurrencyConvertToCulture(string value)
+        {
+            // Reformat the amount, to ensure it is a valid currency. 
+            // very often the entered decimal seperator is the group seperator.
+            // so we convert to try and help, but may still be wrong.  
+            // We remove all non-numeric and then enter the decimal seperator at the correct place for the shop currencyculturecode.
+            // !!! There is probably a better way to do this !!!
+            var minus = false;
+            if (value.TrimStart(' ').StartsWith("-")) minus = true;
+            if (IsNumeric(value))
+            {
+                // FIX: 78  --> 78.00
+                // no decimal seperator, pad the string to allow for that.
+                string padzero = new String('0', CurrencyDecimalDigits);
+                value = value + padzero;
+            }
+            else
+            {
+                // FIX: 78.3  --> 78.30
+                // find out how many decimal numbers after seperator.
+                // We do not know what the sepeartor is, so take the last non-numeric as the seperator. (Reverse loop, so first in code.)
+                var seperatorCount = 0;
+                for (int i = 0; i < value.Length; i++)
+                {
+                    if (!char.IsNumber(value[i])) seperatorCount = (value.Length - i) - 1;
+                }
+                if (seperatorCount < CurrencyDecimalDigits)
+                {
+                    value = value.PadRight(value.Length + (CurrencyDecimalDigits - seperatorCount), '0');
+                }
+            }
+            value = Regex.Replace(value, "[^0-9]", ""); // remove ALL non numeric
+            if (value.Length < (CurrencyDecimalDigits + 1)) value = value.PadRight((CurrencyDecimalDigits + 1), '0');
+            var newamount = "";
+            for (int i = 0; i < value.Length; i++)
+            {
+                if ((value.Length - i) == (CurrencyDecimalDigits))
+                {
+                    newamount += CurrencyDecimalSeparator;
+                }
+                newamount += value[i];
+            }
+            var rtn = Convert.ToDecimal(newamount, CultureInfo.GetCultureInfo(CurrencyCultureCode));
+            if (minus) rtn = (rtn * -1);
+            return rtn;
+        }
+        public string CurrencyCultureCode
+        {
+            get
+            {
+                var rtn = Record.GetXmlProperty("genxml/currencyculturecode");
+                if (rtn == "") rtn = DNNrocketUtils.GetCurrentCulture();
+                return rtn;
+            }
+            set { Record.SetXmlProperty("genxml/currencyculturecode", value.ToString()); }
+        }
+        public int CurrencyDecimalDigits { get { return Record.GetXmlPropertyInt("genxml/currencydecimaldigits"); } set { Record.SetXmlProperty("genxml/currencydecimaldigits", value.ToString()); } }
+        public string CurrencyDecimalSeparator { get { return Record.GetXmlProperty("genxml/currencydecimalseparator"); } set { Record.SetXmlProperty("genxml/currencydecimalseparator", value.ToString()); } }
+        public string CurrencyGroupSeparator { get { return Record.GetXmlProperty("genxml/currencygroupseparator"); } set { Record.SetXmlProperty("genxml/currencygroupseparator", value.ToString()); } }
+        public string CurrencySymbol { get { return Record.GetXmlProperty("genxml/currencysymbol"); } set { Record.SetXmlProperty("genxml/currencysymbol", value.ToString()); } }
+        public string CurrencyCode { get { return Record.GetXmlProperty("genxml/currencycode"); } set { Record.SetXmlProperty("genxml/currencycode", value.ToString()); } }
+
+
+        #endregion
 
         #region "Info - PortalCatalog Data"
         public SimplisityInfo Info { get { return new SimplisityInfo(Record); } }

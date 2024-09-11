@@ -399,4 +399,19 @@
   <data name="general.Text" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="currencycode.Text" xml:space="preserve">
+    <value>Currency Code</value>
+  </data>
+  <data name="currencyculturecode.Text" xml:space="preserve">
+    <value>Currency Culture Code</value>
+  </data>
+  <data name="models.Text" xml:space="preserve">
+    <value>Models</value>
+  </data>
+  <data name="price.Text" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="model.Text" xml:space="preserve">
+    <value>Model</value>
+  </data>
 </root>

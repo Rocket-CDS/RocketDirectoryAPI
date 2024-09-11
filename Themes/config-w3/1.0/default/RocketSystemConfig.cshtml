@@ -58,6 +58,26 @@
             @ResourceKey("DNNrocket.suonly")
         </div>
     }
+
+    <div class="w3-row">
+        <div class="w3-col m6  w3-padding" style="">
+            <label class="">@ResourceKey("RC.currencyculturecode")</label>
+            @{
+                var allCultureCodeDict = new Dictionary<string, string>();
+                var allCultureCodeList = DNNrocketUtils.GetAllCultureCodeList();
+                foreach (var cRec in allCultureCodeList)
+                {
+                    allCultureCodeDict.Add(cRec.GetXmlProperty("genxml/code"), cRec.GetXmlProperty("genxml/code"));
+                }
+            }
+            @DropDownList(info, "genxml/currencyculturecode", allCultureCodeDict, "class='w3-input w3-border'", DNNrocketUtils.GetEditCulture())
+        </div>
+        <div class="w3-col m6 w3-padding">
+            <label class="">@ResourceKey("RC.currencycode")</label>
+            @TextBox(info, "genxml/currencycode", "class='w3-input w3-border' disabled ", "", false)
+        </div>
+    </div>
+
     <i>@ResourceKey("RC.setcanonical")</i>
     <div class="w3-row ">
         <div class="w3-quarter  w3-padding">
