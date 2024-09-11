@@ -40,7 +40,7 @@
                         </div>
                         <div class="w3-col m1 w3-padding" style="min-width: 160px;">
                             <label class="">@ResourceKey("RC.price")</label>
-                            @TextBoxMoney(articleData.CultureCode, modelInfo, "genxml/textbox/modelprice", "  class='w3-input w3-border w3-right-align ' autocomplete='off' ", "0", false, modLP)
+                            @TextBoxMoney(articleData.PortalId, systemData.SystemKey, articleData.CultureCode, modelInfo, "genxml/textbox/modelprice", "  class='w3-input w3-border w3-right-align ' autocomplete='off' ", "0", false, modLP)
                         </div>
                         <div class="simplisity_removelistitem w3-right w3-padding" s-removelist=".modellist" s-recylebin="modellistbin" style="cursor: pointer;">
                             @ButtonIcon(ButtonTypes.remove)

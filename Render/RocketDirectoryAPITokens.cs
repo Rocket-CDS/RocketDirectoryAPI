@@ -100,20 +100,7 @@ namespace RocketDirectoryAPI.Components
             AssignDataModel(sModel);
             return "";
         }
-        /// <summary>
-        /// Textbox for money input
-        /// </summary>
-        /// <param name="cultureCode">The culture code.</param>
-        /// <param name="info">The information.</param>
-        /// <param name="xpath">The xpath.</param>
-        /// <param name="attributes">The attributes.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <param name="localized">if set to <c>true</c> [localized].</param>
-        /// <param name="row">The row.</param>
-        /// <param name="listname">The listname.</param>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
-        public IEncodedString TextBoxMoney(string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
+        public IEncodedString TextBoxMoney(int portalId, string systemKey, string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
         {
             if (info == null) info = new SimplisityInfo();
             var value = info.GetXmlPropertyInt(xpath);
@@ -131,9 +118,13 @@ namespace RocketDirectoryAPI.Components
             var typeattr = "type='" + type + "'";
             if (attributes.ToLower().Contains(" type=")) typeattr = "";
 
-            var strOut = "<input value='" + CurrencyUtils.CurrencyEdit(value, cultureCode) + "' id='" + id + "' s-datatype='int' s-xpath='" + xpath + "' " + attributes + " " + upd + " " + typeattr + " />";
+            var portalShop = new PortalCatalogLimpet(portalId, cultureCode, systemKey);
+
+            var strOut = "<input value='" + portalShop.CurrencyEdit(value) + "' id='" + id + "' s-xpath='" + xpath + "' " + attributes + " " + upd + " " + typeattr + " />";
+
             return new RawString(strOut);
         }
+
         /// <summary>
         /// Gets the interfaces name from the resource file.
         /// </summary>

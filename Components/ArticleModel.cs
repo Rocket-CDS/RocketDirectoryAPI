@@ -28,8 +28,6 @@ namespace RocketDirectoryAPI.Components
                 var modelkey = GeneralUtils.GetUniqueString();
                 Info.SetXmlProperty("genxml/hidden/modelkey", modelkey);
             }
-            if (Info == null) Info = new SimplisityInfo();
-            Weight = Info.GetXmlPropertyInt("genxml/textbox/weight"); // convert to int
         }
 
         public SimplisityInfo Info { get; private set; }
@@ -63,17 +61,6 @@ namespace RocketDirectoryAPI.Components
                 Info.SetXmlProperty("genxml/lang/genxml/textbox/modelname", value);
             }
         }
-        public int Weight
-        {
-            get
-            {
-                return Info.GetXmlPropertyInt("genxml/textbox/weight");
-            }
-            set
-            {
-                Info.SetXmlPropertyInt("genxml/textbox/weight", value.ToString());
-            }
-        }
         public void PriceSetValue(string price)
         {
             PriceCents = PortalContent.CurrencyConvertCents(price);
@@ -92,52 +79,6 @@ namespace RocketDirectoryAPI.Components
             if (cultureCode == "") cultureCode = PortalContent.CurrencyCultureCode;
             return Price.ToString("C", CultureInfo.GetCultureInfo(cultureCode));
         }
-
-        public void SalePriceSetValue(string price)
-        {
-            SalePriceCents = PortalContent.CurrencyConvertCents(price);
-        }
-        public int SalePriceCents
-        {
-            get { return Info.GetXmlPropertyInt("genxml/textbox/modelsaleprice"); }
-            set { Info.SetXmlPropertyInt("genxml/textbox/modelsaleprice", value.ToString()); }
-        }
-        public decimal SalePrice
-        {
-            get { return (PortalContent.CurrencyCentsToDollars(SalePriceCents)); }
-        }
-        public string SalePriceDisplay(string cultureCode = "")
-        {
-            if (cultureCode == "") cultureCode = PortalContent.CurrencyCultureCode;
-            return SalePrice.ToString("C", CultureInfo.GetCultureInfo(cultureCode));
-        }
-        public int BestPriceCents
-        {
-            get
-            {
-                if (SalePriceCents > 0 && SalePriceCents < PriceCents)
-                    return SalePriceCents;
-                else
-                    return PriceCents;
-            }
-        }
-        public decimal BestPrice
-        {
-            get
-            {
-                if (SalePriceCents > 0 && SalePriceCents < PriceCents)
-                    return SalePrice;
-                else
-                    return Price;
-            }
-        }
-        public string BestPriceDisplay(string cultureCode = "")
-        {
-            if (cultureCode == "") cultureCode = PortalContent.CurrencyCultureCode;
-            return BestPrice.ToString("C", CultureInfo.GetCultureInfo(cultureCode));
-        }
-
-
         public string CultureCode { get; private set; }
         public PortalCatalogLimpet PortalContent { get; private set; }
 

@@ -176,11 +176,39 @@ namespace RocketDirectoryAPI.Components
             UpdateDocs(postInfo.GetList("documentlist"));
             UpdateLinks(postInfo.GetList("linklist"));
             UpdateReview(postInfo.GetList("reviewlist"));
+            UpdateModels(postInfo.GetList("modellist"));
 
             //------------------------------------------------------------------------------------------
-            //NOTE: THE FORMAT FIX CAN ONLY BE DONE IN THE SAVE, IT FIXES THE INVLIAD HUMAN INPUT.
+            //NOTE: THE FORMAT FIX CAN ONLY BE DONE IN THE SAVE, IT FIXES THE INVALID HUMAN INPUT.
             // Fix incorrect money value.  All money should be kept in int.
             #region "Money Format"
+            var lp3 = 1;
+            var modelList = postInfo.GetList("modellist");
+            foreach (var model in modelList)
+            {
+                Info.SetXmlPropertyInt("genxml/modellist/genxml[" + lp3 + "]/textbox/modelprice", PortalCatalog.CurrencyConvertCents(model.GetXmlProperty("genxml/textbox/modelprice")).ToString());
+                lp3 += 1;
+            }
+
+            int pmax = 0;
+            int pmin = 0;
+            int psmax = 0;
+            int psmin = 0;
+            var modelList2 = Info.GetList("modellist");
+            foreach (var m in modelList2)
+            {
+                var mPrice = m.GetXmlPropertyInt("genxml/textbox/modelprice");
+                if (mPrice < pmin || pmin == 0) pmin = mPrice;
+                if (mPrice > pmax || pmax == 0) pmax = mPrice;
+            }
+            if (psmin == 0) psmin = psmax; // if we have a sale price, the minimum should always be set.
+            Info.SetXmlPropertyInt("genxml/priceminimum", pmin.ToString());
+            Info.SetXmlPropertyInt("genxml/pricemaximum", pmax.ToString());
+            var bestprice = pmin;
+            if (psmin != 0) bestprice = psmin;
+            Info.SetXmlPropertyInt("genxml/bestprice", bestprice.ToString());
+
+            // FIX any prices saved as single fields.
             var nodList = postInfo.XMLDoc.SelectNodes("genxml/money/*");
             if (nodList != null)
             {
@@ -189,6 +217,7 @@ namespace RocketDirectoryAPI.Components
                     Info.SetXmlPropertyInt("genxml/money/" + nod.Name, CurrencyUtils.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name), CultureCode).ToString());
                 }
             }
+
             #endregion
 
             return ValidateAndUpdate();
@@ -737,7 +766,7 @@ namespace RocketDirectoryAPI.Components
                 {
                     var temp = template.Replace("{ref}", modelData.Ref);
                     temp = temp.Replace("{name}", modelData.Name);
-                    temp = temp.Replace("{price}", modelData.BestPriceDisplay(cultureCode));
+                    temp = temp.Replace("{price}", modelData.PriceDisplay(cultureCode));
                     rtn.Add(modelData.ModelKey, temp.Trim(' '));
                 }
             }
