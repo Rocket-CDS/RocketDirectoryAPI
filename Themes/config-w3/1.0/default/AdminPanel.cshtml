@@ -22,7 +22,7 @@
     </div>
     <div class="w3-bar-item" style="cursor:pointer;" onclick="window.location.reload();">
         <img src="/DesktopModules/DNNrocket/API/images/apps.svg" class="w3-round" style="height:29px;" />
-        <span class="w3-small">&nbsp;@ResourceKey("DNNrocket.services")</span>
+        <span class="">&nbsp;@ResourceKey("DNNrocket.services")</span>
     </div>
 
     <div class="w3-right w3-bar-item" style="cursor:pointer;">
@@ -73,8 +73,8 @@
         {
             if (r.DefaultCommand != "")
             {
-                <div class="simplisity_click w3-theme-light w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                    <span class="w3-small">@InterfaceNameResourceKey(r, systemData)</span>
+                <div class="simplisity_click w3-hover-theme w3-theme-light w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                    <span class="">@InterfaceNameResourceKey(r, systemData)</span>
                 </div>
             }
         }
