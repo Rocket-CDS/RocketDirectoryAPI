@@ -695,6 +695,48 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        public List<ArticleLimpet> GetRelatedArticles(string groupRef = "", int numberOfArticles = 5)
+        {
+            var rtn = new List<ArticleLimpet>();
+            var articleIdList = new List<int>();
+            var properties = GetProperties(groupRef);
+            
+            foreach (var p in properties)
+            {
+                var sqlCmd = "select distinct ParentItemId from {databaseOwner}[{objectQualifier}RocketDirectoryAPI] where typecode = 'PROPXREF' and xrefitemid = " + p.PropertyId + " for xml raw";
+                var sqlRtn = "<root><rows>" +  _objCtrl.GetSqlxml(sqlCmd) + "</rows></root>";
+                var sRec = new SimplisityRecord();
+                sRec.XMLData = sqlRtn;
+                foreach (var r in sRec.GetRecordList("rows"))
+                {
+                    var articleId = r.GetXmlPropertyInt("row/@ParentItemId");
+                    if (articleId > 0)
+                    {
+                        if (!articleIdList.Contains(articleId)) articleIdList.Add(articleId);
+                    }
+                }
+            }
+            Random random = new Random();
+            int n = articleIdList.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = random.Next(n + 1);
+                int value = articleIdList[k];
+                articleIdList[k] = articleIdList[n];
+                articleIdList[n] = value;
+            }
+            var lp = 1;
+            foreach (var artId in articleIdList)
+            {
+                var articleData = new ArticleLimpet(PortalId, artId, CultureCode, SystemKey);
+                if (articleData.Exists) rtn.Add(articleData);
+                if (lp >= numberOfArticles) break;
+                lp += 1;
+            }
+            return rtn;
+        }
+
         public bool HasProperty(int propertyId)
         {
             if (_propXrefListId == null) PopulateLists();
