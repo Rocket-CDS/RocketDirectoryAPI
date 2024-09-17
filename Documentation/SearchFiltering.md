@@ -1,7 +1,21 @@
 # Search
-Text searching works on a combination of  SQL and DNN search system.  
-There is a default index created that can be used or you can use other XML data.  
-Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created.  Also, the DNN search database can be used to increase peformace. 
+Text searching works with SQL and/or the DNN search system.  
+
+## DNN Search
+The prefered method of text search is the DNN search.  It gives better performace, but less control.
+
+## Setup of the DNN Search
+- Ensure the DNN Scheduler is active.
+- Ensure the "Search: Site Crawler" Scheduler Task is running.
+- In RocketDirectory Admin Select a search page.
+- Save the Admin Settings.
+- Select a rocket directory module for the search. 
+
+The DNN search uses the Scheduler to populated the DNN search database, each time an article/content is edited the scheduler is told to rebuild the index for that article/content.  
+
+**NOTE:** If you are importing data or altering the DB without using the Admin UI you will need to run the "Directory Admin Panel>Admin>Validate and Rebuild Search Index" button.  
+
+
 
 ## Search Rules
 
@@ -51,6 +65,9 @@ or use the razor token
 @FilterActionButton(ResourceKey("DNNrocket.clear").ToString(), sessionParams, false)
 ```
 
+## Advanced XML SQL Search
+There is a default index created that can be used or you can use other XML data.  
+Sorting on XML is very slow and an index should be created, selecting on XML is quick and no real need for a special index column to be created.   
 
 
 ## The default index that are created.  
@@ -81,7 +98,12 @@ The sqlindex configuration is found in the "/systemrules.rules" file.
 *These can be altered by editing the "systemruels.rules" file and then you must do a validation of the system to rebuild the new index.*
 
 ## Defaut SQL search filter 
-**DNN search must be activated**
+ 
+**IMPORTANT: The DNN search must be activated and you MUST also define a search page and search module in the Admin Settings of the RocketDirectory System.**  
+
+The DNN search musts be linked to a modules, when the articles are updated a flag is placed on the module to reindex the data that has changed.  
+If you do not do this link the DNN search will return nothing and hence the article list will return ALL products without any searching.  
+
 ```
 {contains:searchtext}
 ```

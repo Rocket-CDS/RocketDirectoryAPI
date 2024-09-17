@@ -30,15 +30,7 @@
             <img src="/DesktopModules/DNNrocket/API/images/manage_accounts.svg" class="w3-round" style="height:29px;" />
             @UserUtils.GetCurrentUserName()
         </div>
-        <div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding" style="width:320px;left:calc(100vw - 320px)!important;">
-            <div>
-                @UserUtils.GetCurrentUserEmail()
-            </div>
-            <hr />
-            <div class="w3-button w3-theme-action2 w3-right simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</div>
-        </div>
     </div>
-
 
     @if (enabledlanguages.Count() > 1)
     {
@@ -57,6 +49,21 @@
 
 
 </div>
+
+<div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding w3-top" style="top:41px; width:320px;left:calc(100vw - 320px)!important;">
+    <div>
+        @UserUtils.GetCurrentUserEmail()
+    </div>
+    <hr />
+    <div class="w3-button w3-theme-action2 w3-right simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</div>
+    @if (UserUtils.IsSuperUser())
+    {
+        <div class="w3-row w3-small">
+            <div class="simplisity_click" s-reload="true" s-cmd="rocketapi_recycleapppool" style="cursor:pointer;">@ResourceKey("DNNrocket.recycleapppool")</div>
+        </div>
+    }
+</div>
+
 
 <!-- Sidebar -->
 <div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" style="top:41px;display:none" id="largeSidebar">

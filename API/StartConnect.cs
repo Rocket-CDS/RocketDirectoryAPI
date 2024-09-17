@@ -89,6 +89,7 @@ namespace RocketDirectoryAPI.API
                     strOut = RocketSystem();
                     break;
                 case "portalcatalog_validatecatalog":
+                    IndexCatalog();
                     strOut = ValidateCatalog();
                     break;
                 case "portalcatalog_indexcatalog":
