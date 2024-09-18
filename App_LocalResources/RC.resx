@@ -417,4 +417,13 @@
   <data name="barcode.Text" xml:space="preserve">
     <value>Bar Code</value>
   </data>
+  <data name="config.Text" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="orderby.Text" xml:space="preserve">
+    <value>OrderBy</value>
+  </data>
+  <data name="plugins.Text" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
 </root>

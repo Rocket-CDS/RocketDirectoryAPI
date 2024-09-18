@@ -37,15 +37,37 @@
         <div class="w3-padding w3-button w3-theme-action2 savebutton simplisity_click" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId","portalsystems":"@Model.SessionParamsData.Get("portalsystems")"}'>@ButtonText(ButtonTypes.save)</div>
         @if (UserUtils.IsAdministrator())
         {
-            <div class="w3-padding w3-button w3-red w3-right savebutton simplisity_confirmclick" s-confirm="reset?" s-reload="true" s-cmd="portalcatalog_reset" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.reset)</div>
+            <div class="w3-padding w3-button w3-red w3-right  simplisity_confirmclick" s-confirm="reset?" s-reload="true" s-cmd="portalcatalog_reset" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.reset)</div>
         }        
     </div>
 
+    <div class="w3-padding">
+        <div class="w3-bar w3-margin-top w3-theme-l4">
+            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar tablink generaltabtablink" onclick="openSection('generaltab')">@ResourceKey("DNNrocket.general")</div>
+            <div class="w3-bar-item w3-button tablink w3-border-right configtablink" onclick="openSection('configtab')">@ResourceKey("RC.config")</div>
+            <div class="w3-bar-item w3-button tablink w3-border-right orderbylink" onclick="openSection('orderbytab')">@ResourceKey("RC.orderby")</div>
+            <div class="w3-bar-item w3-button tablink w3-border-right pluginstabtablink" onclick="openSection('pluginstab')">@ResourceKey("RC.plugins")</div>
+            <div class="w3-bar-item w3-button tablink w3-border-right toolstablink" onclick="openSection('toolstab')">@ResourceKey("DNNrocket.tools")</div>
+        </div>
+    </div>
+
+
     <div id="systemadminsection" class="w3-row">
-        [INJECT:appthemedirectory,RocketSystemGeneral.cshtml]
-        [INJECT:appthemedirectory,RocketSystemConfig.cshtml]
-        [INJECT:appthemedirectory,RocketSystemProviders.cshtml]
-        [INJECT:appthemedirectory,RocketSystemTools.cshtml]
+        <div id="generaltab" class='w3-row sectionname' style="display:none">
+            [INJECT:appthemedirectory,RocketSystemGeneral.cshtml]
+        </div>
+        <div id="configtab" class='w3-row sectionname' style="display:none">
+            [INJECT:appthemedirectory,RocketSystemConfig.cshtml]
+        </div>
+        <div id="orderbytab" class='w3-row sectionname' style="display:none">
+            [INJECT:appthemedirectory,RocketSystemOrderBy.cshtml]
+        </div>
+        <div id="pluginstab" class='w3-row sectionname' style="display:none">
+            [INJECT:appthemedirectory,RocketSystemProviders.cshtml]
+        </div>
+        <div id="toolstab" class='w3-row sectionname' style="display:none">
+            [INJECT:appthemedirectory,RocketSystemTools.cshtml]
+        </div>
     </div>
 
     <div>
@@ -62,5 +84,26 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var sectionName = simplisity_getCookieValue('sectionName');
+        if ((typeof sectionName === 'undefined') || sectionName === '') {
+            sectionName = 'generaltab';
+        }
+        openSection(sectionName);
     });
+    function openSection(sectionName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("sectionname");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        $(".tablink").each(function (index) {
+            $(this).removeClass('w3-bottombar');
+        });
+
+        document.getElementById(sectionName).style.display = "block";
+
+        $('.' + sectionName + 'tablink').addClass('w3-bottombar');
+
+        simplisity_setCookieValue('sectionName', sectionName);
+    }
 </script>

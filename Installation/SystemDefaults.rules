@@ -15,10 +15,10 @@ order by articlename.GUIDKey
 order by articlename.GUIDKey desc
 	    </name-desc>
         <ref>
-			order by articleref.GUIDKey
+order by articleref.GUIDKey
 		</ref>
         <ref-desc>
-			order by articleref.GUIDKey desc
+order by articleref.GUIDKey desc
 		</ref-desc>
     </product>
   </sqlorderby>

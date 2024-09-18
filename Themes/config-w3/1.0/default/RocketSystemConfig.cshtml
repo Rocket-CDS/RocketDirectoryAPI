@@ -19,35 +19,6 @@
     {
         disableSqlEdit = "";
     }
-
-    var orderbyDictionary = new Dictionary<string, string>();
-    foreach (var orderbyInfo in portalCatalog.GetProductOrderByList())
-    {
-        if (!orderbyDictionary.ContainsKey(orderbyInfo.GetXmlProperty("genxml/key")))
-        {
-            var textValue = ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key")).ToString();
-            if (textValue == "")
-            {
-                textValue = orderbyInfo.GetXmlProperty("genxml/key");
-            }
-            orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), textValue);            
-        }
-    }
-
-    var lp3 = 1;
-    var orderbylist = portalCatalog.GetOrderByList();
-    if (orderbylist.Count == 0)
-    {
-        foreach (var d in defaultsData.ArticleOrderBy())
-        {
-            var s = new SimplisityInfo();
-            s.SetXmlProperty("genxml/key", d.Key);
-            s.SetXmlProperty("genxml/value", d.Value);
-            s.SetXmlProperty("genxml/default", "true");
-            orderbylist.Add(s);
-        }
-    }
-
 }
 
 <div id="sidemenuconfigdata" class="w3-container a-panelsidemenu">
@@ -90,7 +61,7 @@
         </div>
         <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.searchpage")</label>
-            @TabSelectListOnTabId(info, "genxml/searchpage", " class=' w3-input w3-border ' ", true)
+            @TabSelectListOnTabId(info, "genxml/searchpage", " class=' w3-input w3-border ' onchange='$(\".savebutton\").trigger(\"click\");' ", true)
         </div>
         <div class="w3-quarter  w3-padding">
             @if (PagesUtils.PageExists(info.PortalId, info.GetXmlPropertyInt("genxml/searchpage")))
@@ -123,154 +94,9 @@
         </div>
         @TextArea(info, "genxml/dnnsearchextra", "class='w3-input w3-border' rows='2' ", "", false)
     </div>
-
-    <div class="w3-row  w3-padding">
-        <label class=""><b>@ResourceKey("RCP.sqlorderby")</b></label>
-        <div class="w3-small">
-            <i>
-                @ResourceKey("RCP.sqlorderby", "", "Help")
-            </i>
-        </div>
-    </div>
-
-    <div class="w3-container">
-        <div class="w3-row w3-margin">
-            @if (UserUtils.IsSuperUser())
-            {
-                <div class="w3-col m6 w3-padding">
-                    <div row="sqlorderbyproduct" class="sqlorderbyproductaddvaluekey w3-button w3-teal w3-padding">@ButtonText(ButtonTypes.add)</div>
-                </div>
-            }
-            <div class="w3-col m6 w3-padding">
-            <label>Admin Order By</label>
-            @DropDownList(info, "genxml/hidden/adminorderbyref", orderbyDictionary, "class='w3-input w3-border w3-light-grey' title='Admin orderby'", "")
-            </div>
-
-        </div>
-
-        <div class="w3-row w3-margin">
-
-            <div class="w3-row  w3-theme-l4 w3-padding">
-                <div class="w3-col m3">@ResourceKey("DNNrocket.key")</div>
-                <div class="w3-col m8">@ResourceKey("DNNrocket.value")</div>
-                <div class="w3-col m1" style="width:20px;"></div>
-            </div>
-
-            <ul class="w3-ul w3-padding dictionarylistsqlorderbyproduct">
-                @foreach (var orderby in orderbylist)
-                {
-                    var disabledstr = "";
-                    if (orderby.GetXmlPropertyBool("genxml/default"))
-                    {
-                        disabledstr = "disabled";
-                    }
-
-                    <li class="sqlorderbyproduct w3-card w3-margin-bottom w3-display-container">
-                        <input id="sqlorderbyproductdefault_@lp3" value="@orderby.GetXmlProperty("genxml/default")" s-xpath="genxml/default" class="w3-input w3-border" @disableSqlEdit autocomplete="off" type="hidden">
-                        <div class="w3-row">
-
-                            <div class="w3-col w3-padding m3">
-                                <input id="sqlorderbyproductkey_@lp3" value="@orderby.GetXmlProperty("genxml/key")" s-xpath="genxml/key" class="w3-input w3-border" @disabledstr @disableSqlEdit autocomplete="off" type="text">
-                            </div>
-                            <div class="w3-col w3-padding m6">
-                                <input id="sqlorderbyproductvalue_@lp3" value="@orderby.GetXmlProperty("genxml/value")" s-xpath="genxml/value" class="w3-input w3-border" @disableSqlEdit autocomplete="off" type="text">
-                            </div>
-
-                            <div class=" w3-col m1 w3-padding-small w3-right" style="width:60px;">
-                                @if (UserUtils.IsAdministrator())
-                                {
-                                    <div onclick="this.parentElement.parentElement.parentElement.remove();" class="w3-button">
-                                        @ButtonIcon(ButtonTypes.remove)
-                                    </div>
-                                }
-                            </div>
-
-                            <div class="up w3-col m1 w3-padding-small w3-right" style="width:60px;">
-                                <div class="w3-button">
-                                    <span class="material-icons">
-                                        expand_less
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="down w3-col m1 w3-padding-small w3-right" style="width:60px;">
-                                <div class="w3-button">
-                                    <span class="material-icons">
-                                        expand_more
-                                    </span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    lp3 += 1;
-                }
-            </ul>
-
-        </div>
-
-      </div>
-
 </div>
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-
-     
-        $('.sqlorderbyproductaddvaluekey').unbind("click");
-        $('.sqlorderbyproductaddvaluekey').click(function () {
-            dnnrocket_addtextli('', '');
-        });
-
-
-	    var upLink = document.querySelectorAll(".up");
-
-	    for (var i = 0; i < upLink.length; i++) {
-		    upLink[i].addEventListener('click', function () {
-                var wrapper = this.parentElement.parentElement;
-
-			    if (wrapper.previousElementSibling)
-			        wrapper.parentNode.insertBefore(wrapper, wrapper.previousElementSibling);
-		    });
-	    }
-
-	    var downLink = document.querySelectorAll(".down");
-
-	    for (var i = 0; i < downLink.length; i++) {
-		    downLink[i].addEventListener('click', function () {
-                var wrapper = this.parentElement.parentElement;
-			    if (wrapper.nextElementSibling)
-			        wrapper.parentNode.insertBefore(wrapper.nextElementSibling, wrapper);
-		    });
-	    }
-
+    $(document).ready(function () { 
     });
-
-
-    function dnnrocket_addtextli(key, value) {
-
-        if (typeof value === 'undefined') {
-            value = '';
-        }
-
-        var rowlp = $("ul.dictionarylistsqlorderbyproduct li").length + 1;
-
-        var addtext = '';
-        addtext += '<li class="sqlorderbyproduct w3-card w3-margin-bottom w3-display-container"> ';
-        addtext += '    <div class="w3-row">';
-        addtext += '		<div class="w3-col w3-padding m3">';
-        addtext += '			<input id="sqlorderbyproductkey_' + rowlp + '" value="sqlorderby-" s-xpath="genxml/key" class="w3-input w3-border" autocomplete="off" type="text">';
-        addtext += '		</div>';
-        addtext += '		<div class="w3-col w3-padding m6">';
-        addtext += '			<input id="sqlorderbyproductvalue_' + rowlp + '" value="' + value + '" s-xpath="genxml/value" class="w3-input w3-border" autocomplete="off" type="text">';
-        addtext += '		</div>';
-        addtext += '	</div>';
-        addtext += '</li>';
-
-        $('.dictionarylistsqlorderbyproduct').append(addtext);
-
-    }
-
-
 </script>

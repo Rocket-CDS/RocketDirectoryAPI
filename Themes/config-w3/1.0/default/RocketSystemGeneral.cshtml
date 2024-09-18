@@ -31,16 +31,9 @@
     if (info.GetXmlProperty("genxml/select/appthemeadmin") == "")
     {
         requiredCSS = "w3-pale-red";
-        if (selectedProject != "")
-        {
-            var appThemeDataList = AppThemeUtils.AppThemeDataList(portalCatalog.PortalId, selectedProject, systemData.SystemKey);
-            appThemeDict = appThemeDataList.NameListDict(true);
-        }
     }
-    else
-    {
-        appThemeDict = appThemeList.NameListDict();
-    }
+    var appThemeDataList = AppThemeUtils.AppThemeDataList(portalCatalog.PortalId, selectedProject, systemData.SystemKey);
+    appThemeDict = appThemeDataList.NameListDict(true);
 }
 
 <div id="sidemenugeneraldata" class="w3-container a-panelsidemenu">
