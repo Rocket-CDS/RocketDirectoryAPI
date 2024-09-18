@@ -11,11 +11,19 @@ The prefered method of text search is the DNN search.  It gives better performac
 - Save the Admin Settings.
 - Select a rocket directory module for the search. 
 
+
+## DNN Search tips
 The DNN search uses the Scheduler to populated the DNN search database, each time an article/content is edited the scheduler is told to rebuild the index for that article/content.  
 
-**NOTE:** If you are importing data or altering the DB without using the Admin UI you will need to run the "Directory Admin Panel>Admin>Validate and Rebuild Search Index" button.  
+If you are importing data or altering the DB without using the Admin UI you will need to run the **"Directory Admin Panel>Admin>Validate and Rebuild Search Index"** button.  
 
+It can be difficult getting the DNN search to work on the category for the first time.  For some unknown reason it does not index instantly, the time for index is slow and if there is a problem it stops.   
 
+- Try Restarting the AppPool
+- Re-run the **"Directory Admin Panel>Admin>Validate and Rebuild Search Index"**
+- Wait a period of time before testing.
+
+**Remember:** The DNN search is controlled by DNN, there are options in Site Settings>Search.  The "Enable Part Word" option can be helpful, but it does slow the indexing.   
 
 ## Search Rules
 
