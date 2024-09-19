@@ -15,19 +15,20 @@
 }
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
 
+
 <!-- Page Content -->
 <div class="w3-top w3-bar w3-theme-dark " style="height:41px;">
     <div class="w3-bar-item" style="padding: 8px 4px;">
         <img src="/DesktopModules/DNNrocket/API/images/nevoweb-icon.png" class="w3-round w3-white" style="height:29px;" />
     </div>
     <div class="w3-bar-item" style="cursor:pointer;" onclick="window.location.reload();">
-        <img src="/DesktopModules/DNNrocket/API/images/apps.svg" class="w3-round" style="height:29px;" />
+        <img src="/DesktopModules/DNNrocket/API/images/appswhite.svg" class="w3-round " style="height:29px;" />
         <span class="">&nbsp;@ResourceKey("DNNrocket.services")</span>
     </div>
 
     <div class="w3-right w3-bar-item" style="cursor:pointer;">
         <div class="w3-small" onclick="$('#accountdropdown').toggle();">
-            <img src="/DesktopModules/DNNrocket/API/images/manage_accounts.svg" class="w3-round" style="height:29px;" />
+            <img src="/DesktopModules/DNNrocket/API/images/manage_accountswhite.svg" class="w3-round" style="height:29px;" />
             @UserUtils.GetCurrentUserName()
         </div>
     </div>
@@ -68,7 +69,7 @@
 <!-- Sidebar -->
 <div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" style="top:41px;display:none" id="largeSidebar">
 
-    <div class="w3-theme-light w3-padding " style="height:41px;">
+    <div class="w3-padding " style="height:41px;">
         <div onclick="closeLargeSideBar()" class="w3-right w3-padding" style="cursor: pointer">
             <b>&times;</b>
         </div>
@@ -80,7 +81,7 @@
         {
             if (r.DefaultCommand != "")
             {
-                <div class="simplisity_click w3-hover-theme w3-theme-light w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                     <span class="">@InterfaceNameResourceKey(r, systemData)</span>
                 </div>
             }
@@ -100,7 +101,6 @@
 
         <div class="w3-container w3-animate-opacity w3-card w3-padding w3-margin w3-white">
 
-
             @foreach (var r in interfacelist)
             {
                 if (r.IsOnMenu && r.SecurityCheckUser(portalContent.PortalId, UserUtils.GetCurrentUserId()))
@@ -113,7 +113,7 @@
                             menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
                         }
                         <div class="w3-col s6 m4 l2 " style="height:210px;">
-                            <div class="w3-margin simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                            <div class="w3-margin @r.DefaultCommand simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                                 <div class="@(menuclass) w3-center w3-padding-24 w3-hover-shadow w3-border">
                                     <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
                                 </div>
@@ -130,6 +130,8 @@
     </div>
 </div>
 
+<div class="w3-hide rocketsystem_noadminsettings simplisity_click" s-cmd="rocketsystem_noadminsettings" s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi"}'></div>
+
 <script>
     $(document).ready(function () {
 
@@ -139,6 +141,17 @@
         simplisity_setParamField("basesystemkey", "rocketdirectoryapi");
         simplisity_setParamField("systemkey", "@(systemData.SystemKey)");
         $('#simplisity_systemkey').val('@(systemData.SystemKey)');
+
+        @if (String.IsNullOrEmpty(portalContent.AppThemeFolder))
+        {
+            <text>
+            if ($(".rocketsystem_edit")[0]) {
+                $('.rocketsystem_edit').trigger('click');
+            } else {
+                $('.rocketsystem_noadminsettings').trigger('click');
+            }
+            </text>        
+        }
 
         showMainPanel();
     });

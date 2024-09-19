@@ -46,6 +46,9 @@ namespace RocketDirectoryAPI.API
                 case "rocketsystem_delete":
                     strOut = RocketSystemDelete();
                     break;
+                case "rocketsystem_noadminsettings":
+                    strOut = NoAdminSettings();
+                    break;                    
 
 
                 case "rocketdirectoryapi_activate":
@@ -334,6 +337,20 @@ namespace RocketDirectoryAPI.API
                 return ex.ToString();
             }
         }
+        private String NoAdminSettings()
+        {
+            try
+            {
+                var razorTempl = GetSystemTemplate("NoAdminSettings.cshtml");
+                var pr = RenderRazorUtils.RazorProcessData(razorTempl, _dataObject.PortalContent, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+                if (pr.StatusCode != "00") return pr.ErrorMsg;
+                return pr.RenderedText;
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }        
         private String RocketSystemInit()
         {
             try

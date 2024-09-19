@@ -49,7 +49,10 @@ order by articleref.GUIDKey desc
       <cmd>rocketsystem_getappthemeversions</cmd>
       <action>true</action>
     </command>
-    
+	<command>
+		<cmd>rocketsystem_noadminsettings</cmd>
+		<action>true</action>
+	</command>		
 
     <command>
       <cmd>rocketdirectoryapi_adminpanel</cmd>

@@ -426,4 +426,7 @@
   <data name="plugins.Text" xml:space="preserve">
     <value>Plugins</value>
   </data>
+  <data name="noadminsettings.Text" xml:space="preserve">
+    <value>The system is not setup.  You do not have the required permissions, please login as SuperUser.</value>
+  </data>
 </root>

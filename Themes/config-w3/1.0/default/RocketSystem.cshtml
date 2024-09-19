@@ -85,7 +85,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var sectionName = simplisity_getCookieValue('sectionName');
-        if ((typeof sectionName === 'undefined') || sectionName === '') {
+        if (sectionName == null || (typeof sectionName === 'undefined') || sectionName === '') {
             sectionName = 'generaltab';
         }
         openSection(sectionName);

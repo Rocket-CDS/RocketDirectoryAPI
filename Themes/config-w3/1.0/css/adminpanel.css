@@ -35,7 +35,7 @@ body { height: 100vh; width: 100vw; background-color: #f0f0f0; }
 .w3-theme-light { color: #000 !important; background-color: #f2f9fe !important }
 .w3-theme-dark { color: #fff !important; background-color: #074b83 !important }
 .w3-theme-action { color: #fff !important; background-color: #074b83 !important }
-.w3-theme-action2 { color: #fff !important; background-color: #074b83 !important }
+.w3-theme-action2 { color: #fff !important; background-color: #2196f3 !important }
 
 .w3-theme { color: #fff !important; background-color: #2196f3 !important }
 .w3-text-theme { color: #2196f3 !important }
