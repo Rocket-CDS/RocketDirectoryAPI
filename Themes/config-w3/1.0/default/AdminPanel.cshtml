@@ -32,6 +32,9 @@
             @UserUtils.GetCurrentUserName()
         </div>
     </div>
+    <div class="w3-right w3-bar-item w3-hide-small w3-hide-medium w3-border-right" style="cursor:pointer;">
+        <span>@appTheme.Name</span>
+    </div>
 
     @if (enabledlanguages.Count() > 1)
     {
@@ -43,18 +46,20 @@
                 {
                     selectedcolor = "w3-border-bottom";
                 }
-                <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
+                <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black w3-left @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
             }
         </div>        
     }
 
-
 </div>
 
-<div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding w3-top" style="top:41px; width:320px;left:calc(100vw - 320px)!important;">
+<div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding w3-top w3-border" style="top:41px; width:320px;left:calc(100vw - 320px)!important;">
     <div>
         @UserUtils.GetCurrentUserEmail()
     </div>
+    <hr />
+    <div>@portalContent.ProjectName</div>
+    <div>@portalContent.AppThemeFolder</div>
     <hr />
     <div class="w3-button w3-theme-action2 w3-right simplisity_click" s-cmd="login_signout" s-reload="true">@ResourceKey("DNNrocket.signout")</div>
     @if (UserUtils.IsSuperUser())
@@ -142,7 +147,7 @@
         simplisity_setParamField("systemkey", "@(systemData.SystemKey)");
         $('#simplisity_systemkey').val('@(systemData.SystemKey)');
 
-        @if (String.IsNullOrEmpty(portalContent.AppThemeFolder))
+        @if (String.IsNullOrEmpty(portalContent.AppThemeFolder) || portalContent.MaxArticles == 0)
         {
             <text>
             if ($(".rocketsystem_edit")[0]) {
