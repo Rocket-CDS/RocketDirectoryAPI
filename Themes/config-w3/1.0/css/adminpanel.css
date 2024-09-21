@@ -49,10 +49,8 @@ body { height: 100vh; width: 100vw; background-color: #f0f0f0; }
 .tag-editor .tag-editor-tag { color: #000; background: #87ceeb; border-radius: 2px; }
 .tag-editor .tag-editor-delete { background: #87ceeb; }
 
-/* Style the list */
+/* Style the category list breadcrumb */
 ul.breadcrumb { padding: 3px 4px; list-style: none; background-color: #eee; }
-/* Display list items side by side */
 ul.breadcrumb li { display: inline; font-size: 14px; }
-/* Add a slash symbol (/) before/behind each list item */
 ul.breadcrumb li + li:before { padding: 8px; color: black; content: ">"; }
 

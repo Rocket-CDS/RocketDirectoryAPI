@@ -648,16 +648,22 @@ namespace RocketDirectoryAPI.Components
             var catRecord = _objCtrl.GetRecord(propertyId, _tableName);
             if (catRecord != null)
             {
-                var xrefGuidKey = GUIDKey + "-" + catRecord.GUIDKey;
+                var key = catRecord.GUIDKey;
+                if (key == "") key = GeneralUtils.GetUniqueString(2);
+                var xrefGuidKey = GUIDKey + "-" + key;
                 var catXrefRecord = _objCtrl.GetRecordByGuidKey(PortalId, -1, "PROPXREF", xrefGuidKey, "", _tableName);
                 if (catXrefRecord == null)
                 {
                     var sRec = new SimplisityRecord();
                     sRec.ItemID = -1;
+                    sRec.ModuleId = -1;
                     sRec.PortalId = PortalId;
                     sRec.ParentItemId = ArticleId;
                     sRec.XrefItemId = propertyId;
                     sRec.TypeCode = "PROPXREF";
+                    sRec.Lang = "";
+                    sRec.XMLData = "<genxml></genxml>";
+                    sRec.TextData = "";
                     sRec.GUIDKey = xrefGuidKey;
                     _objCtrl.Update(sRec, _tableName);
                 }

@@ -119,8 +119,14 @@ namespace RocketDirectoryAPI.Components
         }
         public List<SimplisityInfo> GetArticlesInfo()
         {
-            var searchFilter = " and [PROPXREF].[XrefItemId] = " + PropertyId  + " ";
-            return _objCtrl.GetList(PortalCatalog.PortalId, -1, SystemKey + "ART", searchFilter, CultureCode, "", 100, 0, 0, 0, _tableName);
+            var rtn = new List<SimplisityInfo>();
+            var propXrefList = _objCtrl.GetList(PortalId, -1, "PROPXREF", " and R1.[XrefItemId] = " + PropertyId + " ", "", "", 300, 0, 0, 0, _tableName);
+            foreach (var p in propXrefList)
+            {
+                var a = _objCtrl.GetInfo(p.ParentItemId, CultureCode, _tableName);
+                rtn.Add(a);
+            }
+            return rtn;
         }
         public int Update()
         {

@@ -402,4 +402,16 @@
   <data name="noresults.Text" xml:space="preserve">
     <value>Aucun résultat.</value>
   </data>
+  <data name="barcode.Text" xml:space="preserve">
+    <value>Code barre</value>
+  </data>
+  <data name="model.Text" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="models.Text" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
+  <data name="price.Text" xml:space="preserve">
+    <value>Prix</value>
+  </data>
 </root>
