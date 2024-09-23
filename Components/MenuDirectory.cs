@@ -38,6 +38,7 @@ namespace RocketDirectoryAPI.Components
                     p.Url = "#";
                 else
                     p.Url = DNNrocketUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
+                p.ImageRelPath = catData.LogoRelPath;
                 rtn.Add(p);
             }
             return rtn;
