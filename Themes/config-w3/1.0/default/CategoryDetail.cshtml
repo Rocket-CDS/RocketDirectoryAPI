@@ -53,6 +53,7 @@
 <div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     <div class="w3-row w3-padding">
+        <button class="w3-button w3-theme-action w3-border simplisity_click " s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@info.ParentItemId"}'>@ButtonText(ButtonTypes.back)</button>
         <button class="w3-button w3-theme-action2 simplisity_click savecategorybutton langchangesave" s-before="saveRichText" s-list=".imagecategorylist,.articlelist" s-cmd="categoryadmin_save" s-post="#datacategorysection" s-fields='{"categoryid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="categoryadmin_delete" s-fields='{"categoryid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>
