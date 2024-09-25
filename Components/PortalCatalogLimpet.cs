@@ -300,11 +300,9 @@ namespace RocketDirectoryAPI.Components
                                     }
                                 }
                             }
-                            if (inClause != "")
-                            {
-                                tokenText = " AND [R1].ItemId IN (" + inClause + ") ";
-                                nosearchText = false;
-                            }
+                            if (inClause == "") inClause = "0";
+                            tokenText = " AND [R1].ItemId IN (" + inClause + ") ";
+                            nosearchText = false;
                         }
                     }
                 }
