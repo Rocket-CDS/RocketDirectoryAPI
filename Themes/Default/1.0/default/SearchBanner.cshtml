@@ -102,7 +102,7 @@
         var urlp = new Dictionary<string, string>();
         urlp.Add("page", "1");
         }
-            window.location.href = '@(DNNrocketUtils.NavigateURL(sessionParams.TabId, urlp))';
+        window.location.href = '@(DNNrocketUtils.NavigateURL(moduleData.ListPageTabId(), urlp))';
     }
 
 </script>
