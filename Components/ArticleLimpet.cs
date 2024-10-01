@@ -182,7 +182,7 @@ namespace RocketDirectoryAPI.Components
             //------------------------------------------------------------------------------------------
             //NOTE: THE FORMAT FIX CAN ONLY BE DONE IN THE SAVE, IT FIXES THE INVALID HUMAN INPUT.
             // Fix incorrect money value.  All money should be kept in int.
-            #region "Money Format"
+
             var lp3 = 1;
             var modelList = postInfo.GetList("modellist");
             foreach (var model in modelList)
@@ -218,8 +218,6 @@ namespace RocketDirectoryAPI.Components
                     Info.SetXmlPropertyInt("genxml/money/" + nod.Name, PortalCatalog.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name)).ToString());
                 }
             }
-
-            #endregion
 
             return ValidateAndUpdate();
         }
