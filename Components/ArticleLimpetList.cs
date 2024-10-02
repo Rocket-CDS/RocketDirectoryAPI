@@ -92,7 +92,10 @@ namespace RocketDirectoryAPI.Components
 
             _searchFilter += searchText;
             _searchFilter += propertyFilter;
-            if (_searchcategoryid > 0 && searchText == "") _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
+            if (_searchcategoryid > 0 && searchText == "") 
+                _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
+            else
+                _searchFilter += " and [CATXREF].[XrefItemId] = 0 "; // do not create duplicate on a textsearch
 
             // Filter hidden
             if (!showHidden)
