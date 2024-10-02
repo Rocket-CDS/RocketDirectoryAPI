@@ -42,8 +42,11 @@ The "Text Search" is given priority.
 
 ### When a Category is selected (With a "Text Search")
 - Any text search will **NOT** be cleared.    
-- **The category select will be ignored**, becuase the "Text Search" is active. *(See Clearing the "Text Search")*  
+- **The category selected will be ignored**, becuase the "Text Search" is active. *(See Clearing the "Text Search")*  
 - The Filters and Tags will continue to persists and be applied to the results.  
+
+### Default Category for a module
+If there is a default category for a module it will be ignored if a text search is made.  The text search will be across all the articles.  
 
 ### Clearing the "Text Search"
 This can be done by clearing the search session cookie.  

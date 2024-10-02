@@ -92,7 +92,7 @@ namespace RocketDirectoryAPI.Components
 
             _searchFilter += searchText;
             _searchFilter += propertyFilter;
-            if (_searchcategoryid > 0) _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
+            if (_searchcategoryid > 0 && searchText == "") _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
 
             // Filter hidden
             if (!showHidden)
