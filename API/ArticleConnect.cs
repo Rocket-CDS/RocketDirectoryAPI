@@ -321,7 +321,7 @@ namespace RocketDirectoryAPI.API
             else
             {
                 if (_dataObject.AppTheme.AppThemeFolder == "") return "No AppTheme Defined.  Check RocketDirectoryAPI Admin Portal Settings.";
-                var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, 0);
+                var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCodeEdit, true, true, _sessionParams.GetInt("defaultcategory"));
                 _dataObject.SetDataObject("articlelist", articleDataList);
                 var razorTempl = _dataObject.AppTheme.GetTemplate("adminlist.cshtml");
                 var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);

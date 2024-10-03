@@ -27,14 +27,27 @@
         @DropDownList(infoempty, "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}'  title='" + @ResourceKey("DNNrocket.pagesize") + "'", "32")
     </div>
 
+    <div class="w3-bar-item w3-right">
+        <div class="w3-bar">
+            @{
+                var categoryData = new CategoryLimpet(portalData.PortalId, sessionParams.GetInt("defaultcategory"), sessionParams.CultureCodeEdit, systemData.SystemKey);
+            }
+            @TextBox(infoempty, "genxml/textbox/categorydisplaytext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey' autocomplete='off' ", categoryData.Name)
+            <span class="w3-bar-item  w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();$('#searchtext').val('');" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
+        </div>
+        @TextBox(infoempty, "genxml/hidden/defaultcategory", " class='simplisity_sessionfield w3-hide ' ")
+    </div>
+
     <div class="w3-bar-item w3-right " style=''>
         <div class="w3-bar">
             <span class="w3-bar-item w3-button clearsearch " style="display:none;" s-fields=''>@ButtonIcon(ButtonTypes.cancel)</span>
             @TextBox(infoempty, "genxml/textbox/searchtext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ")
-            <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" style="height:40px;" s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd="articleadmin_articlesearch" s-post=".searchdata">@ButtonIcon(ButtonTypes.search)</span>
+            <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch doadminsearch" style="height:40px;" s-sessionfield='#searchtext,#pagesize,#orderbyref,#page,#defaultcategory' s-before="clearCategorySearch" s-cmd="articleadmin_articlesearch" s-post=".searchdata">@ButtonIcon(ButtonTypes.search)</span>
         </div>
     </div>
-</div>
+ </div>
+
+@RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
 
 <script>
     $(document).ready(function () {
@@ -66,5 +79,11 @@
         $('.actionentrykey').val(tmpStr);
 
     });
+
+    function clearCategorySearch(){
+        if ($('#searchtext').val() !== '') {
+            $('#defaultcategory').val('0');
+        }
+    }
 
 </script>

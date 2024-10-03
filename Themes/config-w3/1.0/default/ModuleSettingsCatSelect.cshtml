@@ -33,7 +33,7 @@
 
                 <ul id="categorylistdata" class="w3-ul  w3-hoverable w3-margin-bottom " style="border-bottom: none;list-style-type: none;">
 
-                    <li class="categorylist w3-row w3-border-top" onclick="$('#defaultcategorydisplay').text('');$('#defaultcategory').val('0');$('#categoryselect').hide();" style="list-style-type: none;">
+                    <li class="categorylist w3-row w3-border-top" onclick="$('#defaultcategorydisplay').text('');$('#defaultcategory').val('0');$('#categoryselect').hide();$('.doadminsearch').trigger('click');" style="list-style-type: none;">
                         <div class="w3-row" style="">
                             <div class="w3-col m12 ">
                                 &nbsp;
@@ -46,7 +46,7 @@
                     {
                         lp1 += 1;
 
-                        <li class="categorylist w3-row " onclick="$('#defaultcategorydisplay').text('@(catData.Name)');$('#defaultcategory').val('@(catData.CategoryId)');$('#categoryselect').hide();" style="list-style-type: none;">
+                        <li class="categorylist w3-row " onclick="$('#defaultcategorydisplay').text('@(catData.Name)');$('#defaultcategory').val('@(catData.CategoryId)');$('#categoryselect').hide();$('.doadminsearch').trigger('click');" style="list-style-type: none;">
                             <div class="w3-row" style="">
                                 @{
                                     var prefix = "";
