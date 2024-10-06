@@ -92,10 +92,7 @@ namespace RocketDirectoryAPI.Components
 
             _searchFilter += searchText;
             _searchFilter += propertyFilter;
-            if (_searchcategoryid > 0 && searchText == "") 
-                _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
-            else
-                _searchFilter += " and [CATXREF].[XrefItemId] = 0 "; // do not create duplicate on a textsearch
+            if (_searchcategoryid > 0 && searchText == "") _searchFilter += " and [CATXREF].[XrefItemId] = " + _searchcategoryid + " ";
 
             // Filter hidden
             if (!showHidden)
@@ -121,10 +118,20 @@ namespace RocketDirectoryAPI.Components
 
             if (_orderby == "") _orderby = " order by articlename.GUIDKey ";
 
-            SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
-            RecordCount = SessionParamData.RowCount;
-
-            DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+            if (_searchFilter.ToLower().Contains("in"))
+            {
+                //DNN search used, the SPROC is not compatible.
+                var sql = "select * from {databaseOwner}[{objectQualifier}" + _tableName + "] as R1 where [R1].PortalId = " + PortalCatalog.PortalId + " " + _searchFilter;
+                var list = _objCtrl.ExecSqlList(sql);
+                SessionParamData.RowCount = list.Count();
+                DataList = list.Skip((SessionParamData.Page - 1) * SessionParamData.PageSize).Take(SessionParamData.PageSize).ToList();
+            }
+            else
+            {
+                SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
+                RecordCount = SessionParamData.RowCount;
+                DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+            }
         }
         public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)
         {
