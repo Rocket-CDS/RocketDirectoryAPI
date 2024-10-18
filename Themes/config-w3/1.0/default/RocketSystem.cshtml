@@ -23,13 +23,16 @@
     var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
 }
 
-<div class="pl-breadcrumb">
-    <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
-    <div class="pl-breadcrumb-item">
-        <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+@if (!Model.SessionParamsData.GetBool("portalsystems"))
+{
+    <div class="pl-breadcrumb">
+        <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
+        <div class="pl-breadcrumb-item">
+            <img src="/DesktopModules/DNNrocket/API/images/chevron_right.svg" />
+        </div>
+        <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="rocketsystem_edit" s-fields='{"track":"true"}'>@ResourceKey("DNNrocket.admin")</div>
     </div>
-    <div class="a-reloadpage pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue simplisity_click" s-cmd="rocketsystem_edit" s-fields='{"track":"true"}'>@ResourceKey("DNNrocket.admin")</div>
-</div>
+}
 
 <div id="" class="w3-animate-opacity w3-card w3-padding w3-margin w3-white">
 
