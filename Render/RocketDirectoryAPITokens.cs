@@ -314,6 +314,35 @@ namespace RocketDirectoryAPI.Components
         /// <param name="title">The title.</param>
         /// <param name="eId">The row eId.</param>
         /// <returns></returns>
+        public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var detailurl = "";
+            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+
+            var articleParamKey = "";
+            var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
+            foreach (var paramDict in paramidList)
+            {
+                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
+                {
+                    articleParamKey = paramDict.Value.queryparam;
+                }
+            }
+
+            string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
+            urlparams = urlparams.Concat(urlparams2).ToArray();
+            detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
+
+            return new RawString(detailurl);
+        }
+        /// <summary>
+        /// Builds the Detail URL.
+        /// </summary>
+        /// <param name="detailpageid">The detailpageid.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="eId">The row eId.</param>
+        /// <returns></returns>
         public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData, string[] urlparams = null)
         {
             if (urlparams == null) urlparams = new string[] { };
