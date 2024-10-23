@@ -308,6 +308,18 @@ namespace RocketDirectoryAPI.Components
             return new RawString(listurl);
         }
         /// <summary>
+        /// Builds the List URL with paramaters.
+        /// </summary>
+        /// <param name="listpageid"></param>
+        /// <param name="urlparams"></param>
+        /// <returns></returns>
+        public IEncodedString ListUrl(int listpageid, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
+            return new RawString(listurl);
+        }
+        /// <summary>
         /// Builds the Detail URL.
         /// </summary>
         /// <param name="detailpageid">The detailpageid.</param>
