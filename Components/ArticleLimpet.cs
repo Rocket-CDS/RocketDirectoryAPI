@@ -573,11 +573,10 @@ namespace RocketDirectoryAPI.Components
                 RemoveCasCadeCategory(catRecord.ParentItemId);
             }
         }
-        public void UpdateCategorySortOrder(string categoryGUIDKey, int sortOrder)
+        public void UpdateCategorySortOrder(int categoryId, int sortOrder)
         {
-            var xrefGuidKey = GUIDKey + "-" + categoryGUIDKey;
-            var catXrefRecord = _objCtrl.GetRecordByGuidKey(PortalId, -1, "CATXREF", xrefGuidKey, "", _tableName);
-            if (catXrefRecord != null)
+            var l = _objCtrl.ExecSqlList("SELECT *  FROM {databaseOwner}[{objectQualifier}RocketDirectoryAPI] where typecode = 'CATXREF' and ParentItemId = " + ArticleId + " and XrefItemId = " + categoryId + " ");
+            foreach (var catXrefRecord in l)
             {
                 catXrefRecord.SortOrder = sortOrder;
                 _objCtrl.Update(catXrefRecord, _tableName);
