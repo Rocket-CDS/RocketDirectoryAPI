@@ -173,7 +173,7 @@ namespace RocketDirectoryAPI.Components
         public void ClearCache()
         {
             CacheUtils.RemoveCache(_cacheKey);
-            CacheFileUtils.ClearAllCache(PortalId, SystemKey + PortalId);
+            CacheUtils.ClearAllCache(SystemKey + PortalId); // clear system cache, so lists and razor views are reloaded.
         }
         public int Update()
         {

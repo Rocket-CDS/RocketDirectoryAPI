@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Xsl;
@@ -128,9 +129,17 @@ namespace RocketDirectoryAPI.Components
             }
             else
             {
-                SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
-                RecordCount = SessionParamData.RowCount;
-                DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+                var cacheKey = PortalCatalog.PortalId + "-1" + _entityTypeCode + _searchFilter + _langRequired + _orderby + "0" + SessionParamData.Page + "*" + SessionParamData.PageSize + "*" + SessionParamData.RowCount + "*" + _tableName;
+                var groupId = PortalCatalog.SystemKey + PortalCatalog.PortalId;
+                DataList = (List<SimplisityInfo>)CacheUtils.GetCache(cacheKey, groupId);
+                if (DataList == null)
+                {
+                    SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
+                    RecordCount = SessionParamData.RowCount;
+                    DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+                    if (DataList.Count > 0) CacheUtils.SetCache(cacheKey, DataList, groupId);
+                    //LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
+                }
             }
         }
         public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)

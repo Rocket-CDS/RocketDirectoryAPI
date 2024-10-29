@@ -39,7 +39,7 @@ namespace RocketDirectoryAPI.Components
             {
                 articleData = new ArticleLimpet(portalId, articleId, cultureCode, systemKey);
                 if (articleId > 0) CacheUtils.SetCache(cacheKey, articleData, groupId);
-                LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
+                //LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
             }
             return articleData;
         }
