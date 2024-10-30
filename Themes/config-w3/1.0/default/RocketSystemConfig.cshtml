@@ -53,15 +53,15 @@
     <div class="w3-row ">
         <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.listpage")</label>
-            @TabSelectListOnTabId(info, "genxml/listpage"," class=' w3-input w3-border ' ", false)
+            @TabSelectListOnTabId(info, "genxml/listpage", " class=' w3-input w3-border ' ", false, false, 0, "", true)
         </div>
         <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.detailpage")</label>
-            @TabSelectListOnTabId(info, "genxml/detailpage"," class=' w3-input w3-border ' ", false)
+            @TabSelectListOnTabId(info, "genxml/detailpage", " class=' w3-input w3-border ' ", false, false, 0, "", true)
         </div>
         <div class="w3-quarter  w3-padding">
             <label class="">@ResourceKey("RC.searchpage")</label>
-            @TabSelectListOnTabId(info, "genxml/searchpage", " class=' w3-input w3-border ' onchange='$(\".savebutton\").trigger(\"click\");' ", true)
+            @TabSelectListOnTabId(info, "genxml/searchpage", " class=' w3-input w3-border ' onchange='$(\".savebutton\").trigger(\"click\");' ", true, false, 0, "", true)
         </div>
         <div class="w3-quarter  w3-padding">
             @if (PagesUtils.PageExists(info.PortalId, info.GetXmlPropertyInt("genxml/searchpage")))
@@ -87,7 +87,11 @@
     </div>
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle") (Admin)</label>
-        @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, "{contains:searchtext}", false)
+        @{
+            var sqladmindefault = defaultsData.Get("root/sqlfilter/articleadmin");
+            if (sqladmindefault == "") sqladmindefault = "{contains:searchtext}";
+        }
+        @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, sqladmindefault, false)
     </div>
     <div class="w3-row  w3-padding">
         <label class=""><b>@ResourceKey("RC.dnnsearchextra")</b></label>
