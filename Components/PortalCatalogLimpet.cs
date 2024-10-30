@@ -256,6 +256,7 @@ namespace RocketDirectoryAPI.Components
             CacheUtils.RemoveCache(_cacheKey);
         }
         private string SqlFilterProduct { get { return Record.GetXmlProperty("genxml/sqlfilterarticle"); } }
+        private string SqlFilterProductAdmin { get { return Record.GetXmlProperty("genxml/sqlfilterarticleadmin"); } }
         private string GetFilterSQL(string SqlFilterTemplate, SimplisityInfo paramInfo, string systemKey)
         {
             FastReplacer fr = new FastReplacer("{", "}", false);
@@ -318,9 +319,12 @@ namespace RocketDirectoryAPI.Components
             var filtersql = " " + fr.ToString() + " ";
             return filtersql;
         }
-        public string GetFilterProductSQL(SimplisityInfo paramInfo, string systemKey)
+        public string GetFilterProductSQL(SimplisityInfo paramInfo, string systemKey, bool isAdmin)
         {
-            return GetFilterSQL(SqlFilterProduct, paramInfo, systemKey);
+            if (!isAdmin)
+                return GetFilterSQL(SqlFilterProduct.Replace("{searchtext}", "{viewsearchtext}"), paramInfo, systemKey);
+            else
+                return GetFilterSQL(SqlFilterProductAdmin.Replace("{viewsearchtext}", "{searchtext}"), paramInfo, systemKey);
         }
         public string EntityTypeCode { get { return _entityTypeCode; } }
 

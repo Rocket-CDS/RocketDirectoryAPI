@@ -83,7 +83,7 @@ namespace RocketDirectoryAPI.Components
             ClearFilter = false;
             ClearCategory = false;
 
-            var searchText = PortalCatalog.GetFilterProductSQL(SessionParamData.Info, _systemKey);
+            var searchText = PortalCatalog.GetFilterProductSQL(SessionParamData.Info, _systemKey, showHidden);
             var propertyFilter = "";
             if (showHidden)
                 _catid = 0;  //assume showHidden is admin.
@@ -122,24 +122,28 @@ namespace RocketDirectoryAPI.Components
             if (_searchFilter.ToLower().Contains("in"))
             {
                 //DNN search used, the SPROC is not compatible.
-                var sql = "select * from {databaseOwner}[{objectQualifier}" + _tableName + "] as R1 where [R1].PortalId = " + PortalCatalog.PortalId + " " + _searchFilter;
-                var list = _objCtrl.ExecSqlList(sql);
+                var list = new List<SimplisityInfo>();
+                try
+                {
+                    var sql = "select * from {databaseOwner}[{objectQualifier}" + _tableName + "] as R1 where [R1].PortalId = " + PortalCatalog.PortalId;
+                    var sql2 = sql + " " + _searchFilter;
+                    list = _objCtrl.ExecSqlList(sql2);
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.LogException(ex);
+                }
+
                 SessionParamData.RowCount = list.Count();
                 DataList = list.Skip((SessionParamData.Page - 1) * SessionParamData.PageSize).Take(SessionParamData.PageSize).ToList();
             }
             else
             {
-                var cacheKey = PortalCatalog.PortalId + "-1" + _entityTypeCode + _searchFilter + _langRequired + _orderby + "0" + SessionParamData.Page + "*" + SessionParamData.PageSize + "*" + SessionParamData.RowCount + "*" + _tableName;
-                var groupId = PortalCatalog.SystemKey + PortalCatalog.PortalId;
-                DataList = (List<SimplisityInfo>)CacheUtils.GetCache(cacheKey, groupId);
-                if (DataList == null)
-                {
-                    SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
-                    RecordCount = SessionParamData.RowCount;
-                    DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
-                    if (DataList.Count > 0) CacheUtils.SetCache(cacheKey, DataList, groupId);
-                    //LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
-                }
+                // do not cache the result.  If a search is made then the cache will be a problem.
+                SessionParamData.RowCount = _objCtrl.GetListCount(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _tableName);
+                RecordCount = SessionParamData.RowCount;
+                DataList = _objCtrl.GetList(PortalCatalog.PortalId, -1, _entityTypeCode, _searchFilter, _langRequired, _orderby, 0, SessionParamData.Page, SessionParamData.PageSize, SessionParamData.RowCount, _tableName);
+                //LogUtils.LogSystem("RocketDirectoryAPIUtils.GetArticleData: " + cacheKey);
             }
         }
         public Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, int limit = 1000)

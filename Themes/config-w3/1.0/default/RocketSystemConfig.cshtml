@@ -85,6 +85,10 @@
         <label class="">@ResourceKey("RCP.sqlfilterarticle")</label>
         @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, defaultsData.Get("root/sqlfilter/article"), false)
     </div>
+    <div class="w3-row  w3-padding w3-border-bottom">
+        <label class="">@ResourceKey("RCP.sqlfilterarticle") (Admin)</label>
+        @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, "{contains:searchtext}", false)
+    </div>
     <div class="w3-row  w3-padding">
         <label class=""><b>@ResourceKey("RC.dnnsearchextra")</b></label>
         <div class="w3-small">
