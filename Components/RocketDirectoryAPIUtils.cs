@@ -233,7 +233,7 @@ namespace RocketDirectoryAPI.Components
             }
             // ------------------------------
 
-            if (sessionParam.SearchText == "" && !sessionParam.GetBool("disablecache"))
+            if (!sessionParam.IsSearchMode() && !sessionParam.GetBool("disablecache"))
             {
                 var rtn = (string)CacheUtils.GetCache(cacheKey, dataObject.SystemKey + dataObject.PortalId);
                 if (!String.IsNullOrEmpty(rtn) && !dataObject.ModuleSettings.DisableCache) return rtn;
