@@ -19,6 +19,16 @@
     {
         disableSqlEdit = "";
     }
+    var sqladmindefault = defaultsData.Get("root/sqlfilter/articleadmin");
+    if (sqladmindefault == "")
+    {
+        sqladmindefault = "{contains:searchtext}";
+    }
+    var sqldefault = defaultsData.Get("root/sqlfilter/article");
+    if (sqldefault == "")
+    {
+        sqldefault = "{contains:searchtext}";
+    }
 }
 
 <div id="sidemenuconfigdata" class="w3-container a-panelsidemenu">
@@ -83,14 +93,10 @@
 
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle")</label>
-        @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, defaultsData.Get("root/sqlfilter/article"), false)
+        @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, sqldefault, false)
     </div>
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle") (Admin)</label>
-        @{
-            var sqladmindefault = defaultsData.Get("root/sqlfilter/articleadmin");
-            if (sqladmindefault == "") sqladmindefault = "{contains:searchtext}";
-        }
         @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, sqladmindefault, false)
     </div>
     <div class="w3-row  w3-padding">

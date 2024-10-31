@@ -150,7 +150,7 @@ namespace RocketDirectoryAPI.Components
                             var idx = 0;
                             foreach (var q in info.GetRecordList("queryparams"))
                             {
-                                if (q.GetXmlProperty("genxml/select/datatype") == newq.GetXmlProperty("genxml/select/datatype") && q.GetXmlProperty("genxml/select/systemkey") == newq.GetXmlProperty("genxml/select/systemkey"))
+                                if (q.GetXmlProperty("genxml/select/datatype") == newq.GetXmlProperty("genxml/select/datatype") && q.GetXmlProperty("genxml/textbox/systemkey") == newq.GetXmlProperty("genxml/textbox/systemkey"))
                                 {
                                     info.RemoveRecordListItem("queryparams", idx);
                                     break; // should only be 1.
