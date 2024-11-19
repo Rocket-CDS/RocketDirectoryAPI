@@ -216,6 +216,8 @@ namespace RocketDirectoryAPI.Components
             var sessionParam = dataObject.SessionParamsData;
             if (sessionParam.PageSize == 0) sessionParam.PageSize = dataObject.ModuleSettings.GetSettingInt("pagesize");
 
+            DNNrocketUtils.SetCurrentCulture(sessionParam.CultureCode);
+
             // ------------------------------
             // CacheKey, with properties
             if (template == "") template = dataObject.ModuleSettings.GetSetting("displaytemplate");
