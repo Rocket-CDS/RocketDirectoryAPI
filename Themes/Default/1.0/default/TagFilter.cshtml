@@ -1,0 +1,19 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssignDataModel(Model)
+<!--inject-->
+<div class="rocket-tags">
+    @foreach (var g in moduleData.GetPropertyModuleGroups(catalogSettings))
+    {
+        <div class="rocket-tagsgroup">@g.Value</div>
+        foreach (var p in propertyDataList.GetPropertyTagList(g.Key))
+        {
+            @TagButton(p.Key, p.Value, sessionParams)
+        }
+    }
+    <div>
+    @TagButtonClear(ResourceKey("DNNrocket.clear").ToString(), sessionParams)
+    </div>
+</div>
+@TagJsApiCall(moduleData.SystemKey, "#articlelistdisplay", sessionParams, "ArticleList.cshtml")

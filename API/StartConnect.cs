@@ -1,4 +1,5 @@
-﻿using DNNrocketAPI.Components;
+﻿using DNNrocketAPI;
+using DNNrocketAPI.Components;
 using DNNrocketAPI.Interfaces;
 using RazorEngine.Templating;
 using Rocket.AppThemes.Components;
@@ -48,8 +49,11 @@ namespace RocketDirectoryAPI.API
                     break;
                 case "rocketsystem_noadminsettings":
                     strOut = NoAdminSettings();
-                    break;                    
+                    break;
 
+                case "rocketdirectoryapi_copylanguage":
+                    strOut = CopyLanguage();
+                    break;
 
                 case "rocketdirectoryapi_activate":
                     strOut = RocketSystemSave();
@@ -533,6 +537,66 @@ namespace RocketDirectoryAPI.API
                 return RocketSystem();
             }
             return "Invalid PortalId";
+        }
+        private String CopyLanguage()
+        {
+            var systemkey = _paramInfo.GetXmlProperty("genxml/hidden/systemkey");
+            var overwritelang = _postInfo.GetXmlPropertyBool("genxml/" + systemkey + "overwritelang");
+            var sourcelanguage = _postInfo.GetXmlProperty("genxml/" + systemkey + "sourcelanguage");
+            var destlanguage = _postInfo.GetXmlProperty("genxml/" + systemkey + "destlanguage");
+            if (sourcelanguage != destlanguage)
+            {
+                var systemDataList = new SystemLimpetList();
+                var systemData = systemDataList.GetSystemByKey(systemkey);
+
+                var objCtrl = new DNNrocketController();
+
+                // Products
+                var articleList = objCtrl.GetList(_dataObject.PortalId, -1, systemkey + "ART", "", sourcelanguage, "", 0, 0, 0, 0, systemData.DatabaseTable);
+                foreach (var p in articleList)
+                {
+                    CopyRecordData(objCtrl, p, sourcelanguage, destlanguage, systemData.DatabaseTable, overwritelang);                       
+                }
+                // Categories
+                var catList = objCtrl.GetList(_dataObject.PortalId, -1, systemkey + "CAT", "", sourcelanguage, "", 0, 0, 0, 0, systemData.DatabaseTable);
+                foreach (var p in catList)
+                {
+                    CopyRecordData(objCtrl, p, sourcelanguage, destlanguage, systemData.DatabaseTable, overwritelang);
+                }
+                // properties
+                var propList = objCtrl.GetList(_dataObject.PortalId, -1, systemkey + "PROP", "", sourcelanguage, "", 0, 0, 0, 0, systemData.DatabaseTable);
+                foreach (var p in propList)
+                {
+                    CopyRecordData(objCtrl, p, sourcelanguage, destlanguage, systemData.DatabaseTable, overwritelang);
+                }
+                CacheUtils.ClearAllCache();
+            }
+            return "OK";
+        }
+        private void CopyRecordData(DNNrocketController objCtrl, SimplisityInfo p, string sourcelanguage, string destlanguage, string databaseTable, bool overwritelang)
+        {
+            var prdSourceLangRec = objCtrl.GetRecordLang(p.ItemID, sourcelanguage, databaseTable);
+            if (prdSourceLangRec != null)
+            {
+                var prdDestLangRec = objCtrl.GetRecordLang(p.ItemID, destlanguage, databaseTable);
+                if (prdDestLangRec == null || overwritelang)
+                {
+                    if (prdDestLangRec == null)
+                    {
+                        prdDestLangRec = prdSourceLangRec;
+                        prdDestLangRec.ItemID = -1;
+                        prdDestLangRec.Lang = destlanguage;
+                    }
+                    else
+                    {
+                        prdDestLangRec.XMLData = prdSourceLangRec.XMLData;
+                    }
+
+                    objCtrl.Update(prdDestLangRec, databaseTable);
+                    objCtrl.RebuildLangIndex(prdDestLangRec.PortalId, p.ItemID, databaseTable);
+                }
+            }
+
         }
 
     }

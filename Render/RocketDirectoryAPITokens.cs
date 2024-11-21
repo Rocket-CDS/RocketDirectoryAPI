@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Web.Razor.Parser.SyntaxTree;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RocketDirectoryAPI.Components
@@ -94,12 +95,6 @@ namespace RocketDirectoryAPI.Components
             // use return of "string", so we don;t get error with converting void to object.
             return "";
         }
-        [Obsolete]
-        public string AssigDataModel(SimplisityRazor sModel)
-        {
-            AssignDataModel(sModel);
-            return "";
-        }
         public IEncodedString TextBoxMoney(int portalId, string systemKey, string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
         {
             if (info == null) info = new SimplisityInfo();
@@ -147,6 +142,33 @@ namespace RocketDirectoryAPI.Components
             }
             return new RawString(interfaceName);
         }
+        #region "FilterGroups"
+        /// <summary>
+        /// CheckBox for a group filter. (Used in the ThemeSettings for selecting which group filters to use.)
+        /// </summary>
+        /// <param name="groupId">The group identifier.</param>
+        /// <param name="textName">Name of the text.</param>
+        /// <returns></returns>
+        public IEncodedString FilterGroupCheckBox(SimplisityInfo info, string groupId, string textName)
+        {
+            return CheckBox(info, "genxml/settings/propertygroup-" + groupId.ToLower(), textName, " class='w3-check' ");
+        }
+        public IEncodedString FilterGroupCheckBox(SimplisityInfo info, CatalogSettingsLimpet catalogSettings)
+        {
+            var groupDict = catalogSettings.GetPropertyGroups();
+            var rtn = "";
+            foreach (var p in groupDict)
+            {
+                rtn += "<span class=\"w3-padding\">";
+                rtn += CheckBox(info, "genxml /settings/propertygroup-" + p.Key.ToLower(), p.Value, " class='w3-check' ").ToString();
+                rtn += "</span>";
+            }
+            return new RawString(rtn);
+        }
+        #endregion
+
+        #region "Filters"
+
         /// <summary>
         /// Filters the CheckBox on the "Filters" website view.
         /// </summary>
@@ -157,7 +179,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value, string cssClass = "", string attributes = "")
         {
-            return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " " + attributes + " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callArticleList(\"" + sreturn + "\");' ", value);
+            return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " " + attributes + " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callFilterArticleList(\"" + sreturn + "\");' ", value);
         }
         private IEncodedString FilterCheckBoxRender(SimplisityInfo info, String xpath, String text, String attributes = "", Boolean defaultValue = false, bool localized = false, int row = 0, string listname = "")
         {
@@ -183,23 +205,29 @@ namespace RocketDirectoryAPI.Components
         {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
             if (queryCatKey == "") queryCatKey = "nocatkey";
-            var strOut = "<script type=\"text/javascript\"> function callArticleList(sreturn) {";
+            var strOut = "<script type=\"text/javascript\">";
+            strOut += "function callFilterArticleList(sreturn) {";
             strOut += " $('.simplisity_loader').show();";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
             strOut += " simplisity_setSessionField('searchdate1', '');";
             strOut += " simplisity_setSessionField('searchdate2', '');";
             strOut += " simplisity_setSessionField('page', '1');";
             strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
-            strOut += " } </script>";
+            strOut += " } ";
+            strOut += "</script>";
             return new RawString(strOut);
         }
-        public IEncodedString FilterActionButton(string textName, SessionParams sessionParams, bool action)
+        public IEncodedString FilterClearButton(string textName, string sreturn)
         {
-            var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, " + action.ToString().ToLower() + "); });";
-            js += "location.reload();";
+            var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, false); $(this).prop('checked', false); });";
+            js += "callFilterArticleList('" + sreturn + "');";
             var strOut = "<span class=\"rocket-filterbutton rocket-filterbuttonclear\" onclick=\"" + js + "return false;\">" + textName + "</span>";
             return new RawString(strOut);
         }
+        #endregion
+
+        #region "Tags"
+
         /// <summary>
         /// Tags the button.
         /// </summary>
@@ -213,7 +241,7 @@ namespace RocketDirectoryAPI.Components
         {
             var s = "style='display:none;'";
             if (sessionParams.GetInt("rocketpropertyidtag") > 0) s = "";
-            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList('0');return false;\" " + s + ">" + textName + "</span>";
+            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
             return new RawString(strOut);
         }
         public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams)
@@ -221,7 +249,7 @@ namespace RocketDirectoryAPI.Components
             string cssClassOn = "rocket-tagbuttonOn";
             var css = "";
             if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = cssClassOn;
-            var strOut = "<span class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList('" + propertyid + "');return false;\" >" + textName + "</span>";
+            var strOut = "<span class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList" + sessionParams.ModuleId + "('" + propertyid + "');return false;\" >" + textName + "</span>";
             return new RawString(strOut);
         }
         /// <summary>
@@ -236,7 +264,7 @@ namespace RocketDirectoryAPI.Components
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
             string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
-            strOut += "    function callTagArticleList(propertyid) {";
+            strOut += "    function callTagArticleList" + sessionParams.ModuleId + "(propertyid) {";
             strOut += "        $('.simplisity_loader').show();";
             strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
@@ -256,6 +284,10 @@ namespace RocketDirectoryAPI.Components
             strOut += "</script>";
             return new RawString(strOut);
         }
+
+        #endregion
+
+        #region "Date Selection"
         /// <summary>
         /// Dates the js API call. JS function: doDateSearchReload cmd:remote_publiclist
         /// </summary>
@@ -277,16 +309,9 @@ namespace RocketDirectoryAPI.Components
             strOut += "</script>";
             return new RawString(strOut);
         }
-        /// <summary>
-        /// CheckBox for a group filter. (Used in the ThemeSettings for selecting which group filters to use.)
-        /// </summary>
-        /// <param name="groupId">The group identifier.</param>
-        /// <param name="textName">Name of the text.</param>
-        /// <returns></returns>
-        public IEncodedString FilterGroupCheckBox(SimplisityInfo info, string groupId, string textName)
-        {
-            return CheckBox(info, "genxml/settings/propertygroup-" + groupId.ToLower(), textName, " class='w3-check' ");
-        }
+        #endregion
+
+        #region "Page Navigation"
         /// <summary>
         /// Builds the List URL.
         /// </summary>
@@ -394,11 +419,8 @@ namespace RocketDirectoryAPI.Components
             return new RawString(detailurl);
         }
 
-        [Obsolete("Use RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths, string sqlidx)")]
-        public IEncodedString RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
-        {
-            return RssUrl(portalId, cmd, DateTime.Now.Year, DateTime.Now.Month, numberOfMonths, sqlidx);
-        }
+        #endregion
+
         public IEncodedString RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths = 1, string sqlidx = "")
         {
             var portalData = new PortalLimpet(portalId);
@@ -423,6 +445,29 @@ namespace RocketDirectoryAPI.Components
             var apiResx = "/DesktopModules/DNNrocket/api/App_LocalResources/";
             return new RawString("<span class=\"w3-button w3-text-theme\" style=\"width:40px;height:40px;padding:8px 0;\"><span class=\"material-icons\" title=\"" + DNNrocketUtils.GetResourceString(apiResx, "DNNrocket.translate", "Text", cultureCode) + "\" style=\"cursor:pointer;\" onclick=\"$('#deeplmodal').show();simplisity_setSessionField('deepltextid','" + textId + "');simplisity_setSessionField('deeplcmd','rocketdirectoryapi_deepl');$('#deeplquestion').val(stripHTML($('#" + sourceTextId + "').val()));\">translate</span></span>");
         }
+
+        #region "Obsolete"
+        [Obsolete("Use RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths, string sqlidx)")]
+        public IEncodedString RssUrl(int portalId, string cmd, int numberOfMonths = 1, string sqlidx = "", int catid = 0)
+        {
+            return RssUrl(portalId, cmd, DateTime.Now.Year, DateTime.Now.Month, numberOfMonths, sqlidx);
+        }
+        [Obsolete]
+        public string AssigDataModel(SimplisityRazor sModel)
+        {
+            AssignDataModel(sModel);
+            return "";
+        }
+        [Obsolete("Use FilterClearButton(string textName, string sreturn)")]
+        public IEncodedString FilterActionButton(string textName, SessionParams sessionParams, bool action)
+        {
+            var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, " + action.ToString().ToLower() + "); });";
+            js += "location.reload();";
+            var strOut = "<span class=\"rocket-filterbutton rocket-filterbuttonclear\" onclick=\"" + js + "return false;\">" + textName + "</span>";
+            return new RawString(strOut);
+        }
+
+        #endregion
     }
 }
 

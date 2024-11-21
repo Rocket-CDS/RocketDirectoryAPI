@@ -119,7 +119,7 @@ namespace RocketDirectoryAPI.Components
 
             if (_orderby == "") _orderby = " order by articlename.GUIDKey ";
 
-            if (_searchFilter.ToLower().Contains("in"))
+            if (searchText.ToLower().Contains("in")) // check the searchtext filter only, so property filters work.
             {
                 //DNN search used, the SPROC is not compatible.
                 var list = new List<SimplisityInfo>();

@@ -404,8 +404,13 @@ order by articleref.GUIDKey desc
 		  <cmd>rocketdirectoryapi_rss</cmd>
 		  <action>false</action>
 	  </command>
+		<command>
+			<cmd>rocketdirectoryapi_copylanguage</cmd>
+			<action>false</action>
+		</command>
 
-	  <command>
+
+		<command>
 		  <cmd>article_search</cmd>
 		  <action>false</action>
 	  </command>
