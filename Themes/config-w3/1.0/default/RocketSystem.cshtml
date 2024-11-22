@@ -87,15 +87,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var sectionName = simplisity_getCookieValue('sectionName');
+        var sectionName = simplisity_getCookieValue('sectionAdminName');
         if (sectionName == null || (typeof sectionName === 'undefined') || sectionName === '') {
             sectionName = 'generaltab';
         }
         openSection(sectionName);
     });
     function openSection(sectionName) {
+        sectionName = getValidTab(sectionName)
         var i, x, tablinks;
-        x = document.getElementsByClassName("sectionname");
+        x = document.getElementsByClassName("sectionname");        
         for (i = 0; i < x.length; i++) {
             x[i].style.display = "none";
         }
@@ -107,6 +108,14 @@
 
         $('.' + sectionName + 'tablink').addClass('w3-bottombar');
 
-        simplisity_setCookieValue('sectionName', sectionName);
+        simplisity_setCookieValue('sectionAdminName', sectionName);
+    }
+    function getValidTab(sectionName) {
+
+        var myEle = document.getElementById(sectionName);
+        if (myEle) {
+            return sectionName;
+        }
+        return 'generaltab';
     }
 </script>

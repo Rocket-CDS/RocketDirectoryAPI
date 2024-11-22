@@ -414,7 +414,7 @@ namespace RocketDirectoryAPI.Components
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(o.PortalId, o.ItemID, _langRequired, _systemKey);
                 if (articleData.Exists) rowList.Add(articleData);
 
-                if ((lp % columns) == (columns - 1))
+                if (columns > 0 && (lp % columns) == (columns - 1))
                 {
                     rtnList.Add(rowList);
                     rowList = new List<ArticleLimpet>();
