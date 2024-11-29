@@ -70,6 +70,17 @@
             @HiddenField(info,"genxml/settings/defaultcategory")
             @RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
         </div>
+        <div class="w3-half w3-padding">
+            <label>@ResourceKey("RC.defaultsettingsmodule")</label>
+            <div class="w3-row">
+                <div class="w3-threequarter">
+                    @ModSelectList(info, "genxml/settings/modulesettingsref", info.PortalId, " class='w3-input w3-border' ")
+                </div>
+                <div class="w3-quarter">
+                    <div class="w3-right w3-button w3-round w3-theme-action w3-padding a-savebutton simplisity_confirmclick" s-confirm="@ResourceKey("RC.resetmodulesettings")" s-cmd="@(systemData.SystemKey)_resetsettings" s-post="#a-datasection" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'>@ButtonIconText(ButtonTypes.reset)</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="w3-row ">
         <div class="w3-quarter w3-padding">

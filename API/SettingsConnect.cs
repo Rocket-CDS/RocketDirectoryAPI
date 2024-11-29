@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,6 +28,25 @@ namespace RocketDirectoryAPI.API
             moduleData.Update();
             CacheFileUtils.ClearAllCache(moduleData.PortalId);
             _dataObject.SetDataObject("modulesettings", moduleData);
+            return RenderSystemTemplate("ModuleSettings.cshtml");
+        }
+        private string ResetSettings()
+        {
+            var moduleRef = _postInfo.GetXmlProperty("genxml/settings/modulesettingsref");
+            if (moduleRef != "")
+            {
+                var dMod = new ModuleContentLimpet(_dataObject.PortalId, moduleRef, _dataObject.SystemKey);
+                if (dMod.Exists)
+                {
+                    var moduleData = _dataObject.ModuleSettings;
+                    dMod.Record.SetXmlProperty("genxml/settings/modulesettingsref", moduleData.Record.GetXmlProperty("genxml/settings/modulesettingsref"));
+                    dMod.Record.SetXmlProperty("genxml/settings/displaytemplate", moduleData.Record.GetXmlProperty("genxml/settings/displaytemplate"));
+                    moduleData.Save(new SimplisityInfo(dMod.Record));
+                    moduleData.Update();
+                    CacheFileUtils.ClearAllCache(moduleData.PortalId);
+                    _dataObject.SetDataObject("modulesettings", moduleData);
+                }
+            }
             return RenderSystemTemplate("ModuleSettings.cshtml");
         }
         private string DisplaySettings()

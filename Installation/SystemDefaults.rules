@@ -372,7 +372,11 @@ order by articleref.GUIDKey desc
 		  <cmd>rocketdirectoryapi_savesettings</cmd>
 		  <action>true</action>
 	  </command>
-	  <command>
+		<command>
+			<cmd>rocketdirectoryapi_resetsettings</cmd>
+			<action>true</action>
+		</command>		
+		<command>
 		  <cmd>rocketdirectoryapi_activate</cmd>
 		  <action>true</action>
 	  </command>
