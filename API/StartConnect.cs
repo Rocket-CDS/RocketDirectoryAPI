@@ -281,9 +281,6 @@ namespace RocketDirectoryAPI.API
                 case "rocketdirectoryapi_savesettings":
                     strOut = SaveSettings();
                     break;
-                case "rocketdirectoryapi_resetsettings":
-                    strOut = ResetSettings();
-                    break;                    
                 case "rocketdirectoryapi_selectappthemeproject":
                     strOut = SelectAppThemeProject();
                     break;

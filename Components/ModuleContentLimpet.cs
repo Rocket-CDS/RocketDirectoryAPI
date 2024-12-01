@@ -18,6 +18,7 @@ namespace RocketDirectoryAPI.Components
             base.ProjectName = _portalContent.ProjectName;
 
         }
+        public string ApiModuleRef { get { if (String.IsNullOrEmpty(GetSetting("apimoduleref"))) return ModuleRef; else  return GetSetting("apimoduleref"); } }
         public int DefaultCategoryId { get { return GetSettingInt("defaultcategory"); } }
         public int ListPageTabId()
         {

@@ -429,10 +429,16 @@
   <data name="noadminsettings.Text" xml:space="preserve">
     <value>The system is not setup.  You do not have the required permissions, please login as SuperUser.</value>
   </data>
-  <data name="defaultsettingsmodule.Text" xml:space="preserve">
-    <value>Default Settings Module</value>
+  <data name="apimoduleref.Text" xml:space="preserve">
+    <value>API Module Settings</value>
   </data>
   <data name="resetmodulesettings.Text" xml:space="preserve">
     <value>Reset the settings to the default module settings? This will OVERWRITE the current module settings.</value>
+  </data>
+  <data name="alignment.Text" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="titletextsize.Text" xml:space="preserve">
+    <value>Title Text Size</value>
   </data>
 </root>

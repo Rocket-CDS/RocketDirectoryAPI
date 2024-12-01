@@ -201,9 +201,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="systemKey">The system key.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        public IEncodedString FilterJsApiCall(ModuleContentLimpet moduleData, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
-            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
             if (queryCatKey == "") queryCatKey = "nocatkey";
             var strOut = "<script type=\"text/javascript\">";
             strOut += "function callFilterArticleList(sreturn) {";
@@ -212,7 +212,7 @@ namespace RocketDirectoryAPI.Components
             strOut += " simplisity_setSessionField('searchdate1', '');";
             strOut += " simplisity_setSessionField('searchdate2', '');";
             strOut += " simplisity_setSessionField('page', '1');";
-            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += " } ";
             strOut += "</script>";
             return new RawString(strOut);
@@ -255,13 +255,14 @@ namespace RocketDirectoryAPI.Components
         /// <summary>
         /// Adds the JS for calling the filter API. JS:callTagArticleList() cmd:remote_publiclist
         /// </summary>
-        /// <param name="systemKey">The system key.</param>
-        /// <param name="sreturn">The sreturn.</param>
-        /// <param name="sessionParams">The session parameters.</param>
+        /// <param name="moduleData"></param>
+        /// <param name="sreturn"></param>
+        /// <param name="sessionParams"></param>
+        /// <param name="templateName"></param>
         /// <returns></returns>
-        public IEncodedString TagJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        public IEncodedString TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
-            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
             string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList" + sessionParams.ModuleId + "(propertyid) {";
@@ -279,7 +280,7 @@ namespace RocketDirectoryAPI.Components
             strOut += "        {";
             strOut += "        $('.rocket-tagbuttonclear').hide();";
             strOut += "        }";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
@@ -295,7 +296,7 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">sreturn.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString DateJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        public IEncodedString DateJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var strOut = "<script type='text/javascript'>";
             strOut += "    function doDateSearchReload(searchdate1, searchdate2) {";
@@ -304,7 +305,7 @@ namespace RocketDirectoryAPI.Components
             strOut += "        simplisity_setSessionField('searchdate2', searchdate2);";
             strOut += "        simplisity_setSessionField('page', '1');";
             strOut += "        $('.simplisity_loader').show();";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey)) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey)) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
@@ -464,6 +465,64 @@ namespace RocketDirectoryAPI.Components
             var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, " + action.ToString().ToLower() + "); });";
             js += "location.reload();";
             var strOut = "<span class=\"rocket-filterbutton rocket-filterbuttonclear\" onclick=\"" + js + "return false;\">" + textName + "</span>";
+            return new RawString(strOut);
+        }
+        [Obsolete("Use TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName)")]
+        public IEncodedString TagJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        {
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
+            string cssClassOn = "rocket-tagbuttonOn";
+            var strOut = "<script type='text/javascript'>";
+            strOut += "    function callTagArticleList" + sessionParams.ModuleId + "(propertyid) {";
+            strOut += "        $('.simplisity_loader').show();";
+            strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
+            strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
+            strOut += "        simplisity_setSessionField('searchdate1', '');";
+            strOut += "        simplisity_setSessionField('searchdate2', '');";
+            strOut += "        simplisity_setSessionField('page', '1');";
+            strOut += "        if (propertyid > 0) {";
+            strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";
+            strOut += "        $('.rocket-tagbuttonclear').show();";
+            strOut += "        }";
+            strOut += "        else";
+            strOut += "        {";
+            strOut += "        $('.rocket-tagbuttonclear').hide();";
+            strOut += "        }";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "    }";
+            strOut += "</script>";
+            return new RawString(strOut);
+        }
+        [Obsolete("Use FilterJsApiCall(ModuleContentLimpet moduleData, SessionParams sessionParams, string templateName)")]
+        public IEncodedString FilterJsApiCall(string systemKey, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        {
+            var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey);
+            if (queryCatKey == "") queryCatKey = "nocatkey";
+            var strOut = "<script type=\"text/javascript\">";
+            strOut += "function callFilterArticleList(sreturn) {";
+            strOut += " $('.simplisity_loader').show();";
+            strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
+            strOut += " simplisity_setSessionField('searchdate1', '');";
+            strOut += " simplisity_setSessionField('searchdate2', '');";
+            strOut += " simplisity_setSessionField('page', '1');";
+            strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += " } ";
+            strOut += "</script>";
+            return new RawString(strOut);
+        }
+        [Obsolete("Use DateJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName)")]
+        public IEncodedString DateJsApiCall(string systemKey, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
+        {
+            var strOut = "<script type='text/javascript'>";
+            strOut += "    function doDateSearchReload(searchdate1, searchdate2) {";
+            strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
+            strOut += "        simplisity_setSessionField('searchdate1', searchdate1);";
+            strOut += "        simplisity_setSessionField('searchdate2', searchdate2);";
+            strOut += "        simplisity_setSessionField('page', '1');";
+            strOut += "        $('.simplisity_loader').show();";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + sessionParams.ModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), systemKey)) + "\",\"systemkey\":\"" + systemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "    }";
+            strOut += "</script>";
             return new RawString(strOut);
         }
 

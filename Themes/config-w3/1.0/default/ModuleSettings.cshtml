@@ -71,14 +71,9 @@
             @RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
         </div>
         <div class="w3-half w3-padding">
-            <label>@ResourceKey("RC.defaultsettingsmodule")</label>
+            <label>@ResourceKey("RC.apimoduleref")</label>
             <div class="w3-row">
-                <div class="w3-threequarter">
-                    @ModSelectList(info, "genxml/settings/modulesettingsref", info.PortalId, " class='w3-input w3-border' ")
-                </div>
-                <div class="w3-quarter">
-                    <div class="w3-right w3-button w3-round w3-theme-action w3-padding a-savebutton simplisity_confirmclick" s-confirm="@ResourceKey("RC.resetmodulesettings")" s-cmd="@(systemData.SystemKey)_resetsettings" s-post="#a-datasection" s-fields='{"systemkey":"@(systemData.SystemKey)","moduleref":"@moduleData.ModuleRef","moduleid":"@moduleData.ModuleId","tabid":"@(Model.SessionParamsData.TabId)"}'>@ButtonIconText(ButtonTypes.reset)</div>
-                </div>
+                @ModSelectList(info, "genxml/settings/apimoduleref", info.PortalId, " class='w3-input w3-border' ")
             </div>
         </div>
     </div>
@@ -128,6 +123,13 @@
         $('a[id*="_cmdUpdate"]').click(function () {
             simplisity_setCookieValue('simplisity_sessionparams', ''); // clear the simplsity data, so we refresh the values.
             simplisity_callserver($('#postsettings'));
+        });
+
+        $('#displaytemplate').change(function () {
+            $('.a-savebutton').trigger('click');
+        });
+        $('#apimoduleref').change(function () {
+            //$('.a-resetbutton').trigger('click');
         });
 
     });
