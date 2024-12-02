@@ -43,13 +43,12 @@ namespace RocketDirectoryAPI.Components
             _entityTypeKey = systemKey + _entityTypeCodeAppendix;
             if (articleId <= 0) articleId = -1;  // create new record.
             _articleId = articleId;
-            PortalId = portalId;
             Info = new SimplisityInfo();
             Info.ItemID = articleId;
             Info.TypeCode = _entityTypeKey;
             Info.ModuleId = -1;
             Info.UserId = -1;
-            Info.PortalId = PortalId;
+            Info.PortalId = portalId;
             Populate(cultureCode, systemKey);
         }
         /// <summary>
@@ -840,7 +839,7 @@ namespace RocketDirectoryAPI.Components
         public string AppThemeRelPath { get; set; }
         public PortalCatalogLimpet PortalCatalog { get; set; }
         public bool DebugMode { get; set; }
-        public int PortalId { get; set; }
+        public int PortalId { get { return Info.PortalId; } }
         public bool Exists { get {if (Info.ItemID  <= 0) { return false; } else { return true; }; } }
         public string LogoRelPath { get { var articleImage = GetImage(0); return articleImage.RelPath;} }
         public string NameUrl { get { return GeneralUtils.UrlFriendly(Name); } }
