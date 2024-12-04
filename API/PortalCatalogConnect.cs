@@ -59,8 +59,6 @@ namespace RocketDirectoryAPI.API
         }
         public string ValidateCatalog()
         {
-            SearchUtils.DeleteAllDocuments(_dataObject.PortalContent.PortalId);
-            DeleteIDX(_dataObject.PortalContent.PortalId, _dataObject.SystemKey);
             foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {
                 var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, l, false);
@@ -70,7 +68,7 @@ namespace RocketDirectoryAPI.API
         }
         public string IndexCatalog()
         {
-            SearchUtils.DeleteAllDocuments(_dataObject.PortalContent.PortalId);
+            SearchUtils.DeleteModuleDocuments(_dataObject.PortalContent.PortalId, _dataObject.PortalContent.SearchModuleId);
             DeleteIDX(_dataObject.PortalContent.PortalId, _dataObject.SystemKey);
             foreach (var l in DNNrocketUtils.GetCultureCodeList(_dataObject.PortalContent.PortalId))
             {

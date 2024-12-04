@@ -322,9 +322,9 @@ namespace RocketDirectoryAPI.Components
         public string GetFilterProductSQL(SimplisityInfo paramInfo, string systemKey, bool isAdmin)
         {
             if (!isAdmin)
-                return GetFilterSQL(SqlFilterProduct.Replace("{searchtext}", "{viewsearchtext}"), paramInfo, systemKey);
+                return GetFilterSQL(SqlFilterProduct.Replace(":searchtext}", ":viewsearchtext}"), paramInfo, systemKey);
             else
-                return GetFilterSQL(SqlFilterProductAdmin.Replace("{viewsearchtext}", "{searchtext}"), paramInfo, systemKey);
+                return GetFilterSQL(SqlFilterProductAdmin.Replace(":viewsearchtext}", ":searchtext}"), paramInfo, systemKey);
         }
         public string EntityTypeCode { get { return _entityTypeCode; } }
 

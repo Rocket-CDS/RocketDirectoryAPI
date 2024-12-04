@@ -19,19 +19,24 @@
     {
         showorderby = "";
     }
+    var pagesizelist = "12,24,48";
+    if (Model.GetSetting("pagesizelist") != "")
+    {
+        pagesizelist = Model.GetSetting("pagesizelist");
+    }
 }
     <div class="w3-bar searchdata">
 
         <div class="w3-bar-item " style='@(showtext)'>
             <div class="w3-bar">
-            @TextBox(infoempty, "genxml/textbox/viewsearchtext", " class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("viewsearchtext"))
+            @TextBox(infoempty, "genxml/textbox/viewsearchtext", " class='w3-bar-item w3-input w3-border w3-border-theme w3-light-grey simplisity_sessionfield actionentrykey' autocomplete='off' ", sessionParams.Get("viewsearchtext"))
                 <span class="w3-bar-item w3-button clearsearch " style="display:none;" onclick="clearSearch();return false;">@ButtonIcon(ButtonTypes.cancel)</span>
-                <span class="w3-bar-item w3-button w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40px;">@ButtonIcon(ButtonTypes.search)</span>
+            <span class="w3-bar-item w3-button w3-border w3-border-theme w3-theme simplisity_click dosearch" onclick="doSearchReload();return false;" style="height:40.5px;">@ButtonIcon(ButtonTypes.search)</span>
             </div>
         </div>
 
         <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style='@(showpage)'>
-            @DropDownList(infoempty, "genxml/hidden/pagesize", "12,24,48", "12,24,48", " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
+        @DropDownList(infoempty, "genxml/hidden/pagesize", pagesizelist, pagesizelist, " style='height:40px;' class='w3-input w3-border w3-border-theme simplisity_sessionfield ' onchange=\"doSearchReload();return false;\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", sessionParams.PageSize.ToString())
         </div>
 
     @{
@@ -44,7 +49,7 @@
         {
             <div class="w3-bar-item w3-right w3-hide-small w3-margin-left" style='@(showorderby)'>
                 <span>
-                @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
+                    @DropDownList(infoempty, "genxml/hidden/orderbyref", orderbyDictionary, " style='height:40px;' class='w3-input w3-border w3-border-theme simplisity_sessionfield ' onchange=\"doSearchReload();return false;\"", sessionParams.Get("orderbyref"))
                 </span>
             </div>
         }

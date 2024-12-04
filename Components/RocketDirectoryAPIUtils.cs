@@ -246,8 +246,6 @@ namespace RocketDirectoryAPI.Components
             var modt = RocketDirectoryAPIUtils.GetSelectedModuleTemple(dataObject.AppTheme, dataObject.ModuleSettings.ModuleRef, template);
             if (modt != null && modt.GetXmlProperty("genxml/cmd") != "") cmdType = modt.GetXmlProperty("genxml/cmd");
 
-            LogUtils.LogSystem("START  DisplayView() cmdType: " + cmdType);
-
             if (cmdType == "list" || cmdType == "listdetail")
             {
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(dataObject.PortalContent.PortalId, aticleId, dataObject.SessionParamsData.CultureCode, dataObject.SystemKey);
@@ -287,8 +285,6 @@ namespace RocketDirectoryAPI.Components
             {
                 CacheUtils.SetCache(cacheKey, pr.RenderedText, dataObject.SystemKey + dataObject.PortalId);
             }
-
-            LogUtils.LogSystem("END  DisplayView() cmdType: " + cmdType);
 
             return pr.RenderedText;
         }
