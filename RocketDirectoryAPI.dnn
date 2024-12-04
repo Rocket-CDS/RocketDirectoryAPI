@@ -2,7 +2,7 @@
 	<packages>
     
 		<package name="RocketDirectoryAPI" type="Library" version="1.2.3">
-			<friendlyName>RocketDirectoryAPI</friendlyName>
+			<friendlyName>RocketDirectoryAPI by Nevoweb</friendlyName>
 			<DefinitionName>RocketDirectoryAPI</DefinitionName>
 			<description>RocketDirectoryAPI</description>
       <iconFile></iconFile>
