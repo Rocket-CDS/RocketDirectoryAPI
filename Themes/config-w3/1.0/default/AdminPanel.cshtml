@@ -14,6 +14,7 @@
     var rtnUrl = @DNNrocketUtils.NavigateURL(sessionParams.TabId);
 
 }
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
 
 
@@ -108,11 +109,11 @@
     </div>
 </div>
 
-<div id="main" class="" style="margin-top:41px;margin-left:20px;margin-right:0px;display:none;float: right;width: calc(100% - 20px);">
+<div id="main" class="mainadminpanel">
 
-    <div id="simplisity_startpanel" class="w3-row w3-padding simplisity_panel">
+    <div id="simplisity_startpanel" class="w3-row w3-padding-small card-margin simplisity_panel">
 
-        <div class="w3-container w3-animate-opacity w3-card w3-padding w3-margin w3-white">
+        <div class="w3-container w3-animate-opacity w3-card w3-white">
 
             @foreach (var r in interfacelist)
             {
@@ -174,19 +175,20 @@
     }
 
     function openLargeSideBar() {
-        document.getElementById("main").style.marginLeft = "280px";
+        $('#main').removeClass('mainadminpanel')
+        $('#main').addClass('mainadminpanelpushed')
         document.getElementById("largeSidebar").style.width = "280px";
         document.getElementById("largeSidebar").style.display = "block";
         document.getElementById("smallSidebar").style.display = "none";
     }
 
     function closeLargeSideBar() {
-        document.getElementById("main").style.marginLeft = "49px";
-        document.getElementById("smallSidebar").style.width = "49px";
+        $('#main').removeClass('mainadminpanelpushed')
+        $('#main').addClass('mainadminpanel')
+        document.getElementById("smallSidebar").style.width = "40px";
         document.getElementById("largeSidebar").style.display = "none";
         document.getElementById("smallSidebar").style.display = "block";
     }
-
     function changeEditLanguage(l) {
         simplisity_setCookieValue('simplisity_editlanguage', l);
         $('.a-reloadpage').trigger('click');
