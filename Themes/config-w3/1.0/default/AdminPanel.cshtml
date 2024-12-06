@@ -7,7 +7,7 @@
 
 @{
     var groupList = systemData.GetGroups(true);
-    var interfacelist = portalContent.PluginActveInterface(systemData);
+    var interfacelist = portalContent.PluginActveInterface(systemData, false);
     Model.SetSetting("adminpanel", "true");
 
     var enabledlanguages = DNNrocketUtils.GetCultureCodeList();

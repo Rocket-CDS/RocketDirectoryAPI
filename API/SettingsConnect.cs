@@ -25,7 +25,6 @@ namespace RocketDirectoryAPI.API
         {
             var moduleData = _dataObject.ModuleSettings;
             moduleData.Save(_postInfo);
-            moduleData.Update();
             CacheFileUtils.ClearAllCache(moduleData.PortalId);
             _dataObject.SetDataObject("modulesettings", moduleData);
             return RenderSystemTemplate("ModuleSettings.cshtml");

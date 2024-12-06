@@ -843,19 +843,19 @@ namespace RocketDirectoryAPI.Components
         public bool Exists { get {if (Info.ItemID  <= 0) { return false; } else { return true; }; } }
         public string LogoRelPath { get { var articleImage = GetImage(0); return articleImage.RelPath;} }
         public string NameUrl { get { return GeneralUtils.UrlFriendly(Name); } }
-        public string Ref { get { return Info.GetXmlProperty(RefXPath); } }
+        public string Ref { get { return Info.GetXmlProperty(RefXPath); } set { Info.SetXmlProperty(RefXPath, value); } }
         public string RefXPath { get { return "genxml/textbox/articleref"; } }
-        public string RichText { get { return Info.GetXmlProperty(RichTextXPath); } }
+        public string RichText { get { return Info.GetXmlProperty(RichTextXPath); } set { Info.SetXmlProperty(RichTextXPath, value); } }
         public string RichTextXPath { get { return "genxml/lang/genxml/textbox/articlerichtext"; } }
         public string Name { get { return Info.GetXmlProperty(NameXPath); } set { Info.SetXmlProperty(NameXPath, value); } }
         public string NameXPath { get { return "genxml/lang/genxml/textbox/articlename"; } }
         public DateTime PublishedDate { get { if (Info.GetXmlProperty(PublishedDateXPath) == "") return Info.ModifiedDate; else return Info.GetXmlPropertyDate(PublishedDateXPath); } set { Info.SetXmlProperty(PublishedDateXPath, value.ToString("O"), TypeCode.DateTime); } }
         public string PublishedDateXPath { get { return "genxml/textbox/publisheddate"; } }
-        public string Summary { get { return Info.GetXmlProperty(SummaryXPath); } }
+        public string Summary { get { return Info.GetXmlProperty(SummaryXPath); } set { Info.SetXmlProperty(SummaryXPath, value); } }
         public string SummaryXPath { get { return "genxml/lang/genxml/textbox/articlesummary"; } }
-        public bool Hidden { get { return Info.GetXmlPropertyBool(HiddenXPath); } }
+        public bool Hidden { get { return Info.GetXmlPropertyBool(HiddenXPath); } set { Info.SetXmlProperty(HiddenXPath, value.ToString()); } }
         public string HiddenXPath { get { return "genxml/checkbox/hidden"; } }
-        public bool HiddenByCulture { get { return Info.GetXmlPropertyBool(HiddenByCultureXPath); } }
+        public bool HiddenByCulture { get { return Info.GetXmlPropertyBool(HiddenByCultureXPath); } set { Info.SetXmlProperty(HiddenByCultureXPath, value.ToString()); } }
         public string HiddenByCultureXPath { get { return "genxml/lang/genxml/checkbox/hidden"; } }
         public bool IsHidden { get { if (Hidden || HiddenByCulture) return true; else return false; } }
         public string SeoTitle
@@ -873,7 +873,10 @@ namespace RocketDirectoryAPI.Components
         public string SeoDescription 
         { 
             get 
-            { 
+            {
+                if (Info.GetXmlProperty(SeoKeyWordsXPath) == "")
+                    return Summary;
+                else
                     return Info.GetXmlProperty(SeoDescriptionXPath);
             }
         }

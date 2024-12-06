@@ -503,7 +503,7 @@ namespace RocketDirectoryAPI.Components
                 }
 
                 // ------------------------------------------
-                // this is now injected by the basesystem in the SystemSingleton class.
+                // this is now injected by the basesystem (DNNrocket) in the SystemSingleton.cs class.
                 // ------------------------------------------
                 // Add plugins
                 //var pList = PluginActveList();
