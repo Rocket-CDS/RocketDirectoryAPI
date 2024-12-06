@@ -41,20 +41,17 @@
         <span>@appTheme.Name</span>
     </div>
 
-    @if (enabledlanguages.Count() > 1)
-    {
-        <div class="w3-bar-item">
-            @foreach (var l in enabledlanguages)
+    <div class="w3-bar-item">
+        @foreach (var l in enabledlanguages)
+        {
+            var selectedcolor = "";
+            if (sessionParams.CultureCodeEdit == l)
             {
-                var selectedcolor = "";
-                if (sessionParams.CultureCodeEdit == l)
-                {
-                    selectedcolor = "w3-border-bottom";
-                }
-                <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black w3-left @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
+                selectedcolor = "w3-border-bottom";
             }
-        </div>        
-    }
+            <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black w3-left @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
+        }
+    </div>        
 
 </div>
 
