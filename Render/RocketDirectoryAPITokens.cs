@@ -209,8 +209,6 @@ namespace RocketDirectoryAPI.Components
             strOut += "function callFilterArticleList(sreturn) {";
             strOut += " $('.simplisity_loader').show();";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
-            strOut += " simplisity_setSessionField('searchdate1', '');";
-            strOut += " simplisity_setSessionField('searchdate2', '');";
             strOut += " simplisity_setSessionField('page', '1');";
             strOut += " $(sreturn).getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + queryCatKey + "\":\"" + sessionParams.Get(queryCatKey) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += " } ";
@@ -269,8 +267,6 @@ namespace RocketDirectoryAPI.Components
             strOut += "        $('.simplisity_loader').show();";
             strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
-            strOut += "        simplisity_setSessionField('searchdate1', '');";
-            strOut += "        simplisity_setSessionField('searchdate2', '');";
             strOut += "        simplisity_setSessionField('page', '1');";
             strOut += "        if (propertyid > 0) {";
             strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";

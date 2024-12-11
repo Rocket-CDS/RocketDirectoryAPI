@@ -39,6 +39,7 @@ namespace RocketDirectoryAPI.Components
             if (Record == null)
             {
                 ReadRecord(portalId, cultureCode);
+                CacheUtils.SetCache(_cacheKey, Record);
 
                 if (PortalUtils.PortalExists(portalId)) // check we have a portal, could be deleted
                 {
@@ -220,10 +221,6 @@ namespace RocketDirectoryAPI.Components
                 Record.TypeCode = _entityTypeCode;
                 Record.Lang = cultureCode;
             }
-            else
-            {
-                CacheUtils.SetCache(_cacheKey, Record);
-            }
         }
         public void Validate()
         {
@@ -249,6 +246,13 @@ namespace RocketDirectoryAPI.Components
         public void Reset()
         {
             _objCtrl.Delete(Record.ItemID, _tableName);
+            var configFileName = DNNrocketUtils.MapPath("/DesktopModules/DNNRocketModules/" + SystemKey + "/Installation/SystemInit.rules");
+            if (File.Exists(configFileName))
+            {
+                var xmlData = FileUtils.ReadFile(configFileName);
+                Record.XMLData = xmlData;
+            }
+            Update();
             RemoveCache();
         }
         public void RemoveCache()
