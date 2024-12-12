@@ -366,6 +366,17 @@ namespace RocketDirectoryAPI.Components
             }
             return str;
         }
+        public static Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(SessionParams sessionParams, string systemKey, DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, bool useCache = true)
+        {
+            var cacheKey = systemKey + "*" + startMonthDate.ToString() + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + catid;
+            var rtn = (Dictionary<DateTime, List<SimplisityInfo>>)CacheUtils.GetCache(cacheKey, "portalid" + PortalUtils.GetCurrentPortalId());
+            if (rtn != null && useCache) return rtn;
+            var adl = new ArticleLimpetList(sessionParams, new PortalCatalogLimpet(PortalUtils.GetCurrentPortalId(), DNNrocketUtils.GetCurrentCulture(), systemKey), DNNrocketUtils.GetCurrentCulture(), false);
+            rtn = adl.GetArticlesByMonth(startMonthDate, numberOfMonths, sqlindexDateRef, catid);
+            if (useCache) CacheUtils.SetCache(cacheKey, rtn, "portalid" + PortalUtils.GetCurrentPortalId());
+            return rtn;
+        }
+        [Obsolete("Use GetArticlesByMonth(SessionParams sessionParams, string systemKey, DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = \"\", int catid = 0, bool useCache = true)")]
         public static Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(string systemKey,DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, bool useCache = true)
         {
             var cacheKey = systemKey + "*" + startMonthDate.ToString() + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + catid;

@@ -292,13 +292,14 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString DateJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
+            var catKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
             var strOut = "<script type='text/javascript'>";
             strOut += "    function doDateSearchReload(searchdate1, searchdate2) {";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
             strOut += "        simplisity_setSessionField('searchdate1', searchdate1);";
             strOut += "        simplisity_setSessionField('searchdate2', searchdate2);";
             strOut += "        $('.simplisity_loader').show();";
-            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"catid\":\"" + sessionParams.Get(RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey)) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
+            strOut += "        $('" + sreturn + "').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'remote_publiclist', '{\"disablecache\":\"true\",\"moduleref\":\"" + moduleData.ApiModuleRef + "\",\"moduleid\":\"" + sessionParams.ModuleId + "\",\"tabid\":\"" + sessionParams.TabId + "\",\"" + catKey + "\":\"" + sessionParams.Get(catKey) + "\",\"systemkey\":\"" + moduleData.SystemKey + "\",\"basesystemkey\":\"rocketdirectoryapi\",\"template\":\"" + templateName + "\"}', '');";
             strOut += "    }";
             strOut += "</script>";
             return new RawString(strOut);
