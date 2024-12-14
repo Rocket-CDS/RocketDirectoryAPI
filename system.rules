@@ -218,7 +218,7 @@
           <interfacekey>articleadmin</interfacekey>
           <namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
           <assembly>RocketDirectoryAPI</assembly>
-          <interfaceicon>qr_code_2</interfaceicon>
+          <interfaceicon>article</interfaceicon>
           <defaultcommand>articleadmin_editlist</defaultcommand>
           <relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
         </textbox>
@@ -276,7 +276,7 @@
           <interfacekey>categoryadmin</interfacekey>
           <namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
           <assembly>RocketDirectoryAPI</assembly>
-          <interfaceicon>library_books</interfaceicon>
+          <interfaceicon>format_list_bulleted</interfaceicon>
           <defaultcommand>categoryadmin_editlist</defaultcommand>
           <relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
         </textbox>
@@ -361,7 +361,7 @@
 				<interfacekey>rocketdirectoryadmin</interfacekey>
 				<namespaceclass>RocketDirectoryAPI.API.StartConnect</namespaceclass>
 				<assembly>RocketDirectoryAPI</assembly>
-				<interfaceicon>phonelink_setup</interfaceicon>
+				<interfaceicon>manage_accounts</interfaceicon>
 				<defaultcommand>rocketsystem_edit</defaultcommand>
 				<relpath>/DesktopModules/DNNrocketModules/RocketDirectoryAPI</relpath>
 			</textbox>
