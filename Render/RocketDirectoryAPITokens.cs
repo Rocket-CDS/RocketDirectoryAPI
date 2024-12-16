@@ -260,6 +260,7 @@ namespace RocketDirectoryAPI.Components
         public IEncodedString TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
+            if (queryCatKey == "") queryCatKey = "nocat";
             string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList" + sessionParams.ModuleId + "(propertyid) {";
@@ -293,6 +294,7 @@ namespace RocketDirectoryAPI.Components
         public IEncodedString DateJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var catKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
+            if (catKey == "") catKey = "nocat";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function doDateSearchReload(searchdate1, searchdate2) {";
             strOut += " simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";

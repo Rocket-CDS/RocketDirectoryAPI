@@ -5,6 +5,7 @@ using RocketPortal.Components;
 using Simplisity;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,9 +17,12 @@ using System.Xml.Linq;
 
 namespace RocketDirectoryAPI.Components
 {
+    /// <summary>
+    /// System data and settings.
+    /// </summary>
     public class PortalCatalogLimpet
     {
-        private const string _tableName = "rocketdirectoryapi";
+        private string _tableName = "RocketDirectoryApi";
         private DNNrocketController _objCtrl;
         private int _portalId;
         private string _cacheKey;
@@ -84,7 +88,6 @@ namespace RocketDirectoryAPI.Components
             var ri = new RegionInfo(cultureInfo.LCID);
             CurrencyCode = ri.ISOCurrencySymbol;
         }
-
         public void Update()
         {
             // check for SQL injection
@@ -178,7 +181,7 @@ namespace RocketDirectoryAPI.Components
                         }
                     }
 
-                    if (upd) _objCtrl.Update(info);
+                    if (upd) _objCtrl.Update(info, _tableName);
                 }
             }
 
@@ -245,14 +248,27 @@ namespace RocketDirectoryAPI.Components
         }
         public void Reset()
         {
-            _objCtrl.Delete(Record.ItemID, _tableName);
+            // delete legacy
+            var sqlCmd = "delete from DNNrocket where typecode = '" + _entityTypeCode + "' and portalId = " + PortalId + " ";
+            _objCtrl.ExecSql(sqlCmd);
+
+            // delete existing
+            var sqlCmd3 = "delete from " + _tableName + " where typecode = '" + _entityTypeCode + "' and portalId = " + PortalId + " ";
+            _objCtrl.ExecSql(sqlCmd3);
+
+            // Delete crossref
+            var entityType = "PortalSettingsRef_" + SystemKey + PortalId;
+            var sqlCmd2 = "delete from " + _tableName + " where typecode = '" + entityType + "' and portalId = " + PortalId + " ";
+            _objCtrl.ExecSql(sqlCmd2);
+
             var configFileName = DNNrocketUtils.MapPath("/DesktopModules/DNNRocketModules/" + SystemKey + "/Installation/SystemInit.rules");
             if (File.Exists(configFileName))
             {
                 var xmlData = FileUtils.ReadFile(configFileName);
                 Record.XMLData = xmlData;
             }
-            Update();
+            Record.ItemID = _objCtrl.Update(new SimplisityInfo(Record), _tableName);
+            SaveReferenceId();
             RemoveCache();
         }
         public void RemoveCache()
