@@ -21,10 +21,12 @@
     var projectData = new AppThemeProjectLimpet();
     var systemDirectoryData = SystemSingleton.Instance("rocketdirectoryapi");
     var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
+    var sreturn = ".systempopup";
 }
 
 @if (!Model.SessionParamsData.GetBool("portalsystems"))
 {
+    sreturn = "";
     <div class="pl-breadcrumb">
         <div class="pl-breadcrumb-itemlink w3-border-blue w3-border-bottom w3-text-blue " onclick="window.location.reload();">@ResourceKey("DNNrocket.services")</div>
         <div class="pl-breadcrumb-item">
@@ -37,7 +39,7 @@
 <div id="" class="w3-animate-opacity w3-card w3-padding w3-margin w3-white">
 
     <div class="w3-bar  w3-padding">
-        <div class="w3-padding w3-button w3-theme-action2 savebutton simplisity_click" s-cmd="portalcatalog_save" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId","portalsystems":"@Model.SessionParamsData.Get("portalsystems")"}'>@ButtonText(ButtonTypes.save)</div>
+        <div class="w3-padding w3-button w3-theme-action2 savebutton simplisity_click" s-cmd="portalcatalog_save" s-return="@(sreturn)" s-list=".sqlorderbyproduct,.settingsdata,.linklist,.plugins" s-post="#systemadminsection" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId","portalsystems":"@Model.SessionParamsData.Get("portalsystems")"}'>@ButtonText(ButtonTypes.save)</div>
         @if (UserUtils.IsAdministrator())
         {
             <div class="w3-padding w3-button w3-red w3-right  simplisity_confirmclick" s-confirm="reset?" s-reload="true" s-cmd="portalcatalog_reset" s-fields='{"systemkey":"@systemData.SystemKey","portalid":"@portalCatalog.PortalId"}'>@ButtonText(ButtonTypes.reset)</div>
