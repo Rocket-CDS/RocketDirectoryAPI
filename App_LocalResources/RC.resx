@@ -441,4 +441,7 @@
   <data name="titletextsize.Text" xml:space="preserve">
     <value>Title Text Size</value>
   </data>
+  <data name="generateimage.Text" xml:space="preserve">
+    <value>Generate Image</value>
+  </data>
 </root>

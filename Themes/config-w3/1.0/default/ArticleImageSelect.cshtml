@@ -24,6 +24,18 @@
                         <span class="w3-col m12 w3-button w3-teal fileuploadaction" onclick="$('#articleimageselect').hide();$('#imagefileupload').trigger('click');">@ButtonText(ButtonTypes.upload)</span>
                     </div>
 
+                    if (globalSettings.ChatGptKey != "")
+                    {
+                        <div class="w3-row w3-margin-bottom">
+                            <span id="chatgpttextbutton" class="w3-col m12 w3-button w3-teal" onclick="$('#chatgpttext').show();$('#chatgpttextbutton').hide();">Auto Generate Image</span>
+                        </div>
+                        <div id="chatgpttext" class="w3-row w3-margin-bottom" style="display:none;">
+                            @TextBox(articleData.Info, "genxml/hidden/chatgptimagetext", " class='w3-input w3-border' placeholder='" + ResourceKey("RCT.generateimage", "", "Label").ToString() + "'")
+                            <span class="w3-button w3-blue w3-right w3-margin simplisity_click" s-post="#chatgpttext" s-cmd="articleadmin_addchatgptimage" s-fields='{"moduleid":"@(moduleData.ModuleId)","articleid":"@(articleData.ArticleId)"} '>@ResourceKey("RC.generateimage")</span>
+                        </div>
+                    }
+
+
                     <div id="simplisity-file-progress-bar" class="w3-modal w3-padding" style="z-index:9999;background-color:grey">
                         <div class="w3-modal-content w3-card-4  w3-display-middle w3-padding" style="width: 60%;">
                             <div id="progessaction">@ResourceKey("DNNrocket.imageupload")</div>

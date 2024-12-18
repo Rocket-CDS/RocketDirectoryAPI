@@ -133,6 +133,12 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_addimage":
                     strOut = AddArticleImage();
                     break;
+                case "articleadmin_addchatgptimage":
+                    strOut = AddArticleChatGptImageAsync().ToString();
+                    break;
+                case "articleadmin_addchatgptimage1":
+                    strOut = AddArticleChatGptImageAsync(true).ToString();
+                    break;
                 case "articleadmin_adddoc":
                     strOut = AddArticleDoc();
                     break;

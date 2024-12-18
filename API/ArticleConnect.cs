@@ -103,6 +103,47 @@ namespace RocketDirectoryAPI.API
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
         }
+        public string AddArticleChatGptImageAsync(bool singleImage = false)
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            var articleData = GetActiveArticle(articleId);
+            if (articleData.Exists)
+            {
+                if (singleImage) articleData.Info.RemoveList(articleData.ImageListName);
+
+                //call ChatGptimage
+                var prompt = GeneralUtils.DeCode(_postInfo.GetXmlProperty("genxml/hidden/chatgptimagetext"));
+                if (!String.IsNullOrEmpty(prompt))
+                {
+                    try
+                    {
+                        _dataObject.PortalData.AiImageCount();
+                        var chatGpt = new ChatGPT();
+                        var iUrl = chatGpt.GenerateImageAsync(prompt).Result;
+                        if (GeneralUtils.IsUriValid(iUrl))
+                        {
+                            var imgFolder = _dataObject.PortalContent.ImageFolderMapPath + "\\" + articleData.ArticleId;
+                            if (!Directory.Exists(imgFolder)) Directory.CreateDirectory(imgFolder);
+                            var imgFileMapPath = imgFolder + "\\" + GeneralUtils.GetGuidKey() + ".webp";
+                            ImgUtils.DownloadAndSaveImage(iUrl, imgFileMapPath);
+
+                            articleData.AddImage(Path.GetFileName(imgFileMapPath));
+                            _dataObject.SetDataObject("articledata", articleData);
+                        }
+                        else
+                        {
+                            return iUrl;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtils.LogException(ex);
+                        return ex.ToString();
+                    }
+                }
+            }
+            return GetArticle(articleData);
+        }
         public string AddArticleImage64()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");

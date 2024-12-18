@@ -161,7 +161,15 @@ order by articleref.GUIDKey desc
       <cmd>articleadmin_addimage</cmd>
       <action>true</action>
     </command>
-    <command>
+		<command>
+			<cmd>articleadmin_addchatgptimage1</cmd>
+			<action>true</action>
+		</command>
+		<command>
+			<cmd>articleadmin_addchatgptimage</cmd>
+			<action>true</action>
+		</command>		
+		<command>
       <cmd>articleadmin_adddoc</cmd>
       <action>true</action>
     </command>

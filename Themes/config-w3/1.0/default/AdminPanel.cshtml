@@ -143,6 +143,11 @@
 
 <div class="w3-hide rocketsystem_noadminsettings simplisity_click" s-cmd="rocketsystem_noadminsettings" s-fields='{"systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi"}'></div>
 
+@{
+    Model.SetSetting("chatgptcmd", "rocketdirectoryapi_chatgpt");
+}
+@RenderTemplate("ChatGptForm.cshtml", appThemeRocketApi, Model, true)
+
 <script>
     $(document).ready(function () {
 
