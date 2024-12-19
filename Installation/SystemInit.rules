@@ -1,11 +1,63 @@
-<genxml>
+﻿<genxml>
 	<hidden>
-		<systemkey><![CDATA[rocketdirectoryapi]]></systemkey>
+		<systemkey>rocketdirectoryapi</systemkey>
 	</hidden>
-	<active><![CDATA[true]]></active>
-	<emailon><![CDATA[false]]></emailon>
-	<debugmode><![CDATA[false]]></debugmode>
-	<lang>
-		<genxml />
-	</lang>
+	<select>
+		<selectedprojectnameadmin></selectedprojectnameadmin>
+		<appthemeadmin></appthemeadmin>
+		<appthemeadminversion></appthemeadminversion>
+	</select>
+	<listpage></listpage>
+	<detailpage></detailpage>
+	<default>true</default>
+	<config>
+		<sortorder>1</sortorder>
+	</config>
+	<maxarticles>1000</maxarticles>
+	<articlesimagelimit>12</articlesimagelimit>
+	<articlesdocumentlimit>12</articlesdocumentlimit>
+	<imageresize>640</imageresize>
+	<securitykey></securitykey>
+	<sqlfilterarticle>
+		<![CDATA[
+		{contains:searchtext}
+		]]>
+	</sqlfilterarticle>
+	<sqlfilterarticleadmin>
+		<![CDATA[
+		{contains:searchtext}
+		]]>
+	</sqlfilterarticleadmin>
+	<key>sqlorderby-publisheddate</key>
+	<value>order by publisheddate.GUIDKey</value>
+	<schedulerrunhours>24</schedulerrunhours>
+	<emailon>true</emailon>
+	<debugmode>false</debugmode>
+	<secureupload>false</secureupload>
+	<checkboxfilterand>false</checkboxfilterand>
+	<checkbox>
+		<active>true</active>
+	</checkbox>
+	<sqlorderbyproduct list="true">
+		<genxml>
+			<default>false</default>
+			<key>sqlorderby-product-name</key>
+			<value>order by articlename.GUIDKey</value>
+		</genxml>
+		<genxml>
+			<default>false</default>
+			<key>sqlorderby-product-name-desc</key>
+			<value>order by articlename.GUIDKey desc</value>
+		</genxml>
+		<genxml>
+			<default>false</default>
+			<key>sqlorderby-product-ref</key>
+			<value>order by articleref.GUIDKey</value>
+		</genxml>
+		<genxml>
+			<default>false</default>
+			<key>sqlorderby-product-ref-desc</key>
+			<value>order by articleref.GUIDKey desc</value>
+		</genxml>
+	</sqlorderbyproduct>
 </genxml>

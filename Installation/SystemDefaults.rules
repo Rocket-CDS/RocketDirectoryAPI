@@ -6,9 +6,6 @@
   </sqlfilter>
   <sqlorderby>
 	  <product>
-	    <random>
-order by newid()
-	    </random>		
 	    <name>
 order by articlename.GUIDKey
 	    </name>
