@@ -10,12 +10,12 @@
 
 <div class="w3-row reviewlistdatasection w3-padding">
 
-    <div class="w3-bar-block w3-padding">
-        <div class="w3-button w3-padding-small w3-theme-action simplisity_click" s-post="#articledatasection" s-return="#reviews" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-cmd="articleadmin_addreview" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.reviews")</div>
+    <div class="w3-bar-block w3-margin-bottom">
+        <div class="w3-button w3-padding-small w3-border simplisity_click" s-post="#articledatasection" s-return="#reviews" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName,.@articleData.ReviewListName" s-cmd="articleadmin_addreview" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonIcon(ButtonTypes.add)&nbsp;@ResourceKey("DNNrocket.reviews")</div>
         <div class="w3-button w3-pale-yellow w3-padding-small simplisity_itemundo" s-recylebin="reviewlistbin" s-return="#reviewlistdata" s-removelist=".reviewlist" style="display: none;">@ButtonIcon(ButtonTypes.undo)</div>
     </div>
 
-    <ul id="reviewlistdata" class="w3-ul">
+    <ul id="reviewlistdata" class="w3-ul ">
 
         @foreach (var reviewInfo in articleData.GetReviewList())
         {
@@ -27,18 +27,18 @@
                 @HiddenField(reviewInfo, "genxml/hidden/reviewkey", "", "", false, reviewLP)
                 <input value="@reviewInfo.GetXmlPropertyDate("genxml/textbox/reviewdate").ToString("O")" id="reviewdate_@(reviewLP)" s-xpath="genxml/textbox/reviewdate" s-update="save" type="hidden">
 
-                <div class="w3-display-container w3-border-bottom">
+                <div class="w3-display-container ">
                     <div id="reviewrow@(rKey)" class="w3-row w3-padding-small" onclick="$('#reviewinput@(rKey)').toggle();" style="cursor:pointer;">
-                        <div class="w3-half">
+                        <div class="w3-half w3-padding-small">
                             <b>@reviewInfo.GetXmlProperty("genxml/textbox/name" + reviewfieldId)</b>
                         </div>
-                        <div class="w3-quarter">
+                        <div class="w3-quarter w3-padding-small">
                             @if (reviewInfo.GetXmlPropertyDate("genxml/textbox/reviewdate") > DateTime.Now.AddYears(-100))
                             {
                             <span class="w3-small">@DateOf(reviewInfo, "genxml/textbox/reviewdate",sessionParams.CultureCode,"dd MMM yyy")</span>                                
                             }
                         </div>
-                        <div class="simplisity_removelistitem w3-display-topright" s-removelist=".reviewlist" s-recylebin="reviewlistbin" style="cursor: pointer;">
+                        <div class="simplisity_removelistitem w3-right" s-removelist=".reviewlist" s-recylebin="reviewlistbin" style="cursor: pointer;">
                             @ButtonIcon(ButtonTypes.remove)
                         </div>
                     </div>
@@ -50,19 +50,19 @@
                         }
                     }
                     <div id="reviewinput@(rKey)" class="w3-row w3-card w3-padding w3-margin" style="@(inputDisplay)">
-                        <div class="w3-half">
+                        <div class="w3-half w3-padding-small">
                             <label>@ResourceKey("DNNrocket.name")</label>
                             @TextBox(reviewInfo, "genxml/textbox/name" + reviewfieldId, " class='w3-input w3-border' autocomplete='off'", "", false, reviewLP)
                         </div>
-                        <div class="w3-quarter">
+                        <div class="w3-quarter w3-padding-small">
                             <br/>
                             @RadioButtonList(reviewInfo, "genxml/select/stars" + reviewfieldId,"1,2,3,4,5","1,2,3,4,5"," class='w3-right'","", ResourceKey("Blog.stars").ToString(),false,reviewLP)
                         </div>
-                        <div class="w3-quarter w3-right-align">
+                        <div class="w3-quarter w3-right-align w3-padding-small">
                             <br/>
                             @CheckBox(reviewInfo, "genxml/checkbox/hide" + reviewfieldId, "&nbsp;" + ResourceKey("DNNrocket.hide").ToString(), " class='w3-check' ", false, false, reviewLP)
                         </div>
-                        <div class="w3-col m12">
+                        <div class="w3-col m12 w3-padding-small">
                             <label>@ResourceKey("Blog.comment")</label>
                             @TextArea(reviewInfo, "genxml/textbox/comment" + reviewfieldId, " class='w3-input w3-border' autocomplete='off'", "", false, reviewLP)
                         </div>

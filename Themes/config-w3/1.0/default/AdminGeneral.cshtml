@@ -1,0 +1,43 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+@AddProcessDataResx(appTheme, true)
+<!--inject-->
+<div class='w3-row'>
+    <div class="w3-third w3-padding">
+        <label>@ResourceKey("RC.ref")</label>
+        @TextBox(info, articleData.RefXPath, " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
+    </div>
+    <div class="w3-third w3-padding">
+        &nbsp;
+    </div>
+    <div class="w3-third">
+        <div class="w3-row">
+            <div class="w3-half w3-padding @(disableauto)">
+                <br />
+                @CheckBox(info, "genxml/checkbox/autopublish", "&nbsp;" + ResourceKey("RocketBlogApi.autopublish"), " class='w3-check' ", true)
+            </div>
+            <div class="w3-half w3-padding">
+                <br />
+                @CheckBox(info, articleData.HiddenXPath, "&nbsp;" + ResourceKey("DNNrocket.hidden"), " class='w3-check' " + disablehide)
+            </div>
+        </div>
+    </div>
+</div>
+<div class=" w3-row w3-padding">
+    <label>@ResourceKey("RC.name")</label>&nbsp;@EditFlag(sessionParams)
+    @TextBox(info, articleData.NameXPath, " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
+</div>
+<div class=" w3-display-container w3-padding">
+    <div class=" w3-row">
+        <label>@ResourceKey("DNNrocket.summary")</label>&nbsp;@EditFlag(sessionParams)
+        <span class="w3-right">
+            @ChatGPT("articlesummary", "articlename") &nbsp;@DeepL("articlesummary", "articlesummary", sessionParams.CultureCodeEdit)
+        </span>
+    </div>
+    @TextArea(info, articleData.SummaryXPath, " class='w3-input w3-border' rows='8' autocomplete='off' ", "", true, 0)
+</div>
+<div class=" w3-row w3-padding">
+    @RenderTemplate("AdminExtra.cshtml", appTheme, Model, true)
+</div>

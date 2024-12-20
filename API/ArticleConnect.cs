@@ -284,7 +284,7 @@ namespace RocketDirectoryAPI.API
                 articleData.Save(_postInfo);
                 articleData.AddModel();
                 _dataObject.SetDataObject("articledata", articleData);
-                var razorTempl = GetSystemTemplate("ArticleModels.cshtml");
+                var razorTempl = GetSystemTemplate("ArticleModelsList.cshtml");
                 var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
                 if (pr.ErrorMsg != "") return pr.ErrorMsg;
                 return pr.RenderedText;
