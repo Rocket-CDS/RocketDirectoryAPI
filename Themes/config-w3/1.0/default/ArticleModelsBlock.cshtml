@@ -4,13 +4,13 @@
 @AssigDataModel(Model)
 <!--inject-->
 <div class="w3-row w3-margin-bottom">
-    <div onclick="$('#links').toggle();" class="w3-button w3-block w3-theme w3-left-align w3-round-large " style="margin-bottom:8px;">
+    <div onclick="$('#models').toggle();" class="w3-button w3-block w3-theme w3-left-align w3-round-large " style="margin-bottom:8px;">
         <strong>@ResourceKey("RC.models")</strong>
-        <span id="linksexpand" class="material-icons w3-right">
+        <span id="modelsexpand" class="material-icons w3-right">
             unfold_more
         </span>
     </div>
-    <div id="links" class='w3-row sectionname w3-border w3-padding w3-round-large' style="">
+    <div id="models" class='w3-row sectionname w3-border w3-padding w3-round-large' style="">
         [INJECT:appthemedirectory,ArticleModels.cshtml]
     </div>
 </div>

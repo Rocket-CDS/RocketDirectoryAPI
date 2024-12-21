@@ -17,8 +17,9 @@ namespace RocketDirectoryAPI.Components
 {
     public class ArticleModel
     {
-        public ArticleModel(SimplisityInfo info, string langRequired)
+        public ArticleModel(PortalCatalogLimpet portalContent, SimplisityInfo info, string langRequired)
         {
+            PortalContent = portalContent;
             CultureCode = langRequired;
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetEditCulture();
             Info = info;

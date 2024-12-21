@@ -763,7 +763,7 @@ namespace RocketDirectoryAPI.Components
             Info.RemoveList("modellist");
             foreach (var sInfo in modelList)
             {
-                var modelData = new ArticleModel(sInfo, CultureCode);
+                var modelData = new ArticleModel(PortalCatalog, sInfo, CultureCode);
                 UpdateModel(modelData);
             }
         }
@@ -786,18 +786,18 @@ namespace RocketDirectoryAPI.Components
         }
         public ArticleModel GetModel(int idx)
         {
-            return new ArticleModel(Info.GetListItem("modellist", idx), CultureCode);
+            return new ArticleModel(PortalCatalog, Info.GetListItem("modellist", idx), CultureCode);
         }
         public ArticleModel GetModel(string modelKey)
         {
-            return new ArticleModel(Info.GetListItem("modellist", "genxml/hidden/modelkey", modelKey), CultureCode);
+            return new ArticleModel(PortalCatalog, Info.GetListItem("modellist", "genxml/hidden/modelkey", modelKey), CultureCode);
         }
         public List<ArticleModel> GetModels()
         {
             var rtn = new List<ArticleModel>();
             foreach (var i in Info.GetList("modellist"))
             {
-                rtn.Add(new ArticleModel(i, CultureCode));
+                rtn.Add(new ArticleModel(PortalCatalog, i, CultureCode));
             }
             return rtn;
         }
