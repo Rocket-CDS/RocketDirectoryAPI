@@ -11,7 +11,6 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources")
 
 @{
-    var categoryData = new CategoryLimpet(portalData.PortalId, moduleData.DefaultCategoryId, sessionParams.CultureCode, systemData.SystemKey);
     var templateList = RocketDirectoryAPIUtils.ModuleTemples(appTheme, moduleData.ModuleRef);
     var sortList = new Dictionary<string, string>();
     sortList.Add("", "");
@@ -33,48 +32,15 @@
         </div>
     </div>
 
-    <div class="w3-row w3-padding">
-        <div class="w3-quarter">
+    <div class="w3-row ">
+        <div class="w3-quarter w3-padding">
             @CheckBox(info,"genxml/settings/disablecache", ResourceKey("DNNrocket.disablecache").ToString(),"class='w3-check'")
         </div>
-        <div class="w3-quarter">
-            @CheckBox(info,"genxml/settings/injectjquery", ResourceKey("DNNrocket.injectjquery").ToString(),"class='w3-check'")
+        <div class="w3-quarter w3-padding">
+            @CheckBox(info, "genxml/settings/disableheader", ResourceKey("DNNrocket.disableheader").ToString(), "class='w3-check'")
         </div>
-        <div class="w3-quarter">
-            @CheckBox(info,"genxml/settings/disableheader", ResourceKey("DNNrocket.disableheader").ToString(),"class='w3-check'")
-        </div>
-        <div class="w3-quarter">
-            @CheckBox(info,"genxml/settings/staticlist", ResourceKey("RC.staticlist").ToString(),"class='w3-check'")
-        </div>
-    </div>
-    <div class="w3-row w3-padding">
-        <div class="w3-quarter">
-            @CheckBox(info, "genxml/settings/showsearchtext", ResourceKey("RC.showsearchtext").ToString(), "class='w3-check'")
-        </div>
-        <div class="w3-quarter">
-            @CheckBox(info, "genxml/settings/showorderby", ResourceKey("RC.showorderby").ToString(), "class='w3-check'")
-        </div>
-        <div class="w3-quarter">
-            @CheckBox(info, "genxml/settings/showpagesize", ResourceKey("RC.showpagesize").ToString(), "class='w3-check'")
-        </div>
-        <div class="w3-quarter">
-        </div>
-    </div>
-    <div class="w3-row ">
-        <div class="w3-half w3-padding">
-            <label>@ResourceKey("RC.defaultcategory")&nbsp;</label>
-            <div class="w3-row">
-                <span id="defaultcategorydisplay" class="w3-col m9 w3-border w3-light-grey w3-padding" style="height:40px;">@categoryData.Name</span>
-                <span class="w3-col m3 w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
-            </div>
-            @HiddenField(info,"genxml/settings/defaultcategory")
-            @RenderTemplate("ModuleSettingsCatSelect.cshtml", appThemeDirectory, Model, true)
-        </div>
-        <div class="w3-half w3-padding">
-            <label>@ResourceKey("RC.apimoduleref")</label>
-            <div class="w3-row">
-                @ModSelectList(info, "genxml/settings/apimoduleref", info.PortalId, " class='w3-input w3-border' ")
-            </div>
+        <div class="w3-quarter w3-padding">
+            @CheckBoxRowECOMode(info, false)
         </div>
     </div>
     <div class="w3-row ">
@@ -83,7 +49,7 @@
             @DropDownList(info,"genxml/settings/displaytemplate", templateList, " class='w3-input w3-border' ","")
         </div>
         <div class="w3-quarter w3-padding">
-            <label>Static Sort</label>
+            <label>Default Sort</label>
             @DropDownList(info,"genxml/settings/sortorderkey", sortList, " class='w3-input w3-border' ","")
         </div>
         <div class="w3-quarter  w3-padding">
@@ -94,9 +60,13 @@
             <label class="">@ResourceKey("RC.detailpage")</label>
             @TabSelectListOnTabId(info, "genxml/settings/detailpage", " class=' w3-input w3-border ' ", true, false, 0, "", true)
         </div>
-        <div class="w3-quarter w3-padding">
-            <br />
-            @CheckBoxRowECOMode(info, false)
+    </div>
+    <div class="w3-row ">
+        <div class="w3-half w3-padding">
+            <label>@ResourceKey("RC.apimoduleref")</label>
+            <div class="w3-row">
+                @ModSelectList(info, "genxml/settings/apimoduleref", info.PortalId, " class='w3-input w3-border' ")
+            </div>
         </div>
     </div>
 
