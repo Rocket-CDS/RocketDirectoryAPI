@@ -108,6 +108,8 @@ namespace RocketDirectoryAPI.Components
         }
         public void Delete()
         {
+            var imgDir = PortalCatalog.ImageFolderMapPath + "\\" + ArticleId;
+            if (Directory.Exists(imgDir)) Directory.Delete(imgDir, true);
             _objCtrl.Delete(Info.ItemID, _tableName);
         }
 
@@ -224,6 +226,7 @@ namespace RocketDirectoryAPI.Components
         {
             var groupId = SystemKey + PortalId;
             CacheUtils.ClearAllCache(groupId); // clear system cache, so lists and razor views are reloaded.
+            CacheFileUtils.ClearFileCache(PortalId);
         }
         public int Update()
         {
@@ -261,6 +264,34 @@ namespace RocketDirectoryAPI.Components
         }
         public void Validate()
         {
+            // Removed unused images
+            DNNrocketUtils.ClearThumbnailLock();
+
+            // Get images in DB
+            var imgDbList = new List<string>();
+            foreach (ArticleImage img in GetImages())
+            {
+                imgDbList.Add(Path.GetFileNameWithoutExtension(img.MapPath));
+            }
+            // Get images on File
+            var imgDir = PortalCatalog.ImageFolderMapPath + "\\" + ArticleId;
+            if (Directory.Exists(imgDir))
+            {
+                foreach (var imgF in Directory.GetFiles(imgDir))
+                {
+                    if (!imgDbList.Contains(Path.GetFileNameWithoutExtension(imgF)))
+                    {
+                        try
+                        {
+                            File.Delete(imgF);
+                        }
+                        catch (Exception)
+                        {
+                            // ignore
+                        }
+                    }
+                }
+            }
         }
 
         #region "images"
