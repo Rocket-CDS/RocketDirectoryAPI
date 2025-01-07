@@ -465,12 +465,23 @@ namespace RocketDirectoryAPI.Components
         }
         public void Validate()
         {
+            var articleIdList = new List<string>();
             var list = GetAllPortalArticles();
             foreach (var pInfo in list)
             {
                 var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
                 articleData.ValidateAndUpdate();
+                articleIdList.Add(articleData.ArticleId.ToString());
             }
+            // remove unused img folders
+            foreach (var d in Directory.GetDirectories(PortalCatalog.ImageFolderMapPath))
+            {
+                if (!articleIdList.Contains(Path.GetFileName(d)))
+                {
+                    Directory.Delete(d, true);
+                }
+            }
+
         }
 
         public string ListUrl()
