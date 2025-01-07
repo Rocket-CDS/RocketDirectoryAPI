@@ -117,7 +117,7 @@ namespace RocketDirectoryAPI.Components
             // update PL settings for QueryParams
             if (AppThemeFolder != "")
             {
-                var info = _objCtrl.GetRecordByGuidKey(_portalId, -1, "PLSETTINGS", "PLSETTINGS");
+                var info = _objCtrl.GetRecordByGuidKey(_portalId, -1, "PLSETTINGS", "PLSETTINGS"); // Read from DNNrocket Table.
                 if (info == null)
                 {
                     info = new SimplisityRecord();
@@ -181,7 +181,7 @@ namespace RocketDirectoryAPI.Components
                         }
                     }
 
-                    if (upd) _objCtrl.Update(info, _tableName);
+                    if (upd) _objCtrl.Update(info); // Save to DNNrocket Table.
                 }
             }
 
