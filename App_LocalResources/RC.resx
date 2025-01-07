@@ -444,4 +444,7 @@
   <data name="generateimage.Text" xml:space="preserve">
     <value>Generate Image</value>
   </data>
+  <data name="editapptheme.Text" xml:space="preserve">
+    <value>Edit AppTheme</value>
+  </data>
 </root>
