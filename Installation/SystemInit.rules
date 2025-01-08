@@ -28,8 +28,6 @@
 		{contains:searchtext}
 		]]>
 	</sqlfilterarticleadmin>
-	<key>sqlorderby-publisheddate</key>
-	<value>order by publisheddate.GUIDKey</value>
 	<schedulerrunhours>24</schedulerrunhours>
 	<emailon>true</emailon>
 	<debugmode>false</debugmode>

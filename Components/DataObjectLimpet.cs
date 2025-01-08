@@ -45,7 +45,6 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("systemdirectorydata", systemDirectoryData);
             SetDataObject("portalcontent", portalContent);
             SetDataObject("appthemeprojects", AppThemeUtils.AppThemeProjects());
-            SetDataObject("defaultdata", new DefaultsLimpet(systemKey));
             SetDataObject("modulesettings", new ModuleContentLimpet(portalid, moduleRef, systemKey, moduleId, tabId)); 
             SetDataObject("globalsettings", new SystemGlobalData());
             SetDataObject("appthemedefault", AppThemeUtils.AppThemeDefault(portalid, systemData, "Default", "1.0"));

@@ -44,7 +44,6 @@ namespace RocketDirectoryAPI.Components
         public PropertyLimpetList propertyDataList;
         public PropertyLimpet propertyData;
         public AppThemeProjectLimpet appThemeProjects;
-        public DefaultsLimpet defaultData;
         public SystemGlobalData globalSettings;
         public AppThemeDataList appThemeDataList;
         public DashboardLimpet dashBoard;
@@ -70,7 +69,6 @@ namespace RocketDirectoryAPI.Components
             categoryData = (CategoryLimpet)sModel.GetDataObject("categorydata");
             propertyDataList = (PropertyLimpetList)sModel.GetDataObject("propertylist");
             propertyData = (PropertyLimpet)sModel.GetDataObject("propertydata");
-            defaultData = (DefaultsLimpet)sModel.GetDataObject("defaultdata");
             globalSettings = (SystemGlobalData)sModel.GetDataObject("globalsettings");
             dashBoard = (DashboardLimpet)sModel.GetDataObject("dashboard");
             articleData = (ArticleLimpet)sModel.GetDataObject("articledata");

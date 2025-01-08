@@ -10,7 +10,6 @@
 @{
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var info = portalCatalog.Info;
-    var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
 }
 <!--inject-->
 @{
@@ -30,18 +29,6 @@
 
     var lp3 = 1;
     var orderbylist = portalCatalog.GetOrderByList();
-    if (orderbylist.Count == 0)
-    {
-        foreach (var d in defaultsData.ArticleOrderBy())
-        {
-            var s = new SimplisityInfo();
-            s.SetXmlProperty("genxml/key", d.Key);
-            s.SetXmlProperty("genxml/value", d.Value);
-            s.SetXmlProperty("genxml/default", "true");
-            orderbylist.Add(s);
-        }
-    }
-
 }
 
 <div id="sidemenuorderbydata" class="w3-container a-panelsidemenu">

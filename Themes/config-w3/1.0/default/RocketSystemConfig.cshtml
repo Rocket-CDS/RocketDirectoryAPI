@@ -10,7 +10,6 @@
 @{
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var info = portalCatalog.Info;
-    var defaultsData = (DefaultsLimpet)Model.GetDataObject("defaultdata");
 }
 <!--inject-->
 @{
@@ -18,16 +17,6 @@
     if (UserUtils.IsSuperUser())
     {
         disableSqlEdit = "";
-    }
-    var sqladmindefault = defaultsData.Get("root/sqlfilter/articleadmin");
-    if (sqladmindefault == "")
-    {
-        sqladmindefault = "{contains:searchtext}";
-    }
-    var sqldefault = defaultsData.Get("root/sqlfilter/article");
-    if (sqldefault == "")
-    {
-        sqldefault = "{contains:searchtext}";
     }
 }
 
@@ -93,11 +82,11 @@
 
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle")</label>
-        @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, sqldefault, false)
+        @TextArea(info, "genxml/sqlfilterarticle", "class='w3-input w3-border' s-datatype='coded' rows='6' " + disableSqlEdit, "", false)
     </div>
     <div class="w3-row  w3-padding w3-border-bottom">
         <label class="">@ResourceKey("RCP.sqlfilterarticle") (Admin)</label>
-        @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, sqladmindefault, false)
+        @TextArea(info, "genxml/sqlfilterarticleadmin", "class='w3-input w3-border' s-datatype='coded' " + disableSqlEdit, "", false)
     </div>
     <div class="w3-row  w3-padding">
         <label class=""><b>@ResourceKey("RC.dnnsearchextra")</b></label>

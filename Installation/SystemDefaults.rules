@@ -1,29 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <sqlfilter>
-    <article><![CDATA[{contains:searchtext}]]></article>
-    <articleadmin><![CDATA[{contains:searchtext}]]></articleadmin>
-  </sqlfilter>
-  <sqlorderby>
-	  <product>
-	    <name>
-order by articlename.GUIDKey
-	    </name>
-        <name-desc>
-order by articlename.GUIDKey desc
-	    </name-desc>
-        <ref>
-order by articleref.GUIDKey
-		</ref>
-        <ref-desc>
-order by articleref.GUIDKey desc
-		</ref-desc>
-    </product>
-  </sqlorderby>
-	<menuprovider>
-		<assembly>RocketDirectoryAPI</assembly>
-		<namespaceclass>RocketDirectoryAPI.Components.MenuDirectory</namespaceclass>
-	</menuprovider>
 
 	<commands>
 
