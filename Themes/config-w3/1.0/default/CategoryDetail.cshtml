@@ -53,19 +53,17 @@
 <div class='w3-animate-opacity w3-card w3-padding w3-margin w3-white'>
 
     <div class="w3-row w3-padding">
-        <button class="w3-button w3-theme-action w3-border simplisity_click " s-cmd="categoryadmin_editlist" s-fields='{"categoryid":"@info.ParentItemId"}'>@ButtonText(ButtonTypes.back)</button>
         <button class="w3-button w3-theme-action2 simplisity_click savecategorybutton langchangesave" s-before="saveRichText" s-list=".imagecategorylist,.articlelist" s-cmd="categoryadmin_save" s-post="#datacategorysection" s-fields='{"categoryid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</button>
         <button class="w3-button w3-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="categoryadmin_delete" s-fields='{"categoryid":"@info.ItemID"}' title='@ResourceKey("DNNrocket.delete")'>@ButtonText(ButtonTypes.delete)</button>
     </div>
 
+
     <div class="w3-padding">
         <div class="w3-bar w3-margin-top w3-theme-l4">
-            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar categorybutton cattablink" onclick="openCategoryTab('category')">@ResourceKey("RC.category")</div>
+            <div class="w3-bar-item w3-button  w3-theme-action categorybutton cattablink" onclick="openCategoryTab('category')">@ResourceKey("RC.category")</div>
             <div class="w3-bar-item w3-button articlesbutton cattablink " onclick="openCategoryTab('articles')">@ResourceKey("RC.articles")</div>
         </div>
-    </div>
-
-    <div id="datacategorysection" class="">
+    <div id="datacategorysection" class="w3-border-left w3-border-right w3-border-bottom">
         <div id="category" class="categorytab">
             <!-- The Detail-->
             <div id="detailDisplay" class="w3-container">
@@ -208,6 +206,7 @@
         </div>
 
     </div>
+    </div>
 
     <div>
         <i>ID: </i> @info.ItemID <i> GuidKey:</i> @info.GUIDKey
@@ -267,10 +266,10 @@
         }
         tablinks = document.getElementsByClassName("cattablink");
         for (i = 0; i < x.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" w3-bottombar", "");
+            tablinks[i].className = tablinks[i].className.replace(" w3-theme-action", "");
         }
         document.getElementById(categorytab).style.display = "block";
-        $('.' + categorytab + 'button').addClass('w3-bottombar');
+        $('.' + categorytab + 'button').addClass('w3-theme-action');
     }
     function saveRichText() {
         $('#datacategorysection').append($('#richtext')); // we need to move the richtext to the save data area.
