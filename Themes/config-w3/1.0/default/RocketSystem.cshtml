@@ -45,18 +45,16 @@
         }        
     </div>
 
-    <div class="w3-padding">
-        <div class="w3-bar w3-margin-top w3-theme-l4">
-            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar tablink generaltabtablink" onclick="openSection('generaltab')">@ResourceKey("DNNrocket.general")</div>
-            <div class="w3-bar-item w3-button tablink w3-border-right configtablink" onclick="openSection('configtab')">@ResourceKey("RC.config")</div>
-            <div class="w3-bar-item w3-button tablink w3-border-right orderbylink" onclick="openSection('orderbytab')">@ResourceKey("RC.orderby")</div>
-            <div class="w3-bar-item w3-button tablink w3-border-right pluginstabtablink" onclick="openSection('pluginstab')">@ResourceKey("RC.plugins")</div>
-            <div class="w3-bar-item w3-button tablink w3-border-right toolstablink" onclick="openSection('toolstab')">@ResourceKey("DNNrocket.tools")</div>
-        </div>
+    <div class="w3-bar w3-margin-top w3-theme-l4">
+        <div class="w3-bar-item w3-button w3-button w3-border-right w3-theme-action tablink generaltabtablink" onclick="openSection('generaltab')">@ResourceKey("DNNrocket.general")</div>
+        <div class="w3-bar-item w3-button tablink w3-border-right configtabtablink" onclick="openSection('configtab')">@ResourceKey("RC.config")</div>
+        <div class="w3-bar-item w3-button tablink w3-border-right orderbytabtablink" onclick="openSection('orderbytab')">@ResourceKey("RC.orderby")</div>
+        <div class="w3-bar-item w3-button tablink w3-border-right pluginstabtablink" onclick="openSection('pluginstab')">@ResourceKey("RC.plugins")</div>
+        <div class="w3-bar-item w3-button tablink w3-border-right toolstabtablink" onclick="openSection('toolstab')">@ResourceKey("DNNrocket.tools")</div>
     </div>
 
 
-    <div id="systemadminsection" class="w3-row">
+    <div id="systemadminsection" class="w3-row w3-border">
         <div id="generaltab" class='w3-row sectionname' style="display:none">
             [INJECT:appthemedirectory,RocketSystemGeneral.cshtml]
         </div>
@@ -102,12 +100,12 @@
             x[i].style.display = "none";
         }
         $(".tablink").each(function (index) {
-            $(this).removeClass('w3-bottombar');
+            $(this).removeClass('w3-theme-action');
         });
 
         document.getElementById(sectionName).style.display = "block";
 
-        $('.' + sectionName + 'tablink').addClass('w3-bottombar');
+        $('.' + sectionName + 'tablink').addClass('w3-theme-action');
 
         simplisity_setCookieValue('sectionAdminName', sectionName);
     }

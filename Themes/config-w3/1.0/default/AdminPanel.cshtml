@@ -17,16 +17,40 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/" + systemData.SystemKey + "/App_LocalResources")
 
+<style>
+    .w3-card {
+        border-radius: 16px;
+    }
+
+    .w3-modal-content {
+        border-radius: 16px;
+    }
+</style>
 
 <!-- Page Content -->
-<div class="w3-top w3-bar w3-theme-dark " style="height:41px;">
+<div class="w3-top w3-bar w3-black " style="height:41px;">
     <div class="w3-bar-item" style="padding: 8px 4px;">
-        <img src="/DesktopModules/DNNrocket/API/images/nevoweb-icon.png" class="w3-round w3-white" style="height:29px;" />
+        <img src="/DesktopModules/DNNrocket/API/images/nevoweb-icon-white.png" class="w3-round" style="height:29px;" />
     </div>
     <div class="w3-bar-item" style="cursor:pointer;" onclick="window.location.reload();">
         <img src="/DesktopModules/DNNrocket/API/images/appswhite.svg" class="w3-round " style="height:29px;" />
         <span class="">&nbsp;@ResourceKey("DNNrocket.services")</span>
     </div>
+
+    @if (enabledlanguages.Count > 1)
+    {
+        <div class="w3-bar-item editlangaugebuttons">
+            @foreach (var l in enabledlanguages)
+            {
+                var selectedcolor = "";
+                if (sessionParams.CultureCodeEdit == l)
+                {
+                    selectedcolor = "w3-border-bottom";
+                }
+                <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black w3-left @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
+            }
+        </div>
+    }
 
     <div onclick="$('.simplisity_loader').show();returnToWebsite()" class="w3-right w3-bar-item" style="cursor: pointer;" title="@ResourceKey("DNNrocket.return")">
         <img src="/DesktopModules/DNNrocket/API/images/exit_to_appwhite.svg" />
@@ -41,21 +65,9 @@
         <span>@appTheme.Name</span>
     </div>
 
-    <div class="w3-bar-item">
-        @foreach (var l in enabledlanguages)
-        {
-            var selectedcolor = "";
-            if (sessionParams.CultureCodeEdit == l)
-            {
-                selectedcolor = "w3-border-bottom";
-            }
-            <div id="language-@(l)" class="a-langaugebuttons w3-button w3-padding-small w3-hover-black w3-left @(selectedcolor) " onclick="changeEditLanguage('@l');" style="height:29px;"><img src="/DesktopModules/DNNrocket/API/images/flags/24/@(l).png" style="width:24px;" class="w3-round" /></div>
-        }
-    </div>        
-
 </div>
 
-<div id="accountdropdown" class="w3-theme-dark w3-dropdown-content w3-card w3-padding w3-top w3-border" style="top:41px; width:320px;left:calc(100vw - 320px)!important;">
+<div id="accountdropdown" class="w3-black w3-dropdown-content w3-border w3-padding w3-top" style="top:41px; width:320px;left:calc(100vw - 320px)!important;">
     <div>
         @UserUtils.GetCurrentUserEmail()
     </div>
@@ -76,9 +88,9 @@
 <!-- Sidebar -->
 <div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" style="top:41px;display:none" id="largeSidebar">
 
-    <div class="w3-padding " style="height:41px;">
+    <div class="" style="height:41px;">
         <div onclick="closeLargeSideBar()" class="w3-right w3-padding" style="cursor: pointer">
-            <b>&times;</b>
+            <img src="/DesktopModules/DNNrocket/API/images/chevron_left.svg" />
         </div>
     </div>
 
@@ -89,7 +101,7 @@
             if (r.DefaultCommand != "")
             {
                 <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                    <span class="">@InterfaceNameResourceKey(r, systemData)</span>
+                    <b>@InterfaceNameResourceKey(r, systemData)</b>
                 </div>
             }
         }
@@ -101,7 +113,7 @@
 
 </div>
 <div class="w3-sidebar w3-border-right w3-hide-medium w3-hide-small" id="smallSidebar" style="top:41px;width:40px;">
-    <div onclick="openLargeSideBar()" class="w3-center w3-margin-top" style="cursor: pointer;" title="@ResourceKey("DNNrocket.menu")">
+    <div onclick="openLargeSideBar()" class="w3-center w3-margin-top" style="cursor: pointer;height:41px;">
         <img src="/DesktopModules/DNNrocket/API/images/hamburgermenu.svg" />
     </div>
 </div>
@@ -118,14 +130,14 @@
                 {
                     if (r.DefaultCommand != "")
                     {
-                        var menuclass = "w3-theme-l1";
+                        var menuclass = "w3-theme-l5";
                         if (r.Info.GetXmlProperty("genxml/textbox/menuclass") != "")
                         {
                             menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
                         }
                         <div class="w3-col s6 m4 l2 " style="height:210px;">
                             <div class="w3-margin @r.DefaultCommand simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                                <div class="@(menuclass) w3-center w3-padding-24 w3-hover-shadow w3-border">
+                                <div class="@(menuclass) w3-center w3-padding-24 w3-round-large w3-hover-shadow w3-border">
                                     <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
                                 </div>
                                 <div class="w3-center w3-padding" style="line-height:1.2;">

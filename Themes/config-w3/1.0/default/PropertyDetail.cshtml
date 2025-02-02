@@ -52,15 +52,12 @@
     </div>        
     }
 
-    <div class="w3-padding">
-        <div class="w3-bar w3-margin-top w3-theme-l4">
-            <div class="w3-bar-item w3-button w3-button w3-border-right w3-bottombar categorybutton cattablink" onclick="openPropertyTab('property');">@ResourceKey("RC.property")</div>
-            <div class="w3-bar-item w3-button articlesbutton cattablink " onclick="openPropertyTab('articles');">@ResourceKey("RC.articles")</div>
-        </div>
+    <div class="w3-bar w3-margin-top w3-theme-l4">
+        <div class="w3-bar-item w3-button w3-button w3-theme-action propertybutton cattablink" onclick="openPropertyTab('property');">@ResourceKey("RC.property")</div>
+        <div class="w3-bar-item w3-button articlesbutton cattablink " onclick="openPropertyTab('articles');">@ResourceKey("RC.articles")</div>
     </div>
 
-
-    <div id="datapropertysection" class="">
+    <div id="datapropertysection" class="w3-border">
         <div id="property" class="propertytab">
             <!-- The Detail-->
             <div id="detailDisplay" class="w3-container">
@@ -172,10 +169,10 @@
         }
         tablinks = document.getElementsByClassName("cattablink");
         for (i = 0; i < x.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" w3-bottombar", "");
+            tablinks[i].className = tablinks[i].className.replace(" w3-theme-action", "");
         }
         document.getElementById(propertytab).style.display = "block";
-        $('.' + propertytab + 'button').addClass('w3-bottombar');
+        $('.' + propertytab + 'button').addClass('w3-theme-action');
     }
 
 </script>
