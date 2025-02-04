@@ -40,7 +40,7 @@ namespace RocketDirectoryAPI.API
             {
                 appThemeProjectData.DownloadGitHubProject(appThemeProjectData.DefaultProjectName());
             }
-            if (_dataObject.PortalContent.ProjectName == "")
+            if (_dataObject.PortalContent.ProjectName == "" || _dataObject.PortalContent.AppThemeFolder == "")
             {
                 if (!moduleData.HasProject) return RenderSystemTemplate("ModuleSelectProject.cshtml");
                 if (!moduleData.HasAppThemeAdmin) return RenderSystemTemplate("ModuleSelectAppTheme.cshtml");
@@ -52,24 +52,24 @@ namespace RocketDirectoryAPI.API
         {
             var moduleData = _dataObject.ModuleSettings;
             moduleData.ProjectName = _paramInfo.GetXmlProperty("genxml/hidden/projectname");
-            _dataObject.SetDataObject("modulesettings", moduleData);
             moduleData.Update();
+            _dataObject.SetDataObject("modulesettings", moduleData);
             return RenderSystemTemplate("ModuleSelectAppTheme.cshtml");
         }
         private string SelectAppTheme()
         {
             var moduleData = _dataObject.ModuleSettings;
             moduleData.AppThemeAdminFolder = _paramInfo.GetXmlProperty("genxml/hidden/appthemefolder");
-            _dataObject.SetDataObject("modulesettings", moduleData);
             moduleData.Update();
+            _dataObject.SetDataObject("modulesettings", moduleData);
             return RenderSystemTemplate("ModuleSelectAppThemeVersion.cshtml");
         }
         private string SelectAppThemeVersion()
         {
             var moduleData = _dataObject.ModuleSettings;
             moduleData.AppThemeAdminVersion = _paramInfo.GetXmlProperty("genxml/hidden/appthemefolderversion");
-            _dataObject.SetDataObject("modulesettings", moduleData);
             moduleData.Update();
+            _dataObject.SetDataObject("modulesettings", moduleData);
             _dataObject.PortalContent.ProjectName = moduleData.ProjectName;
             _dataObject.PortalContent.AppThemeFolder = moduleData.AppThemeAdminFolder;
             _dataObject.PortalContent.AppThemeVersion = moduleData.AppThemeAdminVersion;

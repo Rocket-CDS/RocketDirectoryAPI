@@ -13,10 +13,9 @@ namespace RocketDirectoryAPI.Components
         {
             base.SystemKey = systemKey;
             _portalContent = new PortalCatalogLimpet(PortalId, DNNrocketUtils.GetCurrentCulture(), SystemKey);
-            base.AppThemeAdminFolder = _portalContent.AppThemeFolder;
-            base.AppThemeAdminVersion = _portalContent.AppThemeVersion;
-            base.ProjectName = _portalContent.ProjectName;
-
+            if (base.AppThemeAdminFolder == "" || (base.AppThemeAdminFolder != _portalContent.AppThemeFolder && _portalContent.AppThemeFolder != "")) base.AppThemeAdminFolder = _portalContent.AppThemeFolder;
+            if (base.ProjectName == "" || (base.ProjectName != _portalContent.ProjectName && _portalContent.ProjectName != "")) base.ProjectName = _portalContent.ProjectName;
+            if (base.AppThemeAdminVersion == "" || (base.AppThemeAdminVersion != _portalContent.AppThemeVersion && _portalContent.AppThemeVersion != "")) base.AppThemeAdminVersion = _portalContent.AppThemeVersion;
         }
         public string ApiModuleRef { get { if (String.IsNullOrEmpty(GetSetting("apimoduleref"))) return ModuleRef; else  return GetSetting("apimoduleref"); } }
         public int DefaultCategoryId { get { return GetSettingInt("defaultcategory"); } }
