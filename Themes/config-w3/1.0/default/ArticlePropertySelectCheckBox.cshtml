@@ -1,0 +1,146 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+
+<style>
+    .w3-ul-alt {
+        list-style-type: none;
+        padding: 0;
+        margin: 0
+    }
+
+        .w3-ul-alt li {
+            padding: 4px 8px;
+            border-bottom: none;
+        }
+</style>
+
+
+<div id="propertyselect" class="w3-modal"  style="z-index: 1500">
+    <div class="w3-modal-content" style="width:50%;">
+
+        <header class="" style="height: 38.5px;">
+            <span onclick="$('#propertyselect').hide();" class="w3-button w3-display-topright">&times;</span>
+        </header>
+
+        <div class="w3-row w3-padding">
+            <div class="w3-col m12 l6 w3-padding ">
+                <input class="w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextproperty">
+            </div>
+            <div class="w3-col m12 l3 w3-padding ">
+                @{
+                    var propertyGroups = new Dictionary<string, string>();
+                    propertyGroups.Add("", "");
+                    foreach (var pg in catalogSettings.GetPropertyGroups())
+                    {
+                        propertyGroups.Add(pg.Key, pg.Value);
+                    }
+                }
+                @DropDownList(infoempty,"genxml/propertygroupselect", propertyGroups," class='w3-input w3-border  w3-padding' ")
+            </div>
+            <div class="w3-col m12 l2 w3-padding ">
+                <div class="w3-button w3-theme-action simplisity_click" s-cmd="articleadmin_assignpropertycheckbox" s-return=".a-articlepropertylist" s-post="#datalistproperty" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.add)</div>
+            </div>
+        </div>
+        <div class="w3-row w3-padding">
+        </div>
+
+        <div class="w3-margin-top" style="">
+            <div id="datalistproperty" class="w3-container w3-padding">
+
+                @{
+                    var lp1 = 0;
+                }
+
+                <ul id="propertylistdata" class="w3-ul  w3-hoverable " style="border-bottom: none;">
+
+                    @foreach (var propData in propertyDataList.GetPropertyList())
+                    {
+                        lp1 += 1;
+                        <li class="propertylist w3-row" s-fields='{"articleid":"@(articleData.ArticleId)","propertyid":"@(propData.PropertyId)"}'>
+                            <div class="w3-row" style="">
+                                <div class="w3-col m12 ">
+                                    @CheckBox(new Simplisity.SimplisityInfo(), "genxml/checkbox/property" + propData.PropertyId,"","class='w3-check' ")
+                                    <b>@propData.Name</b>&nbsp;<span class="w3-tiny">@(ResourceKey("RC.ref").ToString()):&nbsp;@propData.Ref</span>
+                                    <span >
+                                        @foreach (var p in propData.PropertyGroups())
+                                        {
+                                            <span>group@(p)</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#propertylistdata").disableSelection();
+      
+        $("#propertygroupselect").on('change', function () {
+            groupFunctionProperty($(this).val());
+        } );
+
+        $('#searchtextproperty').keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            } else {
+                searchFunctionProperty();
+            }
+        });
+
+    });
+
+    function groupFunctionProperty(groupref) {
+        var filter, ul, li, a, i;
+        if (groupref == '')
+        {
+            ul = document.getElementById("datalistproperty");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                li[i].style.display = "";
+            }
+        }
+        else
+        {
+            filter = "group" + groupref;
+            ul = document.getElementById("datalistproperty");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                txtValue = li[i].textContent || li[i].innerText;
+                if (txtValue.indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function searchFunctionProperty() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("searchtextproperty");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("datalistproperty");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+</script>

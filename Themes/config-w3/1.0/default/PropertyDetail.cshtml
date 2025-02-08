@@ -16,6 +16,7 @@
     var portalCatalog = (PortalCatalogLimpet)Model.GetDataObject("portalcontent");
     var systemData = (SystemLimpet)Model.GetDataObject("systemdata");
     var appThemeSystem = (AppThemeSystemLimpet)Model.GetDataObject("appthemesystem");
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var appThemeDirectory = (AppThemeSystemLimpet)Model.GetDataObject("appthemedirectory");
     var sessionParams = Model.SessionParamsData;
     var catalogSettings = (CatalogSettingsLimpet)Model.GetDataObject("catalogsettings");
@@ -96,6 +97,10 @@
                     @TextArea(info, "genxml/lang/genxml/textbox/summary", " class='w3-input w3-border' autocomplete='off'  rows='4' ", "", true, 0)
                 </div>
             </div>
+            <div class=" w3-row w3-padding">
+                @RenderTemplate("PropertyFields.cshtml", appTheme, Model, true)
+            </div>
+
 
             @if (UserUtils.IsInRole("Administrator"))
             {

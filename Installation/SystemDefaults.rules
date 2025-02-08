@@ -190,10 +190,14 @@
 		<cmd>articleadmin_addreview</cmd>
 		<action>true</action>
 	</command>
-
-
-
 	<command>
+		<cmd>articleadmin_assignpropertycheckbox</cmd>
+		<action>true</action>
+	</command>		
+
+
+
+		<command>
       <cmd>categoryadmin_add</cmd>
       <action>true</action>
     </command>

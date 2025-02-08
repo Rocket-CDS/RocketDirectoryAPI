@@ -463,6 +463,26 @@ namespace RocketDirectoryAPI.API
             articleData = GetActiveArticle(articleId); // reload
             return GetArticlePropertyList(articleData);
         }
+        public string AssignArticlePropertyCheckBox()
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            var articleData = GetActiveArticle(articleId);
+            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/checkbox/*");
+            if (nodList != null)
+            {
+                foreach (XmlNode nod in nodList)
+                {
+                    if (nod.InnerText.ToLower() == "true")
+                    {
+                        var propId = nod.Name.Replace("property", "");
+                        if (GeneralUtils.IsNumeric(propId)) articleData.AddProperty(Convert.ToInt32(propId));
+                    }
+                }
+            }
+            articleData.ClearCache();
+            articleData = GetActiveArticle(articleId); // reload
+            return GetArticlePropertyList(articleData);
+        }
         public string RemoveArticleProperty()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");

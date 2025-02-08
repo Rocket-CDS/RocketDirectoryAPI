@@ -177,6 +177,9 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_removeproperty":
                     strOut = RemoveArticleProperty();
                     break;
+                case "articleadmin_assignpropertycheckbox":
+                    strOut = AssignArticlePropertyCheckBox();
+                    break;                    
 
 
                 case "categoryadmin_add":
