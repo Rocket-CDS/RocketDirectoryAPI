@@ -119,7 +119,7 @@ namespace RocketDirectoryAPI.Components
 
             if (_orderby == "") _orderby = " order by articlename.GUIDKey ";
 
-            if (searchText.ToLower().Contains("in")) // check the searchtext filter only, so property filters work.
+            if (searchText.ToLower().Contains(" in ")) // check the searchtext filter only, so property filters work.
             {
                 //DNN search used, the SPROC is not compatible.
                 var list = new List<SimplisityInfo>();
@@ -127,6 +127,7 @@ namespace RocketDirectoryAPI.Components
                 {
                     var sql = "select * from {databaseOwner}[{objectQualifier}" + _tableName + "] as R1 where [R1].PortalId = " + PortalCatalog.PortalId;
                     var sql2 = sql + " " + _searchFilter;
+                    LogUtils.LogSystem(sql2);
                     list = _objCtrl.ExecSqlList(sql2);
                 }
                 catch (Exception ex)
