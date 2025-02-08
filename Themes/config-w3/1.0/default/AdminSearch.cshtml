@@ -27,16 +27,19 @@
         @DropDownList(infoempty, "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-sessionfield='#searchtext,#pagesize,#orderbyref,#page' s-cmd='articleadmin_articlesearch' s-post='.searchdata' s-fields='{\"track\":\"true\"}'  title='" + @ResourceKey("DNNrocket.pagesize") + "'", "32")
     </div>
 
-    <div class="w3-bar-item w3-right">
-        <div class="w3-bar">
-            @{
-                var categoryData = new CategoryLimpet(portalData.PortalId, sessionParams.GetInt("defaultcategory"), sessionParams.CultureCodeEdit, systemData.SystemKey);
-            }
-            @TextBox(infoempty, "genxml/textbox/categorydisplaytext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey' autocomplete='off' ", categoryData.Name)
+    @if (categoryDataList.DataList.Count() > 0)
+    {
+        <div class="w3-bar-item w3-right">
+            <div class="w3-bar">
+                @{
+                    var categoryData = new CategoryLimpet(portalData.PortalId, sessionParams.GetInt("defaultcategory"), sessionParams.CultureCodeEdit, systemData.SystemKey);
+                }
+                @TextBox(infoempty, "genxml/textbox/categorydisplaytext", " style='height:40px;' class='w3-bar-item w3-input w3-border w3-light-grey' autocomplete='off' ", categoryData.Name)
             <span class="w3-bar-item  w3-button w3-theme parentcategoryselect" onclick="$('#categoryselect').show();$('#searchtext').val('');" style="width:64px;">@ButtonIcon(ButtonTypes.tree)</span>
+           </div>
+            @TextBox(infoempty, "genxml/hidden/defaultcategory", " class='simplisity_sessionfield w3-hide ' ")
         </div>
-        @TextBox(infoempty, "genxml/hidden/defaultcategory", " class='simplisity_sessionfield w3-hide ' ")
-    </div>
+    }
 
     <div class="w3-bar-item w3-right " style=''>
         <div class="w3-bar">
