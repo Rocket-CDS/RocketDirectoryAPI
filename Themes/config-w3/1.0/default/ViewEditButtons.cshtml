@@ -18,7 +18,7 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var info = new SimplisityInfo(moduleData.Record);
     var projectAppThemeData = new AppThemeProjectLimpet();
-    var userParams = (UserParams)Model.GetDataObject("userparams");
+    var moduleUserParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
 }
 <style>
     .w3-hide { display: none !important }
@@ -30,19 +30,19 @@
 <div id="a-editbuttons-@(moduleData.ModuleId)" class="rocketactionmenu">
     <div style="padding: 0px 4px;">
 
-        <a href="@userParams.Get("adminpanelurl")" target="_blank" class="viewedit-button" title="@ResourceKey("DNNrocket.edit")">
+        <a href="@moduleUserParams.Get("adminpanelurl")" target="_blank" class="viewedit-button" title="@ResourceKey("DNNrocket.edit")">
             <img src="/DesktopModules/DNNrocket/API/images/dataset.svg" alt="@ResourceKey("DNNrocket.edit")" />
         </a>
 
         @if (UserUtils.IsAdministrator())
         {
-            <a href="@userParams.Get("settingsurl")" class="viewedit-button" title="@appTheme.Name - @moduleData.DisplayTemplate">
+            <a href="@moduleUserParams.Get("settingsurl")" class="viewedit-button" title="@appTheme.Name - @moduleData.DisplayTemplate">
                 <img src="/DesktopModules/DNNrocket/API/images/action_settings.svg" alt="@ResourceKey("DNNrocket.settings")" />
             </a>
 
             if (UserUtils.IsSuperUser())
             {
-                <a href="@userParams.Get("appthemeurl")" class="viewedit-button " title="@ResourceKey("RC.editapptheme")">
+                <a href="@moduleUserParams.Get("appthemeurl")" class="viewedit-button " title="@ResourceKey("RC.editapptheme")">
                     <img src="/DesktopModules/DNNrocket/API/images/movie_edit.svg" alt="@ResourceKey("RC.editapptheme")" />
                 </a>
             }

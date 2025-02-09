@@ -36,6 +36,7 @@ namespace RocketDirectoryAPI.Components
             var portalContent = new PortalCatalogLimpet(portalid, cultureCode, systemKey);
             var systemData = SystemSingleton.Instance(_systemKey);
             _userParams = new UserParams(UserUtils.GetCurrentUserId());
+            var moduleUserParams = new UserParams("ModuleID:" + moduleId, true);
 
             SetDataObject("appthemesystem", AppThemeUtils.AppThemeSystem(portalid, systemKey));
             SetDataObject("appthemedirectory", AppThemeUtils.AppThemeSystem(portalid, "rocketdirectoryapi"));
@@ -56,7 +57,8 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
             SetDataObject("dashboard", new DashboardLimpet(portalid, cultureCode));
-            SetDataObject("userparams", _userParams);             
+            SetDataObject("userparams", _userParams);
+            SetDataObject("moduleuserparams", moduleUserParams); // communication with DNN RocketDirectoryMod
 
             ProceesSessionParams();
         }
