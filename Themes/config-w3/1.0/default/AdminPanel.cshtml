@@ -100,7 +100,7 @@
         {
             if (r.DefaultCommand != "")
             {
-                <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " onclick="closeLargeSideBar()" s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                     <b>@InterfaceNameResourceKey(r, systemData)</b>
                 </div>
             }
@@ -185,6 +185,9 @@
     });
 
     function showMainPanel() {
+        if (simplisity_getSessionField('sidemenustatus') == 'open') {
+            openLargeSideBar();
+        }
         $('#main').show();
     }
 
@@ -194,6 +197,7 @@
         document.getElementById("largeSidebar").style.width = "280px";
         document.getElementById("largeSidebar").style.display = "block";
         document.getElementById("smallSidebar").style.display = "none";
+        simplisity_setSessionField('sidemenustatus', 'open');
     }
 
     function closeLargeSideBar() {
@@ -202,6 +206,7 @@
         document.getElementById("smallSidebar").style.width = "40px";
         document.getElementById("largeSidebar").style.display = "none";
         document.getElementById("smallSidebar").style.display = "block";
+        simplisity_setSessionField('sidemenustatus', 'closed');
     }
     function changeEditLanguage(l) {
         simplisity_setCookieValue('simplisity_editlanguage', l);
