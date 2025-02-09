@@ -503,6 +503,26 @@ namespace RocketDirectoryAPI.API
             articleData = GetActiveArticle(articleId); // reload
             return GetArticleCategoryList(articleData);
         }
+        public string AssignArticleCategoryCheckBox()
+        {
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            var articleData = GetActiveArticle(articleId);
+            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/checkbox/*");
+            if (nodList != null)
+            {
+                foreach (XmlNode nod in nodList)
+                {
+                    if (nod.InnerText.ToLower() == "true")
+                    {
+                        var catId = nod.Name.Replace("category", "");
+                        if (GeneralUtils.IsNumeric(catId)) articleData.AddCategory(Convert.ToInt32(catId), _postInfo.GetXmlPropertyBool("genxml/settings/cascade"));
+                    }
+                }
+            }
+            articleData.ClearCache();
+            articleData = GetActiveArticle(articleId); // reload
+            return GetArticleCategoryList(articleData);
+        }
         public string AssignDefaultArticleCategory()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");

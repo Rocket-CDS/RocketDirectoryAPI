@@ -447,4 +447,7 @@
   <data name="editapptheme.Text" xml:space="preserve">
     <value>Edit AppTheme</value>
   </data>
+  <data name="cascade.Text" xml:space="preserve">
+    <value>Cascade</value>
+  </data>
 </root>

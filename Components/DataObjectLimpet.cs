@@ -16,6 +16,7 @@ namespace RocketDirectoryAPI.Components
         private Dictionary<string, string> _passSettings;
         private string _systemKey;
         private SessionParams _sessionParams;
+        private UserParams _userParams;
         public DataObjectLimpet(int portalid, string moduleRef, SessionParams sessionParams, string systemKey, bool editMode = true)
         {
             _sessionParams = sessionParams;
@@ -34,6 +35,7 @@ namespace RocketDirectoryAPI.Components
             _dataObjects = new Dictionary<string, object>();
             var portalContent = new PortalCatalogLimpet(portalid, cultureCode, systemKey);
             var systemData = SystemSingleton.Instance(_systemKey);
+            _userParams = new UserParams(UserUtils.GetCurrentUserId());
 
             SetDataObject("appthemesystem", AppThemeUtils.AppThemeSystem(portalid, systemKey));
             SetDataObject("appthemedirectory", AppThemeUtils.AppThemeSystem(portalid, "rocketdirectoryapi"));
@@ -54,7 +56,7 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
             SetDataObject("dashboard", new DashboardLimpet(portalid, cultureCode));
-            SetDataObject("userparams", new UserParams("ModuleID:" + moduleId, true));             
+            SetDataObject("userparams", _userParams);             
 
             ProceesSessionParams();
         }
@@ -174,7 +176,8 @@ namespace RocketDirectoryAPI.Components
         public CatalogSettingsLimpet CatalogSettings { get { return (CatalogSettingsLimpet)GetDataObject("catalogsettings"); } }
         public CategoryLimpetList CategoryList { get { return (CategoryLimpetList)GetDataObject("categorylist"); } }
         public PropertyLimpetList PropertyList { get { return (PropertyLimpetList)GetDataObject("propertylist"); } }
-        public SessionParams SessionParamsData { get { return _sessionParams; } }        
+        public SessionParams SessionParamsData { get { return _sessionParams; } }
+        public UserParams UserParams { get { return _userParams; } }
 
     }
 }

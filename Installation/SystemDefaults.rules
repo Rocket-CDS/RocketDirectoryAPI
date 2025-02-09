@@ -193,8 +193,11 @@
 	<command>
 		<cmd>articleadmin_assignpropertycheckbox</cmd>
 		<action>true</action>
-	</command>		
-
+	</command>
+		<command>
+			<cmd>articleadmin_assigncategorycheckbox</cmd>
+			<action>true</action>
+		</command>		
 
 
 		<command>

@@ -165,6 +165,9 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_assigncategory":
                     strOut = AssignArticleCategory();
                     break;
+                case "articleadmin_assigncategorycheckbox":
+                    strOut = AssignArticleCategoryCheckBox();
+                    break;
                 case "articleadmin_assigndefaultcategory":
                     strOut = AssignDefaultArticleCategory();
                     break;
@@ -179,7 +182,7 @@ namespace RocketDirectoryAPI.API
                     break;
                 case "articleadmin_assignpropertycheckbox":
                     strOut = AssignArticlePropertyCheckBox();
-                    break;                    
+                    break;
 
 
                 case "categoryadmin_add":

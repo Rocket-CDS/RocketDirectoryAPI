@@ -18,7 +18,7 @@
     var moduleData = (ModuleContentLimpet)Model.GetDataObject("modulesettings");
     var info = new SimplisityInfo(moduleData.Record);
     var projectAppThemeData = new AppThemeProjectLimpet();
-    var userParams = new UserParams("ModuleID:" + sessionParams.ModuleId, true);
+    var userParams = (UserParams)Model.GetDataObject("userparams");
 }
 <style>
     .w3-hide { display: none !important }

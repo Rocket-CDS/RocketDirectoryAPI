@@ -26,8 +26,18 @@
             <span onclick="$('#categoryselect').hide();" class="w3-button w3-display-topright">&times;</span>
         </header>
 
+        <div id="postcategorydatasection">
+
         <div class="w3-row w3-padding">
-            <input class="w3-col m12 w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextcategory">
+            <div class="w3-col m12 l6 w3-padding ">
+                <input class="w3-col m12 w3-input w3-border w3-light-grey w3-padding" autocomplete="off" type="text" placeholder="@ResourceKey("DNNrocket.search")..." id="searchtextcategory">
+            </div>
+            <div class="w3-col m12 l3 w3-padding ">
+                @CheckBox(new Simplisity.SimplisityInfo(), "genxml/settings/cascade", "&nbsp;" + ResourceKey("RC.cascade"), "class='w3-check' ", true)
+            </div>
+            <div class="w3-col m12 l3 w3-padding ">
+                <div class="w3-button w3-theme-action simplisity_click" s-cmd="articleadmin_assigncategorycheckbox" s-return=".a-articlecategorylist" s-post="#postcategorydatasection" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.add)</div>
+            </div>
         </div>
 
         <div class="w3-margin-top" style="">
@@ -37,7 +47,7 @@
 
                     @foreach (var catData in treelist)
                     {
-                        <li class="categorylist w3-row simplisity_click" s-cmd="articleadmin_assigncategory" s-return=".a-articlecategorylist" s-fields='{"articleid":"@(articleData.ArticleId)","categoryid":"@(catData.CategoryId)"}'>
+                        <li class="categorylist w3-row">
                             <div class="w3-row" style="">
                                 @{
                                     var prefix = "";
@@ -47,6 +57,7 @@
                                     }
                                 }
                                 <div class="w3-col m12 ">
+                                    @CheckBox(new Simplisity.SimplisityInfo(), "genxml/checkbox/category" + catData.CategoryId, "", "class='w3-check' ")
                                     <span class="">@HtmlOf(prefix)</span><b>@catData.Name</b>&nbsp;<span class="w3-tiny">@(ResourceKey("RC.ref").ToString()):&nbsp;@catData.Ref</span>
                                 </div>
                             </div>
@@ -55,6 +66,7 @@
                 </ul>
 
             </div>
+        </div>
         </div>
     </div>
 </div>
