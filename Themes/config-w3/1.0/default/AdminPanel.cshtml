@@ -130,21 +130,24 @@
                 {
                     if (r.DefaultCommand != "")
                     {
-                        var menuclass = "w3-theme-l5";
-                        if (r.Info.GetXmlProperty("genxml/textbox/menuclass") != "")
-                        {
-                            menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
-                        }
-                        <div class="w3-col s6 m4 l2 " style="height:210px;">
-                            <div class="w3-margin @r.DefaultCommand simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                                <div class="@(menuclass) w3-center w3-padding-24 w3-round-large w3-hover-shadow w3-border">
-                                    <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
-                                </div>
-                                <div class="w3-center w3-padding" style="line-height:1.2;">
-                                    <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                        if (!portalContent.IsPlugin(r.InterfaceKey) || portalContent.IsPluginActive(r.InterfaceKey))
+                        {                           
+                            var menuclass = "w3-theme-l5";
+                            if (r.Info.GetXmlProperty("genxml/textbox/menuclass") != "")
+                            {
+                                menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
+                            }
+                            <div class="w3-col s6 m4 l2 " style="height:210px;">
+                                <div class="w3-margin @r.DefaultCommand simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                                    <div class="@(menuclass) w3-center w3-padding-24 w3-round-large w3-hover-shadow w3-border">
+                                        <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>
+                                    </div>
+                                    <div class="w3-center w3-padding" style="line-height:1.2;">
+                                        <strong>@InterfaceNameResourceKey(r, systemData)</strong>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 }
             }
