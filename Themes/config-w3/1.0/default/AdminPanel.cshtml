@@ -100,9 +100,12 @@
         {
             if (r.DefaultCommand != "")
             {
-                <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
-                    <b>@InterfaceNameResourceKey(r, systemData)</b>
-                </div>
+                if (!portalContent.IsPlugin(r.InterfaceKey) || portalContent.IsPluginActive(r.InterfaceKey))
+                {
+                    <div class="simplisity_click w3-hover-theme w3-padding sidemenucmd " s-cmd='@r.DefaultCommand' s-after="showMainPanel" s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
+                        <b>@InterfaceNameResourceKey(r, systemData)</b>
+                    </div>
+                }
             }
         }
     }

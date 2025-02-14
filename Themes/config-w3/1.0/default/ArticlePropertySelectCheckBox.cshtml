@@ -62,7 +62,7 @@
                         <li class="propertylist w3-row" s-fields='{"articleid":"@(articleData.ArticleId)","propertyid":"@(propData.PropertyId)"}'>
                             <div class="w3-row" style="">
                                 <div class="w3-col m12 ">
-                                    @CheckBox(new Simplisity.SimplisityInfo(), "genxml/checkbox/property" + propData.PropertyId,"","class='w3-check' ")
+                                    @CheckBox(new Simplisity.SimplisityInfo(), "genxml/ignore/property" + propData.PropertyId,"","class='w3-check' ")
                                     <b>@propData.Name</b>&nbsp;<span class="w3-tiny">@(ResourceKey("RC.ref").ToString()):&nbsp;@propData.Ref</span>
                                     <span >
                                         @foreach (var p in propData.PropertyGroups())

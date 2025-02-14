@@ -467,7 +467,7 @@ namespace RocketDirectoryAPI.API
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             var articleData = GetActiveArticle(articleId);
-            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/checkbox/*");
+            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/ignore/*");
             if (nodList != null)
             {
                 foreach (XmlNode nod in nodList)
@@ -507,7 +507,7 @@ namespace RocketDirectoryAPI.API
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             var articleData = GetActiveArticle(articleId);
-            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/checkbox/*");
+            var nodList = _postInfo.XMLDoc.SelectNodes("genxml/ignore/*");
             if (nodList != null)
             {
                 foreach (XmlNode nod in nodList)
