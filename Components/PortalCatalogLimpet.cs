@@ -663,12 +663,12 @@ namespace RocketDirectoryAPI.Components
         {
             get
             {
-                if (GeneralUtils.IsDateInvariantCulture(Record.GetXmlPropertyDate("genxml/lastschedulertime")))
+                if (Record.GetXmlPropertyDate("genxml/lastschedulertime") > DateTime.MinValue)
                     return Record.GetXmlPropertyDate("genxml/lastschedulertime");
                 else
                     return DateTime.Now.AddDays(-10);
             }
-            set { Record.SetXmlProperty("genxml/lastschedulertime", value.ToString(), TypeCode.DateTime); }
+            set { Record.SetXmlProperty("genxml/lastschedulertime", value.ToString("O"), TypeCode.DateTime); }
         }
         public int SchedulerRunHours
         {
