@@ -450,4 +450,10 @@
   <data name="cascade.Text" xml:space="preserve">
     <value>Cascade</value>
   </data>
+  <data name="generatelinkimages.Help" xml:space="preserve">
+    <value>Generating an image from the article links will give the user the option to create a image of the target website.  NOTE: This will only work on NEVOWEB hosted AppServices. </value>
+  </data>
+  <data name="generatelinkimages.Text" xml:space="preserve">
+    <value>Generate Image from article links.</value>
+  </data>
 </root>

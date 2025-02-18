@@ -37,7 +37,13 @@
                             @TextBox(linkInfo, "genxml/lang/genxml/textbox/name" + fieldId, " class='w3-input w3-border' autocomplete='off'", "", true, linkLP)
                         </div>
                         <div class="w3-col m12">
-                            <label>@ResourceKey("DNNrocket.url")</label>&nbsp;@EditFlag(sessionParams)
+                            <label>@ResourceKey("DNNrocket.url")</label>&nbsp;@EditFlag(sessionParams)&nbsp;
+                            @if (portalContent.GenerateLinkImages)
+                            {
+                                <span class="material-icons simplisity_confirmclick w3-text-theme" title="@ResourceKey("RC.generateimage")" s-confirm="@ResourceKey("RC.generateimage")?" s-cmd="articleadmin_generatelinkimage" s-post="#articledatasection" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","linkidx":"@linkLP"}' style="cursor: pointer;">
+                                    mms
+                                </span>
+                            }
                             @TextBox(linkInfo, "genxml/textbox/externallink" + fieldId, " class='w3-input w3-border' autocomplete='off'", "", true, linkLP)
                         </div>
                     </div>

@@ -183,6 +183,13 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_assignpropertycheckbox":
                     strOut = AssignArticlePropertyCheckBox();
                     break;
+                case "articleadmin_generatelinkimage":
+                    strOut = GenerateLinkImage();
+                    break;
+                case "articleadmin_generatedocimage":
+                    strOut = GenerateDocImage();
+                    break;
+
 
 
                 case "categoryadmin_add":

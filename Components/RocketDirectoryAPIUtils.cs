@@ -5,6 +5,7 @@ using Simplisity;
 using Simplisity.TemplateEngine;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace RocketDirectoryAPI.Components
@@ -414,6 +416,35 @@ namespace RocketDirectoryAPI.Components
         public static string UrlQueryArticleKey(int portalId, string systemKey)
         {
             return UrlQueryKey(portalId, systemKey, "article");
+        }
+
+        public static string SendServerRequest(string cmdKey, SimplisityRecord requestData, int timeout = 30)
+        {
+            var rtnData = "";
+            var tempKey = GeneralUtils.GetGuidKey();
+            var requestMapPath = PortalUtils.TempDirectoryMapPath() + "\\" + tempKey + ".cmdxml";
+            var responseMapPath = PortalUtils.TempDirectoryMapPath() + "\\" + tempKey + ".responce";
+
+            requestData.SetXmlProperty("genxml/request/tempkey", tempKey);
+            requestData.SetXmlProperty("genxml/request/executekey", cmdKey);
+            FileUtils.SaveFile(requestMapPath, requestData.ToXmlItem(false));
+
+            var foundResponce = false;
+            var endDateTime = DateTime.Now.AddSeconds(timeout);
+            while (DateTime.Now < endDateTime && !foundResponce)
+            {
+                Thread.Sleep(1000);
+                if (File.Exists(responseMapPath))
+                {
+                    rtnData = FileUtils.ReadFile(responseMapPath);
+                    foundResponce = true;
+                }
+            }
+
+            if (File.Exists(requestMapPath)) File.Delete(requestMapPath);
+            if (File.Exists(responseMapPath)) File.Delete(responseMapPath);
+
+            return rtnData;
         }
 
     }

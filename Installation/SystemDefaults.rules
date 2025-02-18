@@ -197,7 +197,15 @@
 		<command>
 			<cmd>articleadmin_assigncategorycheckbox</cmd>
 			<action>true</action>
-		</command>		
+		</command>
+		<command>
+			<cmd>articleadmin_generatelinkimage</cmd>
+			<action>true</action>
+		</command>
+		<command>
+			<cmd>articleadmin_generatedocimage</cmd>
+			<action>true</action>
+		</command>
 
 
 		<command>

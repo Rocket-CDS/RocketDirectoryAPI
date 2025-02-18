@@ -705,6 +705,7 @@ namespace RocketDirectoryAPI.Components
         public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } set { Record.SetXmlProperty("genxml/select/appthemeadmin", value); } }
         public string AppThemeVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } set { Record.SetXmlProperty("genxml/select/appthemeadminversion", value); } }
         public int SearchModuleId { get { return Record.GetXmlPropertyInt("genxml/searchmoduleid"); } set { Record.SetXmlProperty("genxml/searchmoduleid", value.ToString()); } }
+        public bool GenerateLinkImages { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/generatelinkimages"); } }
         #endregion
 
     }

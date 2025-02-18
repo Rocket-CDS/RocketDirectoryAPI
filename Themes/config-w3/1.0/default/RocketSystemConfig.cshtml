@@ -97,6 +97,14 @@
         </div>
         @TextArea(info, "genxml/dnnsearchextra", "class='w3-input w3-border' rows='2' ", "", false)
     </div>
+    <div class="w3-row  w3-padding">
+        @CheckBox(info, "genxml/generatelinkimages", "&nbsp;" + ResourceKey("RC.generatelinkimages").ToString(), "class='w3-check' ")
+        <div class="w3-small w3-text-red">
+            <i>
+                @ResourceKey("RC.generatelinkimages", "", "Help")
+            </i>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
