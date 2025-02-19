@@ -29,7 +29,13 @@
                                 @HiddenField(docInfo, "genxml/hidden/documentpatharticledoc", "", "", false, articledocumentsLP)
                                 @HiddenField(docInfo, "genxml/hidden/dockey", "", "", false, articledocumentsLP)
                                 @HiddenField(docInfo, "genxml/hidden/fileextensionarticledoc", "", "", false, articledocumentsLP)
-                                <label>@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)
+                            <label>@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)&nbsp;
+                            @if (portalContent.GenerateLinkImages)
+                            {
+                                <span class="material-icons simplisity_confirmclick w3-text-theme" title="@ResourceKey("RC.generateimage")" s-confirm="@ResourceKey("RC.generateimage")?" s-cmd="articleadmin_generatedocimage" s-post="#articledatasection" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","docidx":"@articledocumentsLP"}' style="cursor: pointer;">
+                                    mms
+                                </span>
+                            }
                             @TextBox(docInfo, "genxml/lang/genxml/textbox/documentnamearticledoc", " class='w3-input w3-border' ", "", false, articledocumentsLP)
                                 <label class="">@ResourceKey("DNNrocket.document")</label>
                                 @TextBox(docInfo, "genxml/textbox/documentnamearticledoc", " class='w3-input w3-border w3-light-grey' disabled ", "", false, articledocumentsLP)

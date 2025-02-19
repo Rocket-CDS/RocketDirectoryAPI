@@ -187,7 +187,7 @@ namespace RocketDirectoryAPI.API
                     strOut = GenerateLinkImage();
                     break;
                 case "articleadmin_generatedocimage":
-                    strOut = GenerateDocImage();
+                    strOut = GeneratePdfImage();
                     break;
 
 

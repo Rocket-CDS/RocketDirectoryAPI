@@ -297,13 +297,43 @@ namespace RocketDirectoryAPI.API
             }
             return "ERROR: Invalid ItemId";
         }
-        public string GenerateDocImage()
+        public string GeneratePdfImage()
         {
             var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
             if (articleId > 0)
             {
+                var docidx = _paramInfo.GetXmlPropertyInt("genxml/hidden/docidx");
+                if (docidx == 0) return "ERROR: Invalid listidx";
+
                 var articleData = GetActiveArticle(articleId);
                 articleData.Save(_postInfo);
+
+                var docData = articleData.GetDoc(docidx - 1);
+                var requestData = new SimplisityRecord();
+                requestData.SetXmlProperty("genxml/request/pdfmappath", docData.MapPath);
+
+                if (docData.Extension.ToLower() == ".pdf")
+                {
+                    var rtnXML = RocketDirectoryAPIUtils.SendServerRequest("PdfToImage", requestData);
+                    if (rtnXML != "")
+                    {
+                        var sRec = new SimplisityRecord();
+                        sRec.FromXmlItem(rtnXML);
+                        // Get image and add to Article.
+                        var imageMapPath = sRec.GetXmlProperty("genxml/responce/imagemappath");
+                        if (File.Exists(imageMapPath))
+                        {
+                            var uniqueName = Path.GetFileName(imageMapPath);
+                            var imgNewMapPath = _dataObject.PortalContent.ImageFolderMapPath.TrimEnd('\\') + "\\" + articleData.ArticleId + "\\" + uniqueName;
+                            if (!File.Exists(imgNewMapPath))
+                            {
+                                File.Move(imageMapPath, imgNewMapPath);
+                                articleData.AddImage(uniqueName);
+                            }
+                        }
+
+                    }
+                }
                 return GetArticle(articleData);
             }
             return "ERROR: Invalid ItemId";
