@@ -30,7 +30,7 @@
                                 @HiddenField(docInfo, "genxml/hidden/dockey", "", "", false, articledocumentsLP)
                                 @HiddenField(docInfo, "genxml/hidden/fileextensionarticledoc", "", "", false, articledocumentsLP)
                             <label>@ResourceKey("DNNrocket.name")</label>&nbsp;@EditFlag(sessionParams)&nbsp;
-                            @if (portalContent.GenerateLinkImages)
+                            @if (portalContent.GenerateLinkImages && docInfo.GetXmlProperty("genxml/hidden/fileextensionarticledoc").ToLower() == ".pdf")
                             {
                                 <span class="material-icons simplisity_confirmclick w3-text-theme" title="@ResourceKey("RC.generateimage")" s-confirm="@ResourceKey("RC.generateimage")?" s-cmd="articleadmin_generatedocimage" s-post="#articledatasection" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","docidx":"@articledocumentsLP"}' style="cursor: pointer;">
                                     mms
