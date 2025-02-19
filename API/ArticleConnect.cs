@@ -313,8 +313,8 @@ namespace RocketDirectoryAPI.API
                 var docData = articleData.GetDoc(docidx - 1);
                 var requestData = new SimplisityRecord();
                 requestData.SetXmlProperty("genxml/request/pdfmappath", docData.MapPath);
-                requestData.SetXmlProperty("genxml/request/width", "1920");
-                requestData.SetXmlProperty("genxml/request/height", "1080");
+                requestData.SetXmlProperty("genxml/request/width", "816");
+                requestData.SetXmlProperty("genxml/request/height", "1056");
 
                 if (docData.Extension.ToLower() == ".pdf")
                 {
