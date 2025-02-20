@@ -273,8 +273,16 @@ namespace RocketDirectoryAPI.API
                 var linkData = articleData.Getlink(linkidx - 1);
                 var requestData = new SimplisityRecord();
                 requestData.SetXmlProperty("genxml/request/websiteurl", linkData.Url);
-                requestData.SetXmlProperty("genxml/request/width", "1920");
-                requestData.SetXmlProperty("genxml/request/height", "1080");
+                if (linkData.Url.ToLower().EndsWith(".pdf"))
+                {
+                    requestData.SetXmlProperty("genxml/request/width", "816");
+                    requestData.SetXmlProperty("genxml/request/height", "1056");
+                }
+                else
+                {
+                    requestData.SetXmlProperty("genxml/request/width", "1920");
+                    requestData.SetXmlProperty("genxml/request/height", "1080");
+                }
 
                 var rtnXML = RocketDirectoryAPIUtils.SendServerRequest("WebsiteUrlToImage", requestData);
                 if (rtnXML != "")
