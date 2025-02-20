@@ -19,6 +19,7 @@
 
         @foreach (var linkInfo in articleData.GetLinkList())
         {
+            var linkData = new ArticleLink(linkInfo, fieldId);
             <li class="linklist w3-display-container w3-border-0"  style="list-style-type: none;">
                 @SortableListIndex(linkInfo, linkLP)
                 @HiddenField(linkInfo, "genxml/hidden/linkkey", "", "", false, linkLP)
@@ -38,7 +39,14 @@
                             @TextBox(linkInfo, "genxml/lang/genxml/textbox/name" + fieldId, " class='w3-input w3-border' autocomplete='off'", "", true, linkLP)
                         </div>
                         <div class="w3-col m12">
-                            <label>@ResourceKey("DNNrocket.url")</label>&nbsp;@EditFlag(sessionParams)&nbsp;
+                            <label>@ResourceKey("DNNrocket.url")</label>&nbsp;@EditFlag(sessionParams)
+                            &nbsp;
+                            <a href="@linkData.Url" target="_blank">
+                                <span class="material-icons">
+                                    open_in_browser
+                                </span>
+                            </a>                            
+                            &nbsp;
                             @if (portalContent.GenerateLinkImages)
                             {
                                 <span class="material-icons simplisity_confirmclick w3-text-theme" title="@ResourceKey("RC.generateimage")" s-confirm="@ResourceKey("RC.generateimage")?" s-cmd="articleadmin_generatelinkimage" s-post="#articledatasection" s-list=".@articleData.ReviewListName,.@articleData.ModelListName,.@articleData.ImageListName,.@articleData.DocumentListName,.@articleData.LinkListName" s-fields='{"articleid":"@articleData.ArticleId","linkidx":"@linkLP"}' style="cursor: pointer;">
