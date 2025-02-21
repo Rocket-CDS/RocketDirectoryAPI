@@ -27,6 +27,9 @@ namespace RocketDirectoryAPI.API
             articleData.ModuleId = _dataObject.PortalContent.SearchModuleId ; // moduleid used as changed flag.
             var rtn = articleData.Save(_postInfo);
 
+            // clear cache
+            CacheUtils.ClearAllCache(_dataObject.SystemKey + _dataObject.PortalId);
+
             DNNrocketUtils.SynchronizeModule(_dataObject.PortalContent.SearchModuleId); // module search
 
             return rtn;
