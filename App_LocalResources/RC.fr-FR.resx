@@ -414,4 +414,64 @@
   <data name="price.Text" xml:space="preserve">
     <value>Prix</value>
   </data>
+  <data name="imageheightrss.Text" xml:space="preserve">
+    <value>Hauteur de l'image RSS</value>
+  </data>
+  <data name="imagewidthrss.Text" xml:space="preserve">
+    <value>Largeur de l'image RSS</value>
+  </data>
+  <data name="rssimage.Text" xml:space="preserve">
+    <value>Inclure une image dans le flux RSS</value>
+  </data>
+  <data name="description.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="general.Text" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="currencycode.Text" xml:space="preserve">
+    <value>Code devise</value>
+  </data>
+  <data name="currencyculturecode.Text" xml:space="preserve">
+    <value>Monnaie Code culturel</value>
+  </data>
+  <data name="config.Text" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="orderby.Text" xml:space="preserve">
+    <value>OrderBy</value>
+  </data>
+  <data name="plugins.Text" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="noadminsettings.Text" xml:space="preserve">
+    <value>Le système n'est pas configuré.  Vous n'avez pas les permissions requises, veuillez vous connecter en tant que SuperUtilisateur.</value>
+  </data>
+  <data name="apimoduleref.Text" xml:space="preserve">
+    <value>Paramètres du module API</value>
+  </data>
+  <data name="resetmodulesettings.Text" xml:space="preserve">
+    <value>Réinitialiser les paramètres aux paramètres par défaut du module ? Cette opération annule les paramètres actuels du module.</value>
+  </data>
+  <data name="alignment.Text" xml:space="preserve">
+    <value>Alignement</value>
+  </data>
+  <data name="titletextsize.Text" xml:space="preserve">
+    <value>Titre Taille du texte</value>
+  </data>
+  <data name="generateimage.Text" xml:space="preserve">
+    <value>Générer une image</value>
+  </data>
+  <data name="editapptheme.Text" xml:space="preserve">
+    <value>Modifier l'AppTheme</value>
+  </data>
+  <data name="cascade.Text" xml:space="preserve">
+    <value>Cascade</value>
+  </data>
+  <data name="generatelinkimages.Help" xml:space="preserve">
+    <value>Générer une image à partir des liens de l'article donnera à l'utilisateur l'option de créer une image du site web cible.  NOTE : Ceci ne fonctionne que sur les AppServices hébergés par NEVOWEB.</value>
+  </data>
+  <data name="generatelinkimages.Text" xml:space="preserve">
+    <value>Générer une image à partir des liens d'un article.</value>
+  </data>
 </root>
