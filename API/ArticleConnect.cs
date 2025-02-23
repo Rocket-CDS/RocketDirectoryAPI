@@ -284,7 +284,7 @@ namespace RocketDirectoryAPI.API
                 else
                 {
                     requestData.SetXmlProperty("genxml/request/width", "1920");
-                    requestData.SetXmlProperty("genxml/request/height", "1080");
+                    requestData.SetXmlProperty("genxml/request/height", "1200");
                 }
 
                 var rtnXML = RocketDirectoryAPIUtils.SendServerRequest("WebsiteUrlToImage", requestData);
