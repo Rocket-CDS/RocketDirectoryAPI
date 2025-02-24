@@ -346,11 +346,29 @@ namespace RocketDirectoryAPI.Components
         public string DocumentListName { get { return "documentlist"; } }
         public void UpdateDocs(List<SimplisityInfo> docList)
         {
+            var existingDocList = new List<string>();
+            var existingDocs = GetDocs();
+            foreach (var d in existingDocs)
+            {
+                existingDocList.Add(d.MapPath);
+            }
             Info.RemoveList(DocumentListName);
             foreach (var sInfo in docList)
             {
                 var docData = new ArticleDoc(sInfo, "articledoc");
                 UpdateDoc(docData);
+                if (existingDocList.Contains(docData.MapPath)) existingDocList.Remove(docData.MapPath);
+            }
+            foreach (var dMapPath in existingDocList)
+            {
+                try
+                {
+                    if (File.Exists(dMapPath)) File.Delete(dMapPath);
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
             }
         }
         public List<SimplisityInfo> GetDocList()
