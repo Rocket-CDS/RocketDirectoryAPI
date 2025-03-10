@@ -1,4 +1,5 @@
-﻿using DNNrocketAPI.Components;
+﻿using DNNrocketAPI;
+using DNNrocketAPI.Components;
 using Rocket.AppThemes.Components;
 using RocketDirectoryAPI.Components;
 using Simplisity;
@@ -26,6 +27,30 @@ namespace RocketDirectoryAPI.API
             var articleData = RocketDirectoryAPIUtils.GetArticleData(_dataObject.PortalContent.PortalId, articleId, _sessionParams.CultureCodeEdit, _dataObject.SystemKey);
             articleData.ModuleId = _dataObject.PortalContent.SearchModuleId ; // moduleid used as changed flag.
             var rtn = articleData.Save(_postInfo);
+
+            // Check other langauges for data.
+            var objCtrl = new DNNrocketController();
+            var updLang = false;
+            foreach (var l in DNNrocketUtils.GetCultureCodeList())
+            {
+                if (l != articleData.CultureCode)
+                {
+                    var sqlCmd = "SELECT [ItemId],[PortalId],[ModuleId],[TypeCode],[XMLData],[GUIDKey],[ModifiedDate],[TextData],[XrefItemId],[ParentItemId],[Lang],[UserId],[SortOrder] FROM {databaseOwner}[{objectQualifier}RocketDirectoryAPI] where ParentItemId = " + articleData.ArticleId + " and  TypeCode = '" + articleData.Info.TypeCode + "LANG' and lang = '" + l + "'";
+                    var sqlRtn = objCtrl.ExecSqlList(sqlCmd);
+                    if (sqlRtn.Count == 0)
+                    {
+                        var sRec = objCtrl.GetRecordLang(articleData.ArticleId, articleData.CultureCode, "RocketDirectoryAPI");
+                        if (sRec != null)
+                        {
+                            sRec.ItemID = -1;
+                            sRec.Lang = l;
+                            objCtrl.Update(sRec, "RocketDirectoryAPI");
+                            updLang = true;
+                        }
+                    }
+                }
+            }
+            if (updLang) articleData.Update(); // so we rebuild IDX record.
 
             // clear cache
             CacheUtils.ClearAllCache(_dataObject.SystemKey + _dataObject.PortalId);
