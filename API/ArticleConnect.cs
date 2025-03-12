@@ -325,8 +325,10 @@ namespace RocketDirectoryAPI.API
                         var imgNewMapPath = _dataObject.PortalContent.ImageFolderMapPath.TrimEnd('\\') + "\\" + articleData.ArticleId + "\\" + uniqueName;
                         if (!File.Exists(imgNewMapPath))
                         {
-                            File.Move(imageMapPath, imgNewMapPath);
+                            var imgFolder = Path.GetDirectoryName(imgNewMapPath);
+                            if (!Directory.Exists(imgFolder)) Directory.CreateDirectory(imgFolder);
                             articleData.AddImage(uniqueName);
+                            File.Move(imageMapPath, imgNewMapPath);
                         }
                     }
 
@@ -367,8 +369,10 @@ namespace RocketDirectoryAPI.API
                             var imgNewMapPath = _dataObject.PortalContent.ImageFolderMapPath.TrimEnd('\\') + "\\" + articleData.ArticleId + "\\" + uniqueName;
                             if (!File.Exists(imgNewMapPath))
                             {
-                                File.Move(imageMapPath, imgNewMapPath);
+                                var imgFolder = Path.GetDirectoryName(imgNewMapPath);
+                                if (!Directory.Exists(imgFolder)) Directory.CreateDirectory(imgFolder);
                                 articleData.AddImage(uniqueName);
+                                File.Move(imageMapPath, imgNewMapPath);
                             }
                         }
 
