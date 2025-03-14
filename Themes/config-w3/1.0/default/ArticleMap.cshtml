@@ -1,0 +1,114 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+
+<div class='w3-row'>
+    <div class='w3-col m6 '>
+        <label>@ResourceKey("RocketBusinessAPI.lat")</label>
+        @TextBox(info, "genxml/textbox/lat", " class='w3-input w3-border' autocomplete='off' disabled ", "", false, 0)
+    </div>
+    <div class='w3-col m6 '>
+        <label>@ResourceKey("RocketBusinessAPI.long")</label>
+        @TextBox(info, "genxml/textbox/long", " class='w3-input w3-border' autocomplete='off' disabled ", "", false, 0)
+    </div>
+</div>
+<div class='w3-row'>
+    <label class=""></label>
+    <div id="leafletmapselect" style="height:300px" class="w3-light-grey"></div>
+    <div style='color:red;'><b>@ResourceKey("RocketBusinessAPI.mapmsg")</b></div>
+</div>
+
+<script>
+
+    var map = ""; // needs to be accessable from moveMap()
+
+    $(document).ready(function () {
+        simplisity_injectlink('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.css');
+        simplisity_injectscript('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.js');
+        setTimeout(() => { simplisity_injectscript('https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js'); }, 1000);
+        setTimeout(() => { initmap(); }, 500);
+    @if (info.GetXmlProperty("genxml/textbox/long") == "")
+    {
+        @:setTimeout(() => { moveMap(); }, 700);
+    }
+        });
+
+    function moveMap() {
+        // function to move the map to correct place for this portal.
+        // Values taken from the "AdminExtra.cshtml" at portal level - if it exists.
+        //
+        //<input id = "moveLat" type = "hidden" value = "43.958593" />
+        //<input id="moveLong" type="hidden" value="2.880178" />
+        //
+        var moveLat = $('#moveLat').val();
+        var moveLong = $('#moveLong').val();
+        if (typeof moveLong !== 'undefined' && moveLong != null && moveLong != '') {
+            map.setView([moveLat, moveLong], 13);
+        }
+    }
+
+    function markerFunction(id) {
+        for (var i in markers) {
+            var markerID = markers[i].options.title;
+            if (markerID == id) {
+                markers[i].openPopup();
+            };
+        }
+    }
+
+    function initmap() {
+
+    @{
+        var gpslong = info.GetXmlProperty("genxml/textbox/long").Replace("'", "");
+        var gpslat = info.GetXmlProperty("genxml/textbox/lat").Replace("'", "");
+        var companyname = info.GetXmlProperty("genxml/textbox/companyname").Replace("'", "-");
+        var txtdata = "";
+    }
+
+            var x = '@gpslat';
+        var y = '@gpslong';
+        var marker = "";
+        var companyname = '@companyname';
+        if (x != '' && y != '') {
+            map = L.map('leafletmapselect', { minZoom: 3 }).setView([x, y], 13);
+            marker = L.marker([x, y], { title: companyname });
+            map.addLayer(marker);
+        }
+        else {
+            map = L.map('leafletmapselect', { minZoom: 3 }).setView([52.970731, -1.309078], zoom = 3);
+        }
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        //L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+        //    attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+        //}).addTo(map);
+
+        var lat, lng;
+
+        map.addEventListener('mousemove', function (ev) {
+            lat = ev.latlng.lat;
+            lng = ev.latlng.lng;
+        });
+
+        $("#leafletmapselect").unbind("dblclick");
+        $("#leafletmapselect").dblclick(function (event) {
+            $('#lat').val(lat.toFixed(6));
+            $('#long').val(lng.toFixed(6));
+            if (marker !== "") {
+                map.removeLayer(marker)
+            }
+            marker = L.marker([lat, lng], { title: companyname });
+            map.addLayer(marker);
+
+            return false; // To disable default popup.
+        });
+
+    }
+
+</script>
+
+

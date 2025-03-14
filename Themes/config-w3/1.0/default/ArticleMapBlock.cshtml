@@ -1,0 +1,16 @@
+﻿@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI.Components;
+@using RocketDirectoryAPI.Components;
+@AssigDataModel(Model)
+<!--inject-->
+<div class="w3-row w3-margin-bottom">
+    <div onclick="$('#map').toggle();" class="w3-button w3-block w3-theme w3-left-align w3-round-large " style="margin-bottom:8px;">
+        <strong>@ResourceKey("DNNrocket.map")</strong>
+        <span id="mapexpand" class="material-icons w3-right">
+            unfold_more
+        </span>
+    </div>
+    <div id="map" class='w3-row sectionname w3-border w3-padding w3-round-large' style="">
+        [INJECT:apptheme,ArticleMap.cshtml]
+    </div>
+</div>
