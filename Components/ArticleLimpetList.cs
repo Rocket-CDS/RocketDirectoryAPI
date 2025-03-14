@@ -111,7 +111,7 @@ namespace RocketDirectoryAPI.Components
             else
                 _orderby = PortalCatalog.OrderByProductSQL(SessionParamData.OrderByRef);
 
-            if (showHidden && _searchcategoryid <= 0)
+            if (showHidden && _searchcategoryid <= 0 && SessionParamData.OrderByRef == "")
             {
                 // Assume admin if showhidden.
                 _orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
