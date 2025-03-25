@@ -363,7 +363,11 @@ namespace RocketDirectoryAPI.Components
             {
                 try
                 {
-                    if (File.Exists(dMapPath)) File.Delete(dMapPath);
+                    if (File.Exists(dMapPath))
+                    {
+                        File.Move(dMapPath, Path.GetDirectoryName(dMapPath) + "\\DELETE_" + Path.GetFileName(dMapPath));
+                        LogUtils.LogSystem("DELETE DOCUMENT FILE: " + dMapPath);
+                    }
                 }
                 catch (Exception)
                 {
