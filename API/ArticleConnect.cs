@@ -97,6 +97,44 @@ namespace RocketDirectoryAPI.API
             {
                 newarticleData2.AddProperty(p.PropertyId);
             }
+
+            // copy images
+            var imgFolder = Path.Combine(_dataObject.PortalContent.ImageFolderMapPath, newarticleData2.ArticleId.ToString());
+            if (!Directory.Exists(imgFolder)) Directory.CreateDirectory(imgFolder);
+            newarticleData2.Info.RemoveList("imagelist");
+            foreach (var img in articleData.GetImages())
+            {
+                var uniqueName = Path.GetFileName(img.MapPath);
+                var newImgMapPath = Path.Combine(imgFolder, uniqueName);
+                try
+                {
+                    File.Copy(img.MapPath, newImgMapPath);
+                    newarticleData2.AddImage(uniqueName);
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
+            }
+            // copy documents
+            var docFolder = Path.Combine(_dataObject.PortalContent.DocFolderMapPath, newarticleData2.ArticleId.ToString());
+            if (!Directory.Exists(docFolder)) Directory.CreateDirectory(docFolder);
+            newarticleData2.Info.RemoveList(articleData.DocumentListName);
+            foreach (var doc in articleData.GetDocs())
+            {
+                var uniqueName = Path.GetFileName(doc.MapPath);
+                var newDocMapPath = Path.Combine(docFolder, uniqueName);
+                try
+                {
+                    File.Copy(doc.MapPath, newDocMapPath);
+                    newarticleData2.AddDoc(doc.Name, uniqueName);
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
+            }
+
             newarticleData2.ClearCache();
             return newarticleData2.ArticleId;
         }
@@ -118,7 +156,7 @@ namespace RocketDirectoryAPI.API
                 if (imgsize == 0) imgsize = _dataObject.PortalContent.ImageResize;
                 var destDir = _dataObject.PortalContent.ImageFolderMapPath + "\\" + articleData.ArticleId;
                 if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
-                var imgList = ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, destDir, imgsize);
+                var imgList = RocketUtils.ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, destDir, imgsize);
                 foreach (var imgFileMapPath in imgList)
                 {
                     articleData.AddImage(Path.GetFileName(imgFileMapPath));
@@ -198,10 +236,12 @@ namespace RocketDirectoryAPI.API
                         imageFile.Flush();
                     }
 
-                    var imgList = ImgUtils.MoveImageToFolder(sInfo, articleData.PortalCatalog.ImageFolderMapPath);
-                    foreach (var nam in imgList)
+                    var destDir = _dataObject.PortalContent.ImageFolderMapPath + "\\" + articleData.ArticleId;
+                    if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
+                    var imgList = RocketUtils.ImgUtils.MoveImageToFolder(UserUtils.GetCurrentUserId(), sInfo, destDir, PortalUtils.TempDirectoryMapPath());
+                    foreach (var imgFileMapPath in imgList)
                     {
-                        articleData.AddImage(nam);
+                        articleData.AddImage(Path.GetFileName(imgFileMapPath));
                     }
                     return GetArticle(articleData);
                 }
@@ -219,13 +259,15 @@ namespace RocketDirectoryAPI.API
             var fileuploadbase64 = _postInfo.GetXmlProperty("genxml/hidden/fileuploadbase64");
             if (fileuploadbase64 != "")
             {
+                var destDir = _dataObject.PortalContent.DocFolderMapPath + "\\" + articleData.ArticleId;
+                if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
                 var filenameList = fileuploadlist.Split('*');
                 var filebase64List = fileuploadbase64.Split('*');
                 Dictionary<string,string> fileList;
                 if (_dataObject.PortalContent.SecureUpload)
-                    fileList = DocUtils.UploadSecureBase64file(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
+                    fileList = DocUtils.UploadSecureBase64file(filenameList, filebase64List, destDir);
                 else
-                    fileList = DocUtils.UploadBase64fileDict(filenameList, filebase64List, _dataObject.PortalContent.DocFolderMapPath);
+                    fileList = DocUtils.UploadBase64fileDict(filenameList, filebase64List, destDir);
                 foreach (var imgFileMapPath in fileList)
                 {
                     articleData.AddDoc(imgFileMapPath.Value, imgFileMapPath.Key);
@@ -237,39 +279,6 @@ namespace RocketDirectoryAPI.API
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, articleData, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
             if (pr.ErrorMsg != "") return pr.ErrorMsg;
             return pr.RenderedText;
-        }
-        private List<string> MoveDocumentToFolder(SimplisityInfo postInfo, string destinationFolder, int maxDocuments = 50)
-        {
-            destinationFolder = destinationFolder.TrimEnd('\\');
-            var rtn = new List<string>();
-            var userid = UserUtils.GetCurrentUserId(); // prefix to filename on upload.
-            if (!Directory.Exists(destinationFolder)) Directory.CreateDirectory(destinationFolder);
-            var fileuploadlist = postInfo.GetXmlProperty("genxml/hidden/fileuploadlist");
-            if (fileuploadlist != "")
-            {
-                var docCount = 1;
-                foreach (var f in fileuploadlist.Split(';'))
-                {
-                    if (f != "")
-                    {
-                        var friendlyname = GeneralUtils.DeCode(f);
-                        var userfilename = userid + "_" + friendlyname;
-                        if (docCount <= maxDocuments)
-                        {
-                            var unqName = DNNrocketUtils.GetUniqueFileName(friendlyname.Replace(" ", "_"), destinationFolder);
-                            var fname = destinationFolder + "\\" + unqName;
-                            File.Move(PortalUtils.TempDirectoryMapPath() + "\\" + userfilename, fname);
-                            if (File.Exists(fname))
-                            {
-                                rtn.Add(unqName);
-                                docCount += 1;
-                            }
-                        }
-                        File.Delete(PortalUtils.TempDirectoryMapPath() + "\\" + userfilename);
-                    }
-                }
-            }
-            return rtn;
         }
         public string AddArticleLink()
         {

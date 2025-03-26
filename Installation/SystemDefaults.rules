@@ -99,10 +99,13 @@
       <cmd>portalcatalog_addlink</cmd>
       <action>true</action>
     </command>
+		<command>
+			<cmd>portalcatalog_missingdocs</cmd>
+			<action>true</action>
+		</command>		
 
 
-		
-	<command>
+		<command>
 		<cmd>articleadmin_addmodel</cmd>
 		<action>true</action>
 	</command>

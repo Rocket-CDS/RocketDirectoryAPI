@@ -1,0 +1,28 @@
+@inherits RocketDirectoryAPI.Components.RocketDirectoryAPITokens<Simplisity.SimplisityRazor>
+@using RocketDirectoryAPI.Components;
+@using Simplisity;
+@using DNNrocketAPI.Components;
+@using System.IO;
+@AssignDataModel(Model)
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketDirectoryAPI/App_LocalResources/")
+
+@{
+    var missingDocs = (List<ArticleDoc>)Model.GetDataObject("missingdocs");
+}
+
+<div class="w3-row w3-padding">
+
+    <table class="w3-table">
+        @foreach (ArticleDoc doc in missingDocs)
+        {
+            var articleData = new ArticleLimpet(PortalUtils.GetPortalId(), doc.Info.ParentItemId, sessionParams.CultureCode, systemData.SystemKey);
+            <tr>
+                <td>@articleData.ArticleId</td>
+                <td>@Succinct(articleData.Name,40,false)</td>
+                <td>@Path.GetFileName(doc.MapPath)</td>
+                <td>@articleData.Info.ModifiedDate.ToShortDateString()</td>
+            </tr>
+        }
+    </table>
+
+</div>

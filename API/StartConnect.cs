@@ -102,6 +102,9 @@ namespace RocketDirectoryAPI.API
                 case "portalcatalog_indexcatalog":
                     strOut = IndexCatalog();
                     break;
+                case "portalcatalog_missingdocs":
+                    strOut = MissingDocs();
+                    break;                    
 
 
                 case "articleadmin_editlist":

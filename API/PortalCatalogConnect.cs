@@ -4,6 +4,7 @@ using RocketDirectoryAPI.Components;
 using Simplisity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Xml;
@@ -84,6 +85,26 @@ namespace RocketDirectoryAPI.API
             sqlCmd += " where portalid = " + portalId + " and typecode like 'IDX_%' ";
             sqlCmd += " and textdata = '" + systemKey + "' "; 
             objCtrl.ExecSql(sqlCmd);
+        }
+        public string MissingDocs()
+        {
+            var rtn = new List<ArticleDoc>();
+            var articleDataList = new ArticleLimpetList(_sessionParams, _dataObject.PortalContent, _sessionParams.CultureCode, false);
+            var l = articleDataList.GetAllPortalArticles();
+            foreach (var a in l)
+            {
+                var ad = new ArticleLimpet(a);
+                foreach (var d in ad.GetDocs())
+                {
+                    d.Info.ParentItemId = ad.ArticleId;
+                    if (!File.Exists(d.MapPath)) rtn.Add(d);
+                }
+            }
+            _dataObject.SetDataObject("missingdocs", rtn);
+            var razorTempl = _dataObject.AppThemeDirectory.GetTemplate("MissingDocs.cshtml");
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, _dataObject.PortalContent.DebugMode);
+            if (pr.StatusCode != "00") return pr.ErrorMsg;
+            return pr.RenderedText;
         }
 
 

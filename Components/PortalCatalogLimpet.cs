@@ -321,7 +321,13 @@ namespace RocketDirectoryAPI.Components
                                     }
                                 }
                             }
+                            if (GeneralUtils.IsNumeric(tokenText))
+                            {
+                                if (!string.IsNullOrEmpty(inClause)) inClause += ", ";
+                                inClause += tokenText;
+                            }
                             if (inClause == "") inClause = "0";
+
                             tokenText = " AND [R1].ItemId IN (" + inClause + ") ";
                             nosearchText = false;
                         }

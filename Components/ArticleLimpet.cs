@@ -108,9 +108,15 @@ namespace RocketDirectoryAPI.Components
         }
         public void Delete()
         {
+            _objCtrl.Delete(Info.ItemID, _tableName);
+
+            // Removed unused images/docs
+            DNNrocketUtils.ClearThumbnailLock();
             var imgDir = PortalCatalog.ImageFolderMapPath + "\\" + ArticleId;
             if (Directory.Exists(imgDir)) Directory.Delete(imgDir, true);
-            _objCtrl.Delete(Info.ItemID, _tableName);
+            var docDir = PortalCatalog.DocFolderMapPath + "\\" + ArticleId;
+            if (Directory.Exists(docDir)) Directory.Delete(docDir, true);
+
         }
 
         private void ReplaceInfoFields(SimplisityInfo postInfo, string xpathListSelect)
@@ -365,7 +371,7 @@ namespace RocketDirectoryAPI.Components
                 {
                     if (File.Exists(dMapPath))
                     {
-                        File.Move(dMapPath, Path.GetDirectoryName(dMapPath) + "\\DELETE_" + Path.GetFileName(dMapPath));
+                        File.Move(dMapPath, Path.GetDirectoryName(dMapPath) + "\\DELETE_" + ArticleId + "_" + Path.GetFileName(dMapPath));
                         LogUtils.LogSystem("DELETE DOCUMENT FILE: " + dMapPath);
                     }
                 }
@@ -385,7 +391,7 @@ namespace RocketDirectoryAPI.Components
             if (GetDocList().Count < PortalCatalog.ArticleDocumentLimit)
             {
                 if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
-                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + Path.GetFileName(uniqueName);
+                articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + ArticleId + "/" + Path.GetFileName(uniqueName);
                 articleDoc.FileName = friendlyName;
                 articleDoc.Name = friendlyName;
                 articleDoc.Extension = Path.GetExtension(friendlyName);                
