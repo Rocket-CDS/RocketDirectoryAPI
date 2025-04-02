@@ -91,6 +91,12 @@
             sectionName = 'generaltab';
         }
         openSection(sectionName);
+
+        @if (info.GetXmlProperty("genxml/maxarticles") == "")
+        {
+            @:$('.savebutton').trigger('click');
+        }
+
     });
     function openSection(sectionName) {
         sectionName = getValidTab(sectionName)
