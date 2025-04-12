@@ -338,9 +338,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString ListUrl(int listpageid, string[] urlparams = null)
         {
-            if (urlparams == null) urlparams = new string[] { };
-            var listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
-            return new RawString(listurl);
+            return new RawString(RocketDirectoryAPIUtils.ListUrl(listpageid, urlparams));
         }
         /// <summary>
         /// Builds the Detail URL.
@@ -351,25 +349,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, string[] urlparams = null)
         {
-            if (urlparams == null) urlparams = new string[] { };
-            var detailurl = "";
-            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
-
-            var articleParamKey = "";
-            var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
-            foreach (var paramDict in paramidList)
-            {
-                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
-                {
-                    articleParamKey = paramDict.Value.queryparam;
-                }
-            }
-
-            string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
-            urlparams = urlparams.Concat(urlparams2).ToArray();
-            detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
-
-            return new RawString(detailurl);
+            return new RawString(RocketDirectoryAPIUtils.DetailUrl(detailpageid, articleData, urlparams));
         }
         /// <summary>
         /// Builds the Detail URL.

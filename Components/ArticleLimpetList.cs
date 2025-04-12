@@ -484,6 +484,52 @@ namespace RocketDirectoryAPI.Components
             }
 
         }
+        public void ValidateTabUrl301()
+        {
+            var articleIdList = new List<string>();
+            var list = GetAllPortalArticles();
+            foreach (var pInfo in list)
+            {
+                var articleData = RocketDirectoryAPIUtils.GetArticleData(PortalCatalog.PortalId, pInfo.ItemID, _langRequired, _systemKey);
+
+                // Add SEO legacy tabredirect.
+                var legacyArticleId = articleData.Info.GetXmlProperty("genxml/importkey");
+                if (GeneralUtils.IsNumeric(legacyArticleId))
+                {
+                    var categoryList = articleData.GetCategories();
+                    var articleId = articleData.ArticleId;
+                    var urlparamKeys = RocketDirectoryAPIUtils.UrlParamKeys(articleData);
+
+                    articleData.Info.ItemID = Convert.ToInt32(legacyArticleId);
+                    var detailUrl = RocketDirectoryAPIUtils.DetailUrl(PortalCatalog.DetailPageTabId, articleData);
+                    var defaultUrl = PortalUtils.DefaultPortalAlias(PortalCatalog.PortalId);
+                    detailUrl = detailUrl.Replace(defaultUrl, "");
+                    detailUrl = detailUrl.Replace("http://", "");
+                    detailUrl = detailUrl.Replace("https://", "");
+                    detailUrl = detailUrl.Replace("/" + articleData.CultureCode.ToLower(), "");
+                    PagesUtils.AddTabUrl301(PortalCatalog.DetailPageTabId, detailUrl, "?" + urlparamKeys.ArtcileUrlKey + "=" + articleId, articleData.PortalId, articleData.CultureCode);
+
+                    // Category URLs
+                    var catIDs = new List<int>();
+                    foreach (var catData in categoryList)
+                    {
+                        var legacyCatId = catData.Info.GetXmlPropertyInt("genxml/importkey");
+                        if (GeneralUtils.IsNumeric(legacyCatId))
+                        {
+                            var categoryId = catData.CategoryId;
+                            catData.Info.ItemID = legacyCatId;
+                            var detailUrl2 = RocketDirectoryAPIUtils.DetailUrl(PortalCatalog.DetailPageTabId, articleData, catData);
+                            detailUrl2 = detailUrl2.Replace(defaultUrl, "");
+                            detailUrl2 = detailUrl2.Replace("http://", "");
+                            detailUrl2 = detailUrl2.Replace("https://", "");
+                            detailUrl2 = detailUrl2.Replace("/" + articleData.CultureCode.ToLower(), "");
+                            PagesUtils.AddTabUrl301(PortalCatalog.DetailPageTabId, detailUrl2, "?" + urlparamKeys.ArtcileUrlKey + "=" + articleId + "&" + urlparamKeys.CategoryUrlKey + "=" + categoryId, articleData.PortalId, articleData.CultureCode);
+                        }
+                    }
+                }
+
+            }
+        }
 
         public string ListUrl()
         {

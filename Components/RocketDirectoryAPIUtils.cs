@@ -1,5 +1,6 @@
 ﻿using DNNrocketAPI;
 using DNNrocketAPI.Components;
+using RazorEngine.Text;
 using RocketPortal.Components;
 using Simplisity;
 using Simplisity.TemplateEngine;
@@ -445,6 +446,66 @@ namespace RocketDirectoryAPI.Components
             if (File.Exists(responseMapPath)) File.Delete(responseMapPath);
 
             return rtnData;
+        }
+
+        public static String DetailUrl(int detailpageid, ArticleLimpet articleData, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+            var urlparamKeys = UrlParamKeys(articleData);
+            string[] urlparams2 = { urlparamKeys.ArtcileUrlKey, articleData.ArticleId.ToString(), seotitle };
+            urlparams = urlparams.Concat(urlparams2).ToArray();
+            var detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
+            return detailurl;
+        }
+        public static UrlParamKey UrlParamKeys(ArticleLimpet articleData)
+        {
+            var categoryParamKey = "";
+            var articleParamKey = "";
+            var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
+            foreach (var paramDict in paramidList)
+            {
+                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
+                {
+                    articleParamKey = paramDict.Value.queryparam;
+                }
+                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "category")
+                {
+                    categoryParamKey = paramDict.Value.queryparam;
+                }
+            }
+            var urlParamKey = new UrlParamKey();
+            urlParamKey.ArtcileUrlKey = articleParamKey;
+            urlParamKey.CategoryUrlKey = categoryParamKey;
+            return urlParamKey;
+        }
+        public static String DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var detailurl = "";
+            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
+
+            var urlparamKeys = UrlParamKeys(articleData);
+
+            if (categoryData != null && categoryData.CategoryId > 0)
+            {
+                string[] urlparams2 = { urlparamKeys.ArtcileUrlKey, articleData.ArticleId.ToString(), urlparamKeys.CategoryUrlKey, categoryData.CategoryId.ToString(), seotitle };
+                urlparams = urlparams.Concat(urlparams2).ToArray();
+                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
+            }
+            else
+            {
+                string[] urlparams2 = { urlparamKeys.ArtcileUrlKey, articleData.ArticleId.ToString(), seotitle };
+                urlparams = urlparams.Concat(urlparams2).ToArray();
+                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
+            }
+            return detailurl;
+        }
+        public static String ListUrl(int listpageid, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
+            return listurl;
         }
 
     }

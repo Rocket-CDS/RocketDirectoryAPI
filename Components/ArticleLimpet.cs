@@ -70,7 +70,7 @@ namespace RocketDirectoryAPI.Components
             if (_articleId > 0)
             {
                 var info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.                    
-                if (Info != null && Info.ItemID > 0 && Info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
+                if (info != null && info.ItemID > 0 && info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
                     Info = info;
                 else
                     Info.ItemID = 0; // article is a differet system, flag it as not existing.
