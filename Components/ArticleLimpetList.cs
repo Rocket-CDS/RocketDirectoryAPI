@@ -116,8 +116,7 @@ namespace RocketDirectoryAPI.Components
                 // Assume admin if showhidden.
                 _orderby = PortalCatalog.OrderByProductSQL(PortalCatalog.Info.GetXmlProperty("genxml/hidden/adminorderbyref"));
             }
-
-            if (_orderby == "") _orderby = " order by articlename.GUIDKey ";
+            // Do NOT add a default for orderby.  It may not exist and will cause a SQL error.
 
             if (searchText.ToLower().Contains(" in ")) // check the searchtext filter only, so property filters work.
             {

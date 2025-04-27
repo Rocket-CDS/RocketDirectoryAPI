@@ -70,6 +70,7 @@ namespace RocketDirectoryAPI.API
             moduleData.AppThemeAdminVersion = _paramInfo.GetXmlProperty("genxml/hidden/appthemefolderversion");
             moduleData.Update();
             _dataObject.SetDataObject("modulesettings", moduleData);
+            if (_dataObject.PortalContent.Record.GetXmlProperty("genxml/checkbox/active") == "") ResetPortalCatalog(_dataObject.PortalId);
             _dataObject.PortalContent.ProjectName = moduleData.ProjectName;
             _dataObject.PortalContent.AppThemeFolder = moduleData.AppThemeAdminFolder;
             _dataObject.PortalContent.AppThemeVersion = moduleData.AppThemeAdminVersion;
