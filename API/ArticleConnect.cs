@@ -191,7 +191,7 @@ namespace RocketDirectoryAPI.API
                             var imgFolder = _dataObject.PortalContent.ImageFolderMapPath + "\\" + articleData.ArticleId;
                             if (!Directory.Exists(imgFolder)) Directory.CreateDirectory(imgFolder);
                             var imgFileMapPath = imgFolder + "\\" + GeneralUtils.GetGuidKey() + ".webp";
-                            ImgUtils.DownloadAndSaveImage(iUrl, imgFileMapPath);
+                            RocketUtils.ImgUtils.DownloadAndSaveImage(iUrl, imgFileMapPath);
 
                             articleData.AddImage(Path.GetFileName(imgFileMapPath));
                             _dataObject.SetDataObject("articledata", articleData);

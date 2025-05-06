@@ -236,7 +236,7 @@ namespace RocketDirectoryAPI.Components
         {
             var s = "style='display:none;'";
             if (sessionParams.GetInt("rocketpropertyidtag") > 0) s = "";
-            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
+            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('disablecache', 'true');simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
             return new RawString(strOut);
         }
         public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams)

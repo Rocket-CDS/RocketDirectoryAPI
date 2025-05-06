@@ -125,7 +125,7 @@ namespace RocketDirectoryAPI.API
             {
                 var categoryData = GetActiveCategory(categoryid);
                 categoryData.Save(_postInfo);
-                var imgList = ImgUtils.MoveImageToFolder(_postInfo, _dataObject.PortalContent.ImageFolderMapPath);
+                var imgList = RocketUtils.ImgUtils.MoveImageToFolder(UserUtils.GetCurrentUserId(), _postInfo, _dataObject.PortalContent.ImageFolderMapPath, PortalUtils.TempDirectoryMapPath());
                 categoryData.RemoveImageList();
                 foreach (var nam in imgList)
                 {
