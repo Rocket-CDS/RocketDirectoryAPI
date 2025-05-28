@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketDirectoryMod", "..\..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketUtils", "..\..\DNNrocket\RocketUtils\RocketUtils.csproj", "{E4C1450D-3470-911A-1377-2A1157FDEF3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketDirectoryMVC", "..\..\MVC\Rocket\RocketModulesMVC\RocketDirectoryMVC\RocketDirectoryMVC.csproj", "{91F76090-A443-4270-9117-388CE8C3FB27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Comp All|Any CPU = Comp All|Any CPU
@@ -105,6 +107,16 @@ Global
 		{E4C1450D-3470-911A-1377-2A1157FDEF3F}.Razor|Any CPU.Build.0 = Debug|Any CPU
 		{E4C1450D-3470-911A-1377-2A1157FDEF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4C1450D-3470-911A-1377-2A1157FDEF3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Comp All|Any CPU.ActiveCfg = Release|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Comp All|Any CPU.Build.0 = Release|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.CompAll|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.CompAll|Any CPU.Build.0 = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Razor|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Razor|Any CPU.Build.0 = Debug|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F76090-A443-4270-9117-388CE8C3FB27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
