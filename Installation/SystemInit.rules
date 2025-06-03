@@ -16,7 +16,7 @@
 	<maxarticles>1000</maxarticles>
 	<articlesimagelimit>12</articlesimagelimit>
 	<articlesdocumentlimit>12</articlesdocumentlimit>
-	<imageresize>640</imageresize>
+	<imageresize>1024</imageresize>
 	<securitykey></securitykey>
 	<sqlfilterarticle>
 		<![CDATA[

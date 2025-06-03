@@ -706,7 +706,7 @@ namespace RocketDirectoryAPI.Components
         public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } }
         public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } }
         public int SearchPageTabId { get { return Record.GetXmlPropertyInt("genxml/searchpage"); } }
-        public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 640; } }        
+        public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 1024; } }        
         public string ProjectName { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
         public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } set { Record.SetXmlProperty("genxml/select/appthemeadmin", value); } }
         public string AppThemeVersion { get { return Record.GetXmlProperty("genxml/select/appthemeadminversion"); } set { Record.SetXmlProperty("genxml/select/appthemeadminversion", value); } }
