@@ -442,7 +442,7 @@
     <value>Title Text Size</value>
   </data>
   <data name="generateimage.Text" xml:space="preserve">
-    <value>Generate Image</value>
+    <value>Generate AI Image</value>
   </data>
   <data name="editapptheme.Text" xml:space="preserve">
     <value>Edit AppTheme</value>
@@ -455,5 +455,17 @@
   </data>
   <data name="generatelinkimages.Text" xml:space="preserve">
     <value>Generate Image from article links.</value>
+  </data>
+  <data name="pexelsimage.Text" xml:space="preserve">
+    <value>Search Pexels Images</value>
+  </data>
+  <data name="autogenerateimage.Text" xml:space="preserve">
+    <value>Auto Generate Image</value>
+  </data>
+  <data name="generateimagetext.Text" xml:space="preserve">
+    <value>Description of the image to generate using AI</value>
+  </data>
+  <data name="pexelssearch.Text" xml:space="preserve">
+    <value>Pexels Image Search Text</value>
   </data>
 </root>

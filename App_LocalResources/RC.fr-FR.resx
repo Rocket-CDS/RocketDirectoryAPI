@@ -132,22 +132,22 @@
   <data name="sqlfilterproduct.Text" xml:space="preserve">
     <value>Product SQL Filter </value>
   </data>
-  <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
+  <data name="sqlorderby-product-name-desc.Text" xml:space="preserve">
     <value>Nom &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-name.Text" xml:space="preserve">
+  <data name="sqlorderby-product-name.Text" xml:space="preserve">
     <value>Nom &amp;darr;</value>
   </data>
-  <data name="sqlorderby-article-price-desc.Text" xml:space="preserve">
+  <data name="sqlorderby-product-price-desc.Text" xml:space="preserve">
     <value>Prix &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-price.Text" xml:space="preserve">
+  <data name="sqlorderby-product-price.Text" xml:space="preserve">
     <value>Prix &amp;darr;</value>
   </data>
-  <data name="sqlorderby-article-ref-desc.Text" xml:space="preserve">
-    <value>Réf. &amp;uarr;</value>
+  <data name="sqlorderby-product-ref-desc.Text" xml:space="preserve">
+    <value>Ref. &amp;uarr;</value>
   </data>
-  <data name="sqlorderby-article-ref.Text" xml:space="preserve">
+  <data name="sqlorderby-product-ref.Text" xml:space="preserve">
     <value>Réf. &amp;darr;</value>
   </data>
   <data name="sqlorderby.Help" xml:space="preserve">
@@ -276,27 +276,6 @@
   <data name="hidden.Text" xml:space="preserve">
     <value>Caché</value>
   </data>
-  <data name="staticlist.Text" xml:space="preserve">
-    <value>Static List</value>
-  </data>
-  <data name="sqlorderby-product-name-desc.Text" xml:space="preserve">
-    <value>Nom &amp;uarr;</value>
-  </data>
-  <data name="sqlorderby-product-name.Text" xml:space="preserve">
-    <value>Nom &amp;darr;</value>
-  </data>
-  <data name="sqlorderby-product-price-desc.Text" xml:space="preserve">
-    <value>Prix &amp;uarr;</value>
-  </data>
-  <data name="sqlorderby-product-price.Text" xml:space="preserve">
-    <value>Prix &amp;darr;</value>
-  </data>
-  <data name="sqlorderby-product-ref-desc.Text" xml:space="preserve">
-    <value>Ref. &amp;uarr;</value>
-  </data>
-  <data name="sqlorderby-product-ref.Text" xml:space="preserve">
-    <value>Réf. &amp;darr;</value>
-  </data>
   <data name="projectname.Text" xml:space="preserve">
     <value>Projet AppTheme</value>
   </data>
@@ -329,6 +308,9 @@
   </data>
   <data name="apptheme.Text" xml:space="preserve">
     <value>AppTheme</value>
+  </data>
+  <data name="staticlist.Text" xml:space="preserve">
+    <value>Static List</value>
   </data>
   <data name="detailpageurl.Text" xml:space="preserve">
     <value>URL de la page de détail</value>
@@ -402,18 +384,6 @@
   <data name="noresults.Text" xml:space="preserve">
     <value>Aucun résultat.</value>
   </data>
-  <data name="barcode.Text" xml:space="preserve">
-    <value>Code barre</value>
-  </data>
-  <data name="model.Text" xml:space="preserve">
-    <value>Modèle</value>
-  </data>
-  <data name="models.Text" xml:space="preserve">
-    <value>Modèles</value>
-  </data>
-  <data name="price.Text" xml:space="preserve">
-    <value>Prix</value>
-  </data>
   <data name="imageheightrss.Text" xml:space="preserve">
     <value>Hauteur de l'image RSS</value>
   </data>
@@ -434,6 +404,18 @@
   </data>
   <data name="currencyculturecode.Text" xml:space="preserve">
     <value>Monnaie Code culturel</value>
+  </data>
+  <data name="models.Text" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
+  <data name="price.Text" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="model.Text" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="barcode.Text" xml:space="preserve">
+    <value>Code barre</value>
   </data>
   <data name="config.Text" xml:space="preserve">
     <value>Config</value>
@@ -473,5 +455,35 @@
   </data>
   <data name="generatelinkimages.Text" xml:space="preserve">
     <value>Générer une image à partir des liens d'un article.</value>
+  </data>
+  <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
+    <value>Nom &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-name.Text" xml:space="preserve">
+    <value>Nom &amp;darr;</value>
+  </data>
+  <data name="sqlorderby-article-price-desc.Text" xml:space="preserve">
+    <value>Prix &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-price.Text" xml:space="preserve">
+    <value>Prix &amp;darr;</value>
+  </data>
+  <data name="sqlorderby-article-ref-desc.Text" xml:space="preserve">
+    <value>Réf. &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-ref.Text" xml:space="preserve">
+    <value>Réf. &amp;darr;</value>
+  </data>
+  <data name="pexelsimage.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="autogenerateimage.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="generateimagetext.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pexelssearch.Text" xml:space="preserve">
+    <value />
   </data>
 </root>
