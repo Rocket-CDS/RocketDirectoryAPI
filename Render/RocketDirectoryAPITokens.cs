@@ -316,19 +316,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString ListUrl(int listpageid, CategoryLimpet categoryData, string[] urlparams = null)
         {
-            if (urlparams == null) urlparams = new string[] { };
-            var listurl = "";
-            if (categoryData != null && categoryData.CategoryId > 0)
-            {
-                string[] urlparams2 = { RocketDirectoryAPIUtils.UrlQueryCategoryKey(categoryData.PortalId, categoryData.SystemKey), categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name)};
-                urlparams = urlparams.Concat(urlparams2).ToArray();
-                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
-            }
-            else
-            {
-                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
-            }
-            return new RawString(listurl);
+            return new RawString(RocketDirectoryAPIUtils.ListUrl(listpageid, categoryData, urlparams));
         }
         /// <summary>
         /// Builds the List URL with paramaters.
@@ -360,38 +348,7 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, CategoryLimpet categoryData, string[] urlparams = null)
         {
-            if (urlparams == null) urlparams = new string[] { };
-            var detailurl = "";
-            var seotitle = DNNrocketUtils.UrlFriendly(articleData.Name);
-
-            var articleParamKey = "";
-            var categoryParamKey = "";
-            var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
-            foreach (var paramDict in paramidList)
-            {
-                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
-                {
-                    articleParamKey = paramDict.Value.queryparam;
-                }
-                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "category")
-                {
-                    categoryParamKey = paramDict.Value.queryparam;
-                }
-            }
-
-            if (categoryData != null && categoryData.CategoryId > 0)
-            {
-                string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), categoryParamKey, categoryData.CategoryId.ToString(), seotitle };
-                urlparams = urlparams.Concat(urlparams2).ToArray();
-                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
-            }
-            else
-            {
-                string[] urlparams2 = { articleParamKey, articleData.ArticleId.ToString(), seotitle };
-                urlparams = urlparams.Concat(urlparams2).ToArray();
-                detailurl = DNNrocketUtils.NavigateURL(detailpageid, articleData.CultureCode, urlparams);
-            }
-            return new RawString(detailurl);
+            return new RawString(RocketDirectoryAPIUtils.DetailUrl(detailpageid, articleData, categoryData, urlparams));
         }
 
         #endregion

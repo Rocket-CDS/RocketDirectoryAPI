@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Razor.Parser.SyntaxTree;
 using DNNrocketAPI;
 using DNNrocketAPI.Components;
+using RazorEngine.Compilation.ImpromptuInterface;
 
 namespace RocketDirectoryAPI.Components
 {
@@ -37,7 +38,7 @@ namespace RocketDirectoryAPI.Components
                 if (catData.Disabled)
                     p.Url = "#";
                 else
-                    p.Url = DNNrocketUtils.NavigateURL(portalContent.ListPageTabId) + "/catid/" + catData.CategoryId + "/" + DNNrocketUtils.UrlFriendly(catData.Name);
+                    p.Url = RocketDirectoryAPIUtils.ListUrl(portalContent.ListPageTabId, catData);
                 p.ImageRelPath = catData.LogoRelPath;
                 rtn.Add(p);
             }

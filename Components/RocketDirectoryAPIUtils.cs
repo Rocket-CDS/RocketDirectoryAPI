@@ -507,6 +507,22 @@ namespace RocketDirectoryAPI.Components
             var listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
             return listurl;
         }
+        public static String ListUrl(int listpageid, CategoryLimpet categoryData, string[] urlparams = null)
+        {
+            if (urlparams == null) urlparams = new string[] { };
+            var listurl = "";
+            if (categoryData != null && categoryData.CategoryId > 0)
+            {
+                string[] urlparams2 = { RocketDirectoryAPIUtils.UrlQueryCategoryKey(categoryData.PortalId, categoryData.SystemKey), categoryData.CategoryId.ToString(), DNNrocketUtils.UrlFriendly(categoryData.Name) };
+                urlparams = urlparams.Concat(urlparams2).ToArray();
+                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
+            }
+            else
+            {
+                listurl = DNNrocketUtils.NavigateURL(listpageid, urlparams);
+            }
+            return listurl;
+        }
 
     }
 
