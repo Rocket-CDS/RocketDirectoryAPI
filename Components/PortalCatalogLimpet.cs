@@ -700,7 +700,8 @@ namespace RocketDirectoryAPI.Components
         public bool Active { get { return true; } }
         public bool EmailActive { get { return Record.GetXmlPropertyBool("genxml/emailon"); } }
         public bool DebugMode { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/debugmode"); } }
-        public bool SecureUpload { get { if (Record == null) return true; else return Record.GetXmlPropertyBool("genxml/secureupload"); } }        
+        public bool SecureUpload { get { if (Record == null) return true; else return Record.GetXmlPropertyBool("genxml/secureupload"); } }
+        public bool DownloadCount { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/downloadcount"); } }
         public int ArticleImageLimit { get { return Record.GetXmlPropertyInt("genxml/articlesimagelimit"); } }
         public int ArticleDocumentLimit { get { return Record.GetXmlPropertyInt("genxml/articlesdocumentlimit"); } }
         public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } }

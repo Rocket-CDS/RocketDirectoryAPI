@@ -456,6 +456,21 @@
   <data name="generatelinkimages.Text" xml:space="preserve">
     <value>Générer une image à partir des liens d'un article.</value>
   </data>
+  <data name="pexelsimage.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="autogenerateimage.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="generateimagetext.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pexelssearch.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="countdownloads.Text" xml:space="preserve">
+    <value>Compter les téléchargements</value>
+  </data>
   <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
     <value>Nom &amp;uarr;</value>
   </data>
@@ -474,16 +489,7 @@
   <data name="sqlorderby-article-ref.Text" xml:space="preserve">
     <value>Réf. &amp;darr;</value>
   </data>
-  <data name="pexelsimage.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="autogenerateimage.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="generateimagetext.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pexelssearch.Text" xml:space="preserve">
-    <value />
+  <data name="downloads.Text" xml:space="preserve">
+    <value>Téléchargements</value>
   </data>
 </root>

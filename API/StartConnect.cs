@@ -192,7 +192,9 @@ namespace RocketDirectoryAPI.API
                 case "articleadmin_generatedocimage":
                     strOut = GeneratePdfImage();
                     break;
-
+                case "articleadmin_documentdownloadlist":
+                    strOut = DownloadHistory();
+                    break;                    
 
 
                 case "categoryadmin_add":

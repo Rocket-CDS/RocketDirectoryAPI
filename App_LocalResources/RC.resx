@@ -468,4 +468,10 @@
   <data name="pexelssearch.Text" xml:space="preserve">
     <value>Pexels Image Search Text</value>
   </data>
+  <data name="countdownloads.Text" xml:space="preserve">
+    <value>Count Downloads</value>
+  </data>
+  <data name="downloads.Text" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
 </root>

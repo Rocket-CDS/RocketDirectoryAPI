@@ -44,6 +44,29 @@
                             @CheckBox(docInfo, "genxml/lang/genxml/checkbox/documenthiddenarticledoc", "&nbsp;" + EditFlag(sessionParams) + "&nbsp;" + ResourceKey("DNNrocket.hidden").ToString(), "class='w3-check w3-margin-top'", false, false, articledocumentsLP)
                         </div>
                     </div>
+                    @if (portalContent.DownloadCount)
+                    {
+                        var docKey = docInfo.GetXmlProperty("genxml/hidden/dockey");
+                        var docCountData = articleData.DocumentDownloadData(docKey);
+                        var docCount = docCountData.GetXmlPropertyInt("genxml/data/totaldownloads");
+
+                        <div class="documentdownloadcount w3-container w3-border-top w3-light-grey">
+                            <div class="w3-row w3-padding-small">
+                                <div class="w3-col m9 w3-padding-small">
+                                    <span class="w3-tag w3-green w3-round">
+                                        <i class="material-icons w3-tiny">cloud_download</i>&nbsp;
+                                        <strong>@docCount.ToString()</strong>
+                                    </span>
+                                </div>
+                                <div class="w3-col m3">
+                                    <span class="w3-button w3-blue w3-round w3-tiny w3-padding-small simplisity_click" s-cmd="articleadmin_documentdownloadlist" s-return="#articleeditcontent" @SFields("dockey", docKey, "articleid", articleData.ArticleId.ToString())>
+                                        @ButtonIconText(ButtonTypes.history)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
                 </div>
 
             </li>

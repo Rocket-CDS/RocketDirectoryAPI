@@ -209,7 +209,10 @@
 			<cmd>articleadmin_generatedocimage</cmd>
 			<action>true</action>
 		</command>
-
+		<command>
+			<cmd>articleadmin_documentdownloadlist</cmd>
+			<action>true</action>
+		</command>
 
 		<command>
       <cmd>categoryadmin_add</cmd>

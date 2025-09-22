@@ -81,7 +81,7 @@
     <div class="w3-row">
         <div class="w3-quarter w3-padding">
             <label class="">@ResourceKey("DNNrocket.emailon")</label>
-            @CheckBox(info, "genxml/emailon", "", "class='w3-input w3-border w3-check'", true)
+            @CheckBox(info, "genxml/emailon", "", "class='w3-input w3-border w3-check'", false)
         </div>
         <div class="w3-quarter w3-padding">
             <label class="">Debug Mode</label>
@@ -97,9 +97,13 @@
         </div>
     </div>
 
-    <div class="w3-row  w3-padding">
-        <br />
-        @CheckBox(info, "genxml/checkboxfilterand", "&nbsp;" + @ResourceKey("RC.checkboxfilterand").ToString()," class='w3-check' ")
+    <div class="w3-row">
+        <div class="w3-quarter w3-padding">
+            @CheckBox(info, "genxml/downloadcount", "&nbsp;" + @ResourceKey("RC.countdownloads").ToString(), "class='w3-check'")
+        </div>
+        <div class="w3-quarter w3-padding">
+            @CheckBox(info, "genxml/checkboxfilterand", "&nbsp;" + @ResourceKey("RC.checkboxfilterand").ToString(), " class='w3-check' ")
+        </div>
     </div>
 
 </div>

@@ -582,6 +582,10 @@ namespace RocketDirectoryAPI.API
                 var articleDoc = articleData.GetDoc(dockey);
                 rtnDic.Add("filenamepath", DNNrocketUtils.MapPath(articleDoc.RelPath));
                 rtnDic.Add("downloadname", articleDoc.DownloadName);
+
+                // Add to download count
+                if (_dataObject.PortalContent.DownloadCount) articleData.DocumentDownloadAdd(dockey, UserUtils.GetUserData(articleData.PortalId, UserUtils.GetCurrentUserId()));
+
             }
             return rtnDic;
         }
@@ -768,6 +772,27 @@ namespace RocketDirectoryAPI.API
             var listName = _paramInfo.GetXmlProperty("genxml/hidden/listname");
             articleData.Info.AddListItem(listName, new SimplisityInfo());
             return GetArticle(articleData);
+        }
+
+        public String DownloadHistory()
+        {
+            var docKey = _paramInfo.GetXmlProperty("genxml/hidden/dockey");
+            var articleId = _paramInfo.GetXmlPropertyInt("genxml/hidden/articleid");
+            var articleData = GetActiveArticle(articleId);
+            var downloadlist = articleData.DocumentDownloadGet(docKey);
+            downloadlist.Reverse();
+
+            var docCountData = articleData.DocumentDownloadData(docKey);
+            var docCount = docCountData.GetXmlProperty("genxml/data/totaldownloads");
+
+            _dataObject.SetSetting("totaldownloads", docCount);
+            _dataObject.SetDataObject("articledata", articleData);
+            _dataObject.SetDataObject("downloadlist", downloadlist);
+
+            var razorTempl = GetSystemTemplate("DownloadHistory.cshtml");
+            var pr = RenderRazorUtils.RazorProcessData(razorTempl, null, _dataObject.DataObjects, _dataObject.Settings, _sessionParams, true);
+            if (pr.ErrorMsg != "") return pr.ErrorMsg;
+            return pr.RenderedText;
         }
 
 
