@@ -445,7 +445,7 @@ namespace RocketDirectoryAPI.Components
 
             dRec.SetXmlPropertyInt("genxml/data/totaldownloads", dRec.GetXmlPropertyInt("genxml/data/totaldownloads") + 1);
             objCtrl.Update(dRec, _tableName);
-            DocumentDownloadClear(docKey, 50); // only save last 50
+            DocumentDownloadClear(docKey, 20); // only save last 20
         }
         public void DocumentDownloadClear(string docKey, int limit)
         {
