@@ -20,14 +20,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DNNrocket\RocketAppTheme\AppThemes.csproj" />
+    <ProjectReference Include="..\..\DNNrocket\RocketRazorEngine\RocketRazorEngine.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\DNNrocket\API\_external\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RazorEngine">
-      <HintPath>_external\RazorEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 
