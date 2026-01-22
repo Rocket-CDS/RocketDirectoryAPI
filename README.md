@@ -2,17 +2,10 @@
 
 RocketDirectory framework for building webbase directory and catalog systems.
 
-v1.2.7
+The release is included in RocketCDS release.
 
-#### Modules
-- RocketDirectoryAPI
-- RocketDirectoryMod
-- RocketNewsAPI
-- RocketNewsMod
-- RocketBlogAPI
-- RocketBlogMod
-- RocketEventsAPI
-- RocketEventsMod
+https://github.com/Rocket-CDS/RocketCDS
+
 
 
 
