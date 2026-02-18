@@ -53,7 +53,7 @@
                 <div class="">AppTheme </div>                
             }
 
-            @DropDownList(info, "genxml/select/appthemeadmin", appThemeDict, " name='selectedappthemeadmin' class='w3-input w3-border " + requiredCSS + " simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\"}'", "")
+            @DropDownList(info, "genxml/select/appthemeadmin", appThemeDict, " name='selectedappthemeadmin' class='w3-input w3-border " + requiredCSS + " simplisity_change' s-dropdownlist='#appthemeadminversion' s-cmd='rocketapptheme_versionjson' s-fields='{\"selectedsystemkey\":\"" + portalCatalog.SystemKey + "\",\"selectedproject\":\"" + selectedProject + "\"}'", "")
         </div>
         <div class="w3-col m2 w3-padding">
             <div class="">@ResourceKey("DNNrocket.version")</div>
