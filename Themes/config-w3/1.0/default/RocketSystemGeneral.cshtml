@@ -34,6 +34,10 @@
     }
     var appThemeDataList = AppThemeUtils.AppThemeDataList(portalCatalog.PortalId, selectedProject, systemData.SystemKey);
     appThemeDict = appThemeDataList.NameListDict(true);
+
+    var appTheme = new AppThemeLimpet(portalCatalog.PortalId, portalCatalog.AppThemeFolder, "", portalCatalog.ProjectName);
+    var appThemeVersionDict = appTheme.VersionListDict;
+    
 }
 
 <div id="sidemenugeneraldata" class="w3-container a-panelsidemenu">
@@ -57,7 +61,7 @@
         </div>
         <div class="w3-col m2 w3-padding">
             <div class="">@ResourceKey("DNNrocket.version")</div>
-        @DropDownList(info, "genxml/select/appthemeadminversion", "1.0","1.0", " name='selectedversionadmin' class='w3-input w3-border'", "1.0")
+        @DropDownList(info, "genxml/select/appthemeadminversion", appThemeVersionDict, " name='selectedversionadmin' class='w3-input w3-border'", "1.0")
         </div>
     </div>
     <div class="w3-row">
