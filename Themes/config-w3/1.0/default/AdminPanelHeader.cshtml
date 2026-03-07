@@ -4,38 +4,18 @@
 @AssignDataModel(Model)
 <!--inject-->
 
-<!-- Load CSS in body, not ideal but is easier to implement and reduces 1 API call. -->
-<link rel="stylesheet" href="/DesktopModules/DNNrocket/css/w3.css">
-<link rel="stylesheet" href="/DesktopModules/DNNrocket/Simplisity/css/simplisity.css">
+<script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/simplisity.js?v=1"></script>
+<link rel="stylesheet" href="/DesktopModules/DNNRocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/css/adminpanel.css">
 
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/css/jquery.tag-editor.css" charset="utf-8">
 <script src="/DesktopModules/DNNrocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/js/RC_Admin.js"></script>
-
-<script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/simplisity.js?v=1"></script>
 <script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/jquery.fileupload.js"></script>
-
 <script src="/DesktopModules/DNNrocket/js/jquery.selectlistactions.js"></script>
-
 <script type="text/javascript" src="/DesktopModules/DNNrocket/js/jquery.caret.min.js"></script>
 <script type="text/javascript" src="/DesktopModules/DNNrocket/js/jquery.tag-editor.min.js"></script>
-
-[INJECT:appthemedirectory,CKEditor4.cshtml]
-
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 <link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/" + portalData.ColorAdminTheme)">
-
-<style>
-    #editBarContainer { display: none !important }
-    .personalBarContainer { display: none !important }
-    #Body { margin-left: 0px !important }
-    .material-icons { vertical-align: middle; }
-    iframe.editBar-iframe { display: none !important; }
-    .heading_wrapper { display:none !important;}
-</style>
 
 @RenderTemplate("AdminHeader.cshtml", appTheme, Model)
 
-<link rel="stylesheet" href="/DesktopModules/DNNrocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/css/adminpanel.css">
+<!-- Legacy [TODO: Remove in future, jodit is now used any encapsulated] -->
+<script src="/DesktopModules/DNNrocket/API/CKEditor/ckeditor4.21.0/ckeditor.js"></script>

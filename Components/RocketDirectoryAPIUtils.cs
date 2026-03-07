@@ -199,7 +199,7 @@ namespace RocketDirectoryAPI.Components
             var articleId = sessionParam.GetInt("articleid");
             var cacheKey = moduleRef + "*" + articleId + "*" + template;
             var rtn = (string)CacheUtils.GetCache(cacheKey, systemKey + portalId);
-            if (rtn != null && !moduleSettings.DisableCache) return rtn;
+            if (!String.IsNullOrEmpty(rtn) && !moduleSettings.DisableCache) return rtn;
 
             var dataObject = new DataObjectLimpet(portalId, moduleRef, sessionParam, systemKey, false);
             if (articleId > 0)
@@ -208,6 +208,7 @@ namespace RocketDirectoryAPI.Components
                 dataObject.SetDataObject("articledata", articleData);
             }
             var razorTempl = dataObject.AppTheme.GetTemplate(template, moduleRef);
+            if (String.IsNullOrEmpty(razorTempl)) razorTempl = dataObject.AppThemeDirectory.GetTemplate(template, moduleRef);
 
             var pr = RenderRazorUtils.RazorProcessData(razorTempl, dataObject.DataObjects, null, sessionParam, true);
             if (pr.StatusCode != "00") return pr.ErrorMsg;

@@ -1,3 +1,9 @@
+@import url("/DesktopModules/DNNrocket/css/w3.css");
+@import url("/DesktopModules/DNNrocket/Simplisity/css/simplisity.css");
+@import url("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/dnn-theme.css");
+@import url("https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 body, h1, h2, h3, h4, h5, h6 {
     font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
@@ -285,4 +291,46 @@ ul.breadcrumb {
         margin-left: 0px !important;
         margin-right: 10px !important
     }
+}
+
+
+/* Hide and remove PersonaBar */
+.personaBarContainer {
+    display: none !important;
+    width: 0 !important;
+}
+
+#personaBar-iframe {
+    width: 0 !important;
+    display: none !important;
+}
+
+body {
+    margin-left: 0px !important;
+}
+
+/* Position main content below top bar and beside sidebar */
+.mainadminpanel {
+    margin-top: 41px !important; /* Account for top bar height */
+    margin-left: 40px !important; /* Account for small sidebar */
+    padding: 16px;
+}
+
+.mainadminpanelpushed {
+    margin-top: 41px !important; /* Account for top bar height */
+    margin-left: 280px !important; /* Account for large sidebar */
+    padding: 16px;
+}
+
+/* Additional overrides */
+#editBarContainer {
+    display: none !important;
+}
+
+#Body {
+    margin-left: 0px !important;
+}
+
+iframe.editBar-iframe {
+    display: none !important;
 }
