@@ -30,13 +30,9 @@
                 @if (categoryData.GetImages().Count < 10)
                 {
 
-                    <div class="w3-col m12 w3-white w3-margin-bottom w3-border w3-hide" style="height:80px;">
-                        <input id="imagecategoryfileupload" class="simplisity_fileupload" s-maxchunksize="10000000" s-reload='false' s-cmd="categoryadmin_addimage" s-post="#datacategorysection" s-list=".imagecategorylist" s-uploadcmdurl="/Desktopmodules/dnnrocket/api/fileupload/upload" s-fields='{"categoryid":"@categoryData.CategoryId"}' type="file" name="files[]" multiple style="display:none;">
-                        <p><i>&nbsp;@ResourceKey("DNNrocket.dropimage")...</i></p>
-                    </div>
-
+                    <input id="imagecategoryfileupload" class="simplisity_base64upload" s-reload="false" s-cmd="categoryadmin_addimage" s-post="#datacategorysection" s-list=".imagecategorylist" @SFields("categoryid", categoryData.CategoryId.ToString()) type="file" name="file[]" multiple style="display:none;">
                     <div class="w3-row w3-margin-bottom">
-                        <span class="w3-col m12 w3-button w3-teal fileuploadaction" onclick="$('#imagecategoryfileupload').trigger('click');">@ButtonText(ButtonTypes.upload)</span>
+                        <span class="w3-col m12 w3-button w3-teal fileuploadaction" onclick="$('#categoryimageselect').hide();$('#imagecategoryfileupload').trigger('click');">@ButtonText(ButtonTypes.upload)</span>
                     </div>
 
                     <div id="simplisity-file-progress-bar" class="w3-modal w3-padding" style="z-index:9999;background-color:grey">

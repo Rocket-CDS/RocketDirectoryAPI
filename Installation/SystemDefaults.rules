@@ -402,7 +402,15 @@
 		  <cmd>rocketdirectoryapi_importmodule</cmd>
 		  <action>false</action>
 	  </command>
-	  <command>
+		<command>
+			<cmd>rocketdirectoryapi_exportdata</cmd>
+			<action>false</action>
+		</command>
+		<command>
+			<cmd>rocketdirectoryapi_importdata</cmd>
+			<action>false</action>
+		</command>		
+		<command>
 		  <cmd>rocketdirectoryapi_rss</cmd>
 		  <action>false</action>
 	  </command>

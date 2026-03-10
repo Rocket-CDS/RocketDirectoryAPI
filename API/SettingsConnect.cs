@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -16,6 +17,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace RocketDirectoryAPI.API
 {
@@ -179,7 +181,7 @@ namespace RocketDirectoryAPI.API
             rtn.Add("searchindex", rtnList);
             return rtn;
         }
-        private string ExportData()
+        private string ExportModuleData()
         {
             // check the scheduler initiated the call.
             var rtn = "";
@@ -202,11 +204,12 @@ namespace RocketDirectoryAPI.API
                     rtn += "</modulesettings>";
                     rtn += "</export>";
                 }
+
             }
 
             return rtn;
         }
-        private void ImportData()
+        private void ImportModuleData()
         {
             // check the scheduler initiated the call.
             var securityKey = DNNrocketUtils.GetTempStorage(_paramInfo.GetXmlProperty("genxml/hidden/securitykey"), true);
@@ -268,9 +271,40 @@ namespace RocketDirectoryAPI.API
                     ms.SetXmlProperty("genxml/data/tabid", tabId.ToString());
                     objCtrl.Update(ms);
                 }
+
+
             }
 
         }
+        private string ExportData()
+        {
+            var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
+            var systemKey = _paramInfo.GetXmlProperty("genxml/hidden/systemkey");
+            ExportUtils.ExportData( portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
+            ExportUtils.ExportImages(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
+            ExportUtils.ExportDocs(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
+
+            var rtn = ExportUtils.ExportDownloadFile(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey);
+
+            return rtn;
+        }
+        private string ImportData()
+        {
+            var rtn = "";
+            var portalId = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
+            var systemKey = _paramInfo.GetXmlProperty("genxml/hidden/systemkey");
+            var extractFolder = _paramInfo.GetXmlProperty("genxml/hidden/extractfolder");
+            if (Directory.Exists(extractFolder))
+            {
+                var itemIdMap = new Dictionary<string, int>();
+                itemIdMap = ImportUtils.ImportData(portalId, systemKey, extractFolder + "\\exportdata_" + systemKey + ".zip", systemKey);
+                ImportUtils.ImportImgs(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey, extractFolder + "\\exportimg_" + systemKey + ".zip", itemIdMap);
+                ImportUtils.ImportDocs(portalId, DNNrocketUtils.GetCurrentCulture(), systemKey, extractFolder + "\\exportdoc_" + systemKey + ".zip");
+            }
+
+            return rtn;
+        }
+
 
 
     }

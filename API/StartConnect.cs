@@ -319,11 +319,17 @@ namespace RocketDirectoryAPI.API
                     break;
 
                 case "rocketdirectoryapi_exportmodule":
-                    strOut = ExportData();
+                    strOut = ExportModuleData();
                     break;
                 case "rocketdirectoryapi_importmodule":
-                    ImportData();
+                    ImportModuleData();
                     strOut = "";
+                    break;
+                case "rocketdirectoryapi_exportdata":
+                    strOut = ExportData();
+                    break;
+                case "rocketdirectoryapi_importdata":
+                    strOut = ImportData();
                     break;
 
                 case "rocketdirectoryapi_rss":

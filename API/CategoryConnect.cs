@@ -125,11 +125,24 @@ namespace RocketDirectoryAPI.API
             {
                 var categoryData = GetActiveCategory(categoryid);
                 categoryData.Save(_postInfo);
-                var imgList = RocketUtils.ImgUtils.MoveImageToFolder(UserUtils.GetCurrentUserId(), _postInfo, _dataObject.PortalContent.ImageFolderMapPath, PortalUtils.TempDirectoryMapPath());
-                categoryData.RemoveImageList();
-                foreach (var nam in imgList)
+
+                // Add new image if found in postInfo
+                var fileuploadlist = _postInfo.GetXmlProperty("genxml/hidden/fileuploadlist");
+                var fileuploadbase64 = _postInfo.GetXmlProperty("genxml/hidden/fileuploadbase64");
+                if (fileuploadbase64 != "")
                 {
-                    categoryData.AddImage(_dataObject.PortalContent.ImageFolderRel, nam);
+                    var filenameList = fileuploadlist.Split('*');
+                    var filebase64List = fileuploadbase64.Split('*');
+                    var baseFileMapPath = PortalUtils.TempDirectoryMapPath() + "\\" + GeneralUtils.GetGuidKey();
+                    var imgsize = _postInfo.GetXmlPropertyInt("genxml/hidden/imageresize");
+                    if (imgsize == 0) imgsize = _dataObject.PortalContent.ImageResize;
+                    var destDir = _dataObject.PortalContent.ImageFolderMapPath;
+                    if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
+                    var imgList = RocketUtils.ImgUtils.UploadBase64Image(filenameList, filebase64List, baseFileMapPath, destDir, imgsize);
+                    foreach (var imgFileMapPath in imgList)
+                    {
+                        categoryData.AddImage(_dataObject.PortalContent.ImageFolderRel, Path.GetFileName(imgFileMapPath));
+                    }
                 }
                 _dataObject.CategoryList.Reload();
                 return GetCategory(categoryData.CategoryId);
