@@ -19,14 +19,18 @@ namespace RocketDirectoryAPI.Components
 
         public static Dictionary<string, int> ImportData(int portalId, string systemKey, string zipFileMapPath, string importSystemKey)
         {
+            var itemIdMap = new Dictionary<string, int>();
+
+            if (!File.Exists(zipFileMapPath)) return itemIdMap;
+
             var objCtrl = new DNNrocketController();
             var tempRelFolder = PortalUtils.HomeDNNrocketDirectoryRel(portalId).TrimEnd('/') + "/" + systemKey + "/import";
             var tempFolderMapPath = DNNrocketUtils.MapPath(tempRelFolder);
 
+
+
             if (Directory.Exists(tempFolderMapPath)) Directory.Delete(tempFolderMapPath, true);
             ZipFile.ExtractToDirectory(zipFileMapPath, tempFolderMapPath);
-
-            var itemIdMap = new Dictionary<string, int>();
 
             if (Directory.Exists(tempFolderMapPath))
             {
@@ -144,6 +148,8 @@ namespace RocketDirectoryAPI.Components
         {
             try
             {
+                if (!File.Exists(zipPath)) return;
+
                 if (Directory.Exists(tempPath)) Directory.Delete(tempPath, true);
                 ZipFile.ExtractToDirectory(zipPath, tempPath);
 
@@ -179,6 +185,8 @@ namespace RocketDirectoryAPI.Components
         {
             try
             {
+                if (!File.Exists(zipPath)) return;
+
                 var objCtrl = new DNNrocketController();
 
                 if (Directory.Exists(tempPath)) Directory.Delete(tempPath, true); 
@@ -250,7 +258,7 @@ namespace RocketDirectoryAPI.Components
                     // rename of the path is attempted on import. (May not be 100%)
                 }
                 //Delete the temporary directory.
-                Directory.Delete(tempPath);
+                Directory.Delete(tempPath, true);
             }
             catch (Exception ex)
             {

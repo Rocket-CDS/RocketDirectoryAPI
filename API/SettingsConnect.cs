@@ -257,14 +257,6 @@ namespace RocketDirectoryAPI.API
                     ms.SetXmlProperty("genxml/legacymoduleref", legacymoduleref); // used to link DataRef on Satellite modules.
                     legacymoduleid = ms.ModuleId.ToString();
                     ms.SetXmlProperty("genxml/legacymoduleid", legacymoduleid);
-                    if (ms.GetXmlProperty("genxml/settings/name") != "" && legacymoduleid != "")
-                    {
-                        ms.SetXmlProperty("genxml/settings/name", ms.GetXmlProperty("genxml/settings/name").Replace(legacymoduleid, moduleId.ToString()));
-                    }
-                    else
-                    {
-                        LogUtils.LogSystem("ERROR IMPORTDATA: ms.GetXmlProperty(\"genxml/settings/name\"):" + ms.GetXmlProperty("genxml/settings/name") + " legacymoduleid:" + legacymoduleid);
-                    }
                     ms.PortalId = portalId;
                     ms.ModuleId = moduleId;
                     ms.GUIDKey = moduleRef;
