@@ -127,14 +127,13 @@ namespace RocketDirectoryAPI.Components
                 Directory.Delete(tempFolderMapPath, true);
 
                 // Update List and Detail pages.
-                var portalContent = new PortalCatalogLimpet(portalId, "en-US", systemKey); // culturecode not required for data
-                var oldListtabId = portalContent.Record.GetXmlPropertyInt("genxml/listpage");
-                var oldListTabRec = DNNrocketUtils.GetTabInfoRecord(oldListtabId);
-                var oldDetailtabId = portalContent.Record.GetXmlPropertyInt("genxml/detailpage");
-                var oldDetailTabRec = DNNrocketUtils.GetTabInfoRecord(oldDetailtabId);
+                var rocketSettings = DNNrocketUtils.GetTempRecordStorage(portalId + "RocketSettings.xml", true); // Saved in DNNrocket\API\Components\DnnSiteExportImportHelper.cs / ImportWebsiteAndWait()
+                var oldListTabPath = rocketSettings.GetXmlProperty("genxml/" + systemKey + "/listtabpath");
+                var oldDetailTabPath = rocketSettings.GetXmlProperty("genxml/" + systemKey + "/detailtabpath");
 
-                portalContent.Record.SetXmlProperty("genxml/listpage", GetTabIdByTabPath(portalId, oldListTabRec.GetXmlProperty("genxml/tabpath")).ToString());
-                portalContent.Record.SetXmlProperty("genxml/detailpage", GetTabIdByTabPath(portalId, oldDetailTabRec.GetXmlProperty("genxml/tabpath")).ToString());
+                var portalContent = new PortalCatalogLimpet(portalId, "en-US", systemKey); // culturecode not required for data
+                portalContent.Record.SetXmlProperty("genxml/listpage", GetTabIdByTabPath(portalId, oldListTabPath).ToString());
+                portalContent.Record.SetXmlProperty("genxml/detailpage", GetTabIdByTabPath(portalId, oldDetailTabPath).ToString());
                 portalContent.Update();
 
             }
