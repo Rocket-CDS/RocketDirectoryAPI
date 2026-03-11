@@ -125,6 +125,18 @@ namespace RocketDirectoryAPI.Components
                 }
 
                 Directory.Delete(tempFolderMapPath, true);
+
+                // Update List and Detail pages.
+                var portalContent = new PortalCatalogLimpet(portalId, "en-US", systemKey); // culturecode not required for data
+                var oldListtabId = portalContent.Record.GetXmlPropertyInt("genxml/listpage");
+                var oldListTabRec = DNNrocketUtils.GetTabInfoRecord(oldListtabId);
+                var oldDetailtabId = portalContent.Record.GetXmlPropertyInt("genxml/detailpage");
+                var oldDetailTabRec = DNNrocketUtils.GetTabInfoRecord(oldDetailtabId);
+
+                portalContent.Record.SetXmlProperty("genxml/listpage", GetTabIdByTabPath(portalId, oldListTabRec.GetXmlProperty("genxml/tabpath")).ToString());
+                portalContent.Record.SetXmlProperty("genxml/detailpage", GetTabIdByTabPath(portalId, oldDetailTabRec.GetXmlProperty("genxml/tabpath")).ToString());
+                portalContent.Update();
+
             }
             return itemIdMap;
         }
@@ -265,6 +277,16 @@ namespace RocketDirectoryAPI.Components
                 LogUtils.LogException(ex);
             }
         }
+        private static int GetTabIdByTabPath(int portalId, string tabpath)
+        {
+            var l = DNNrocketUtils.GetTabList(portalId);
+            foreach (var t in l)
+            {
+                if (t.GetXmlProperty("genxml/tabpath") == tabpath) return t.GetXmlPropertyInt("genxml/tabid");
+            }
+            return -1;
+        }
+
 
     }
 }
