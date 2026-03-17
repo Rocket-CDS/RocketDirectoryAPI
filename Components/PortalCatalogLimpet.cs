@@ -68,7 +68,11 @@ namespace RocketDirectoryAPI.Components
             }
 
         }
-
+        public void Reload()
+        {
+            ReadRecord(_portalId, "");
+            CacheUtils.SetCache(_cacheKey, Record);
+        }
         public void Save(SimplisityInfo info)
         {
             Record.XMLData = info.XMLData;
@@ -704,9 +708,9 @@ namespace RocketDirectoryAPI.Components
         public bool DownloadCount { get { if (Record == null) return false; else return Record.GetXmlPropertyBool("genxml/downloadcount"); } }
         public int ArticleImageLimit { get { return Record.GetXmlPropertyInt("genxml/articlesimagelimit"); } }
         public int ArticleDocumentLimit { get { return Record.GetXmlPropertyInt("genxml/articlesdocumentlimit"); } }
-        public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } }
-        public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } }
-        public int SearchPageTabId { get { return Record.GetXmlPropertyInt("genxml/searchpage"); } }
+        public int ListPageTabId { get { return Record.GetXmlPropertyInt("genxml/listpage"); } set { Record.SetXmlProperty("genxml/listpage", value.ToString()); } }
+        public int DetailPageTabId { get { return Record.GetXmlPropertyInt("genxml/detailpage"); } set { Record.SetXmlProperty("genxml/detailpage", value.ToString()); } }
+        public int SearchPageTabId { get { return Record.GetXmlPropertyInt("genxml/searchpage"); } set { Record.SetXmlProperty("genxml/searchpage", value.ToString()); } }
         public int ImageResize { get { if (Record.GetXmlPropertyInt("genxml/imageresize") > 0) return Record.GetXmlPropertyInt("genxml/imageresize"); else return 1024; } }        
         public string ProjectName { get { return Record.GetXmlProperty("genxml/select/selectedprojectnameadmin"); } set { Record.SetXmlProperty("genxml/select/selectedprojectnameadmin", value); } }
         public string AppThemeFolder { get { return Record.GetXmlProperty("genxml/select/appthemeadmin"); } set { Record.SetXmlProperty("genxml/select/appthemeadmin", value); } }

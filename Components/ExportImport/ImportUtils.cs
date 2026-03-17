@@ -40,6 +40,8 @@ namespace RocketDirectoryAPI.Components
                 // Update DB, Map ItemId to new ItemId
                 foreach (var f in fList)
                 {
+                    if (Path.GetFileName(f) == "TABXREF.xml") continue;
+
                     var dataXml = FileUtils.ReadFile(f);
                     var sRec = new SimplisityRecord();
                     sRec.FromXmlItem(dataXml);
@@ -124,21 +126,32 @@ namespace RocketDirectoryAPI.Components
                     }
                 }
 
-                Directory.Delete(tempFolderMapPath, true);
-
-                // Update List and Detail pages.
-                var rocketSettings = DNNrocketUtils.GetTempRecordStorage(portalId + "RocketSettings.xml", true); // Saved in DNNrocket\API\Components\DnnSiteExportImportHelper.cs / ImportWebsiteAndWait()
-                if (rocketSettings != null)
+                var portalContent = new PortalCatalogLimpet(portalId, "", systemKey);
+                portalContent.Reload();
+                if (portalContent.Exists)
                 {
-                    var oldListTabPath = rocketSettings.GetXmlProperty("genxml/" + systemKey + "/listtabpath");
-                    var oldDetailTabPath = rocketSettings.GetXmlProperty("genxml/" + systemKey + "/detailtabpath");
-                    var portalContent = new PortalCatalogLimpet(portalId, "en-US", systemKey); // culturecode not required for data
-                    portalContent.Record.SetXmlProperty("genxml/listpage", GetTabIdByTabPath(portalId, oldListTabPath).ToString());
-                    portalContent.Record.SetXmlProperty("genxml/detailpage", GetTabIdByTabPath(portalId, oldDetailTabPath).ToString());
-                    portalContent.Update();
+                    var tabXrefFile = tempFolderMapPath + "\\TABXREF.xml";
+                    if (File.Exists(tabXrefFile))
+                    {
+                        var dataXml2 = FileUtils.ReadFile(tabXrefFile);
+                        var tabXrefRec = new SimplisityRecord();
+                        tabXrefRec.FromXmlItem(dataXml2);
+                        var tabDict = new Dictionary<int, string>();
+                        foreach (var t in tabXrefRec.GetRecordList("tabpath"))
+                        {
+                            var tabid = t.GetXmlPropertyInt("row/@tabid");
+                            var tabPath = t.GetXmlProperty("row/@TabPath");
+                            if (!tabDict.ContainsKey(tabid)) tabDict.Add(tabid, tabPath);
+                        }
+                        if (tabDict.ContainsKey(portalContent.ListPageTabId)) portalContent.ListPageTabId = GetTabIdByTabPath(portalId, tabDict[portalContent.ListPageTabId]);
+                        if (tabDict.ContainsKey(portalContent.DetailPageTabId)) portalContent.DetailPageTabId = GetTabIdByTabPath(portalId, tabDict[portalContent.DetailPageTabId]);
+                        if (tabDict.ContainsKey(portalContent.SearchPageTabId)) portalContent.SearchPageTabId = GetTabIdByTabPath(portalId, tabDict[portalContent.SearchPageTabId]);
+                    }
+
+                    portalContent.Update(); // update to set the "PortalSettingsRef_"
                 }
 
-
+                Directory.Delete(tempFolderMapPath, true);
             }
             return itemIdMap;
         }

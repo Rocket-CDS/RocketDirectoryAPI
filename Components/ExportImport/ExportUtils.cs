@@ -62,6 +62,16 @@ namespace RocketDirectoryAPI.Components
                     }
                 }
             }
+            // Export TabPath, to relink TabId 
+            var exportTabId = new SimplisityRecord();
+            var sqlCmd4 = "select tabid, TabPath FROM {databaseOwner}[{objectQualifier}Tabs] where portalid = " + portalId + " for xml raw";
+            var tabPathList = objCtrl.ExecSqlXmlList(sqlCmd4);
+            foreach (var tp in tabPathList)
+            {
+                exportTabId.AddRecordListItem("tabpath", tp);
+            }
+            var fullFileName2 = tempFolderMapPath + "\\TABXREF.xml";
+            FileUtils.SaveFile(fullFileName2, exportTabId.ToXmlItem());
         }
         public static void ExportData(int portalId, string cultureCode, string systemKey = "rocketdirectoryapi")
         {
