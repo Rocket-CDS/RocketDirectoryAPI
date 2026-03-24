@@ -426,7 +426,8 @@ namespace RocketDirectoryAPI.API
             _paramInfo = paramInfo;
 
             var portalid = _paramInfo.GetXmlPropertyInt("genxml/hidden/portalid");
-            if (portalid < 0 || _paramInfo.GetXmlProperty("genxml/hidden/portalid") == "") portalid = PortalUtils.GetCurrentPortalId();
+            if (_paramInfo.GetXmlProperty("genxml/hidden/portalid") == "") portalid = systemInfo.PortalId;
+            if (portalid < 0) portalid = PortalUtils.GetCurrentPortalId();
 
             _rocketInterface = new RocketInterface(interfaceInfo);
             _sessionParams = new SessionParams(_paramInfo);

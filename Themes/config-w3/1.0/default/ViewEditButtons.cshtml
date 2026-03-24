@@ -60,7 +60,12 @@
             <a href="@moduleUserParams.Get("settingsurl")" class="viewedit-button" title="@appTheme.Name - @moduleData.DisplayTemplate">
                 <img src="/DesktopModules/DNNrocket/API/images/action_settings.svg" alt="@ResourceKey("DNNrocket.settings")" />
             </a>
-
+            if (moduleUserParams.Get("rocketconfigurl") != "")
+            {
+            <a href="@moduleUserParams.Get("rocketconfigurl")" class="viewedit-button" title="Rocket @settingsTitle">
+                <img src="/DesktopModules/DNNrocket/API/images/action_settingsdisplay.svg" alt="Rocket @ResourceKey("DNNrocket.settings")" />
+            </a>
+            }
             if (UserUtils.IsSuperUser())
             {
                 <a href="@moduleUserParams.Get("appthemeurl")" class="viewedit-button " style="@(localTemplate) background-color:light; " title="@ResourceKey("RC.editapptheme")">
