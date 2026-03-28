@@ -62,6 +62,7 @@ namespace RocketDirectoryAPI.Components
                         queryParamsData.tablename = r.GetXmlProperty("genxml/tablename");
                         queryParamsData.systemkey = r.GetXmlProperty("genxml/systemkey");
                         queryParamsData.datatype = r.GetXmlProperty("genxml/datatype");
+                        queryParamsData.metatype = r.GetXmlProperty("genxml/metatype");
                         queryParamsData.queryparamvalue = "";
                         if (!rtn.ContainsKey(queryParamsData.queryparam)) rtn.Add(queryParamsData.queryparam, queryParamsData);
                     }
@@ -196,7 +197,7 @@ namespace RocketDirectoryAPI.Components
             var moduleSettings = new ModuleContentLimpet(portalId, moduleRef, systemKey, sessionParam.ModuleId, sessionParam.TabId);
             if (moduleSettings.DisableHeader) return "";
 
-            var articleId = sessionParam.GetInt("articleid");
+            var articleId = GetArticleId(portalId,systemKey, sessionParam);
             var cacheKey = moduleRef + "*" + articleId + "*" + template;
             var rtn = (string)CacheUtils.GetCache(cacheKey, systemKey + portalId);
             if (!String.IsNullOrEmpty(rtn) && !moduleSettings.DisableCache) return rtn;
@@ -298,7 +299,7 @@ namespace RocketDirectoryAPI.Components
             var paramidList = DNNrocketUtils.GetQueryKeys(portalId);
             foreach (var p in paramidList)
             {
-                if (p.Value.systemkey == systemKey && p.Value.datatype.ToLower() == "article")
+                if (string.Equals(p.Value.systemkey, systemKey,StringComparison.InvariantCultureIgnoreCase) && string.Equals(p.Value.datatype, "article",StringComparison.InvariantCultureIgnoreCase))
                 {
                     var keyArray = p.Key.Split('_');
                     rtn = sessionParams.GetInt(keyArray[0]);
@@ -402,7 +403,7 @@ namespace RocketDirectoryAPI.Components
                 var paramidList = DNNrocketUtils.GetQueryKeys(portalId);
                 foreach (var paramDict in paramidList)
                 {
-                    if (systemKey == paramDict.Value.systemkey && paramDict.Value.datatype == dataType)
+                    if (string.Equals(systemKey, paramDict.Value.systemkey, StringComparison.OrdinalIgnoreCase) && paramDict.Value.datatype == dataType)
                     {
                         paramKey = paramDict.Value.queryparam;
                     }
@@ -466,11 +467,11 @@ namespace RocketDirectoryAPI.Components
             var paramidList = DNNrocketUtils.GetQueryKeys(articleData.PortalId);
             foreach (var paramDict in paramidList)
             {
-                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "article")
+                if (string.Equals(articleData.SystemKey, paramDict.Value.systemkey,StringComparison.InvariantCultureIgnoreCase) && string.Equals(paramDict.Value.datatype, "article", StringComparison.InvariantCultureIgnoreCase))
                 {
                     articleParamKey = paramDict.Value.queryparam;
                 }
-                if (articleData.SystemKey == paramDict.Value.systemkey && paramDict.Value.datatype == "category")
+                if (string.Equals(articleData.SystemKey, paramDict.Value.systemkey, StringComparison.InvariantCultureIgnoreCase) && string.Equals(paramDict.Value.datatype, "category", StringComparison.InvariantCultureIgnoreCase))
                 {
                     categoryParamKey = paramDict.Value.queryparam;
                 }

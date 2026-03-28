@@ -69,8 +69,8 @@ namespace RocketDirectoryAPI.Components
             if (CultureCode == "") CultureCode = DNNrocketUtils.GetEditCulture();
             if (_articleId > 0)
             {
-                var info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.                    
-                if (info != null && info.ItemID > 0 && info.TypeCode == _entityTypeKey) // ensure we have the same systemKey for detail view.
+                var info = _objCtrl.GetInfo(_articleId, CultureCode, _tableName); // get existing record.
+                if (info != null && info.ItemID > 0 && string.Equals(info.TypeCode, _entityTypeKey, StringComparison.OrdinalIgnoreCase)) // ensure we have the same systemKey for detail view.
                     Info = info;
                 else
                     Info.ItemID = 0; // article is a differet system, flag it as not existing.

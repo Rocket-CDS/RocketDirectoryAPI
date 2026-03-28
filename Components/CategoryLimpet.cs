@@ -197,18 +197,15 @@ namespace RocketDirectoryAPI.Components
         }
         public string UrlTokens(string url)
         {
-            url = url.Replace("{catid}", CategoryId.ToString());
-            url = url.Replace("{categoryname}", GeneralUtils.UrlFriendly(Name));
-            url = LocalUtils.TokenReplacementCultureCode(url, CultureCode.ToLower());
-            return url;
+            return "UrlTokens() is obsolete";
         }
         public string UrlTokens(string url, int page, int pagesize)
         {
-            url = UrlTokens(url);
-            url = url.Replace("{page}", page.ToString());
-            url = url.Replace("{pagesize}", pagesize.ToString());
-            url = LocalUtils.TokenReplacementCultureCode(url, CultureCode.ToLower());
-            return url;
+            return "UrlTokens() is obsolete";
+        }
+        public string CategoryUrl(ModuleContentLimpet moduleSettings)
+        {
+            return RocketDirectoryAPIUtils.ListUrl(moduleSettings.ListPageTabId(), this);
         }
 
         #region "images"
