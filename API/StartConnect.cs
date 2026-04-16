@@ -425,7 +425,8 @@ namespace RocketDirectoryAPI.API
             _postInfo = postInfo;
             _paramInfo = paramInfo;
 
-            var portalid = PortalUtils.GetCurrentPortalId(); // always use local portalid.
+            var portalid = paramInfo.GetXmlPropertyInt("genxml/hidden/schedulerportalid");
+            if (paramInfo.GetXmlProperty("genxml/hidden/schedulerportalid") == "") portalid = PortalUtils.GetCurrentPortalId(); // always use local portalid.
 
             _rocketInterface = new RocketInterface(interfaceInfo);
             _sessionParams = new SessionParams(_paramInfo);
