@@ -4,9 +4,14 @@
 @AssignDataModel(Model)
 <!--inject-->
 
-<script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/simplisity.js?v=1"></script>
-<link rel="stylesheet" href="/DesktopModules/DNNRocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/css/adminpanel.css">
+<link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/css/w3.css")">
+<script type="text/javascript" src="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/Simplisity/js/simplisity.js")"></script>
+<link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/Simplisity/css/simplisity.css")">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/" + portalData.ColorAdminTheme)">
 
+<link rel="stylesheet" href="/DesktopModules/DNNRocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/css/adminpanel.css">
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/css/jquery.tag-editor.css" charset="utf-8">
 <script src="/DesktopModules/DNNrocketModules/RocketDirectoryAPI/Themes/config-w3/1.0/js/RC_Admin.js"></script>
 <script src="/DesktopModules/DNNrocket/js/jquery.selectlistactions.js"></script>
@@ -15,6 +20,3 @@
 <link rel="stylesheet" href="@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/" + portalData.ColorAdminTheme)">
 
 @RenderTemplate("AdminHeader.cshtml", appTheme, Model)
-
-<!-- Legacy [TODO: Remove in future, jodit is now used any encapsulated] -->
-<script src="/DesktopModules/DNNrocket/API/CKEditor/ckeditor4.21.0/ckeditor.js"></script>

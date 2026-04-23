@@ -225,19 +225,18 @@ namespace RocketDirectoryAPI.Components
         /// <param name="activeCssClasses">The active CSS classes.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
-        public IEncodedString TagButtonClear(string textName, SessionParams sessionParams)
+        public IEncodedString TagButtonClear(string textName, SessionParams sessionParams, string displayClass = "rocket-tagbutton")
         {
             var s = "style='display:none;'";
             if (sessionParams.GetInt("rocketpropertyidtag") > 0) s = "";
-            var strOut = "<span class='rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('disablecache', 'true');simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
+            var strOut = "<span class='" + displayClass + " rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('disablecache', 'true');simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
             return new RawString(strOut);
         }
-        public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams)
+        public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams, string displayClass = "rocket-tagbutton", string selectedClass = "rocket-tagbuttonOn")
         {
-            string cssClassOn = "rocket-tagbuttonOn";
-            var css = "";
-            if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = cssClassOn;
-            var strOut = "<span class='rocket-tagbutton rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList" + sessionParams.ModuleId + "('" + propertyid + "');return false;\" >" + textName + "</span>";
+            var css = displayClass;
+            if (propertyid == sessionParams.GetInt("rocketpropertyidtag")) css = selectedClass;
+            var strOut = "<span class='rocket-tagbutton " + displayClass + " rocket-tagbutton" + propertyid + " " + css + "' propertyid='" + propertyid + "' onclick=\"simplisity_setSessionField('rocketpropertyidtag', '" + propertyid + "');callTagArticleList" + sessionParams.ModuleId + "('" + propertyid + "');return false;\" >" + textName + "</span>";
             return new RawString(strOut);
         }
         /// <summary>
@@ -250,16 +249,19 @@ namespace RocketDirectoryAPI.Components
         /// <returns></returns>
         public IEncodedString TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
+            return TagJsApiCall(moduleData, sreturn, sessionParams, "", "rocket-tagbuttonOn", templateName);
+        }
+        public IEncodedString TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string displayClass, string selectedClass, string templateName)
+        {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
             if (queryCatKey == "") queryCatKey = "nocat";
-            string cssClassOn = "rocket-tagbuttonOn";
             var strOut = "<script type='text/javascript'>";
             strOut += "    function callTagArticleList" + sessionParams.ModuleId + "(propertyid) {";
             strOut += "        $('.simplisity_loader').show();";
-            strOut += "        $('.rocket-tagbutton').removeClass('" + cssClassOn + "');";
+            strOut += "        $('.rocket-tagbutton').removeClass('" + selectedClass + "');";
             strOut += "        simplisity_setCookieValue('simplisity_language', '" + sessionParams.CultureCode + "');";
             strOut += "        if (propertyid > 0) {";
-            strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + cssClassOn + "');";
+            strOut += "        $('.rocket-tagbutton' + propertyid).addClass('" + selectedClass + "');";
             strOut += "        $('.rocket-tagbuttonclear').show();";
             strOut += "        }";
             strOut += "        else";

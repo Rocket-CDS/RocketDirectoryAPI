@@ -371,6 +371,16 @@ namespace RocketDirectoryAPI.Components
             }
             return str;
         }
+        public static Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(SessionParams sessionParams, string systemKey, string sqlindexDateRef = "", int catid = 0, int limit = 100, bool useCache = true)
+        {
+            var cacheKey = systemKey + "*" + sqlindexDateRef + "*" + catid;
+            var rtn = (Dictionary<DateTime, List<SimplisityInfo>>)CacheUtils.GetCache(cacheKey, "portalid" + PortalUtils.GetCurrentPortalId());
+            if (rtn != null && useCache) return rtn;
+            var adl = new ArticleLimpetList(sessionParams, new PortalCatalogLimpet(PortalUtils.GetCurrentPortalId(), DNNrocketUtils.GetCurrentCulture(), systemKey), DNNrocketUtils.GetCurrentCulture(), false);
+            rtn = adl.GetArticlesByMonth(DateTime.Now.Date.AddMonths(-100), 100, sqlindexDateRef, catid, limit);
+            if (useCache) CacheUtils.SetCache(cacheKey, rtn, "portalid" + PortalUtils.GetCurrentPortalId());
+            return rtn;
+        }
         public static Dictionary<DateTime, List<SimplisityInfo>> GetArticlesByMonth(SessionParams sessionParams, string systemKey, DateTime startMonthDate, int numberOfMonths, string sqlindexDateRef = "", int catid = 0, bool useCache = true)
         {
             var cacheKey = systemKey + "*" + startMonthDate.ToString() + "*" + numberOfMonths + "*" + sqlindexDateRef + "*" + catid;
