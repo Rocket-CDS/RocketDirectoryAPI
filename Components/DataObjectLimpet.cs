@@ -53,6 +53,8 @@ namespace RocketDirectoryAPI.Components
             SetDataObject("appthemedefault", AppThemeUtils.AppThemeDefault(portalid, systemData, "Default", "1.0"));
             SetDataObject("apptheme", AppThemeUtils.AppTheme(portalid, portalContent.AppThemeFolder, portalContent.AppThemeVersion, portalContent.ProjectName));
             SetDataObject("appthemedatalist", AppThemeUtils.AppThemeDataList(portalContent.PortalId, portalContent.ProjectName, SystemKey));
+            var appThemeShared = new AppThemeLimpet(portalContent.PortalId, "rocketdirectoryapi.01shared", "1.0", portalContent.ProjectName);
+            SetDataObject("appthemeshared", appThemeShared);
             SetDataObject("catalogsettings", new CatalogSettingsLimpet(portalid, cultureCode, SystemKey));
             SetDataObject("categorylist", new CategoryLimpetList(portalid, cultureCode, SystemKey, true));
             SetDataObject("propertylist", new PropertyLimpetList(portalid, cultureCode, SystemKey));
@@ -170,6 +172,7 @@ namespace RocketDirectoryAPI.Components
         public AppThemeLimpet AppThemeDefault { get { return (AppThemeLimpet)GetDataObject("appthemedefault"); } }
         public PortalCatalogLimpet PortalContent { get { return (PortalCatalogLimpet)GetDataObject("portalcontent"); } }
         public AppThemeLimpet AppTheme { get { return (AppThemeLimpet)GetDataObject("apptheme"); } set { SetDataObject("apptheme", value); } }
+        public AppThemeLimpet AppThemeShared { get { return (AppThemeLimpet)GetDataObject("appthemeshared"); } set { SetDataObject("appthemeshared", value); } }        
         public PortalLimpet PortalData { get { return (PortalLimpet)GetDataObject("portaldata"); } }
         public SystemLimpet SystemData { get { return (SystemLimpet)GetDataObject("systemdata"); } }
         public SystemLimpet SystemDataEcom { get { return (SystemLimpet)GetDataObject("ecomsystemdata"); } }

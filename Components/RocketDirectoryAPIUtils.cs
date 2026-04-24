@@ -122,6 +122,7 @@ namespace RocketDirectoryAPI.Components
             }
             return rtn;
         }
+        [Obsolete("Unsure if this is used.  Code always seems to use the version in DNNrocketUtils.")]
         public static List<SimplisityRecord> DependanciesList(int portalId, string systemKey, string moduleRef, SessionParams sessionParam)
         {
             var rtn = new List<SimplisityRecord>();
@@ -138,6 +139,7 @@ namespace RocketDirectoryAPI.Components
                         {
                             if (dataObject.PortalData != null) urlstr = urlstr.Replace("{domainurl}", dataObject.PortalData.EngineUrlWithProtocol);
                             if (dataObject.AppTheme != null) urlstr = urlstr.Replace("{appthemefolder}", dataObject.AppTheme.AppThemeVersionFolderRel);
+                            if (dataObject.AppThemeShared != null) urlstr = urlstr.Replace("{appthemeshareddirectory}", dataObject.AppThemeShared.AppThemeVersionFolderRel);
                             if (dataObject.AppThemeSystem != null) urlstr = urlstr.Replace("{appthemesystemfolder}", dataObject.AppThemeSystem.AppThemeVersionFolderRel);
                         }
                         r.SetXmlProperty("genxml/id", CacheUtils.Md5HashCalc(urlstr));
