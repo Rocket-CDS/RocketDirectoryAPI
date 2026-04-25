@@ -28,22 +28,6 @@
 
 }
 
-@functions {
-
-    private string PagingUrl(int tabid, int pagenumber, int catid, string catUrlKey)
-    {
-        if (catid > 0)
-        {
-            return DNNrocketUtils.NavigateURL(tabid, new Dictionary<string, string>() { { catUrlKey, catid.ToString() }, { "page", pagenumber.ToString() } });
-        }
-        else
-        {
-            return DNNrocketUtils.NavigateURL(tabid, new Dictionary<string, string>() { { "page", pagenumber.ToString() } });
-        }
-    }
-
-}
-
 @if (pagesize > 0 && lastpage > 1)
 {
 
@@ -51,10 +35,10 @@
         <div class="w3-bar">
             @if (BeginPage != 1)
             {
-                <a href="@PagingUrl(sessionParams.TabId, 1, catid, catUrlKey)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">|❮</a>
+                <a href="@ListUrl(moduleData.ListPageTabId(), categoryData, new string[] { "page", "1" })" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">|❮</a>
                 if (page >= 6)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId, (BeginPage - 1), catid, catUrlKey)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
+                    <a href="@ListUrl(moduleData.ListPageTabId(), categoryData, new string[] { "page", (BeginPage - 1).ToString() })" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
                 }
             }
 
@@ -67,7 +51,7 @@
                 }
                 if (i <= lastpage)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId, i, catid, catUrlKey)" class="w3-button w3-hover-grey @(selected)" onclick="$('.simplisity_loader').show()">@(i)</a>
+                    <a href="@ListUrl(moduleData.ListPageTabId(), categoryData, new string[] { "page", i.ToString() })" class="w3-button w3-hover-grey @(selected)" onclick="$('.simplisity_loader').show()">@(i)</a>
                 }
             }
 
@@ -76,9 +60,9 @@
 
                 if (EndPage != lastpage)
                 {
-                    <a href="@PagingUrl(sessionParams.TabId, (EndPage + 1), catid, catUrlKey)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
+                    <a href="@ListUrl(moduleData.ListPageTabId(), categoryData, new string[] { "page", (EndPage + 1).ToString() })" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">..</a>
                 }
-                <a href="@PagingUrl(sessionParams.TabId, lastpage, catid, catUrlKey)" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">❯|</a>
+                <a href="@ListUrl(moduleData.ListPageTabId(), categoryData, new string[] { "page", lastpage.ToString() })" class="w3-button w3-hover-grey" onclick="$('.simplisity_loader').show()">❯|</a>
             }
 
         </div>
