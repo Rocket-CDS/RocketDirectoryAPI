@@ -474,4 +474,13 @@
   <data name="downloads.Text" xml:space="preserve">
     <value>Downloads</value>
   </data>
+  <data name="showcategories.Text" xml:space="preserve">
+    <value>Show Category Menu</value>
+  </data>
+  <data name="showfilters.Text" xml:space="preserve">
+    <value>Show Filters</value>
+  </data>
+  <data name="showtags.Text" xml:space="preserve">
+    <value>Show Tags</value>
+  </data>
 </root>

@@ -126,7 +126,7 @@ namespace RocketDirectoryAPI.Components
             {
                 foreach (XmlNode nod in textList)
                 {
-                    Info.RemoveXmlNode(xpathListSelect.Replace("*","") + nod.Name);
+                    Info.RemoveXmlNode(xpathListSelect.Replace("*", "") + nod.Name);
                 }
             }
             textList = postInfo.XMLDoc.SelectNodes(xpathListSelect);
@@ -222,7 +222,8 @@ namespace RocketDirectoryAPI.Components
             {
                 foreach (XmlNode nod in nodList)
                 {
-                    Info.SetXmlPropertyInt("genxml/money/" + nod.Name, PortalCatalog.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name)).ToString());
+                    var priceCents = PortalCatalog.CurrencyConvertCents(postInfo.GetXmlProperty("genxml/money/" + nod.Name));
+                    Info.SetXmlPropertyInt("genxml/money/" + nod.Name, priceCents.ToString());
                 }
             }
 
@@ -265,7 +266,7 @@ namespace RocketDirectoryAPI.Components
         public void AddListItem(string listname)
         {
             if (Info.ItemID < 0) Update(); // blank record, not on DB.  Create now.
-            Info.AddListItem(listname);         
+            Info.AddListItem(listname);
             Update();
         }
         public void Validate()
@@ -302,7 +303,7 @@ namespace RocketDirectoryAPI.Components
 
         #region "images"
 
-        public string ImageListName { get { return "imagelist";  } }
+        public string ImageListName { get { return "imagelist"; } }
         public void UpdateImages(List<SimplisityInfo> imageList)
         {
             Info.RemoveList(ImageListName);
@@ -394,7 +395,7 @@ namespace RocketDirectoryAPI.Components
                 articleDoc.RelPath = PortalCatalog.DocFolderRel.TrimEnd('/') + "/" + ArticleId + "/" + Path.GetFileName(uniqueName);
                 articleDoc.FileName = friendlyName;
                 articleDoc.Name = friendlyName;
-                articleDoc.Extension = Path.GetExtension(friendlyName);                
+                articleDoc.Extension = Path.GetExtension(friendlyName);
                 Info.AddListItem(DocumentListName, articleDoc.Info);
                 Update();
             }
@@ -537,9 +538,9 @@ namespace RocketDirectoryAPI.Components
         public void UpdateReview(List<SimplisityInfo> reviewList)
         {
             Info.RemoveList(ReviewListName);
-            reviewList = reviewList.OrderBy(element => element.GetXmlPropertyDate("genxml/textbox/reviewdate")).ToList();          
+            reviewList = reviewList.OrderBy(element => element.GetXmlPropertyDate("genxml/textbox/reviewdate")).ToList();
             foreach (var sInfo in reviewList)
-            { 
+            {
                 Info.AddListItem(ReviewListName, sInfo);
             }
         }
@@ -826,11 +827,11 @@ namespace RocketDirectoryAPI.Components
             var rtn = new List<ArticleLimpet>();
             var articleIdList = new List<int>();
             var properties = GetProperties(groupRef);
-            
+
             foreach (var p in properties)
             {
                 var sqlCmd = "select distinct ParentItemId from {databaseOwner}[{objectQualifier}RocketDirectoryAPI] where typecode = 'PROPXREF' and xrefitemid = " + p.PropertyId + " for xml raw";
-                var sqlRtn = "<root><rows>" +  _objCtrl.GetSqlxml(sqlCmd) + "</rows></root>";
+                var sqlRtn = "<root><rows>" + _objCtrl.GetSqlxml(sqlCmd) + "</rows></root>";
                 var sRec = new SimplisityRecord();
                 sRec.XMLData = sqlRtn;
                 foreach (var r in sRec.GetRecordList("rows"))
@@ -964,8 +965,8 @@ namespace RocketDirectoryAPI.Components
         public PortalCatalogLimpet PortalCatalog { get; set; }
         public bool DebugMode { get; set; }
         public int PortalId { get { return Info.PortalId; } }
-        public bool Exists { get {if (Info.ItemID  <= 0) { return false; } else { return true; }; } }
-        public string LogoRelPath { get { var articleImage = GetImage(0); return articleImage.RelPath;} }
+        public bool Exists { get { if (Info.ItemID <= 0) { return false; } else { return true; }; } }
+        public string LogoRelPath { get { var articleImage = GetImage(0); return articleImage.RelPath; } }
         public string NameUrl { get { return GeneralUtils.UrlFriendly(Name); } }
         public string Ref { get { return Info.GetXmlProperty(RefXPath); } set { Info.SetXmlProperty(RefXPath, value); } }
         public string RefXPath { get { return "genxml/textbox/articleref"; } }
@@ -994,9 +995,9 @@ namespace RocketDirectoryAPI.Components
         }
 
         public string SeoTitleXPath { get { return "genxml/lang/genxml/textbox/seotitle"; } }
-        public string SeoDescription 
-        { 
-            get 
+        public string SeoDescription
+        {
+            get
             {
                 if (Info.GetXmlProperty(SeoKeyWordsXPath) == "")
                     return Summary;
@@ -1005,24 +1006,24 @@ namespace RocketDirectoryAPI.Components
             }
         }
         public string SeoDescriptionXPath { get { return "genxml/lang/genxml/textbox/seodescription"; } }
-        public string SeoKeyWords 
-        { 
-            get 
-            { 
+        public string SeoKeyWords
+        {
+            get
+            {
                 if (Info.GetXmlProperty(SeoKeyWordsXPath) == "")
-                    return SeoDescription; 
-                else 
-                    return Info.GetXmlProperty(SeoKeyWordsXPath); 
-            } 
+                    return SeoDescription;
+                else
+                    return Info.GetXmlProperty(SeoKeyWordsXPath);
+            }
         }
         public string SeoKeyWordsXPath { get { return "genxml/lang/genxml/textbox/seokeyword"; } }
-        public int ReviewCount { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewcount"); } set { Info.SetXmlProperty("genxml/textbox/reviewcount",value.ToString(), TypeCode.Int32); } }
+        public int ReviewCount { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewcount"); } set { Info.SetXmlProperty("genxml/textbox/reviewcount", value.ToString(), TypeCode.Int32); } }
         public int ReviewScore { get { return Info.GetXmlPropertyInt("genxml/textbox/reviewscore"); } set { Info.SetXmlProperty("genxml/textbox/reviewscore", value.ToString(), TypeCode.Int32); } }
         public List<int> CategoryIds { get
-        {
+            {
                 if (_catXrefListId == null) PopulateLists();
-                return _catXrefListId; 
-            } 
+                return _catXrefListId;
+            }
         }
         public List<int> PropertyIds
         {
@@ -1032,6 +1033,18 @@ namespace RocketDirectoryAPI.Components
                 return _propXrefListId;
             }
         }
+
+        public int PriceMinimumCents { get { return Info.GetXmlPropertyInt("genxml/priceminimum"); } set { Info.SetXmlProperty("genxml/priceminimum", value.ToString(), TypeCode.Int32); } }
+        public decimal BestMinimum { get { return (PortalCatalog.CurrencyCentsToDollars(PriceMinimumCents)); } }
+        public string BestMinimumDisplay { get { return BestMinimum.ToString("C", CultureInfo.GetCultureInfo(PortalCatalog.CurrencyCultureCode)); } }
+        public int PriceMaximumCents { get { return Info.GetXmlPropertyInt("genxml/pricemaximum"); } set { Info.SetXmlProperty("genxml/pricemaximum", value.ToString(), TypeCode.Int32); } }
+        public decimal BestMaximum { get { return (PortalCatalog.CurrencyCentsToDollars(PriceMaximumCents)); } }
+        public string BestMaximumDisplay { get { return BestMaximum.ToString("C", CultureInfo.GetCultureInfo(PortalCatalog.CurrencyCultureCode)); } }
+        public int BestPriceCents { get { return Info.GetXmlPropertyInt("genxml/bestprice"); } set { Info.SetXmlProperty("genxml/bestprice", value.ToString(), TypeCode.Int32); } }
+        public decimal BestPrice { get { return (PortalCatalog.CurrencyCentsToDollars(BestPriceCents)); } }
+        public string BestPriceDisplay { get { return BestPrice.ToString("C", CultureInfo.GetCultureInfo(PortalCatalog.CurrencyCultureCode)); } }
+
+
         #endregion
 
     }

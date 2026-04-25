@@ -471,6 +471,9 @@
   <data name="countdownloads.Text" xml:space="preserve">
     <value>Compter les téléchargements</value>
   </data>
+  <data name="downloads.Text" xml:space="preserve">
+    <value>Téléchargements</value>
+  </data>
   <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
     <value>Nom &amp;uarr;</value>
   </data>
@@ -488,8 +491,5 @@
   </data>
   <data name="sqlorderby-article-ref.Text" xml:space="preserve">
     <value>Réf. &amp;darr;</value>
-  </data>
-  <data name="downloads.Text" xml:space="preserve">
-    <value>Téléchargements</value>
   </data>
 </root>
