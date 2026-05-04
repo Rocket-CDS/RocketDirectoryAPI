@@ -151,6 +151,19 @@ namespace RocketDirectoryAPI.Components
                     portalContent.Update(); // update to set the "PortalSettingsRef_"
                 }
 
+                var plsettingsFile = tempFolderMapPath + "\\PLSETTINGS.xml";
+                if (File.Exists(plsettingsFile))
+                {
+                    var dataXml = FileUtils.ReadFile(plsettingsFile);
+                    var plsettingsRec = new SimplisityRecord();
+                    plsettingsRec.FromXmlItem(dataXml);
+
+                    plsettingsRec.ItemID = -1;
+                    plsettingsRec.PortalId = portalId;
+                    objCtrl.Update(plsettingsRec);
+                }
+
+
                 Directory.Delete(tempFolderMapPath, true);
             }
             return itemIdMap;

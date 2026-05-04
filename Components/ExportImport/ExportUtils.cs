@@ -72,6 +72,13 @@ namespace RocketDirectoryAPI.Components
             }
             var fullFileName2 = tempFolderMapPath + "\\TABXREF.xml";
             FileUtils.SaveFile(fullFileName2, exportTabId.ToXmlItem());
+
+            // Eport PLSETTINGS
+            var info = objCtrl.GetRecordByGuidKey(portalId, -1, "PLSETTINGS", "PLSETTINGS");
+            var fullFileName3 = tempFolderMapPath + "\\PLSETTINGS.xml";
+            FileUtils.SaveFile(fullFileName3, exportTabId.ToXmlItem());
+
+
         }
         public static void ExportData(int portalId, string cultureCode, string systemKey = "rocketdirectoryapi")
         {
