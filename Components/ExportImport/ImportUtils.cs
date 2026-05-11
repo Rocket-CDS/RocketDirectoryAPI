@@ -41,11 +41,11 @@ namespace RocketDirectoryAPI.Components
                 foreach (var f in fList)
                 {
                     if (Path.GetFileName(f) == "TABXREF.xml") continue;
+                    if (Path.GetFileName(f) == "PLSETTINGS.xml") continue;
 
                     var dataXml = FileUtils.ReadFile(f);
                     var sRec = new SimplisityRecord();
                     sRec.FromXmlItem(dataXml);
-
                     var oldPortalId = sRec.PortalId;
                     sRec.PortalId = portalId;
                     var oldItemId = sRec.ItemID;
@@ -154,13 +154,16 @@ namespace RocketDirectoryAPI.Components
                 var plsettingsFile = tempFolderMapPath + "\\PLSETTINGS.xml";
                 if (File.Exists(plsettingsFile))
                 {
-                    var dataXml = FileUtils.ReadFile(plsettingsFile);
-                    var plsettingsRec = new SimplisityRecord();
-                    plsettingsRec.FromXmlItem(dataXml);
-
-                    plsettingsRec.ItemID = -1;
-                    plsettingsRec.PortalId = portalId;
-                    objCtrl.Update(plsettingsRec);
+                    var info = objCtrl.GetRecordByGuidKey(portalId, -1, "PLSETTINGS", "PLSETTINGS"); // Read from DNNrocket Table.
+                    if (info == null)
+                    {
+                        var dataXml = FileUtils.ReadFile(plsettingsFile);
+                        info = new SimplisityRecord();
+                        info.FromXmlItem(dataXml);
+                        info.ItemID = -1;
+                        info.PortalId = portalId;
+                        objCtrl.Update(info);
+                    }
                 }
 
 
