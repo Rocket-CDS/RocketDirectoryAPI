@@ -334,3 +334,9 @@ body {
 iframe.editBar-iframe {
     display: none !important;
 }
+
+/* Neutralize DNN module pane wrapper padding */
+.w3-container.default.clearfix {
+    padding: 0 !important;
+    margin: 0 !important;
+}
