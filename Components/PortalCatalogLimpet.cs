@@ -106,7 +106,7 @@ namespace RocketDirectoryAPI.Components
             }
             if (!sqlInject)
             {
-                sqlInject = SecurityInput.CheckForSQLInjection(Record.GetXmlProperty("genxml/sqlfilterarticle"));
+                if (!UserUtils.IsSuperUser()) sqlInject = SecurityInput.CheckForSQLInjection(Record.GetXmlProperty("genxml/sqlfilterarticle"));
                 if (!sqlInject)
                 {
                     Record = _objCtrl.SaveRecord(Record, _tableName); 
@@ -303,7 +303,8 @@ namespace RocketDirectoryAPI.Components
                         tokenText = UserUtils.IsInRole(tsplit[1]).ToString();
                         nosearchText = false;
                     }
-                } else if (token.ToLower().StartsWith("contains:"))
+                }
+                else if (token.ToLower().StartsWith("contains:"))
                 {
                     var tsplit = token.Split(':');
                     if (tsplit.Count() == 2)
@@ -342,12 +343,18 @@ namespace RocketDirectoryAPI.Components
                         }
                     }
                 }
+                else if (token.ToLower() == "userid")
+                {
+                    tokenText = UserUtils.GetCurrentUserId().ToString();
+                    nosearchText = false;
+                }
                 else
                 {
                     var tok = "r/" + token;
                     tokenText = paramInfo.GetXmlProperty(tok).Replace("'", "''");
                     if (tokenText != "") nosearchText = false;
                 }
+
                 fr.Replace("{" + token + "}", tokenText);
             }
             if (nosearchText) return "";
