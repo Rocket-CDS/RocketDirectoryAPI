@@ -123,9 +123,9 @@
 
 <div id="main" class="mainadminpanel">
 
-    <div id="simplisity_startpanel" class="w3-row w3-padding-small card-margin simplisity_panel">
+    <div id="simplisity_startpanel" class="w3-row w3-padding-small w3-margin simplisity_panel">
 
-        <div class="w3-container w3-animate-opacity w3-card w3-white">
+        <div class="w3-animate-opacity w3-card w3-padding w3-margin w3-white menu-cardparent w3-row">
 
             @foreach (var r in interfacelist)
             {
@@ -140,7 +140,7 @@
                             {
                                 menuclass = r.Info.GetXmlProperty("genxml/textbox/menuclass");
                             }
-                            <div class="w3-col s6 m4 l2 " style="height:210px;">
+                            <div class="w3-col s6 m4 l2 menu-card " style="height:210px;">
                                 <div class="w3-margin @r.DefaultCommand simplisity_click" s-cmd='@r.DefaultCommand' s-fields='{"track":"true","systemkey":"@systemData.SystemKey","basesystemkey":"rocketdirectoryapi","tabid":"@(sessionParams.TabId)","moduleid":"@(sessionParams.ModuleId)"}' style="cursor:pointer;" title="@InterfaceNameResourceKey(r, systemData)">
                                     <div class="@(menuclass) w3-center w3-padding-24 w3-round-large w3-hover-shadow w3-border">
                                         <span class='material-icons w3-jumbo' style=''>@r.InterfaceIcon</span>

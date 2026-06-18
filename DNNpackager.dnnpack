@@ -35,4 +35,12 @@
 		<value>RocketDirectoryAPI.dll</value>
     <value>RocketDirectoryAPI.pdb</value>
   </assembly>
+
+	<json>
+		<file>
+			<input>D:\NEVOWEB\Project\DesktopModules\DNNRocketModules\RocketDirectoryAPI\Render\RocketDirectoryAPITokens.cs</input>
+			<output>D:\NEVOWEB\Project\DesktopModules\DNNrocket\Documentation\razortokens\RocketDirectoryTokens.json</output>
+		</file>
+	</json>
+
 </root>

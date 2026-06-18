@@ -225,7 +225,6 @@ ul.breadcrumb {
         }
 
 .mainadminpanel {
-    margin-top: 41px;
     margin-left: 0px;
     margin-right: 0px;
     float: right;
@@ -233,19 +232,12 @@ ul.breadcrumb {
 }
 
 .mainadminpanelpushed {
-    margin-top: 41px;
     margin-left: 0px;
     margin-right: 0px;
     float: right;
     width: calc(100% - 260px);
 }
 
-.card-margin {
-    margin-left: 16px;
-    margin-right: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
 
 @media (max-width:992px) {
     .mainadminpanel {
@@ -264,10 +256,6 @@ ul.breadcrumb {
         width: calc(100% - 0px);
     }
 
-    .card-margin {
-        margin-left: 8px !important;
-        margin-right: 10px !important
-    }
 }
 
 @media (max-width:600px) {
@@ -287,10 +275,6 @@ ul.breadcrumb {
         width: 100%;
     }
 
-    .card-margin {
-        margin-left: 0px !important;
-        margin-right: 10px !important
-    }
 }
 
 
@@ -307,19 +291,6 @@ ul.breadcrumb {
 
 body {
     margin-left: 0px !important;
-}
-
-/* Position main content below top bar and beside sidebar */
-.mainadminpanel {
-    margin-top: 41px !important; /* Account for top bar height */
-    margin-left: 40px !important; /* Account for small sidebar */
-    padding: 16px;
-}
-
-.mainadminpanelpushed {
-    margin-top: 41px !important; /* Account for top bar height */
-    margin-left: 280px !important; /* Account for large sidebar */
-    padding: 16px;
 }
 
 /* Additional overrides */

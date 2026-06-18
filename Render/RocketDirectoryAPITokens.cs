@@ -42,6 +42,9 @@ namespace RocketDirectoryAPI.Components
         public DashboardLimpet dashBoard;
         public AppThemeRocketApiLimpet appThemeRocketApi;
 
+        /// <summary>
+        /// Assigns the data model for Razor, making the template easier to build by populating various data properties like appTheme, moduleData, articleData, etc., from the SimplisityRazor model.
+        /// </summary>
         public string AssignDataModel(SimplisityRazor sModel)
         {
             appTheme = (AppThemeLimpet)sModel.GetDataObject("apptheme");
@@ -86,6 +89,9 @@ namespace RocketDirectoryAPI.Components
             // use return of "string", so we don;t get error with converting void to object.
             return "";
         }
+        /// <summary>
+        /// Renders a textbox for currency input. The value is formatted according to the portal's currency settings.
+        /// </summary>
         public IEncodedString TextBoxMoney(int portalId, string systemKey, string cultureCode, SimplisityInfo info, String xpath, String attributes = "", String defaultValue = "", bool localized = false, int row = 0, string listname = "", string type = "text")
         {
             if (info == null) info = new SimplisityInfo();
@@ -119,6 +125,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="lang">The language.</param>
         /// <param name="resxFileName">Name of the RESX file.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Gets the localized name for a RocketInterface from the resource files. It searches in the system's resources first, then the interface's template resources.
+        /// </summary>
         public IEncodedString InterfaceNameResourceKey(RocketInterface rocketInterface, SystemLimpet systemData, String lang = "", string resxFileName = "SideMenu")
         {
             if (lang == "") lang = DNNrocketUtils.GetCurrentCulture();
@@ -140,6 +149,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="groupId">The group identifier.</param>
         /// <param name="textName">Name of the text.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Renders a checkbox for a property group filter, typically used in theme settings to enable or disable filter groups.
+        /// </summary>
         public IEncodedString FilterGroupCheckBox(SimplisityInfo info, string groupId, string textName)
         {
             return CheckBox(info, "genxml/settings/propertygroup-" + groupId.ToLower(), textName, " class='w3-check' ");
@@ -168,6 +180,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">The sreturn.</param>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns></returns>
+        /// <summary>
+        /// Renders a filter checkbox for the public-facing view. When changed, it updates a session field and triggers a JavaScript function to refresh the article list.
+        /// </summary>
         public IEncodedString FilterCheckBox(string checkboxId, string textName, string sreturn, bool value, string cssClass = "", string attributes = "")
         {
             return FilterCheckBoxRender(infoempty, "genxml/checkbox/" + checkboxId, textName, " " + attributes + " class='simplisity_sessionfield rocket-filtercheckbox " + cssClass + " '  onchange='simplisity_setSessionField(this.id, this.checked);callFilterArticleList(\"" + sreturn + "\");' ", value);
@@ -192,6 +207,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="systemKey">The system key.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Renders the JavaScript function 'callFilterArticleList' which calls the remote API to refresh the list of articles based on the current filter selections.
+        /// </summary>
         public IEncodedString FilterJsApiCall(ModuleContentLimpet moduleData, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
@@ -205,6 +223,9 @@ namespace RocketDirectoryAPI.Components
             strOut += "</script>";
             return new RawString(strOut);
         }
+        /// <summary>
+        /// Renders a button that clears all active filters by unchecking all filter checkboxes and refreshing the article list.
+        /// </summary>
         public IEncodedString FilterClearButton(string textName, string sreturn)
         {
             var js = "$('.rocket-filtercheckbox').each(function(i, obj) { simplisity_setSessionField(this.id, false); $(this).prop('checked', false); });";
@@ -225,6 +246,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="activeCssClasses">The active CSS classes.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Renders a button to clear the active tag filter. It is initially hidden and appears when a tag is selected.
+        /// </summary>
         public IEncodedString TagButtonClear(string textName, SessionParams sessionParams, string displayClass = "rocket-tagbutton")
         {
             var s = "style='display:none;'";
@@ -232,6 +256,9 @@ namespace RocketDirectoryAPI.Components
             var strOut = "<span class='" + displayClass + " rocket-tagbutton rocket-tagbuttonclear rocket-tagbutton0' propertyid='0' onclick=\"simplisity_setSessionField('disablecache', 'true');simplisity_setSessionField('rocketpropertyidtag', '0');callTagArticleList" + sessionParams.ModuleId + "('0');return false;\" " + s + ">" + textName + "</span>";
             return new RawString(strOut);
         }
+        /// <summary>
+        /// Renders a clickable tag button. When clicked, it sets the 'rocketpropertyidtag' session field and refreshes the article list to show items with that tag.
+        /// </summary>
         public IEncodedString TagButton(int propertyid, string textName, SessionParams sessionParams, string displayClass = "rocket-tagbutton", string selectedClass = "rocket-tagbuttonOn")
         {
             var css = displayClass;
@@ -251,6 +278,9 @@ namespace RocketDirectoryAPI.Components
         {
             return TagJsApiCall(moduleData, sreturn, sessionParams, "", "rocket-tagbuttonOn", templateName);
         }
+        /// <summary>
+        /// Renders the JavaScript function 'callTagArticleList' which calls the remote API to refresh the list of articles based on the selected tag.
+        /// </summary>
         public IEncodedString TagJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string displayClass, string selectedClass, string templateName)
         {
             var queryCatKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
@@ -284,6 +314,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="sreturn">sreturn.</param>
         /// <param name="sessionParams">The session parameters.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Renders the JavaScript function 'doDateSearchReload' which calls the remote API to refresh the list of articles based on a selected date range.
+        /// </summary>
         public IEncodedString DateJsApiCall(ModuleContentLimpet moduleData, string sreturn, SessionParams sessionParams, string templateName = "articlelist.cshtml")
         {
             var catKey = RocketDirectoryAPIUtils.UrlQueryCategoryKey(PortalUtils.GetCurrentPortalId(), moduleData.SystemKey);
@@ -309,6 +342,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="categoryId">The category identifier.</param>
         /// <param name="categoryName">Name of the category.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Builds a friendly URL to a list page, optionally including category information.
+        /// </summary>
         public IEncodedString ListUrl(int listpageid, CategoryLimpet categoryData, string[] urlparams = null)
         {
             return new RawString(RocketDirectoryAPIUtils.ListUrl(listpageid, categoryData, urlparams));
@@ -330,6 +366,9 @@ namespace RocketDirectoryAPI.Components
         /// <param name="title">The title.</param>
         /// <param name="eId">The row eId.</param>
         /// <returns></returns>
+        /// <summary>
+        /// Builds a friendly URL to a detail page for a specific article, including the article title and ID for SEO and routing.
+        /// </summary>
         public IEncodedString DetailUrl(int detailpageid, ArticleLimpet articleData, string[] urlparams = null)
         {
             return new RawString(RocketDirectoryAPIUtils.DetailUrl(detailpageid, articleData, urlparams));
@@ -348,6 +387,9 @@ namespace RocketDirectoryAPI.Components
 
         #endregion
 
+        /// <summary>
+        /// Generates a URL for an RSS feed based on a command, date range, and optional SQL index.
+        /// </summary>
         public IEncodedString RssUrl(int portalId, string cmd, int yearDate, int monthDate, int numberOfMonths = 1, string sqlidx = "")
         {
             var portalData = new PortalLimpet(portalId);
@@ -357,6 +399,9 @@ namespace RocketDirectoryAPI.Components
             rssurl = rssurl + sqlidxparam;
             return new RawString(rssurl);
         }
+        /// <summary>
+        /// Renders a button to open a ChatGPT modal for generating text. Requires a ChatGPT API key in the global settings. The generated text will populate the field specified by 'textId'.
+        /// </summary>
         public IEncodedString ChatGPT(string textId, string sourceTextId = "")
         {
             var globalData = new SystemGlobalData();
@@ -364,6 +409,9 @@ namespace RocketDirectoryAPI.Components
             var apiResx = "/DesktopModules/DNNrocket/api/App_LocalResources/";
             return new RawString("<span class=\"w3-button w3-text-theme\" style=\"width:40px;height:40px;padding:8px 0;\"><span class=\"material-icons\" title=\"" + DNNrocketUtils.GetResourceString(apiResx, "DNNrocket.chatgpt", "Text") + "\" style=\"cursor:pointer;\" onclick=\"$('#chatgptmodal').show();simplisity_setSessionField('chatgpttextid','" + textId + "');simplisity_setSessionField('chatgptcmd','rocketdirectoryapi_chatgpt');$('#chatgptquestion').val($('#" + sourceTextId + "').val());\">sms</span></span>");
         }
+        /// <summary>
+        /// Renders a button to open a DeepL translation modal. Requires a DeepL API key in the global settings and more than one portal language to be enabled. The translated text will populate the field specified by 'textId'.
+        /// </summary>
         public IEncodedString DeepL(string textId, string sourceTextId = "", string cultureCode = "")
         {
             if (DNNrocketUtils.GetPortalLanguageList().Count <= 1) return new RawString("");
