@@ -492,4 +492,7 @@
   <data name="sqlorderby-article-ref.Text" xml:space="preserve">
     <value>Réf. &amp;darr;</value>
   </data>
+  <data name="sqlorderby-product-random.Text" xml:space="preserve">
+    <value>Par défaut</value>
+  </data>
 </root>

@@ -14,6 +14,7 @@
 <!--inject-->
 @{
     var orderbyDictionary = new Dictionary<string, string>();
+    orderbyDictionary.Add("","");
     foreach (var orderbyInfo in portalCatalog.GetProductOrderByList())
     {
         if (!orderbyDictionary.ContainsKey(orderbyInfo.GetXmlProperty("genxml/key")))

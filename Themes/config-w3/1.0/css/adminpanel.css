@@ -227,6 +227,7 @@ ul.breadcrumb {
 .mainadminpanel {
     margin-left: 0px;
     margin-right: 0px;
+    margin-top: 41px;
     float: right;
     width: calc(100% - 20px);
 }
@@ -234,6 +235,7 @@ ul.breadcrumb {
 .mainadminpanelpushed {
     margin-left: 0px;
     margin-right: 0px;
+    margin-top: 41px;
     float: right;
     width: calc(100% - 260px);
 }

@@ -483,4 +483,25 @@
   <data name="showtags.Text" xml:space="preserve">
     <value>Show Tags</value>
   </data>
+  <data name="sqlorderby-article-name-desc.Text" xml:space="preserve">
+    <value>Name &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-name.Text" xml:space="preserve">
+    <value>Name &amp;darr;</value>
+  </data>
+  <data name="sqlorderby-article-price-desc.Text" xml:space="preserve">
+    <value>Price &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-price.Text" xml:space="preserve">
+    <value>Price &amp;darr;</value>
+  </data>
+  <data name="sqlorderby-article-ref-desc.Text" xml:space="preserve">
+    <value>Ref. &amp;uarr;</value>
+  </data>
+  <data name="sqlorderby-article-ref.Text" xml:space="preserve">
+    <value>Ref. &amp;darr;</value>
+  </data>
+  <data name="sqlorderby-product-random.Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
 </root>
