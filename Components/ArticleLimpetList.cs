@@ -65,7 +65,7 @@ namespace RocketDirectoryAPI.Components
             _objCtrl = new DNNrocketController();
             CatalogSettings = new CatalogSettingsLimpet(portalCatalog.PortalId, sessionParams.CultureCode, _systemKey);
 
-            if (sessionParams.PageSize == 0) sessionParams.PageSize = 24;
+            if (sessionParams.PageSize == 0) sessionParams.PageSize = 16;
             if (sessionParams.Page <= 0) sessionParams.Page = 1;
 
             _catid = sessionParams.GetInt(RocketDirectoryAPIUtils.UrlQueryCategoryKey(portalCatalog.PortalId, _systemKey));
